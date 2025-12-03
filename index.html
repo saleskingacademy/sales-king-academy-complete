@@ -1,191 +1,108 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sales King Academy | AI-Powered Business Automation</title>
+    <title>Sales King Academy - AI Business Automation</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
         }
-        
-        header {
-            padding: 2rem;
-            text-align: center;
-            background: rgba(0,0,0,0.2);
-        }
-        
-        h1 {
-            font-size: 3rem;
-            margin-bottom: 0.5rem;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-        }
-        
-        .subtitle {
-            font-size: 1.2rem;
-            opacity: 0.9;
-        }
-        
-        main {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 2rem;
-        }
-        
-        .hero {
-            max-width: 800px;
-            text-align: center;
-        }
-        
-        .hero h2 {
-            font-size: 2rem;
-            margin-bottom: 1.5rem;
-        }
-        
-        .features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 2rem;
-            margin: 3rem 0;
-        }
-        
-        .feature {
-            background: rgba(255,255,255,0.1);
-            padding: 2rem;
-            border-radius: 10px;
-            backdrop-filter: blur(10px);
-        }
-        
-        .feature h3 {
-            margin-bottom: 0.5rem;
-            font-size: 1.5rem;
-        }
-        
-        .cta {
+        .container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
+        header { text-align: center; padding: 60px 0; }
+        h1 { font-size: 4rem; margin-bottom: 20px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
+        .tagline { font-size: 1.5rem; opacity: 0.9; }
+        .cta-button {
+            display: inline-block;
             background: white;
             color: #667eea;
-            padding: 1rem 2rem;
-            border: none;
+            padding: 20px 40px;
             border-radius: 50px;
-            font-size: 1.2rem;
-            font-weight: bold;
-            cursor: pointer;
-            transition: transform 0.2s;
-            display: inline-block;
             text-decoration: none;
-            margin-top: 2rem;
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin: 30px 10px;
+            transition: transform 0.3s;
         }
-        
-        .cta:hover {
-            transform: scale(1.05);
+        .cta-button:hover { transform: scale(1.05); }
+        .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-top: 60px; }
+        .feature-card {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            padding: 40px;
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.2);
         }
-        
-        .status {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: rgba(0,0,0,0.7);
-            padding: 1rem;
-            border-radius: 10px;
-            font-size: 0.9rem;
-        }
-        
-        .status-dot {
-            display: inline-block;
-            width: 10px;
-            height: 10px;
-            background: #4ade80;
-            border-radius: 50%;
-            margin-right: 0.5rem;
-            animation: pulse 2s infinite;
-        }
-        
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-        
-        footer {
-            padding: 2rem;
-            text-align: center;
-            background: rgba(0,0,0,0.2);
-            font-size: 0.9rem;
-        }
+        .feature-card h3 { font-size: 1.8rem; margin-bottom: 15px; }
+        .stats { text-align: center; margin: 80px 0; }
+        .stat { display: inline-block; margin: 0 40px; }
+        .stat-number { font-size: 3rem; font-weight: bold; }
+        .stat-label { font-size: 1.2rem; opacity: 0.8; }
     </style>
 </head>
 <body>
-    <header>
-        <h1>👑 Sales King Academy</h1>
-        <p class="subtitle">AI-Powered Business Automation & Training</p>
-    </header>
-    
-    <main>
-        <div class="hero">
-            <h2>Welcome to the Future of Business Automation</h2>
-            <p style="font-size: 1.1rem; margin-bottom: 2rem;">
-                Powered by the revolutionary RKL Framework (α=25), we deliver 
-                autonomous AI systems that generate revenue 24/7 with zero manual intervention.
-            </p>
-            
-            <div class="features">
-                <div class="feature">
-                    <h3>🤖 25 AI Agents</h3>
-                    <p>Autonomous swarm intelligence handling all business operations</p>
-                </div>
-                
-                <div class="feature">
-                    <h3>⚡ O(n^1.77) Speed</h3>
-                    <p>Breakthrough mathematical optimization for instant results</p>
-                </div>
-                
-                <div class="feature">
-                    <h3>🔐 Maximum Security</h3>
-                    <p>Intelligent geo-fencing and behavioral analysis</p>
-                </div>
-                
-                <div class="feature">
-                    <h3>💰 Auto Revenue</h3>
-                    <p>Square integration for seamless payment processing</p>
-                </div>
+    <div class="container">
+        <header>
+            <h1>⚡ Sales King Academy</h1>
+            <p class="tagline">Revolutionary AI Business Automation Platform</p>
+            <p class="tagline">Powered by RKL Mathematical Framework (α=25)</p>
+            <div>
+                <a href="#pricing" class="cta-button">Get Started</a>
+                <a href="#demo" class="cta-button">See Demo</a>
             </div>
-            
-            <a href="#contact" class="cta">Get Started Today</a>
+        </header>
+
+        <div class="stats">
+            <div class="stat">
+                <div class="stat-number">25</div>
+                <div class="stat-label">Autonomous AI Agents</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">O(n^1.77)</div>
+                <div class="stat-label">Polynomial Complexity</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number">44M+</div>
+                <div class="stat-label">SKA Credits Minted</div>
+            </div>
         </div>
-    </main>
-    
-    <div class="status">
-        <span class="status-dot"></span>
-        <strong>System Status:</strong> OPERATIONAL<br>
-        <small>Location: LCX039E7QRA5G</small>
+
+        <div class="features">
+            <div class="feature-card">
+                <h3>🧮 RKL Framework</h3>
+                <p>Breakthrough mathematical framework achieving O(n^1.77) complexity with α=25 quantum-classical balance parameter.</p>
+            </div>
+            <div class="feature-card">
+                <h3>🔐 Temporal DNA Security</h3>
+                <p>Moving interlocking timestamps creating uncloneable security synchronized to world clock at yoctosecond precision.</p>
+            </div>
+            <div class="feature-card">
+                <h3>💰 SKA Credits Currency</h3>
+                <p>Auto-minting cryptocurrency generating 1 credit per second since July 1, 2024. Currently 44M+ credits in circulation.</p>
+            </div>
+            <div class="feature-card">
+                <h3>🤖 25 AI Agents</h3>
+                <p>Complete autonomous agent swarm handling sales, development, operations, and innovation with zero human intervention.</p>
+            </div>
+            <div class="feature-card">
+                <h3>⚡ Zero Latency</h3>
+                <p>Triple-plane computing with 24-hour pre-compute and shadow validation ensuring 100% accuracy with instant responses.</p>
+            </div>
+            <div class="feature-card">
+                <h3>♾️ Infinite Scalability</h3>
+                <p>Temporal compression (3^8 base, 5^8 adaptive) enabling quintillion-variable problem solving on standard hardware.</p>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 100px;">
+            <h2>Ready to Transform Your Business?</h2>
+            <a href="https://square.link/u/YOUR_LINK" class="cta-button">Start Now - From $197/month</a>
+        </div>
     </div>
-    
-    <footer>
-        <p>&copy; 2024-2025 Sales King Academy LLC | Founded by Robert Kaleb Long</p>
-        <p style="margin-top: 0.5rem; opacity: 0.7;">
-            Powered by RKL Framework | Deployed via Netlify | Secured by Cloudflare
-        </p>
-    </footer>
-    
-    <script>
-        // Auto-update status
-        setInterval(() => {
-            const statusText = document.querySelector('.status');
-            const now = new Date();
-            statusText.innerHTML = `
-                <span class="status-dot"></span>
-                <strong>System Status:</strong> OPERATIONAL<br>
-                <small>Last Updated: ${now.toLocaleTimeString()}</small>
-            `;
-        }, 60000); // Update every minute
-    </script>
 </body>
 </html>
