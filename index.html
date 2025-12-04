@@ -1,108 +1,903 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sales King Academy - AI Business Automation</title>
+    <title>Sales King Academy - Complete Custom Infrastructure Platform</title>
+    <meta name="description" content="Revolutionary proprietary business automation with complete custom infrastructure. Own CRM, own cloud, own everything. RKL Framework α=25.">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --gold: #FFD700;
+            --gold-dark: #B8860B;
+            --gold-light: #FFF5CC;
+            --dark-bg: #0A0A0F;
+            --dark-secondary: #14141F;
+            --dark-tertiary: #1E1E2E;
+            --accent-blue: #00D9FF;
+            --accent-purple: #9D4EDD;
+            --accent-green: #00FF88;
+            --text-primary: #FFFFFF;
+            --text-secondary: #B8B8C8;
+            --neural-gradient: linear-gradient(135deg, var(--gold) 0%, var(--accent-purple) 50%, var(--accent-blue) 100%);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            min-height: 100vh;
+            font-family: 'Montserrat', sans-serif;
+            background: var(--dark-bg);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            line-height: 1.6;
         }
-        .container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
-        header { text-align: center; padding: 60px 0; }
-        h1 { font-size: 4rem; margin-bottom: 20px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
-        .tagline { font-size: 1.5rem; opacity: 0.9; }
-        .cta-button {
-            display: inline-block;
-            background: white;
-            color: #667eea;
-            padding: 20px 40px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 1.2rem;
-            margin: 30px 10px;
-            transition: transform 0.3s;
+        
+        /* Neural Network Animated Background */
+        .neural-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            opacity: 0.15;
+            pointer-events: none;
         }
-        .cta-button:hover { transform: scale(1.05); }
-        .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-top: 60px; }
-        .feature-card {
-            background: rgba(255,255,255,0.1);
+        
+        main {
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(10, 10, 15, 0.95);
             backdrop-filter: blur(10px);
-            padding: 40px;
-            border-radius: 20px;
-            border: 1px solid rgba(255,255,255,0.2);
+            border-bottom: 1px solid rgba(255, 215, 0, 0.2);
+            padding: 1.5rem 0;
+            animation: slideDown 0.6s ease-out;
         }
-        .feature-card h3 { font-size: 1.8rem; margin-bottom: 15px; }
-        .stats { text-align: center; margin: 80px 0; }
-        .stat { display: inline-block; margin: 0 40px; }
-        .stat-number { font-size: 3rem; font-weight: bold; }
-        .stat-label { font-size: 1.2rem; opacity: 0.8; }
+        
+        @keyframes slideDown {
+            from { transform: translateY(-100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        nav {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 900;
+            background: var(--neural-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 2px;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+        }
+        
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            letter-spacing: 0.5px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gold);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-links a:hover {
+            color: var(--gold);
+        }
+        
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        
+        .cta-btn {
+            padding: 0.75rem 2rem;
+            background: var(--gold);
+            color: var(--dark-bg);
+            border: none;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            letter-spacing: 0.5px;
+            font-family: 'Montserrat', sans-serif;
+        }
+        
+        .cta-btn:hover {
+            background: var(--gold-light);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
+        }
+        
+        /* Hero Section */
+        section {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 6rem 2rem;
+        }
+        
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding-top: 100px;
+        }
+        
+        .hero-content {
+            animation: fadeInUp 1s ease-out;
+        }
+        
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .hero h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 5rem;
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            background: var(--neural-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 1px;
+        }
+        
+        .hero .tagline {
+            font-size: 1.8rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            font-weight: 300;
+        }
+        
+        .hero .sub-tagline {
+            font-size: 1.3rem;
+            color: var(--gold);
+            margin-bottom: 3rem;
+            font-weight: 600;
+        }
+        
+        .hero-stats {
+            display: flex;
+            gap: 4rem;
+            justify-content: center;
+            margin: 3rem 0;
+            flex-wrap: wrap;
+        }
+        
+        .stat {
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 900;
+            color: var(--gold);
+            display: block;
+        }
+        
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            margin-top: 0.5rem;
+        }
+        
+        /* Infrastructure Grid */
+        .infra-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2.5rem;
+            margin-top: 4rem;
+        }
+        
+        .infra-card {
+            background: var(--dark-secondary);
+            border: 1px solid rgba(255, 215, 0, 0.15);
+            border-radius: 20px;
+            padding: 3rem;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .infra-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--neural-gradient);
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+        }
+        
+        .infra-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--gold);
+            box-shadow: 0 20px 60px rgba(255, 215, 0, 0.2);
+        }
+        
+        .infra-card:hover::before {
+            transform: scaleX(1);
+        }
+        
+        .infra-icon {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .infra-card h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.6rem;
+            margin-bottom: 1rem;
+            color: var(--gold);
+        }
+        
+        .infra-card p {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+        
+        .feature-list {
+            list-style: none;
+            margin-top: 1.5rem;
+        }
+        
+        .feature-list li {
+            color: var(--text-secondary);
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+        
+        .feature-list li::before {
+            content: '▸';
+            position: absolute;
+            left: 0;
+            color: var(--gold);
+            font-weight: bold;
+        }
+        
+        /* Section Title */
+        .section-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 900;
+            text-align: center;
+            margin-bottom: 1rem;
+            background: var(--neural-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .section-subtitle {
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 1.3rem;
+            margin-bottom: 4rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        /* Technology Showcase */
+        .tech-showcase {
+            background: linear-gradient(135deg, var(--dark-secondary) 0%, var(--dark-tertiary) 100%);
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            border-radius: 30px;
+            padding: 4rem;
+            margin-top: 4rem;
+        }
+        
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+        
+        .tech-item {
+            text-align: center;
+        }
+        
+        .tech-item h4 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            color: var(--gold);
+            margin-bottom: 1rem;
+        }
+        
+        .tech-metric {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3rem;
+            font-weight: 900;
+            color: var(--gold);
+            display: block;
+            margin: 1rem 0;
+        }
+        
+        /* CTA Section */
+        .cta-section {
+            text-align: center;
+            padding: 8rem 2rem;
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.1) 0%, transparent 100%);
+        }
+        
+        .cta-section h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 4rem;
+            font-weight: 900;
+            margin-bottom: 1.5rem;
+            background: var(--neural-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .cta-section p {
+            font-size: 1.5rem;
+            color: var(--text-secondary);
+            margin-bottom: 3rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .hero-cta {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            margin-top: 3rem;
+            flex-wrap: wrap;
+        }
+        
+        .btn-primary {
+            padding: 1.5rem 3.5rem;
+            background: var(--gold);
+            color: var(--dark-bg);
+            border: none;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            font-family: 'Montserrat', sans-serif;
+        }
+        
+        .btn-primary:hover {
+            background: var(--gold-light);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(255, 215, 0, 0.4);
+        }
+        
+        .btn-secondary {
+            padding: 1.5rem 3.5rem;
+            background: transparent;
+            color: var(--text-primary);
+            border: 2px solid var(--gold);
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            font-family: 'Montserrat', sans-serif;
+        }
+        
+        .btn-secondary:hover {
+            background: var(--gold);
+            color: var(--dark-bg);
+            transform: translateY(-3px);
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--dark-secondary);
+            border-top: 1px solid rgba(255, 215, 0, 0.2);
+            padding: 4rem 2rem 2rem;
+            margin-top: 6rem;
+        }
+        
+        .footer-content {
+            max-width: 1600px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+        
+        .footer-section h4 {
+            font-family: 'Orbitron', sans-serif;
+            color: var(--gold);
+            margin-bottom: 1.5rem;
+            font-size: 1.2rem;
+        }
+        
+        .footer-section ul {
+            list-style: none;
+        }
+        
+        .footer-section li {
+            margin-bottom: 0.75rem;
+        }
+        
+        .footer-section a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-section a:hover {
+            color: var(--gold);
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 215, 0, 0.1);
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        
+        /* Mobile Responsiveness */
+        @media (max-width: 968px) {
+            .hero h1 {
+                font-size: 3rem;
+            }
+            
+            .hero .tagline {
+                font-size: 1.3rem;
+            }
+            
+            .section-title {
+                font-size: 2.5rem;
+            }
+            
+            .hero-stats {
+                gap: 2rem;
+            }
+            
+            .stat-number {
+                font-size: 2.5rem;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>⚡ Sales King Academy</h1>
-            <p class="tagline">Revolutionary AI Business Automation Platform</p>
-            <p class="tagline">Powered by RKL Mathematical Framework (α=25)</p>
-            <div>
-                <a href="#pricing" class="cta-button">Get Started</a>
-                <a href="#demo" class="cta-button">See Demo</a>
+    <!-- Neural Network Background -->
+    <canvas class="neural-canvas" id="neuralCanvas"></canvas>
+    
+    <!-- Header -->
+    <header>
+        <nav>
+            <div class="logo">SALES KING ACADEMY</div>
+            <ul class="nav-links">
+                <li><a href="#infrastructure">Infrastructure</a></li>
+                <li><a href="#technology">Technology</a></li>
+                <li><a href="#systems">Systems</a></li>
+                <li><a href="#framework">Framework</a></li>
+            </ul>
+            <a href="#contact" class="cta-btn">Get Started</a>
+        </nav>
+    </header>
+    
+    <!-- Main Content -->
+    <main>
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-content">
+                <h1>Complete Custom<br>Infrastructure Empire</h1>
+                <p class="tagline">100% Proprietary. Zero Dependencies.</p>
+                <p class="sub-tagline">Own CRM • Own Cloud • Own Everything</p>
+                
+                <div class="hero-stats">
+                    <div class="stat">
+                        <span class="stat-number">100%</span>
+                        <span class="stat-label">Custom Built</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">α=25</span>
+                        <span class="stat-label">RKL Framework</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">O(n^1.77)</span>
+                        <span class="stat-label">Complexity</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">∞</span>
+                        <span class="stat-label">Scalability</span>
+                    </div>
+                </div>
+                
+                <div class="hero-cta">
+                    <a href="#infrastructure" class="btn-primary">Explore Infrastructure</a>
+                    <a href="#framework" class="btn-secondary">See Framework</a>
+                </div>
             </div>
-        </header>
-
-        <div class="stats">
-            <div class="stat">
-                <div class="stat-number">25</div>
-                <div class="stat-label">Autonomous AI Agents</div>
+        </section>
+        
+        <!-- Custom Infrastructure Section -->
+        <section id="infrastructure">
+            <h2 class="section-title">Complete Custom Infrastructure</h2>
+            <p class="section-subtitle">Every component built from scratch. No third-party dependencies. Complete ownership and control.</p>
+            
+            <div class="infra-grid">
+                <div class="infra-card">
+                    <div class="infra-icon">🏢</div>
+                    <h3>Custom CRM System</h3>
+                    <p>Complete replacement for Salesforce, Zoho, HubSpot. Built with RKL Framework α=25 for maximum efficiency.</p>
+                    <ul class="feature-list">
+                        <li>Contact & company management</li>
+                        <li>Deal pipeline automation</li>
+                        <li>Email & call integration</li>
+                        <li>Task & workflow automation</li>
+                        <li>Advanced analytics dashboard</li>
+                        <li>Temporal DNA security</li>
+                    </ul>
+                </div>
+                
+                <div class="infra-card">
+                    <div class="infra-icon">☁️</div>
+                    <h3>Custom Cloud Infrastructure</h3>
+                    <p>Your own AWS/Azure/GCP. Complete cloud platform with full control over every component.</p>
+                    <ul class="feature-list">
+                        <li>Compute & container orchestration</li>
+                        <li>Storage & database systems</li>
+                        <li>CDN & edge computing</li>
+                        <li>Load balancing & auto-scaling</li>
+                        <li>Network & security layers</li>
+                        <li>Monitoring & alerting</li>
+                    </ul>
+                </div>
+                
+                <div class="infra-card">
+                    <div class="infra-icon">📞</div>
+                    <h3>Custom Telephony System</h3>
+                    <p>Replace Twilio completely. SIP server, WebRTC, Asterisk dialer with AI voice integration.</p>
+                    <ul class="feature-list">
+                        <li>Self-hosted SIP server</li>
+                        <li>WebRTC gateway</li>
+                        <li>Asterisk PBX integration</li>
+                        <li>AI voice synthesis</li>
+                        <li>Call routing & IVR</li>
+                        <li>Recording & analytics</li>
+                    </ul>
+                </div>
+                
+                <div class="infra-card">
+                    <div class="infra-icon">📧</div>
+                    <h3>Custom Email Infrastructure</h3>
+                    <p>Replace SendGrid & Zoho. Complete email platform on your domain with full control.</p>
+                    <ul class="feature-list">
+                        <li>Own SMTP server</li>
+                        <li>Domain authentication (SPF/DKIM)</li>
+                        <li>Sequence automation</li>
+                        <li>Deliverability optimization</li>
+                        <li>Analytics & tracking</li>
+                        <li>API & webhook integration</li>
+                    </ul>
+                </div>
+                
+                <div class="infra-card">
+                    <div class="infra-icon">💾</div>
+                    <h3>Custom Database System</h3>
+                    <p>Your own PostgreSQL/MySQL cluster with temporal DNA indexing and α=25 optimization.</p>
+                    <ul class="feature-list">
+                        <li>Multi-master replication</li>
+                        <li>Automatic sharding</li>
+                        <li>Real-time backups</li>
+                        <li>Query optimization</li>
+                        <li>Temporal DNA indexing</li>
+                        <li>SKA Credits ledger</li>
+                    </ul>
+                </div>
+                
+                <div class="infra-card">
+                    <div class="infra-icon">🔐</div>
+                    <h3>Custom Security System</h3>
+                    <p>5-layer security fortress with temporal DNA, quantum-resistant encryption, zero-knowledge proofs.</p>
+                    <ul class="feature-list">
+                        <li>Temporal DNA tokenization</li>
+                        <li>Genesis anchoring (July 1, 2024)</li>
+                        <li>Quantum-resistant crypto</li>
+                        <li>Zero-knowledge authentication</li>
+                        <li>Real-time threat detection</li>
+                        <li>Automatic incident response</li>
+                    </ul>
+                </div>
+                
+                <div class="infra-card">
+                    <div class="infra-icon">🤖</div>
+                    <h3>Custom AI/LLM System</h3>
+                    <p>Your own Llama 3.1 deployment. No API dependencies. Complete model ownership.</p>
+                    <ul class="feature-list">
+                        <li>Self-hosted Llama 3.1</li>
+                        <li>Custom fine-tuning</li>
+                        <li>Proprietary prompts</li>
+                        <li>25 specialized agents</li>
+                        <li>Inter-agent communication</li>
+                        <li>Autonomous decision-making</li>
+                    </ul>
+                </div>
+                
+                <div class="infra-card">
+                    <div class="infra-icon">💰</div>
+                    <h3>SKA Credits Currency</h3>
+                    <p>Your own cryptocurrency with temporal DNA security. Auto-mints 1 credit/second since genesis.</p>
+                    <ul class="feature-list">
+                        <li>Genesis: July 1, 2024</li>
+                        <li>Minting: 1 credit/second</li>
+                        <li>Current: 44M+ credits</li>
+                        <li>Temporal DNA format</li>
+                        <li>Uncloneable security</li>
+                        <li>Blockchain anchoring</li>
+                    </ul>
+                </div>
+                
+                <div class="infra-card">
+                    <div class="infra-icon">📊</div>
+                    <h3>Custom Analytics Platform</h3>
+                    <p>Replace Google Analytics. Complete data ownership with real-time insights and α=25 optimization.</p>
+                    <ul class="feature-list">
+                        <li>Real-time event tracking</li>
+                        <li>User behavior analysis</li>
+                        <li>Conversion funnel mapping</li>
+                        <li>A/B testing framework</li>
+                        <li>Custom dashboards</li>
+                        <li>Predictive analytics</li>
+                    </ul>
+                </div>
             </div>
-            <div class="stat">
-                <div class="stat-number">O(n^1.77)</div>
-                <div class="stat-label">Polynomial Complexity</div>
+        </section>
+        
+        <!-- RKL Framework Section -->
+        <section id="framework">
+            <h2 class="section-title">RKL Mathematical Framework</h2>
+            <p class="section-subtitle">The foundation of everything. α=25 quantum-classical balance. O(n^1.77) breakthrough complexity.</p>
+            
+            <div class="tech-showcase">
+                <div class="tech-grid">
+                    <div class="tech-item">
+                        <h4>Core Parameter</h4>
+                        <span class="tech-metric">α=25</span>
+                        <p style="color: var(--text-secondary);">Quantum-classical balance parameter. The signature of the RKL Framework.</p>
+                    </div>
+                    
+                    <div class="tech-item">
+                        <h4>Computational Breakthrough</h4>
+                        <span class="tech-metric">O(n^1.77)</span>
+                        <p style="color: var(--text-secondary);">Quasi-polynomial complexity. 10-100x faster than industry O(2^n) standard.</p>
+                    </div>
+                    
+                    <div class="tech-item">
+                        <h4>Temporal Compression</h4>
+                        <span class="tech-metric">3^8 • 5^8</span>
+                        <p style="color: var(--text-secondary);">Massive problems run on standard hardware through sophisticated compression.</p>
+                    </div>
+                    
+                    <div class="tech-item">
+                        <h4>Genesis Anchor</h4>
+                        <span class="tech-metric">07/01/2024</span>
+                        <p style="color: var(--text-secondary);">Temporal DNA genesis point. All timestamps synchronized to this moment.</p>
+                    </div>
+                    
+                    <div class="tech-item">
+                        <h4>SKA Credits Minting</h4>
+                        <span class="tech-metric">1/sec</span>
+                        <p style="color: var(--text-secondary);">Automatic credit generation. Currently 44M+ credits in circulation.</p>
+                    </div>
+                    
+                    <div class="tech-item">
+                        <h4>Security Layers</h4>
+                        <span class="tech-metric">5-Layer</span>
+                        <p style="color: var(--text-secondary);">Temporal DNA, genesis anchoring, quantum-resistant encryption, zero-knowledge proofs.</p>
+                    </div>
+                </div>
             </div>
-            <div class="stat">
-                <div class="stat-number">44M+</div>
-                <div class="stat-label">SKA Credits Minted</div>
+        </section>
+        
+        <!-- CTA Section -->
+        <section class="cta-section">
+            <h2>Own Your Infrastructure</h2>
+            <p>Stop paying monthly fees to third parties. Build your empire on a foundation you completely control.</p>
+            <div class="hero-cta">
+                <a href="mailto:info@saleskingacademy.com" class="btn-primary">Schedule Consultation</a>
+                <a href="#infrastructure" class="btn-secondary">Explore Systems</a>
+            </div>
+        </section>
+    </main>
+    
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Sales King Academy</h4>
+                <p style="color: var(--text-secondary); line-height: 1.8;">Complete custom infrastructure platform. 100% proprietary. Zero dependencies.</p>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Infrastructure</h4>
+                <ul>
+                    <li><a href="#infrastructure">Custom CRM</a></li>
+                    <li><a href="#infrastructure">Custom Cloud</a></li>
+                    <li><a href="#infrastructure">Custom Telephony</a></li>
+                    <li><a href="#infrastructure">Custom Email</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Technology</h4>
+                <ul>
+                    <li><a href="#framework">RKL Framework</a></li>
+                    <li><a href="#framework">SKA Credits</a></li>
+                    <li><a href="#framework">Temporal DNA</a></li>
+                    <li><a href="#framework">O(n^1.77) Complexity</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Contact</h4>
+                <ul>
+                    <li><a href="mailto:info@saleskingacademy.com">info@saleskingacademy.com</a></li>
+                    <li>North Little Rock, Arkansas</li>
+                    <li><a href="#">Documentation</a></li>
+                    <li><a href="#">API Access</a></li>
+                </ul>
             </div>
         </div>
-
-        <div class="features">
-            <div class="feature-card">
-                <h3>🧮 RKL Framework</h3>
-                <p>Breakthrough mathematical framework achieving O(n^1.77) complexity with α=25 quantum-classical balance parameter.</p>
-            </div>
-            <div class="feature-card">
-                <h3>🔐 Temporal DNA Security</h3>
-                <p>Moving interlocking timestamps creating uncloneable security synchronized to world clock at yoctosecond precision.</p>
-            </div>
-            <div class="feature-card">
-                <h3>💰 SKA Credits Currency</h3>
-                <p>Auto-minting cryptocurrency generating 1 credit per second since July 1, 2024. Currently 44M+ credits in circulation.</p>
-            </div>
-            <div class="feature-card">
-                <h3>🤖 25 AI Agents</h3>
-                <p>Complete autonomous agent swarm handling sales, development, operations, and innovation with zero human intervention.</p>
-            </div>
-            <div class="feature-card">
-                <h3>⚡ Zero Latency</h3>
-                <p>Triple-plane computing with 24-hour pre-compute and shadow validation ensuring 100% accuracy with instant responses.</p>
-            </div>
-            <div class="feature-card">
-                <h3>♾️ Infinite Scalability</h3>
-                <p>Temporal compression (3^8 base, 5^8 adaptive) enabling quintillion-variable problem solving on standard hardware.</p>
-            </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2024 Sales King Academy LLC. All rights reserved.</p>
+            <p style="margin-top: 0.5rem;">Founded by Robert Kaleb Long • RKL Framework α=25 • Temporal DNA Technology</p>
         </div>
-
-        <div style="text-align: center; margin-top: 100px;">
-            <h2>Ready to Transform Your Business?</h2>
-            <a href="https://square.link/u/YOUR_LINK" class="cta-button">Start Now - From $197/month</a>
-        </div>
-    </div>
+    </footer>
+    
+    <!-- Neural Network Animation Script -->
+    <script>
+        const canvas = document.getElementById('neuralCanvas');
+        const ctx = canvas.getContext('2d');
+        
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        
+        const particles = [];
+        const particleCount = 80;
+        
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.vx = (Math.random() - 0.5) * 0.5;
+                this.vy = (Math.random() - 0.5) * 0.5;
+                this.radius = Math.random() * 2 + 1;
+            }
+            
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                
+                if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+            }
+            
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fillStyle = 'rgba(255, 215, 0, 0.5)';
+                ctx.fill();
+            }
+        }
+        
+        for (let i = 0; i < particleCount; i++) {
+            particles.push(new Particle());
+        }
+        
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            particles.forEach(particle => {
+                particle.update();
+                particle.draw();
+            });
+            
+            // Draw connections
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+                    
+                    if (distance < 150) {
+                        ctx.beginPath();
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.strokeStyle = `rgba(255, 215, 0, ${0.2 * (1 - distance / 150)})`;
+                        ctx.lineWidth = 1;
+                        ctx.stroke();
+                    }
+                }
+            }
+            
+            requestAnimationFrame(animate);
+        }
+        
+        animate();
+        
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+        
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    </script>
 </body>
 </html>
