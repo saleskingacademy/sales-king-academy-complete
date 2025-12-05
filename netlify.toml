@@ -1,10 +1,6 @@
 [build]
-  publish = "frontend"
+  publish = "."
   command = "echo 'Sales King Academy - TSI Deployed'"
-
-[build.environment]
-  NODE_VERSION = "18"
-  PYTHON_VERSION = "3.11"
 
 [[redirects]]
   from = "/api/*"
@@ -16,15 +12,6 @@
   [headers.values]
     X-Frame-Options = "DENY"
     X-Content-Type-Options = "nosniff"
-    X-XSS-Protection = "1; mode=block"
-    Referrer-Policy = "strict-origin-when-cross-origin"
 
 [functions]
   directory = "netlify/functions"
-
-[[headers]]
-  for = "/api/*"
-  [headers.values]
-    Access-Control-Allow-Origin = "*"
-    Access-Control-Allow-Methods = "GET, POST, OPTIONS"
-    Access-Control-Allow-Headers = "Content-Type, Authorization"
