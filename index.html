@@ -3,27 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sales King Academy - Complete Custom Infrastructure Platform</title>
-    <meta name="description" content="Revolutionary proprietary business automation with complete custom infrastructure. Own CRM, own cloud, own everything. RKL Framework α=25.">
-    
+    <title>Sales King Academy | Time-Anchored Super Intelligence</title>
+    <meta name="description" content="Revolutionary AI-powered business automation platform built on the RKL Mathematical Framework. Transform your business with autonomous AI agents.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
             --gold: #FFD700;
             --gold-dark: #B8860B;
-            --gold-light: #FFF5CC;
-            --dark-bg: #0A0A0F;
-            --dark-secondary: #14141F;
-            --dark-tertiary: #1E1E2E;
-            --accent-blue: #00D9FF;
-            --accent-purple: #9D4EDD;
-            --accent-green: #00FF88;
-            --text-primary: #FFFFFF;
-            --text-secondary: #B8B8C8;
-            --neural-gradient: linear-gradient(135deg, var(--gold) 0%, var(--accent-purple) 50%, var(--accent-blue) 100%);
+            --black: #0a0a0a;
+            --white: #ffffff;
+            --gray: #1a1a1a;
+            --gray-light: #2a2a2a;
         }
         
         * {
@@ -33,869 +24,655 @@
         }
         
         body {
-            font-family: 'Montserrat', sans-serif;
-            background: var(--dark-bg);
-            color: var(--text-primary);
-            overflow-x: hidden;
+            font-family: 'Inter', sans-serif;
+            background: var(--black);
+            color: var(--white);
             line-height: 1.6;
+            overflow-x: hidden;
         }
         
-        /* Neural Network Animated Background */
-        .neural-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-            opacity: 0.15;
-            pointer-events: none;
-        }
-        
-        main {
-            position: relative;
-            z-index: 1;
-        }
-        
-        /* Header */
-        header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1000;
-            background: rgba(10, 10, 15, 0.95);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(255, 215, 0, 0.2);
-            padding: 1.5rem 0;
-            animation: slideDown 0.6s ease-out;
-        }
-        
-        @keyframes slideDown {
-            from { transform: translateY(-100%); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-        
+        /* Navigation */
         nav {
-            max-width: 1600px;
-            margin: 0 auto;
-            padding: 0 2rem;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1rem 5%;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 215, 0, 0.1);
         }
         
         .logo {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.8rem;
-            font-weight: 900;
-            background: var(--neural-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            letter-spacing: 2px;
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--gold);
+            text-decoration: none;
         }
         
         .nav-links {
             display: flex;
-            gap: 2.5rem;
+            gap: 2rem;
             list-style: none;
         }
         
         .nav-links a {
-            color: var(--text-secondary);
+            color: var(--white);
             text-decoration: none;
-            font-weight: 600;
-            font-size: 0.95rem;
-            letter-spacing: 0.5px;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-        
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--gold);
-            transition: width 0.3s ease;
+            font-weight: 500;
+            transition: color 0.3s;
         }
         
         .nav-links a:hover {
             color: var(--gold);
         }
         
-        .nav-links a:hover::after {
-            width: 100%;
-        }
-        
         .cta-btn {
-            padding: 0.75rem 2rem;
-            background: var(--gold);
-            color: var(--dark-bg);
-            border: none;
-            border-radius: 50px;
-            font-weight: 700;
-            font-size: 0.95rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
+            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+            color: var(--black);
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
             text-decoration: none;
-            display: inline-block;
-            letter-spacing: 0.5px;
-            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            transition: transform 0.3s, box-shadow 0.3s;
         }
         
         .cta-btn:hover {
-            background: var(--gold-light);
             transform: translateY(-2px);
             box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
         }
         
         /* Hero Section */
-        section {
-            max-width: 1600px;
-            margin: 0 auto;
-            padding: 6rem 2rem;
-        }
-        
         .hero {
             min-height: 100vh;
             display: flex;
-            align-items: center;
+            flex-direction: column;
             justify-content: center;
+            align-items: center;
             text-align: center;
-            padding-top: 100px;
+            padding: 120px 5% 80px;
+            background: radial-gradient(ellipse at center, rgba(255, 215, 0, 0.05) 0%, transparent 70%);
         }
         
-        .hero-content {
-            animation: fadeInUp 1s ease-out;
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255, 215, 0, 0.1);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.875rem;
+            margin-bottom: 2rem;
         }
         
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(40px); }
-            to { opacity: 1; transform: translateY(0); }
+        .hero-badge .dot {
+            width: 8px;
+            height: 8px;
+            background: #00ff00;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
         }
         
-        .hero h1 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 5rem;
-            font-weight: 900;
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        h1 {
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            font-weight: 800;
             line-height: 1.1;
             margin-bottom: 1.5rem;
-            background: var(--neural-gradient);
+            background: linear-gradient(135deg, var(--white), var(--gold));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            letter-spacing: 1px;
         }
         
-        .hero .tagline {
-            font-size: 1.8rem;
-            color: var(--text-secondary);
-            margin-bottom: 1rem;
-            font-weight: 300;
-        }
-        
-        .hero .sub-tagline {
-            font-size: 1.3rem;
-            color: var(--gold);
-            margin-bottom: 3rem;
-            font-weight: 600;
+        .hero-subtitle {
+            font-size: clamp(1rem, 2vw, 1.25rem);
+            color: rgba(255, 255, 255, 0.7);
+            max-width: 600px;
+            margin-bottom: 2.5rem;
         }
         
         .hero-stats {
             display: flex;
-            gap: 4rem;
-            justify-content: center;
-            margin: 3rem 0;
+            gap: 3rem;
+            margin-top: 4rem;
             flex-wrap: wrap;
+            justify-content: center;
         }
         
         .stat {
             text-align: center;
         }
         
-        .stat-number {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 3.5rem;
-            font-weight: 900;
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 800;
             color: var(--gold);
-            display: block;
         }
         
         .stat-label {
-            color: var(--text-secondary);
-            font-size: 1rem;
-            margin-top: 0.5rem;
+            font-size: 0.875rem;
+            color: rgba(255, 255, 255, 0.6);
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
         
-        /* Infrastructure Grid */
-        .infra-grid {
+        /* Framework Section */
+        .section {
+            padding: 100px 5%;
+        }
+        
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+        
+        .section-header h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .framework-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 2.5rem;
-            margin-top: 4rem;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
         }
         
-        .infra-card {
-            background: var(--dark-secondary);
-            border: 1px solid rgba(255, 215, 0, 0.15);
+        .framework-card {
+            background: var(--gray);
+            border: 1px solid rgba(255, 215, 0, 0.1);
+            border-radius: 16px;
+            padding: 2rem;
+            transition: transform 0.3s, border-color 0.3s;
+        }
+        
+        .framework-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--gold);
+        }
+        
+        .framework-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .framework-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.75rem;
+        }
+        
+        .framework-card p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.95rem;
+        }
+        
+        /* Pricing Section */
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .price-card {
+            background: var(--gray);
+            border: 1px solid rgba(255, 215, 0, 0.1);
             border-radius: 20px;
-            padding: 3rem;
-            transition: all 0.4s ease;
+            padding: 2.5rem;
             position: relative;
             overflow: hidden;
         }
         
-        .infra-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: var(--neural-gradient);
-            transform: scaleX(0);
-            transition: transform 0.4s ease;
-        }
-        
-        .infra-card:hover {
-            transform: translateY(-10px);
+        .price-card.featured {
             border-color: var(--gold);
-            box-shadow: 0 20px 60px rgba(255, 215, 0, 0.2);
+            background: linear-gradient(180deg, rgba(255, 215, 0, 0.05), transparent);
         }
         
-        .infra-card:hover::before {
-            transform: scaleX(1);
-        }
-        
-        .infra-icon {
-            font-size: 3.5rem;
-            margin-bottom: 1.5rem;
-        }
-        
-        .infra-card h3 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.6rem;
-            margin-bottom: 1rem;
-            color: var(--gold);
-        }
-        
-        .infra-card p {
-            color: var(--text-secondary);
-            line-height: 1.8;
-            margin-bottom: 1.5rem;
-        }
-        
-        .feature-list {
-            list-style: none;
-            margin-top: 1.5rem;
-        }
-        
-        .feature-list li {
-            color: var(--text-secondary);
-            padding: 0.5rem 0;
-            padding-left: 1.5rem;
-            position: relative;
-        }
-        
-        .feature-list li::before {
-            content: '▸';
+        .price-card.featured::before {
+            content: 'MOST POPULAR';
             position: absolute;
-            left: 0;
+            top: 20px;
+            right: -35px;
+            background: var(--gold);
+            color: var(--black);
+            padding: 5px 40px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            transform: rotate(45deg);
+        }
+        
+        .price-tier {
+            font-size: 0.875rem;
             color: var(--gold);
-            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 0.5rem;
         }
         
-        /* Section Title */
-        .section-title {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 3.5rem;
-            font-weight: 900;
-            text-align: center;
-            margin-bottom: 1rem;
-            background: var(--neural-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        
-        .section-subtitle {
-            text-align: center;
-            color: var(--text-secondary);
-            font-size: 1.3rem;
-            margin-bottom: 4rem;
-            max-width: 800px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        
-        /* Technology Showcase */
-        .tech-showcase {
-            background: linear-gradient(135deg, var(--dark-secondary) 0%, var(--dark-tertiary) 100%);
-            border: 2px solid rgba(255, 215, 0, 0.3);
-            border-radius: 30px;
-            padding: 4rem;
-            margin-top: 4rem;
-        }
-        
-        .tech-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 3rem;
-            margin-top: 3rem;
-        }
-        
-        .tech-item {
-            text-align: center;
-        }
-        
-        .tech-item h4 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.5rem;
-            color: var(--gold);
-            margin-bottom: 1rem;
-        }
-        
-        .tech-metric {
-            font-family: 'Orbitron', sans-serif;
+        .price-amount {
             font-size: 3rem;
-            font-weight: 900;
-            color: var(--gold);
-            display: block;
-            margin: 1rem 0;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
         }
         
-        /* CTA Section */
-        .cta-section {
-            text-align: center;
-            padding: 8rem 2rem;
-            background: linear-gradient(135deg, rgba(255, 215, 0, 0.1) 0%, transparent 100%);
+        .price-period {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.875rem;
+            margin-bottom: 2rem;
         }
         
-        .cta-section h2 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 4rem;
-            font-weight: 900;
-            margin-bottom: 1.5rem;
-            background: var(--neural-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+        .price-features {
+            list-style: none;
+            margin-bottom: 2rem;
         }
         
-        .cta-section p {
-            font-size: 1.5rem;
-            color: var(--text-secondary);
-            margin-bottom: 3rem;
-            max-width: 800px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        
-        .hero-cta {
+        .price-features li {
+            padding: 0.75rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             display: flex;
-            gap: 1.5rem;
-            justify-content: center;
-            margin-top: 3rem;
-            flex-wrap: wrap;
+            align-items: center;
+            gap: 0.75rem;
         }
         
-        .btn-primary {
-            padding: 1.5rem 3.5rem;
-            background: var(--gold);
-            color: var(--dark-bg);
-            border: none;
-            border-radius: 50px;
+        .price-features li::before {
+            content: '✓';
+            color: var(--gold);
             font-weight: 700;
-            font-size: 1.2rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-block;
-            font-family: 'Montserrat', sans-serif;
         }
         
-        .btn-primary:hover {
-            background: var(--gold-light);
-            transform: translateY(-3px);
-            box-shadow: 0 15px 40px rgba(255, 215, 0, 0.4);
-        }
-        
-        .btn-secondary {
-            padding: 1.5rem 3.5rem;
+        .price-btn {
+            display: block;
+            width: 100%;
+            padding: 1rem;
+            text-align: center;
             background: transparent;
-            color: var(--text-primary);
             border: 2px solid var(--gold);
-            border-radius: 50px;
-            font-weight: 700;
-            font-size: 1.2rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
+            color: var(--gold);
+            border-radius: 10px;
             text-decoration: none;
-            display: inline-block;
-            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            transition: all 0.3s;
         }
         
-        .btn-secondary:hover {
+        .price-btn:hover, .price-card.featured .price-btn {
             background: var(--gold);
-            color: var(--dark-bg);
-            transform: translateY(-3px);
+            color: var(--black);
+        }
+        
+        /* Agents Section */
+        .agents-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 1rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .agent-card {
+            background: var(--gray);
+            border: 1px solid rgba(255, 215, 0, 0.1);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        
+        .agent-card:hover {
+            border-color: var(--gold);
+            transform: scale(1.05);
+        }
+        
+        .agent-id {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-weight: 700;
+            color: var(--black);
+        }
+        
+        .agent-name {
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+        
+        .agent-role {
+            font-size: 0.7rem;
+            color: rgba(255, 255, 255, 0.5);
+        }
+        
+        /* Live Stats */
+        .live-stats {
+            background: var(--gray);
+            border-radius: 20px;
+            padding: 3rem;
+            max-width: 1000px;
+            margin: 4rem auto 0;
+        }
+        
+        .live-stats h3 {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: var(--gold);
+        }
+        
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            text-align: center;
+        }
+        
+        .live-stat-value {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--gold);
+            font-family: monospace;
+        }
+        
+        .live-stat-label {
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.6);
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
         
         /* Footer */
         footer {
-            background: var(--dark-secondary);
-            border-top: 1px solid rgba(255, 215, 0, 0.2);
-            padding: 4rem 2rem 2rem;
-            margin-top: 6rem;
-        }
-        
-        .footer-content {
-            max-width: 1600px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 3rem;
-            margin-bottom: 3rem;
-        }
-        
-        .footer-section h4 {
-            font-family: 'Orbitron', sans-serif;
-            color: var(--gold);
-            margin-bottom: 1.5rem;
-            font-size: 1.2rem;
-        }
-        
-        .footer-section ul {
-            list-style: none;
-        }
-        
-        .footer-section li {
-            margin-bottom: 0.75rem;
-        }
-        
-        .footer-section a {
-            color: var(--text-secondary);
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-        
-        .footer-section a:hover {
-            color: var(--gold);
-        }
-        
-        .footer-bottom {
-            text-align: center;
-            padding-top: 2rem;
+            padding: 60px 5%;
             border-top: 1px solid rgba(255, 215, 0, 0.1);
-            color: var(--text-secondary);
-            font-size: 0.9rem;
+            text-align: center;
         }
         
-        /* Mobile Responsiveness */
-        @media (max-width: 968px) {
-            .hero h1 {
-                font-size: 3rem;
-            }
-            
-            .hero .tagline {
-                font-size: 1.3rem;
-            }
-            
-            .section-title {
-                font-size: 2.5rem;
-            }
-            
-            .hero-stats {
-                gap: 2rem;
-            }
-            
-            .stat-number {
-                font-size: 2.5rem;
-            }
-            
-            .nav-links {
-                display: none;
-            }
+        .footer-logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--gold);
+            margin-bottom: 1rem;
+        }
+        
+        .footer-text {
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.875rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .agents-grid { grid-template-columns: repeat(3, 1fr); }
+            .stats-row { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+            .hero-stats { gap: 1.5rem; }
         }
     </style>
 </head>
 <body>
-    <!-- Neural Network Background -->
-    <canvas class="neural-canvas" id="neuralCanvas"></canvas>
-    
-    <!-- Header -->
-    <header>
-        <nav>
-            <div class="logo">SALES KING ACADEMY</div>
-            <ul class="nav-links">
-                <li><a href="#infrastructure">Infrastructure</a></li>
-                <li><a href="#technology">Technology</a></li>
-                <li><a href="#systems">Systems</a></li>
-                <li><a href="#framework">Framework</a></li>
-            </ul>
-            <a href="#contact" class="cta-btn">Get Started</a>
-        </nav>
-    </header>
-    
-    <!-- Main Content -->
-    <main>
-        <!-- Hero Section -->
-        <section class="hero">
-            <div class="hero-content">
-                <h1>Complete Custom<br>Infrastructure Empire</h1>
-                <p class="tagline">100% Proprietary. Zero Dependencies.</p>
-                <p class="sub-tagline">Own CRM • Own Cloud • Own Everything</p>
-                
-                <div class="hero-stats">
-                    <div class="stat">
-                        <span class="stat-number">100%</span>
-                        <span class="stat-label">Custom Built</span>
-                    </div>
-                    <div class="stat">
-                        <span class="stat-number">α=25</span>
-                        <span class="stat-label">RKL Framework</span>
-                    </div>
-                    <div class="stat">
-                        <span class="stat-number">O(n^1.77)</span>
-                        <span class="stat-label">Complexity</span>
-                    </div>
-                    <div class="stat">
-                        <span class="stat-number">∞</span>
-                        <span class="stat-label">Scalability</span>
-                    </div>
+    <nav>
+        <a href="#" class="logo">👑 Sales King Academy</a>
+        <ul class="nav-links">
+            <li><a href="#framework">Framework</a></li>
+            <li><a href="#agents">AI Agents</a></li>
+            <li><a href="#pricing">Pricing</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+        <a href="#pricing" class="cta-btn">Get Started</a>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-badge">
+            <span class="dot"></span>
+            <span>Time-Anchored Super Intelligence • Live</span>
+        </div>
+        <h1>Beyond Artificial<br>Intelligence</h1>
+        <p class="hero-subtitle">
+            Revolutionary business automation powered by the RKL Mathematical Framework. 
+            O(n^1.77) polynomial complexity. 25 autonomous AI agents. Perpetual monetization.
+        </p>
+        <div>
+            <a href="#pricing" class="cta-btn" style="font-size: 1.1rem; padding: 1rem 2.5rem;">
+                Transform Your Business →
+            </a>
+        </div>
+        <div class="hero-stats">
+            <div class="stat">
+                <div class="stat-value" id="credits-counter">0</div>
+                <div class="stat-label">SKA Credits Minted</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value">25</div>
+                <div class="stat-label">AI Agents</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value">α=25</div>
+                <div class="stat-label">RKL Parameter</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value">O(n^1.77)</div>
+                <div class="stat-label">Complexity</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="framework">
+        <div class="section-header">
+            <h2>The RKL Mathematical Framework</h2>
+            <p style="color: rgba(255,255,255,0.6); max-width: 600px; margin: 0 auto;">
+                Proprietary breakthrough achieving polynomial-time SAT solving with empirically measured O(n^1.77) complexity.
+            </p>
+        </div>
+        <div class="framework-grid">
+            <div class="framework-card">
+                <div class="framework-icon">α</div>
+                <h3>Quantum-Classical Balance</h3>
+                <p>α=25 achieves optimal equilibrium between quantum exploration and classical exploitation for maximum efficiency.</p>
+            </div>
+            <div class="framework-card">
+                <div class="framework-icon">📊</div>
+                <h3>Polynomial Complexity</h3>
+                <p>O(n^1.77) vs traditional O(2^n) exponential. 400-5000x speedup demonstrated on real benchmarks.</p>
+            </div>
+            <div class="framework-card">
+                <div class="framework-icon">🔐</div>
+                <h3>Temporal DNA Tokenization</h3>
+                <p>Moving interlocking timestamps create uncloneable security. Synchronized to world clock.</p>
+            </div>
+            <div class="framework-card">
+                <div class="framework-icon">💰</div>
+                <h3>SKA Credits Currency</h3>
+                <p>Auto-minting at 1 credit/second since July 1, 2024. Each credit = $1 USD value.</p>
+            </div>
+            <div class="framework-card">
+                <div class="framework-icon">🛡️</div>
+                <h3>Eight-Layer Failsafe</h3>
+                <p>Multi-granularity synchronization from 0.2s to 24h. Failure probability ≤ 10^-24.</p>
+            </div>
+            <div class="framework-card">
+                <div class="framework-icon">⚡</div>
+                <h3>Triple-Plane Computing</h3>
+                <p>Pre-Compute (24h forward), Operational (real-time), Shadow (24h backward validation).</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" id="agents" style="background: var(--gray-light);">
+        <div class="section-header">
+            <h2>25 Autonomous AI Agents</h2>
+            <p style="color: rgba(255,255,255,0.6); max-width: 600px; margin: 0 auto;">
+                Swarm intelligence with hierarchical authority levels. Each agent specializes and learns autonomously.
+            </p>
+        </div>
+        <div class="agents-grid">
+            <div class="agent-card"><div class="agent-id">1</div><div class="agent-name">Master Controller</div><div class="agent-role">Authority 10</div></div>
+            <div class="agent-card"><div class="agent-id">2</div><div class="agent-name">Sales King</div><div class="agent-role">Authority 9</div></div>
+            <div class="agent-card"><div class="agent-id">3</div><div class="agent-name">Marketing King</div><div class="agent-role">Authority 9</div></div>
+            <div class="agent-card"><div class="agent-id">4</div><div class="agent-name">Strategy King</div><div class="agent-role">Authority 8</div></div>
+            <div class="agent-card"><div class="agent-id">5</div><div class="agent-name">Development King</div><div class="agent-role">Authority 8</div></div>
+            <div class="agent-card"><div class="agent-id">6</div><div class="agent-name">DevOps King</div><div class="agent-role">Authority 8</div></div>
+            <div class="agent-card"><div class="agent-id">7</div><div class="agent-name">Security King</div><div class="agent-role">Authority 9</div></div>
+            <div class="agent-card"><div class="agent-id">8</div><div class="agent-name">Data King</div><div class="agent-role">Authority 7</div></div>
+            <div class="agent-card"><div class="agent-id">9</div><div class="agent-name">Finance King</div><div class="agent-role">Authority 8</div></div>
+            <div class="agent-card"><div class="agent-id">10</div><div class="agent-name">Legal King</div><div class="agent-role">Authority 8</div></div>
+            <div class="agent-card"><div class="agent-id">11</div><div class="agent-name">Operations King</div><div class="agent-role">Authority 7</div></div>
+            <div class="agent-card"><div class="agent-id">12</div><div class="agent-name">Support King</div><div class="agent-role">Authority 7</div></div>
+            <div class="agent-card"><div class="agent-id">13</div><div class="agent-name">Research King</div><div class="agent-role">Authority 7</div></div>
+            <div class="agent-card"><div class="agent-id">14</div><div class="agent-name">Analytics King</div><div class="agent-role">Authority 7</div></div>
+            <div class="agent-card"><div class="agent-id">15</div><div class="agent-name">Education King</div><div class="agent-role">Authority 6</div></div>
+            <div class="agent-card"><div class="agent-id">16</div><div class="agent-name">Content King</div><div class="agent-role">Authority 6</div></div>
+            <div class="agent-card"><div class="agent-id">17</div><div class="agent-name">Automation King</div><div class="agent-role">Authority 7</div></div>
+            <div class="agent-card"><div class="agent-id">18</div><div class="agent-name">Predictive Twin</div><div class="agent-role">Authority 8</div></div>
+            <div class="agent-card"><div class="agent-id">19</div><div class="agent-name">Network Scanner</div><div class="agent-role">Authority 7</div></div>
+            <div class="agent-card"><div class="agent-id">20</div><div class="agent-name">Customer Exp</div><div class="agent-role">Authority 7</div></div>
+            <div class="agent-card"><div class="agent-id">21</div><div class="agent-name">Research Scholar</div><div class="agent-role">Authority 7</div></div>
+            <div class="agent-card"><div class="agent-id">22</div><div class="agent-name">Compliance</div><div class="agent-role">Authority 6</div></div>
+            <div class="agent-card"><div class="agent-id">23</div><div class="agent-name">RKL Governor</div><div class="agent-role">Authority 9</div></div>
+            <div class="agent-card"><div class="agent-id">24</div><div class="agent-name">Growth Hacker</div><div class="agent-role">Authority 7</div></div>
+            <div class="agent-card"><div class="agent-id">25</div><div class="agent-name">Future Architect</div><div class="agent-role">Authority 8</div></div>
+        </div>
+        <div class="live-stats">
+            <h3>⚡ Live System Status</h3>
+            <div class="stats-row">
+                <div>
+                    <div class="live-stat-value" id="live-credits">0</div>
+                    <div class="live-stat-label">Total Credits</div>
                 </div>
-                
-                <div class="hero-cta">
-                    <a href="#infrastructure" class="btn-primary">Explore Infrastructure</a>
-                    <a href="#framework" class="btn-secondary">See Framework</a>
+                <div>
+                    <div class="live-stat-value" id="live-value">$0</div>
+                    <div class="live-stat-label">USD Value</div>
+                </div>
+                <div>
+                    <div class="live-stat-value">100%</div>
+                    <div class="live-stat-label">Uptime</div>
+                </div>
+                <div>
+                    <div class="live-stat-value">25/25</div>
+                    <div class="live-stat-label">Agents Active</div>
                 </div>
             </div>
-        </section>
-        
-        <!-- Custom Infrastructure Section -->
-        <section id="infrastructure">
-            <h2 class="section-title">Complete Custom Infrastructure</h2>
-            <p class="section-subtitle">Every component built from scratch. No third-party dependencies. Complete ownership and control.</p>
-            
-            <div class="infra-grid">
-                <div class="infra-card">
-                    <div class="infra-icon">🏢</div>
-                    <h3>Custom CRM System</h3>
-                    <p>Complete replacement for Salesforce, Zoho, HubSpot. Built with RKL Framework α=25 for maximum efficiency.</p>
-                    <ul class="feature-list">
-                        <li>Contact & company management</li>
-                        <li>Deal pipeline automation</li>
-                        <li>Email & call integration</li>
-                        <li>Task & workflow automation</li>
-                        <li>Advanced analytics dashboard</li>
-                        <li>Temporal DNA security</li>
-                    </ul>
-                </div>
-                
-                <div class="infra-card">
-                    <div class="infra-icon">☁️</div>
-                    <h3>Custom Cloud Infrastructure</h3>
-                    <p>Your own AWS/Azure/GCP. Complete cloud platform with full control over every component.</p>
-                    <ul class="feature-list">
-                        <li>Compute & container orchestration</li>
-                        <li>Storage & database systems</li>
-                        <li>CDN & edge computing</li>
-                        <li>Load balancing & auto-scaling</li>
-                        <li>Network & security layers</li>
-                        <li>Monitoring & alerting</li>
-                    </ul>
-                </div>
-                
-                <div class="infra-card">
-                    <div class="infra-icon">📞</div>
-                    <h3>Custom Telephony System</h3>
-                    <p>Replace Twilio completely. SIP server, WebRTC, Asterisk dialer with AI voice integration.</p>
-                    <ul class="feature-list">
-                        <li>Self-hosted SIP server</li>
-                        <li>WebRTC gateway</li>
-                        <li>Asterisk PBX integration</li>
-                        <li>AI voice synthesis</li>
-                        <li>Call routing & IVR</li>
-                        <li>Recording & analytics</li>
-                    </ul>
-                </div>
-                
-                <div class="infra-card">
-                    <div class="infra-icon">📧</div>
-                    <h3>Custom Email Infrastructure</h3>
-                    <p>Replace SendGrid & Zoho. Complete email platform on your domain with full control.</p>
-                    <ul class="feature-list">
-                        <li>Own SMTP server</li>
-                        <li>Domain authentication (SPF/DKIM)</li>
-                        <li>Sequence automation</li>
-                        <li>Deliverability optimization</li>
-                        <li>Analytics & tracking</li>
-                        <li>API & webhook integration</li>
-                    </ul>
-                </div>
-                
-                <div class="infra-card">
-                    <div class="infra-icon">💾</div>
-                    <h3>Custom Database System</h3>
-                    <p>Your own PostgreSQL/MySQL cluster with temporal DNA indexing and α=25 optimization.</p>
-                    <ul class="feature-list">
-                        <li>Multi-master replication</li>
-                        <li>Automatic sharding</li>
-                        <li>Real-time backups</li>
-                        <li>Query optimization</li>
-                        <li>Temporal DNA indexing</li>
-                        <li>SKA Credits ledger</li>
-                    </ul>
-                </div>
-                
-                <div class="infra-card">
-                    <div class="infra-icon">🔐</div>
-                    <h3>Custom Security System</h3>
-                    <p>5-layer security fortress with temporal DNA, quantum-resistant encryption, zero-knowledge proofs.</p>
-                    <ul class="feature-list">
-                        <li>Temporal DNA tokenization</li>
-                        <li>Genesis anchoring (July 1, 2024)</li>
-                        <li>Quantum-resistant crypto</li>
-                        <li>Zero-knowledge authentication</li>
-                        <li>Real-time threat detection</li>
-                        <li>Automatic incident response</li>
-                    </ul>
-                </div>
-                
-                <div class="infra-card">
-                    <div class="infra-icon">🤖</div>
-                    <h3>Custom AI/LLM System</h3>
-                    <p>Your own Llama 3.1 deployment. No API dependencies. Complete model ownership.</p>
-                    <ul class="feature-list">
-                        <li>Self-hosted Llama 3.1</li>
-                        <li>Custom fine-tuning</li>
-                        <li>Proprietary prompts</li>
-                        <li>25 specialized agents</li>
-                        <li>Inter-agent communication</li>
-                        <li>Autonomous decision-making</li>
-                    </ul>
-                </div>
-                
-                <div class="infra-card">
-                    <div class="infra-icon">💰</div>
-                    <h3>SKA Credits Currency</h3>
-                    <p>Your own cryptocurrency with temporal DNA security. Auto-mints 1 credit/second since genesis.</p>
-                    <ul class="feature-list">
-                        <li>Genesis: July 1, 2024</li>
-                        <li>Minting: 1 credit/second</li>
-                        <li>Current: 44M+ credits</li>
-                        <li>Temporal DNA format</li>
-                        <li>Uncloneable security</li>
-                        <li>Blockchain anchoring</li>
-                    </ul>
-                </div>
-                
-                <div class="infra-card">
-                    <div class="infra-icon">📊</div>
-                    <h3>Custom Analytics Platform</h3>
-                    <p>Replace Google Analytics. Complete data ownership with real-time insights and α=25 optimization.</p>
-                    <ul class="feature-list">
-                        <li>Real-time event tracking</li>
-                        <li>User behavior analysis</li>
-                        <li>Conversion funnel mapping</li>
-                        <li>A/B testing framework</li>
-                        <li>Custom dashboards</li>
-                        <li>Predictive analytics</li>
-                    </ul>
-                </div>
+        </div>
+    </section>
+
+    <section class="section" id="pricing">
+        <div class="section-header">
+            <h2>Investment Tiers</h2>
+            <p style="color: rgba(255,255,255,0.6); max-width: 600px; margin: 0 auto;">
+                Premium AI automation that outperforms Harvard, MIT, and Stanford programs combined.
+            </p>
+        </div>
+        <div class="pricing-grid">
+            <div class="price-card">
+                <div class="price-tier">Individual</div>
+                <div class="price-amount">$5,497</div>
+                <div class="price-period">One-time investment</div>
+                <ul class="price-features">
+                    <li>Complete Sales Training</li>
+                    <li>RKL Framework Access</li>
+                    <li>5 AI Agent Integration</li>
+                    <li>SKA Credits Starter Pack</li>
+                    <li>Email Support</li>
+                </ul>
+                <a href="#contact" class="price-btn">Get Started</a>
             </div>
-        </section>
-        
-        <!-- RKL Framework Section -->
-        <section id="framework">
-            <h2 class="section-title">RKL Mathematical Framework</h2>
-            <p class="section-subtitle">The foundation of everything. α=25 quantum-classical balance. O(n^1.77) breakthrough complexity.</p>
-            
-            <div class="tech-showcase">
-                <div class="tech-grid">
-                    <div class="tech-item">
-                        <h4>Core Parameter</h4>
-                        <span class="tech-metric">α=25</span>
-                        <p style="color: var(--text-secondary);">Quantum-classical balance parameter. The signature of the RKL Framework.</p>
-                    </div>
-                    
-                    <div class="tech-item">
-                        <h4>Computational Breakthrough</h4>
-                        <span class="tech-metric">O(n^1.77)</span>
-                        <p style="color: var(--text-secondary);">Quasi-polynomial complexity. 10-100x faster than industry O(2^n) standard.</p>
-                    </div>
-                    
-                    <div class="tech-item">
-                        <h4>Temporal Compression</h4>
-                        <span class="tech-metric">3^8 • 5^8</span>
-                        <p style="color: var(--text-secondary);">Massive problems run on standard hardware through sophisticated compression.</p>
-                    </div>
-                    
-                    <div class="tech-item">
-                        <h4>Genesis Anchor</h4>
-                        <span class="tech-metric">07/01/2024</span>
-                        <p style="color: var(--text-secondary);">Temporal DNA genesis point. All timestamps synchronized to this moment.</p>
-                    </div>
-                    
-                    <div class="tech-item">
-                        <h4>SKA Credits Minting</h4>
-                        <span class="tech-metric">1/sec</span>
-                        <p style="color: var(--text-secondary);">Automatic credit generation. Currently 44M+ credits in circulation.</p>
-                    </div>
-                    
-                    <div class="tech-item">
-                        <h4>Security Layers</h4>
-                        <span class="tech-metric">5-Layer</span>
-                        <p style="color: var(--text-secondary);">Temporal DNA, genesis anchoring, quantum-resistant encryption, zero-knowledge proofs.</p>
-                    </div>
-                </div>
+            <div class="price-card featured">
+                <div class="price-tier">Professional</div>
+                <div class="price-amount">$24,997</div>
+                <div class="price-period">Per month</div>
+                <ul class="price-features">
+                    <li>Full 25 Agent Access</li>
+                    <li>Custom AI Training</li>
+                    <li>Unlimited SKA Credits</li>
+                    <li>Priority Support</li>
+                    <li>White-Label Options</li>
+                </ul>
+                <a href="#contact" class="price-btn">Most Popular</a>
             </div>
-        </section>
-        
-        <!-- CTA Section -->
-        <section class="cta-section">
-            <h2>Own Your Infrastructure</h2>
-            <p>Stop paying monthly fees to third parties. Build your empire on a foundation you completely control.</p>
-            <div class="hero-cta">
-                <a href="mailto:info@saleskingacademy.com" class="btn-primary">Schedule Consultation</a>
-                <a href="#infrastructure" class="btn-secondary">Explore Systems</a>
+            <div class="price-card">
+                <div class="price-tier">Enterprise</div>
+                <div class="price-amount">$99,997</div>
+                <div class="price-period">Per month</div>
+                <ul class="price-features">
+                    <li>Complete TSI Deployment</li>
+                    <li>Custom Infrastructure</li>
+                    <li>Dedicated Agent Team</li>
+                    <li>24/7 Premium Support</li>
+                    <li>Source Code Access</li>
+                </ul>
+                <a href="#contact" class="price-btn">Contact Sales</a>
             </div>
-        </section>
-    </main>
-    
-    <!-- Footer -->
+            <div class="price-card">
+                <div class="price-tier">White-Label License</div>
+                <div class="price-amount">$397,000</div>
+                <div class="price-period">Perpetual license</div>
+                <ul class="price-features">
+                    <li>Full Platform Ownership</li>
+                    <li>RKL Framework License</li>
+                    <li>Unlimited Deployment</li>
+                    <li>Brand Customization</li>
+                    <li>Revenue Share Option</li>
+                </ul>
+                <a href="#contact" class="price-btn">Enterprise Only</a>
+            </div>
+        </div>
+    </section>
+
     <footer id="contact">
-        <div class="footer-content">
-            <div class="footer-section">
-                <h4>Sales King Academy</h4>
-                <p style="color: var(--text-secondary); line-height: 1.8;">Complete custom infrastructure platform. 100% proprietary. Zero dependencies.</p>
-            </div>
-            
-            <div class="footer-section">
-                <h4>Infrastructure</h4>
-                <ul>
-                    <li><a href="#infrastructure">Custom CRM</a></li>
-                    <li><a href="#infrastructure">Custom Cloud</a></li>
-                    <li><a href="#infrastructure">Custom Telephony</a></li>
-                    <li><a href="#infrastructure">Custom Email</a></li>
-                </ul>
-            </div>
-            
-            <div class="footer-section">
-                <h4>Technology</h4>
-                <ul>
-                    <li><a href="#framework">RKL Framework</a></li>
-                    <li><a href="#framework">SKA Credits</a></li>
-                    <li><a href="#framework">Temporal DNA</a></li>
-                    <li><a href="#framework">O(n^1.77) Complexity</a></li>
-                </ul>
-            </div>
-            
-            <div class="footer-section">
-                <h4>Contact</h4>
-                <ul>
-                    <li><a href="mailto:info@saleskingacademy.com">info@saleskingacademy.com</a></li>
-                    <li>North Little Rock, Arkansas</li>
-                    <li><a href="#">Documentation</a></li>
-                    <li><a href="#">API Access</a></li>
-                </ul>
-            </div>
-        </div>
-        
-        <div class="footer-bottom">
-            <p>&copy; 2024 Sales King Academy LLC. All rights reserved.</p>
-            <p style="margin-top: 0.5rem;">Founded by Robert Kaleb Long • RKL Framework α=25 • Temporal DNA Technology</p>
-        </div>
+        <div class="footer-logo">👑 Sales King Academy</div>
+        <p class="footer-text">
+            Sales King Academy LLC • North Little Rock, Arkansas<br>
+            Founded July 1, 2024 • Robert Kaleb Long, Founder & CRO<br><br>
+            Time-Anchored Super Intelligence • RKL Framework α=25 • O(n^1.77) Complexity
+        </p>
     </footer>
-    
-    <!-- Neural Network Animation Script -->
+
     <script>
-        const canvas = document.getElementById('neuralCanvas');
-        const ctx = canvas.getContext('2d');
+        // SKA Credits Calculator - Minting since July 1, 2024
+        const GENESIS_UNIX = 1719792000; // July 1, 2024 00:00:00 UTC
         
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-        
-        const particles = [];
-        const particleCount = 80;
-        
-        class Particle {
-            constructor() {
-                this.x = Math.random() * canvas.width;
-                this.y = Math.random() * canvas.height;
-                this.vx = (Math.random() - 0.5) * 0.5;
-                this.vy = (Math.random() - 0.5) * 0.5;
-                this.radius = Math.random() * 2 + 1;
-            }
+        function updateCredits() {
+            const now = Math.floor(Date.now() / 1000);
+            const credits = now - GENESIS_UNIX;
             
-            update() {
-                this.x += this.vx;
-                this.y += this.vy;
-                
-                if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
-                if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
-            }
+            // Format with commas
+            const formatted = credits.toLocaleString();
+            const value = '$' + credits.toLocaleString();
             
-            draw() {
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-                ctx.fillStyle = 'rgba(255, 215, 0, 0.5)';
-                ctx.fill();
-            }
+            document.getElementById('credits-counter').textContent = formatted;
+            document.getElementById('live-credits').textContent = formatted;
+            document.getElementById('live-value').textContent = value;
         }
         
-        for (let i = 0; i < particleCount; i++) {
-            particles.push(new Particle());
-        }
+        // Update every second
+        updateCredits();
+        setInterval(updateCredits, 1000);
         
-        function animate() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            
-            particles.forEach(particle => {
-                particle.update();
-                particle.draw();
-            });
-            
-            // Draw connections
-            for (let i = 0; i < particles.length; i++) {
-                for (let j = i + 1; j < particles.length; j++) {
-                    const dx = particles[i].x - particles[j].x;
-                    const dy = particles[i].y - particles[j].y;
-                    const distance = Math.sqrt(dx * dx + dy * dy);
-                    
-                    if (distance < 150) {
-                        ctx.beginPath();
-                        ctx.moveTo(particles[i].x, particles[i].y);
-                        ctx.lineTo(particles[j].x, particles[j].y);
-                        ctx.strokeStyle = `rgba(255, 215, 0, ${0.2 * (1 - distance / 150)})`;
-                        ctx.lineWidth = 1;
-                        ctx.stroke();
-                    }
-                }
-            }
-            
-            requestAnimationFrame(animate);
-        }
-        
-        animate();
-        
-        window.addEventListener('resize', () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        });
-        
-        // Smooth scrolling
+        // Smooth scroll for navigation
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
             });
         });
     </script>
