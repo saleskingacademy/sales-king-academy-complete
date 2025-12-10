@@ -1,20 +1,15 @@
 [build]
-  publish = "frontend"
-  command = "echo 'Frontend ready'"
+  publish = "."
+  command = "echo 'Sales King Academy Complete System Ready'"
+  functions = "netlify/functions"
 
-[[redirects]]
-  from = "/api/*"
-  to = "https://api.saleskingacademy.com/:splat"
-  status = 200
-  force = true
+[build.environment]
+  NODE_VERSION = "18"
 
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
 
-[build.environment]
-  NODE_VERSION = "18"
-
-[context.production.environment]
-  API_BASE = "https://api.saleskingacademy.com"
+[functions]
+  node_bundler = "esbuild"
