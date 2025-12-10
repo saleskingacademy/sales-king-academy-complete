@@ -3,16 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sales King Academy - AI Business Automation</title>
-    <script src="https://sandbox.web.squarecdn.com/v1/square.js"></script>
+    <title>Sales King Academy - Complete AI Business Automation</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
-            color: #ffffff;
-            line-height: 1.6;
+            font-family: 'Segoe UI', sans-serif;
+            background: #000;
+            color: #fff;
         }
+        .nav {
+            background: rgba(0,0,0,0.95);
+            padding: 1rem 2rem;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 2px solid #FFD700;
+        }
+        .nav-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo { font-size: 1.5rem; color: #FFD700; font-weight: bold; }
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .nav-links a:hover { color: #FFD700; }
+        
         .hero {
             min-height: 100vh;
             display: flex;
@@ -20,10 +46,9 @@
             justify-content: center;
             align-items: center;
             text-align: center;
-            padding: 2rem;
-            background: linear-gradient(135deg, #000000 0%, #1a1a2e 50%, #0f3460 100%);
+            padding: 6rem 2rem 2rem;
+            background: linear-gradient(135deg, #000 0%, #1a1a2e 100%);
         }
-        .crown { font-size: 4rem; margin-bottom: 1rem; }
         h1 {
             font-size: 3.5rem;
             background: linear-gradient(90deg, #FFD700, #FFA500);
@@ -33,53 +58,71 @@
         }
         .tagline {
             font-size: 1.5rem;
-            color: #cccccc;
-            margin-bottom: 3rem;
+            color: #aaa;
+            margin-bottom: 2rem;
         }
-        .credits-display {
-            background: rgba(255, 215, 0, 0.1);
-            border: 2px solid #FFD700;
-            border-radius: 15px;
-            padding: 2rem;
-            margin: 2rem 0;
-            min-width: 400px;
-        }
-        .credits-number {
-            font-size: 3rem;
-            color: #FFD700;
-            font-weight: bold;
-        }
-        .programs {
+        
+        .section {
             padding: 4rem 2rem;
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
         }
-        .programs-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
+        .section-title {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            color: #FFD700;
         }
-        .program-card {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 215, 0, 0.3);
+        
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        .service-card {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,215,0,0.3);
             border-radius: 15px;
             padding: 2rem;
-            transition: all 0.3s ease;
+            transition: all 0.3s;
         }
-        .program-card:hover {
-            transform: translateY(-10px);
+        .service-card:hover {
+            transform: translateY(-5px);
             border-color: #FFD700;
-            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
+            box-shadow: 0 10px 30px rgba(255,215,0,0.3);
+        }
+        .service-title {
+            font-size: 1.8rem;
+            color: #FFD700;
+            margin-bottom: 1rem;
+        }
+        .service-desc {
+            color: #ccc;
+            margin-bottom: 1rem;
+            line-height: 1.6;
         }
         .price {
-            font-size: 2.5rem;
+            font-size: 2rem;
             color: #FFD700;
             margin: 1rem 0;
         }
-        .buy-button {
+        .features {
+            list-style: none;
+            margin: 1rem 0;
+        }
+        .features li {
+            padding: 0.5rem 0;
+            color: #aaa;
+        }
+        .features li:before {
+            content: "✓ ";
+            color: #4CAF50;
+            font-weight: bold;
+        }
+        .btn {
             background: linear-gradient(90deg, #FFD700, #FFA500);
-            color: #000000;
+            color: #000;
             border: none;
             padding: 1rem 2rem;
             font-size: 1.1rem;
@@ -88,210 +131,353 @@
             cursor: pointer;
             width: 100%;
             margin-top: 1rem;
-            transition: all 0.3s ease;
+            transition: all 0.3s;
         }
-        .buy-button:hover {
+        .btn:hover {
             transform: scale(1.05);
-            box-shadow: 0 5px 20px rgba(255, 215, 0, 0.5);
-        }
-        .buy-button:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-        .email-capture {
-            background: rgba(255, 215, 0, 0.1);
-            padding: 3rem 2rem;
-            text-align: center;
-        }
-        .email-form {
-            max-width: 500px;
-            margin: 2rem auto;
-            display: flex;
-            gap: 1rem;
-        }
-        .email-input {
-            flex: 1;
-            padding: 1rem;
-            border: 2px solid #FFD700;
-            background: rgba(0, 0, 0, 0.5);
-            color: #ffffff;
-            border-radius: 50px;
-            font-size: 1rem;
-        }
-        .submit-button {
-            background: #FFD700;
-            color: #000000;
-            border: none;
-            padding: 1rem 2rem;
-            border-radius: 50px;
-            font-weight: bold;
-            cursor: pointer;
-        }
-        #payment-status {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: rgba(0, 0, 0, 0.9);
-            padding: 1rem 2rem;
-            border-radius: 10px;
-            border: 2px solid #FFD700;
-            display: none;
-            z-index: 1000;
+            box-shadow: 0 5px 20px rgba(255,215,0,0.5);
         }
     </style>
 </head>
 <body>
-    <div id="payment-status"></div>
-    
+    <nav class="nav">
+        <div class="nav-content">
+            <div class="logo">👑 Sales King Academy</div>
+            <div class="nav-links">
+                <a href="#training">Training</a>
+                <a href="#automation">Automation Services</a>
+                <a href="#realty">Real Estate</a>
+                <a href="#builders">Build Services</a>
+                <a href="#diy">DIY Systems</a>
+            </div>
+        </div>
+    </nav>
+
     <section class="hero">
-        <div class="crown">👑</div>
-        <h1>Sales King Academy</h1>
-        <p class="tagline">AI-Powered Business Automation Platform</p>
-        
-        <div class="credits-display">
-            <div>⚡ Live SKA Credits</div>
-            <div class="credits-number" id="credits-counter">Loading...</div>
-            <div style="font-size: 0.9rem; color: #aaa;">Minting 1 credit/second since July 1, 2024</div>
-        </div>
+        <h1>Complete AI Business Automation</h1>
+        <p class="tagline">Everything You Need To Dominate Your Market</p>
     </section>
 
-    <section class="programs">
-        <h2 style="text-align: center; font-size: 2.5rem; margin-bottom: 1rem;">Training Programs</h2>
-        <p style="text-align: center; color: #aaa; margin-bottom: 2rem;">Choose your path to business automation mastery</p>
-        
-        <div class="programs-grid">
-            <div class="program-card">
-                <h3>Foundation</h3>
+    <!-- TRAINING PROGRAMS -->
+    <section id="training" class="section">
+        <h2 class="section-title">🎓 Training Programs</h2>
+        <div class="services-grid">
+            <div class="service-card">
+                <h3 class="service-title">Foundation</h3>
                 <div class="price">$5,497</div>
-                <p>Core RKL Framework training and 5 AI agents</p>
-                <button class="buy-button" onclick="buyProgram('Foundation Program', 5497, 'XXVNHPVPNDQ2C')">
-                    Purchase Now
-                </button>
+                <p class="service-desc">Core AI training and 5 agents</p>
+                <ul class="features">
+                    <li>RKL Framework Training</li>
+                    <li>5 AI Agents</li>
+                    <li>Basic Automation</li>
+                    <li>Email Support</li>
+                </ul>
+                <button class="btn" onclick="buyService('training', 'Foundation', 5497)">Purchase Now</button>
             </div>
-            
-            <div class="program-card">
-                <h3>Advanced</h3>
+            <div class="service-card">
+                <h3 class="service-title">Advanced</h3>
                 <div class="price">$27,997</div>
-                <p>Full agent swarm + temporal DNA security</p>
-                <button class="buy-button" onclick="buyProgram('Advanced Program', 27997, 'YF3XQXAQR4CRE')">
-                    Purchase Now
-                </button>
+                <p class="service-desc">Full agent swarm + advanced systems</p>
+                <ul class="features">
+                    <li>15 AI Agents</li>
+                    <li>Temporal DNA Security</li>
+                    <li>Advanced Automation</li>
+                    <li>Priority Support</li>
+                </ul>
+                <button class="btn" onclick="buyService('training', 'Advanced', 27997)">Purchase Now</button>
             </div>
-            
-            <div class="program-card">
-                <h3>Executive</h3>
+            <div class="service-card">
+                <h3 class="service-title">Executive</h3>
                 <div class="price">$97,997</div>
-                <p>Complete automation suite + white-label rights</p>
-                <button class="buy-button" onclick="buyProgram('Executive Program', 97997, '4YA43F4KFQJLG')">
-                    Purchase Now
-                </button>
+                <p class="service-desc">Complete suite + white-label rights</p>
+                <ul class="features">
+                    <li>25 AI Agents</li>
+                    <li>White-Label Rights</li>
+                    <li>Complete Automation</li>
+                    <li>VIP Support</li>
+                </ul>
+                <button class="btn" onclick="buyService('training', 'Executive', 97997)">Purchase Now</button>
             </div>
-            
-            <div class="program-card">
-                <h3>Supreme King</h3>
+            <div class="service-card">
+                <h3 class="service-title">Supreme King</h3>
                 <div class="price">$397,000</div>
-                <p>Master AI controller + lifetime access</p>
-                <button class="buy-button" onclick="buyProgram('Supreme King Program', 397000, 'UEBOKD2YWRTY6')">
-                    Purchase Now
-                </button>
+                <p class="service-desc">Master AI + lifetime access</p>
+                <ul class="features">
+                    <li>Master CEO AI</li>
+                    <li>Lifetime Access</li>
+                    <li>Unlimited Everything</li>
+                    <li>Direct Access to Kaleb</li>
+                </ul>
+                <button class="btn" onclick="buyService('training', 'Supreme', 397000)">Purchase Now</button>
             </div>
         </div>
     </section>
 
-    <section class="email-capture">
-        <h2 style="font-size: 2rem; margin-bottom: 1rem;">Get Started</h2>
-        <p>Join the AI revolution in business automation</p>
-        <form class="email-form" onsubmit="captureEmail(event)">
-            <input type="email" class="email-input" placeholder="Enter your email" required id="email-input">
-            <button type="submit" class="submit-button">Get Access</button>
-        </form>
-        <div id="email-status"></div>
+    <!-- AUTOMATION SERVICE PACKAGES -->
+    <section id="automation" class="section" style="background: rgba(255,215,0,0.05);">
+        <h2 class="section-title">🤖 Automation Service Packages</h2>
+        <div class="services-grid">
+            <div class="service-card">
+                <h3 class="service-title">Lead Generation System</h3>
+                <div class="price">$2,997/mo</div>
+                <p class="service-desc">Fully automated lead generation and qualification</p>
+                <ul class="features">
+                    <li>1000+ leads per month</li>
+                    <li>Automated scraping</li>
+                    <li>Lead qualification AI</li>
+                    <li>CRM integration</li>
+                </ul>
+                <button class="btn" onclick="buyService('automation', 'Lead Generation', 2997)">Get Started</button>
+            </div>
+            <div class="service-card">
+                <h3 class="service-title">Sales Call Bot</h3>
+                <div class="price">$1,997/mo</div>
+                <p class="service-desc">AI that calls and closes deals</p>
+                <ul class="features">
+                    <li>Unlimited calls</li>
+                    <li>Natural voice AI</li>
+                    <li>Auto follow-ups</li>
+                    <li>Deal tracking</li>
+                </ul>
+                <button class="btn" onclick="buyService('automation', 'Sales Call Bot', 1997)">Get Started</button>
+            </div>
+            <div class="service-card">
+                <h3 class="service-title">Customer Service Bot</h3>
+                <div class="price">$997/mo</div>
+                <p class="service-desc">24/7 customer support automation</p>
+                <ul class="features">
+                    <li>24/7 availability</li>
+                    <li>Multi-channel support</li>
+                    <li>Ticket management</li>
+                    <li>Knowledge base integration</li>
+                </ul>
+                <button class="btn" onclick="buyService('automation', 'Customer Service', 997)">Get Started</button>
+            </div>
+            <div class="service-card">
+                <h3 class="service-title">Email Marketing Automation</h3>
+                <div class="price">$1,497/mo</div>
+                <p class="service-desc">Complete email marketing on autopilot</p>
+                <ul class="features">
+                    <li>Unlimited emails</li>
+                    <li>AI-written copy</li>
+                    <li>Segmentation</li>
+                    <li>A/B testing</li>
+                </ul>
+                <button class="btn" onclick="buyService('automation', 'Email Marketing', 1497)">Get Started</button>
+            </div>
+            <div class="service-card">
+                <h3 class="service-title">Lead Funnel Builder</h3>
+                <div class="price">$3,997</div>
+                <p class="service-desc">Complete sales funnel built and optimized</p>
+                <ul class="features">
+                    <li>Landing pages</li>
+                    <li>Email sequences</li>
+                    <li>Payment integration</li>
+                    <li>Analytics dashboard</li>
+                </ul>
+                <button class="btn" onclick="buyService('automation', 'Funnel Builder', 3997)">Build My Funnel</button>
+            </div>
+            <div class="service-card">
+                <h3 class="service-title">SMS Marketing System</h3>
+                <div class="price">$897/mo</div>
+                <p class="service-desc">Automated SMS campaigns</p>
+                <ul class="features">
+                    <li>10,000 SMS/month</li>
+                    <li>AI personalization</li>
+                    <li>2-way conversations</li>
+                    <li>Campaign analytics</li>
+                </ul>
+                <button class="btn" onclick="buyService('automation', 'SMS Marketing', 897)">Get Started</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- REAL ESTATE WHOLESALING -->
+    <section id="realty" class="section">
+        <h2 class="section-title">🏠 Real Estate Wholesaling</h2>
+        <div class="services-grid">
+            <div class="service-card">
+                <h3 class="service-title">Property Analyzer</h3>
+                <div class="price">$497/mo</div>
+                <p class="service-desc">AI analyzes 1000+ properties daily</p>
+                <ul class="features">
+                    <li>MLS scraping</li>
+                    <li>ARV calculations</li>
+                    <li>Repair cost estimates</li>
+                    <li>Profit margin analysis</li>
+                </ul>
+                <button class="btn" onclick="buyService('realty', 'Property Analyzer', 497)">Start Analyzing</button>
+            </div>
+            <div class="service-card">
+                <h3 class="service-title">Deal Finder Pro</h3>
+                <div class="price">$1,997/mo</div>
+                <p class="service-desc">Zero-investment wholesale deals delivered</p>
+                <ul class="features">
+                    <li>5-10 deals per month</li>
+                    <li>Buyer matching</li>
+                    <li>Contract automation</li>
+                    <li>No money down</li>
+                </ul>
+                <button class="btn" onclick="buyService('realty', 'Deal Finder Pro', 1997)">Find Deals</button>
+            </div>
+            <div class="service-card">
+                <h3 class="service-title">Complete Wholesaling System</h3>
+                <div class="price">$4,997/mo</div>
+                <p class="service-desc">Full autonomous wholesaling operation</p>
+                <ul class="features">
+                    <li>Unlimited property analysis</li>
+                    <li>Automated offers</li>
+                    <li>Buyer network access</li>
+                    <li>Full deal management</li>
+                </ul>
+                <button class="btn" onclick="buyService('realty', 'Complete Wholesaling', 4997)">Go Full Auto</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- BUILD SERVICES -->
+    <section id="builders" class="section" style="background: rgba(255,215,0,0.05);">
+        <h2 class="section-title">🛠️ Custom Build Services</h2>
+        <div class="services-grid">
+            <div class="service-card">
+                <h3 class="service-title">Website Builder</h3>
+                <div class="price">$2,997</div>
+                <p class="service-desc">AI builds your complete website</p>
+                <ul class="features">
+                    <li>Custom design</li>
+                    <li>Mobile responsive</li>
+                    <li>SEO optimized</li>
+                    <li>30-day support</li>
+                </ul>
+                <button class="btn" onclick="buyService('builder', 'Website', 2997)">Build Website</button>
+            </div>
+            <div class="service-card">
+                <h3 class="service-title">Mobile App Builder</h3>
+                <div class="price">$9,997</div>
+                <p class="service-desc">iOS + Android app built</p>
+                <ul class="features">
+                    <li>Native iOS & Android</li>
+                    <li>App Store deployment</li>
+                    <li>Backend included</li>
+                    <li>90-day support</li>
+                </ul>
+                <button class="btn" onclick="buyService('builder', 'Mobile App', 9997)">Build App</button>
+            </div>
+            <div class="service-card">
+                <h3 class="service-title">API Builder</h3>
+                <div class="price">$4,997</div>
+                <p class="service-desc">Custom API for your business</p>
+                <ul class="features">
+                    <li>RESTful API</li>
+                    <li>Documentation</li>
+                    <li>Authentication</li>
+                    <li>Hosting included</li>
+                </ul>
+                <button class="btn" onclick="buyService('builder', 'API', 4997)">Build API</button>
+            </div>
+            <div class="service-card">
+                <h3 class="service-title">CRM System</h3>
+                <div class="price">$7,997</div>
+                <p class="service-desc">Complete custom CRM</p>
+                <ul class="features">
+                    <li>Lead management</li>
+                    <li>Pipeline tracking</li>
+                    <li>Email integration</li>
+                    <li>Custom workflows</li>
+                </ul>
+                <button class="btn" onclick="buyService('builder', 'CRM', 7997)">Build CRM</button>
+            </div>
+            <div class="service-card">
+                <h3 class="service-title">E-Commerce Platform</h3>
+                <div class="price">$12,997</div>
+                <p class="service-desc">Full online store</p>
+                <ul class="features">
+                    <li>Product catalog</li>
+                    <li>Payment processing</li>
+                    <li>Inventory management</li>
+                    <li>Marketing tools</li>
+                </ul>
+                <button class="btn" onclick="buyService('builder', 'E-Commerce', 12997)">Build Store</button>
+            </div>
+            <div class="service-card">
+                <h3 class="service-title">SMTP Email System</h3>
+                <div class="price">$1,997</div>
+                <p class="service-desc">Your own email server</p>
+                <ul class="features">
+                    <li>Unlimited sending</li>
+                    <li>Domain setup</li>
+                    <li>SPF/DKIM config</li>
+                    <li>Deliverability optimization</li>
+                </ul>
+                <button class="btn" onclick="buyService('builder', 'SMTP', 1997)">Build SMTP</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- DIY SYSTEMS -->
+    <section id="diy" class="section">
+        <h2 class="section-title">⚙️ DIY System Packages</h2>
+        <div class="services-grid">
+            <div class="service-card">
+                <h3 class="service-title">DIY Everything Package</h3>
+                <div class="price">$97,000</div>
+                <p class="service-desc">Own EVERYTHING - no dependencies</p>
+                <ul class="features">
+                    <li>Your own email servers</li>
+                    <li>Your own VoIP system</li>
+                    <li>Your own cloud infrastructure</li>
+                    <li>Your own payment gateway</li>
+                    <li>Your own everything</li>
+                </ul>
+                <button class="btn" onclick="buyService('diy', 'Everything', 97000)">Own Everything</button>
+            </div>
+            <div class="service-card">
+                <h3 class="service-title">Code Converter</h3>
+                <div class="price">$997</div>
+                <p class="service-desc">Convert any code to any language</p>
+                <ul class="features">
+                    <li>50+ languages</li>
+                    <li>Instant conversion</li>
+                    <li>Optimization included</li>
+                    <li>Unlimited conversions</li>
+                </ul>
+                <button class="btn" onclick="buyService('diy', 'Code Converter', 997)">Get Converter</button>
+            </div>
+            <div class="service-card">
+                <h3 class="service-title">Mind Mastery Platform</h3>
+                <div class="price">$47/assessment</div>
+                <p class="service-desc">350+ intelligence assessments</p>
+                <ul class="features">
+                    <li>IQ testing</li>
+                    <li>Personality assessment</li>
+                    <li>Career matching</li>
+                    <li>Detailed reports</li>
+                </ul>
+                <button class="btn" onclick="buyService('diy', 'Assessment', 47)">Take Assessment</button>
+            </div>
+        </div>
     </section>
 
     <script>
-        // SKA Credits live counter
-        function updateCredits() {
-            const genesis = new Date('2024-07-01T00:00:00Z');
-            const now = new Date();
-            const seconds = Math.floor((now - genesis) / 1000);
-            document.getElementById('credits-counter').textContent = seconds.toLocaleString();
-        }
-        setInterval(updateCredits, 1000);
-        updateCredits();
-
-        // Square Payments
-        let payments;
-        async function initSquare() {
-            try {
-                payments = Square.payments('sandbox-sq0idb-xGWPpe39FkjkflL23DHgDQ', 'LCX039E7QRA5G');
-            } catch (e) {
-                console.error('Square init error:', e);
-            }
-        }
-        initSquare();
-
-        async function buyProgram(name, amount, productId) {
-            const button = event.target;
-            button.disabled = true;
-            button.textContent = 'Processing...';
-            
-            try {
-                const response = await fetch('https://saleskingacademy.com/.netlify/functions/process-payment', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        productName: name,
-                        amount: amount * 100,
-                        productId: productId
-                    })
-                });
-                
-                const data = await response.json();
-                
-                if (data.success) {
-                    showStatus('✅ Payment Successful! Check your email.', 'success');
-                    setTimeout(() => window.location.href = '/thank-you', 2000);
-                } else {
-                    showStatus('❌ Payment failed. Please try again.', 'error');
-                }
-            } catch (error) {
-                showStatus('❌ Error: ' + error.message, 'error');
-            } finally {
-                button.disabled = false;
-                button.textContent = 'Purchase Now';
-            }
-        }
-
-        async function captureEmail(e) {
-            e.preventDefault();
-            const email = document.getElementById('email-input').value;
-            const statusDiv = document.getElementById('email-status');
-            
-            try {
-                const response = await fetch('https://saleskingacademy.com/.netlify/functions/crm-system', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        action: 'capture_lead',
-                        email: email,
-                        source: 'website'
-                    })
-                });
-                
-                const data = await response.json();
-                statusDiv.innerHTML = '<p style="color: #4CAF50; margin-top: 1rem;">✅ Success! Check your email.</p>';
-                document.getElementById('email-input').value = '';
-            } catch (error) {
-                statusDiv.innerHTML = '<p style="color: #ff4444; margin-top: 1rem;">❌ Error. Please try again.</p>';
-            }
-        }
-
-        function showStatus(message, type) {
-            const status = document.getElementById('payment-status');
-            status.textContent = message;
-            status.style.display = 'block';
-            status.style.borderColor = type === 'success' ? '#4CAF50' : '#ff4444';
-            setTimeout(() => status.style.display = 'none', 5000);
+        function buyService(category, name, price) {
+            // Send to backend API
+            fetch('https://saleskingacademy.com/.netlify/functions/process-payment', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    category: category,
+                    service: name,
+                    amount: price * 100
+                })
+            }).then(response => response.json())
+              .then(data => {
+                  if (data.success) {
+                      alert('✅ Purchase successful! Check your email.');
+                      window.location.href = '/thank-you';
+                  } else {
+                      alert('❌ Payment failed. Please try again.');
+                  }
+              });
         }
     </script>
 </body>
