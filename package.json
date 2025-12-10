@@ -4,6 +4,7 @@
   "description": "Sales King Academy - 100% Autonomous AI Revenue System",
   "dependencies": {
     "square": "^40.1.0",
-    "node-fetch": "^2.7.0"
+    "node-fetch": "^2.7.0",
+    "pg": "^8.11.3"
   }
 }
