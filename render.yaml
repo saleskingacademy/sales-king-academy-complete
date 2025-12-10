@@ -7,14 +7,8 @@ services:
     plan: free
     branch: main
     buildCommand: pip install -r requirements.txt
-    startCommand: uvicorn ska_live_service:app --host 0.0.0.0 --port $PORT
+    startCommand: gunicorn app:app --bind 0.0.0.0:$PORT --workers 1 --timeout 120
     envVars:
-      - key: AUTONOMOUS_ENABLED
-        value: "true"
-      - key: CYCLE_INTERVAL_HOURS
-        value: "1"
-      - key: LEADS_PER_CYCLE
-        value: "100"
       - key: PORT
         value: "10000"
       - key: ANTHROPIC_API_KEY
