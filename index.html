@@ -3,19 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sales King Academy | Complete System</title>
+    <title>Sales King Academy - Complete System</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://sandbox.web.squarecdn.com/v1/square.js"></script>
-    <style>
-        @keyframes mint { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
-        .mint-pulse { animation: mint 1s infinite; }
-    </style>
 </head>
 <body class="bg-gray-900 text-white">
-    <header class="bg-gradient-to-r from-purple-900 to-purple-600 p-6">
+    <header class="bg-gradient-to-r from-purple-900 to-purple-600 p-6 sticky top-0 z-50">
         <div class="container mx-auto flex justify-between items-center">
             <h1 class="text-3xl font-bold">Sales King Academy</h1>
-            <div id="clock" class="font-mono text-xl"></div>
+            <div id="clock" class="font-mono"></div>
         </div>
     </header>
 
@@ -23,87 +19,130 @@
         <section class="mb-12 text-center">
             <div class="bg-gray-800 rounded-2xl p-12">
                 <h2 class="text-4xl font-bold mb-4">SKA Credits Minting</h2>
-                <div class="mint-pulse">
-                    <div id="credits" class="text-7xl font-bold text-green-400"></div>
-                    <div class="text-2xl text-gray-400 mt-2">$1 USD Each</div>
-                </div>
+                <div id="credits" class="text-7xl font-bold text-green-400"></div>
             </div>
         </section>
 
         <section class="mb-12">
             <h2 class="text-4xl font-bold mb-8 text-center">Training Programs</h2>
-            <div class="grid md:grid-cols-4 gap-6">
-                <div class="bg-gray-800 rounded-xl p-6">
-                    <h3 class="text-2xl font-bold mb-4">Starter</h3>
-                    <div class="text-4xl font-bold text-green-400 mb-4">$5,497</div>
-                    <button onclick="buy('UW3HDGP25NXACRCASR33YYO2')" class="w-full bg-purple-600 hover:bg-purple-700 py-3 rounded-lg font-bold">Buy Now</button>
-                </div>
-                <div class="bg-gray-800 rounded-xl p-6">
-                    <h3 class="text-2xl font-bold mb-4">Professional</h3>
-                    <div class="text-4xl font-bold text-blue-400 mb-4">$14,970</div>
-                    <button onclick="buy('FC5OPWI7UXROKXC4UMZSKTZO')" class="w-full bg-purple-600 hover:bg-purple-700 py-3 rounded-lg font-bold">Buy Now</button>
-                </div>
-                <div class="bg-gray-800 rounded-xl p-6">
-                    <h3 class="text-2xl font-bold mb-4">Elite</h3>
-                    <div class="text-4xl font-bold text-purple-400 mb-4">$49,700</div>
-                    <button onclick="buy('FKN4CDVKGA6BFIVJZJXKGSSN')" class="w-full bg-purple-600 hover:bg-purple-700 py-3 rounded-lg font-bold">Buy Now</button>
-                </div>
-                <div class="bg-gray-800 rounded-xl p-6 border-2 border-yellow-500">
-                    <h3 class="text-2xl font-bold mb-4">Royal Elite</h3>
-                    <div class="text-4xl font-bold text-yellow-400 mb-4">$397,000</div>
-                    <button onclick="buy('VULINPSK43NYY3YNORTXYKPP')" class="w-full bg-yellow-600 hover:bg-yellow-700 py-3 rounded-lg font-bold">Buy Now</button>
-                </div>
-            </div>
+            <div class="grid md:grid-cols-4 gap-6" id="products"></div>
         </section>
-
-        <div id="payment-form" style="display:none;" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center p-4">
-            <div class="bg-gray-800 rounded-xl p-8 max-w-md w-full">
-                <h3 class="text-2xl font-bold mb-4">Complete Purchase</h3>
-                <div id="card-container"></div>
-                <button id="card-button" class="w-full bg-green-600 hover:bg-green-700 py-3 rounded-lg font-bold mt-4">Pay Now</button>
-                <button onclick="document.getElementById('payment-form').style.display='none'" class="w-full bg-gray-600 hover:bg-gray-700 py-3 rounded-lg font-bold mt-2">Cancel</button>
-            </div>
-        </div>
     </main>
+
+    <div id="payment-modal" class="hidden fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center p-4">
+        <div class="bg-gray-800 rounded-xl p-8 max-w-md w-full">
+            <h3 class="text-2xl font-bold mb-4">Complete Purchase</h3>
+            <input type="email" id="buyer-email" placeholder="Email" class="w-full p-3 rounded bg-gray-700 mb-4">
+            <div id="card-container" class="mb-4"></div>
+            <button id="pay-button" class="w-full bg-green-600 hover:bg-green-700 py-3 rounded-lg font-bold">Pay Now</button>
+            <button onclick="closeModal()" class="w-full bg-gray-600 hover:bg-gray-700 py-3 rounded-lg font-bold mt-2">Cancel</button>
+            <div id="payment-status" class="mt-4 hidden"></div>
+        </div>
+    </div>
 
     <script>
         const GENESIS = 1719792000;
+        const SQUARE_APP_ID = 'sandbox-sq0idb-lTCHJKvY5g6PQx5UHvGPkw';
         const LOCATION_ID = 'LCX039E7QRA5G';
-        let payments, card;
+        
+        const products = [
+            { id: 'UW3HDGP25NXACRCASR33YYO2', name: 'Starter', price: 549700, display: '$5,497' },
+            { id: 'FC5OPWI7UXROKXC4UMZSKTZO', name: 'Professional', price: 1497000, display: '$14,970' },
+            { id: 'FKN4CDVKGA6BFIVJZJXKGSSN', name: 'Elite', price: 4970000, display: '$49,700' },
+            { id: 'VULINPSK43NYY3YNORTXYKPP', name: 'Royal Elite', price: 39700000, display: '$397,000' }
+        ];
+
+        let payments, card, selectedProduct;
 
         async function initSquare() {
-            if (!window.Square) return;
-            payments = window.Square.payments('sandbox-sq0idb-lTCHJKvY5g6PQx5UHvGPkw', LOCATION_ID);
+            payments = window.Square.payments(SQUARE_APP_ID, LOCATION_ID);
             card = await payments.card();
             await card.attach('#card-container');
         }
 
-        async function buy(itemId) {
-            document.getElementById('payment-form').style.display = 'flex';
-            const btn = document.getElementById('card-button');
-            btn.onclick = async () => {
-                const result = await card.tokenize();
-                if (result.status === 'OK') {
-                    alert('Payment successful! Token: ' + result.token);
-                    document.getElementById('payment-form').style.display = 'none';
-                }
-            };
+        function renderProducts() {
+            const grid = document.getElementById('products');
+            grid.innerHTML = products.map(p => `
+                <div class="bg-gray-800 rounded-xl p-6">
+                    <h3 class="text-2xl font-bold mb-4">${p.name}</h3>
+                    <div class="text-4xl font-bold text-green-400 mb-4">${p.display}</div>
+                    <button onclick="openPayment('${p.id}')" class="w-full bg-purple-600 hover:bg-purple-700 py-3 rounded-lg font-bold">Buy Now</button>
+                </div>
+            `).join('');
         }
 
+        function openPayment(productId) {
+            selectedProduct = products.find(p => p.id === productId);
+            document.getElementById('payment-modal').classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('payment-modal').classList.add('hidden');
+        }
+
+        document.getElementById('pay-button').addEventListener('click', async () => {
+            const statusEl = document.getElementById('payment-status');
+            const email = document.getElementById('buyer-email').value;
+            
+            if (!email) {
+                statusEl.className = 'mt-4 p-3 bg-red-600 rounded';
+                statusEl.textContent = 'Please enter email';
+                statusEl.classList.remove('hidden');
+                return;
+            }
+
+            try {
+                const result = await card.tokenize();
+                if (result.status !== 'OK') {
+                    throw new Error(result.errors?.[0]?.message || 'Tokenization failed');
+                }
+
+                const response = await fetch('/.netlify/functions/payment', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        sourceId: result.token,
+                        itemId: selectedProduct.id,
+                        amount: selectedProduct.price,
+                        email: email
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    statusEl.className = 'mt-4 p-3 bg-green-600 rounded';
+                    statusEl.textContent = 'Payment successful! Check your email for receipt.';
+                    statusEl.classList.remove('hidden');
+                    setTimeout(() => {
+                        closeModal();
+                        statusEl.classList.add('hidden');
+                    }, 3000);
+                } else {
+                    throw new Error(data.error);
+                }
+
+            } catch (error) {
+                statusEl.className = 'mt-4 p-3 bg-red-600 rounded';
+                statusEl.textContent = 'Payment failed: ' + error.message;
+                statusEl.classList.remove('hidden');
+            }
+        });
+
         function updateCredits() {
-            const now = Math.floor(Date.now() / 1000);
-            const credits = now - GENESIS;
+            const credits = Math.floor(Date.now() / 1000) - GENESIS;
             document.getElementById('credits').textContent = credits.toLocaleString();
         }
 
         function updateClock() {
-            document.getElementById('clock').textContent = new Date().toISOString().slice(0, 19).replace('T', ' ') + ' UTC';
+            document.getElementById('clock').textContent = new Date().toISOString().slice(0, 19).replace('T', ' ');
         }
 
         setInterval(updateCredits, 1000);
         setInterval(updateClock, 1000);
         updateCredits();
         updateClock();
+        renderProducts();
         initSquare();
     </script>
 </body>
