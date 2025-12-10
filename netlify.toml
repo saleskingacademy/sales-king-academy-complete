@@ -1,13 +1,6 @@
 [build]
+  command = "echo 'Static site ready'"
   publish = "."
-  functions = "netlify/functions"
-
-[build.environment]
-  NODE_VERSION = "20"
-
-[functions]
-  node_bundler = "esbuild"
-  external_node_modules = ["square"]
 
 [[redirects]]
   from = "/*"
