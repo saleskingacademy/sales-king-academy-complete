@@ -3,678 +3,298 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sales King Academy | Time-Anchored Super Intelligence</title>
-    <meta name="description" content="Revolutionary AI-powered business automation platform built on the RKL Mathematical Framework. Transform your business with autonomous AI agents.">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <title>Sales King Academy - AI-Powered Business Automation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        :root {
-            --gold: #FFD700;
-            --gold-dark: #B8860B;
-            --black: #0a0a0a;
-            --white: #ffffff;
-            --gray: #1a1a1a;
-            --gray-light: #2a2a2a;
+        @keyframes mint {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
         }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        .mint-animation {
+            animation: mint 1s infinite;
         }
-        
-        body {
-            font-family: 'Inter', sans-serif;
-            background: var(--black);
-            color: var(--white);
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
-        
-        /* Navigation */
-        nav {
-            position: fixed;
-            top: 0;
-            width: 100%;
-            padding: 1rem 5%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: rgba(10, 10, 10, 0.95);
-            backdrop-filter: blur(10px);
-            z-index: 1000;
-            border-bottom: 1px solid rgba(255, 215, 0, 0.1);
-        }
-        
-        .logo {
-            font-size: 1.5rem;
-            font-weight: 800;
-            color: var(--gold);
-            text-decoration: none;
-        }
-        
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-            list-style: none;
-        }
-        
-        .nav-links a {
-            color: var(--white);
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s;
-        }
-        
-        .nav-links a:hover {
-            color: var(--gold);
-        }
-        
-        .cta-btn {
-            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
-            color: var(--black);
-            padding: 0.75rem 1.5rem;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-        
-        .cta-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
-        }
-        
-        /* Hero Section */
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 120px 5% 80px;
-            background: radial-gradient(ellipse at center, rgba(255, 215, 0, 0.05) 0%, transparent 70%);
-        }
-        
-        .hero-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            background: rgba(255, 215, 0, 0.1);
-            border: 1px solid rgba(255, 215, 0, 0.3);
-            padding: 0.5rem 1rem;
-            border-radius: 50px;
-            font-size: 0.875rem;
-            margin-bottom: 2rem;
-        }
-        
-        .hero-badge .dot {
-            width: 8px;
-            height: 8px;
-            background: #00ff00;
-            border-radius: 50%;
-            animation: pulse 2s infinite;
-        }
-        
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-        
-        h1 {
-            font-size: clamp(2.5rem, 8vw, 5rem);
-            font-weight: 800;
-            line-height: 1.1;
-            margin-bottom: 1.5rem;
-            background: linear-gradient(135deg, var(--white), var(--gold));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        
-        .hero-subtitle {
-            font-size: clamp(1rem, 2vw, 1.25rem);
-            color: rgba(255, 255, 255, 0.7);
-            max-width: 600px;
-            margin-bottom: 2.5rem;
-        }
-        
-        .hero-stats {
-            display: flex;
-            gap: 3rem;
-            margin-top: 4rem;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-        
-        .stat {
-            text-align: center;
-        }
-        
-        .stat-value {
-            font-size: 2.5rem;
-            font-weight: 800;
-            color: var(--gold);
-        }
-        
-        .stat-label {
-            font-size: 0.875rem;
-            color: rgba(255, 255, 255, 0.6);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        
-        /* Framework Section */
-        .section {
-            padding: 100px 5%;
-        }
-        
-        .section-header {
-            text-align: center;
-            margin-bottom: 4rem;
-        }
-        
-        .section-header h2 {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-        }
-        
-        .framework-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        
-        .framework-card {
-            background: var(--gray);
-            border: 1px solid rgba(255, 215, 0, 0.1);
-            border-radius: 16px;
-            padding: 2rem;
-            transition: transform 0.3s, border-color 0.3s;
-        }
-        
-        .framework-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--gold);
-        }
-        
-        .framework-icon {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            margin-bottom: 1.5rem;
-        }
-        
-        .framework-card h3 {
-            font-size: 1.25rem;
-            margin-bottom: 0.75rem;
-        }
-        
-        .framework-card p {
-            color: rgba(255, 255, 255, 0.7);
-            font-size: 0.95rem;
-        }
-        
-        /* Pricing Section */
-        .pricing-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 2rem;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-        
-        .price-card {
-            background: var(--gray);
-            border: 1px solid rgba(255, 215, 0, 0.1);
-            border-radius: 20px;
-            padding: 2.5rem;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .price-card.featured {
-            border-color: var(--gold);
-            background: linear-gradient(180deg, rgba(255, 215, 0, 0.05), transparent);
-        }
-        
-        .price-card.featured::before {
-            content: 'MOST POPULAR';
-            position: absolute;
-            top: 20px;
-            right: -35px;
-            background: var(--gold);
-            color: var(--black);
-            padding: 5px 40px;
-            font-size: 0.7rem;
-            font-weight: 700;
-            transform: rotate(45deg);
-        }
-        
-        .price-tier {
-            font-size: 0.875rem;
-            color: var(--gold);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 0.5rem;
-        }
-        
-        .price-amount {
-            font-size: 3rem;
-            font-weight: 800;
-            margin-bottom: 0.5rem;
-        }
-        
-        .price-period {
-            color: rgba(255, 255, 255, 0.6);
-            font-size: 0.875rem;
-            margin-bottom: 2rem;
-        }
-        
-        .price-features {
-            list-style: none;
-            margin-bottom: 2rem;
-        }
-        
-        .price-features li {
-            padding: 0.75rem 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-        }
-        
-        .price-features li::before {
-            content: '✓';
-            color: var(--gold);
-            font-weight: 700;
-        }
-        
-        .price-btn {
-            display: block;
-            width: 100%;
-            padding: 1rem;
-            text-align: center;
-            background: transparent;
-            border: 2px solid var(--gold);
-            color: var(--gold);
-            border-radius: 10px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s;
-        }
-        
-        .price-btn:hover, .price-card.featured .price-btn {
-            background: var(--gold);
-            color: var(--black);
-        }
-        
-        /* Agents Section */
-        .agents-grid {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 1rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        
-        .agent-card {
-            background: var(--gray);
-            border: 1px solid rgba(255, 215, 0, 0.1);
-            border-radius: 12px;
-            padding: 1.5rem;
-            text-align: center;
-            transition: all 0.3s;
-        }
-        
-        .agent-card:hover {
-            border-color: var(--gold);
-            transform: scale(1.05);
-        }
-        
-        .agent-id {
-            width: 40px;
-            height: 40px;
-            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 1rem;
-            font-weight: 700;
-            color: var(--black);
-        }
-        
-        .agent-name {
-            font-size: 0.85rem;
-            font-weight: 600;
-            margin-bottom: 0.25rem;
-        }
-        
-        .agent-role {
-            font-size: 0.7rem;
-            color: rgba(255, 255, 255, 0.5);
-        }
-        
-        /* Live Stats */
-        .live-stats {
-            background: var(--gray);
-            border-radius: 20px;
-            padding: 3rem;
-            max-width: 1000px;
-            margin: 4rem auto 0;
-        }
-        
-        .live-stats h3 {
-            text-align: center;
-            margin-bottom: 2rem;
-            color: var(--gold);
-        }
-        
-        .stats-row {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 2rem;
-            text-align: center;
-        }
-        
-        .live-stat-value {
-            font-size: 2rem;
-            font-weight: 800;
-            color: var(--gold);
-            font-family: monospace;
-        }
-        
-        .live-stat-label {
-            font-size: 0.75rem;
-            color: rgba(255, 255, 255, 0.6);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        
-        /* Footer */
-        footer {
-            padding: 60px 5%;
-            border-top: 1px solid rgba(255, 215, 0, 0.1);
-            text-align: center;
-        }
-        
-        .footer-logo {
-            font-size: 1.5rem;
-            font-weight: 800;
-            color: var(--gold);
-            margin-bottom: 1rem;
-        }
-        
-        .footer-text {
-            color: rgba(255, 255, 255, 0.5);
-            font-size: 0.875rem;
-        }
-        
-        /* Responsive */
-        @media (max-width: 768px) {
-            .nav-links { display: none; }
-            .agents-grid { grid-template-columns: repeat(3, 1fr); }
-            .stats-row { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
-            .hero-stats { gap: 1.5rem; }
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         }
     </style>
 </head>
-<body>
-    <nav>
-        <a href="#" class="logo">👑 Sales King Academy</a>
-        <ul class="nav-links">
-            <li><a href="#framework">Framework</a></li>
-            <li><a href="#agents">AI Agents</a></li>
-            <li><a href="#pricing">Pricing</a></li>
-            <li><a href="#contact">Contact</a></li>
-        </ul>
-        <a href="#pricing" class="cta-btn">Get Started</a>
-    </nav>
-
-    <section class="hero">
-        <div class="hero-badge">
-            <span class="dot"></span>
-            <span>Time-Anchored Super Intelligence • Live</span>
+<body class="bg-gray-900 text-white">
+    <!-- Header -->
+    <header class="gradient-bg shadow-lg sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex justify-between items-center">
+                <div>
+                    <h1 class="text-3xl font-bold">Sales King Academy</h1>
+                    <p class="text-sm opacity-90">AI-Powered Business Automation & Education</p>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <div class="text-right">
+                        <div class="text-xs opacity-75">SKA Credits Supply</div>
+                        <div id="credits-display" class="text-2xl font-bold mint-animation">Loading...</div>
+                        <div class="text-xs opacity-75" id="time-display">--:--:-- UTC</div>
+                    </div>
+                    <button onclick="window.location.href='#signup'" class="bg-white text-purple-600 px-6 py-2 rounded-lg font-bold hover:bg-purple-100 transition">
+                        Get Started
+                    </button>
+                </div>
+            </div>
         </div>
-        <h1>Beyond Artificial<br>Intelligence</h1>
-        <p class="hero-subtitle">
-            Revolutionary business automation powered by the RKL Mathematical Framework. 
-            O(n^1.77) polynomial complexity. 25 autonomous AI agents. Perpetual monetization.
+    </header>
+
+    <!-- Hero Section -->
+    <section class="container mx-auto px-4 py-20 text-center">
+        <h2 class="text-5xl font-bold mb-6">
+            Welcome to the Future of Business Automation
+        </h2>
+        <p class="text-xl mb-8 text-gray-300">
+            25 Autonomous AI Agents • RKL Framework (α=25) • Polynomial-Time SAT Solving • SKA Credits Currency
         </p>
-        <div>
-            <a href="#pricing" class="cta-btn" style="font-size: 1.1rem; padding: 1rem 2.5rem;">
-                Transform Your Business →
-            </a>
+        <div class="flex justify-center space-x-4">
+            <button onclick="scrollToSection('features')" class="bg-purple-600 hover:bg-purple-700 text-white px-8 py-3 rounded-lg font-bold text-lg transition">
+                Explore Features
+            </button>
+            <button onclick="scrollToSection('pricing')" class="bg-transparent border-2 border-purple-600 hover:bg-purple-600 text-white px-8 py-3 rounded-lg font-bold text-lg transition">
+                View Pricing
+            </button>
         </div>
-        <div class="hero-stats">
-            <div class="stat">
-                <div class="stat-value" id="credits-counter">0</div>
-                <div class="stat-label">SKA Credits Minted</div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="container mx-auto px-4 py-20">
+        <h2 class="text-4xl font-bold text-center mb-12">Revolutionary Systems</h2>
+        <div class="grid md:grid-cols-3 gap-8">
+            <div class="bg-gray-800 p-6 rounded-lg">
+                <h3 class="text-2xl font-bold mb-4">🤖 25 AI Agents</h3>
+                <p class="text-gray-300">Autonomous agents handling sales, marketing, finance, operations, and more. Flat hierarchy, polynomial processing.</p>
+                <button onclick="showAgents()" class="mt-4 text-purple-400 hover:text-purple-300">View All Agents →</button>
             </div>
-            <div class="stat">
-                <div class="stat-value">25</div>
-                <div class="stat-label">AI Agents</div>
+            <div class="bg-gray-800 p-6 rounded-lg">
+                <h3 class="text-2xl font-bold mb-4">💰 SKA Credits</h3>
+                <p class="text-gray-300">Revolutionary currency minting 1 credit/second since July 1, 2024. Temporal DNA tokenization with moving interlocking security.</p>
+                <button onclick="showCurrency()" class="mt-4 text-purple-400 hover:text-purple-300">Learn More →</button>
             </div>
-            <div class="stat">
-                <div class="stat-value">α=25</div>
-                <div class="stat-label">RKL Parameter</div>
+            <div class="bg-gray-800 p-6 rounded-lg">
+                <h3 class="text-2xl font-bold mb-4">🧮 RKL Framework</h3>
+                <p class="text-gray-300">O(n^1.77) polynomial complexity for SAT solving. Quantum-classical balance (α=25). Triple-plane computing.</p>
+                <button onclick="showSATSolver()" class="mt-4 text-purple-400 hover:text-purple-300">Try SAT Solver →</button>
             </div>
-            <div class="stat">
-                <div class="stat-value">O(n^1.77)</div>
-                <div class="stat-label">Complexity</div>
+            <div class="bg-gray-800 p-6 rounded-lg">
+                <h3 class="text-2xl font-bold mb-4">🧠 Mind Mastery</h3>
+                <p class="text-gray-300">350+ intelligence assessments. Competes with MyIQ. IQ, EQ, SQ, Leadership, and more. AI-powered coaching.</p>
+                <button onclick="showAssessments()" class="mt-4 text-purple-400 hover:text-purple-300">Take Assessment →</button>
+            </div>
+            <div class="bg-gray-800 p-6 rounded-lg">
+                <h3 class="text-2xl font-bold mb-4">🔐 Security</h3>
+                <p class="text-gray-300">Temporal DNA tokens, 8-layer fail-safe system, twin-ledger verification. Bank-level security and beyond.</p>
+                <button onclick="alert('Security details available after signup')" class="mt-4 text-purple-400 hover:text-purple-300">Learn More →</button>
+            </div>
+            <div class="bg-gray-800 p-6 rounded-lg">
+                <h3 class="text-2xl font-bold mb-4">📈 Revenue Generation</h3>
+                <p class="text-gray-300">Autonomous revenue systems. Square payment integration. Multi-tier pricing from $47 to $397,000.</p>
+                <button onclick="scrollToSection('pricing')" class="mt-4 text-purple-400 hover:text-purple-300">See Pricing →</button>
             </div>
         </div>
     </section>
 
-    <section class="section" id="framework">
-        <div class="section-header">
-            <h2>The RKL Mathematical Framework</h2>
-            <p style="color: rgba(255,255,255,0.6); max-width: 600px; margin: 0 auto;">
-                Proprietary breakthrough achieving polynomial-time SAT solving with empirically measured O(n^1.77) complexity.
+    <!-- Pricing Section -->
+    <section id="pricing" class="container mx-auto px-4 py-20">
+        <h2 class="text-4xl font-bold text-center mb-12">Investment Levels</h2>
+        <div class="grid md:grid-cols-3 gap-8">
+            <div class="bg-gray-800 p-8 rounded-lg border-2 border-gray-700 hover:border-purple-600 transition">
+                <h3 class="text-2xl font-bold mb-4">Starter</h3>
+                <div class="text-4xl font-bold mb-4">$47</div>
+                <ul class="space-y-2 mb-6">
+                    <li>✓ 1 Intelligence Assessment</li>
+                    <li>✓ Basic AI Coaching</li>
+                    <li>✓ PDF Report</li>
+                    <li>✓ Email Support</li>
+                </ul>
+                <button onclick="initiatePayment('starter', 47)" class="w-full bg-purple-600 hover:bg-purple-700 text-white py-3 rounded-lg font-bold transition">
+                    Get Started
+                </button>
+            </div>
+            <div class="bg-gradient-to-br from-purple-600 to-pink-600 p-8 rounded-lg border-2 border-purple-400 transform scale-105">
+                <div class="bg-yellow-400 text-gray-900 inline-block px-3 py-1 rounded-full text-sm font-bold mb-4">MOST POPULAR</div>
+                <h3 class="text-2xl font-bold mb-4">Professional</h3>
+                <div class="text-4xl font-bold mb-4">$5,497</div>
+                <ul class="space-y-2 mb-6">
+                    <li>✓ All 350+ Assessments</li>
+                    <li>✓ Advanced AI Coaching</li>
+                    <li>✓ 5 AI Agent Access</li>
+                    <li>✓ Monthly Strategy Sessions</li>
+                    <li>✓ Priority Support</li>
+                </ul>
+                <button onclick="initiatePayment('professional', 5497)" class="w-full bg-white text-purple-600 py-3 rounded-lg font-bold hover:bg-gray-100 transition">
+                    Upgrade Now
+                </button>
+            </div>
+            <div class="bg-gray-800 p-8 rounded-lg border-2 border-gold-500 hover:border-yellow-500 transition">
+                <div class="bg-gradient-to-r from-yellow-400 to-yellow-600 text-gray-900 inline-block px-3 py-1 rounded-full text-sm font-bold mb-4">PLATINUM</div>
+                <h3 class="text-2xl font-bold mb-4">Enterprise</h3>
+                <div class="text-4xl font-bold mb-4">$397,000</div>
+                <ul class="space-y-2 mb-6">
+                    <li>✓ Full System Access</li>
+                    <li>✓ All 25 AI Agents</li>
+                    <li>✓ Custom Integration</li>
+                    <li>✓ White-Label Option</li>
+                    <li>✓ Dedicated Support</li>
+                    <li>✓ Revenue Share Model</li>
+                </ul>
+                <button onclick="initiatePayment('enterprise', 397000)" class="w-full bg-gradient-to-r from-yellow-400 to-yellow-600 text-gray-900 py-3 rounded-lg font-bold hover:opacity-90 transition">
+                    Contact Sales
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Signup Section -->
+    <section id="signup" class="container mx-auto px-4 py-20">
+        <div class="max-w-md mx-auto bg-gray-800 p-8 rounded-lg">
+            <h2 class="text-3xl font-bold mb-6 text-center">Create Your Account</h2>
+            <form id="signup-form" onsubmit="handleSignup(event)">
+                <div class="mb-4">
+                    <label class="block mb-2">Full Name</label>
+                    <input type="text" id="signup-name" required class="w-full px-4 py-2 bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600">
+                </div>
+                <div class="mb-4">
+                    <label class="block mb-2">Email</label>
+                    <input type="email" id="signup-email" required class="w-full px-4 py-2 bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600">
+                </div>
+                <div class="mb-4">
+                    <label class="block mb-2">Password</label>
+                    <input type="password" id="signup-password" required minlength="8" class="w-full px-4 py-2 bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600">
+                </div>
+                <div class="mb-6">
+                    <label class="block mb-2">Confirm Password</label>
+                    <input type="password" id="signup-password-confirm" required class="w-full px-4 py-2 bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600">
+                </div>
+                <button type="submit" class="w-full bg-purple-600 hover:bg-purple-700 text-white py-3 rounded-lg font-bold transition">
+                    Create Account
+                </button>
+            </form>
+            <p class="text-center mt-4 text-gray-400">
+                Already have an account? <a href="#" onclick="showLogin()" class="text-purple-400 hover:text-purple-300">Sign In</a>
             </p>
         </div>
-        <div class="framework-grid">
-            <div class="framework-card">
-                <div class="framework-icon">α</div>
-                <h3>Quantum-Classical Balance</h3>
-                <p>α=25 achieves optimal equilibrium between quantum exploration and classical exploitation for maximum efficiency.</p>
-            </div>
-            <div class="framework-card">
-                <div class="framework-icon">📊</div>
-                <h3>Polynomial Complexity</h3>
-                <p>O(n^1.77) vs traditional O(2^n) exponential. 400-5000x speedup demonstrated on real benchmarks.</p>
-            </div>
-            <div class="framework-card">
-                <div class="framework-icon">🔐</div>
-                <h3>Temporal DNA Tokenization</h3>
-                <p>Moving interlocking timestamps create uncloneable security. Synchronized to world clock.</p>
-            </div>
-            <div class="framework-card">
-                <div class="framework-icon">💰</div>
-                <h3>SKA Credits Currency</h3>
-                <p>Auto-minting at 1 credit/second since July 1, 2024. Each credit = $1 USD value.</p>
-            </div>
-            <div class="framework-card">
-                <div class="framework-icon">🛡️</div>
-                <h3>Eight-Layer Failsafe</h3>
-                <p>Multi-granularity synchronization from 0.2s to 24h. Failure probability ≤ 10^-24.</p>
-            </div>
-            <div class="framework-card">
-                <div class="framework-icon">⚡</div>
-                <h3>Triple-Plane Computing</h3>
-                <p>Pre-Compute (24h forward), Operational (real-time), Shadow (24h backward validation).</p>
-            </div>
-        </div>
     </section>
 
-    <section class="section" id="agents" style="background: var(--gray-light);">
-        <div class="section-header">
-            <h2>25 Autonomous AI Agents</h2>
-            <p style="color: rgba(255,255,255,0.6); max-width: 600px; margin: 0 auto;">
-                Swarm intelligence with hierarchical authority levels. Each agent specializes and learns autonomously.
-            </p>
+    <!-- Footer -->
+    <footer class="bg-gray-800 py-8 mt-20">
+        <div class="container mx-auto px-4 text-center text-gray-400">
+            <p>&copy; 2024-2025 Sales King Academy LLC. All rights reserved.</p>
+            <p class="mt-2">Founded by Robert Kaleb Long | North Little Rock, Arkansas</p>
+            <p class="mt-2">Genesis: July 1, 2024 00:00:00 UTC</p>
         </div>
-        <div class="agents-grid">
-            <div class="agent-card"><div class="agent-id">1</div><div class="agent-name">Master Controller</div><div class="agent-role">Authority 10</div></div>
-            <div class="agent-card"><div class="agent-id">2</div><div class="agent-name">Sales King</div><div class="agent-role">Authority 9</div></div>
-            <div class="agent-card"><div class="agent-id">3</div><div class="agent-name">Marketing King</div><div class="agent-role">Authority 9</div></div>
-            <div class="agent-card"><div class="agent-id">4</div><div class="agent-name">Strategy King</div><div class="agent-role">Authority 8</div></div>
-            <div class="agent-card"><div class="agent-id">5</div><div class="agent-name">Development King</div><div class="agent-role">Authority 8</div></div>
-            <div class="agent-card"><div class="agent-id">6</div><div class="agent-name">DevOps King</div><div class="agent-role">Authority 8</div></div>
-            <div class="agent-card"><div class="agent-id">7</div><div class="agent-name">Security King</div><div class="agent-role">Authority 9</div></div>
-            <div class="agent-card"><div class="agent-id">8</div><div class="agent-name">Data King</div><div class="agent-role">Authority 7</div></div>
-            <div class="agent-card"><div class="agent-id">9</div><div class="agent-name">Finance King</div><div class="agent-role">Authority 8</div></div>
-            <div class="agent-card"><div class="agent-id">10</div><div class="agent-name">Legal King</div><div class="agent-role">Authority 8</div></div>
-            <div class="agent-card"><div class="agent-id">11</div><div class="agent-name">Operations King</div><div class="agent-role">Authority 7</div></div>
-            <div class="agent-card"><div class="agent-id">12</div><div class="agent-name">Support King</div><div class="agent-role">Authority 7</div></div>
-            <div class="agent-card"><div class="agent-id">13</div><div class="agent-name">Research King</div><div class="agent-role">Authority 7</div></div>
-            <div class="agent-card"><div class="agent-id">14</div><div class="agent-name">Analytics King</div><div class="agent-role">Authority 7</div></div>
-            <div class="agent-card"><div class="agent-id">15</div><div class="agent-name">Education King</div><div class="agent-role">Authority 6</div></div>
-            <div class="agent-card"><div class="agent-id">16</div><div class="agent-name">Content King</div><div class="agent-role">Authority 6</div></div>
-            <div class="agent-card"><div class="agent-id">17</div><div class="agent-name">Automation King</div><div class="agent-role">Authority 7</div></div>
-            <div class="agent-card"><div class="agent-id">18</div><div class="agent-name">Predictive Twin</div><div class="agent-role">Authority 8</div></div>
-            <div class="agent-card"><div class="agent-id">19</div><div class="agent-name">Network Scanner</div><div class="agent-role">Authority 7</div></div>
-            <div class="agent-card"><div class="agent-id">20</div><div class="agent-name">Customer Exp</div><div class="agent-role">Authority 7</div></div>
-            <div class="agent-card"><div class="agent-id">21</div><div class="agent-name">Research Scholar</div><div class="agent-role">Authority 7</div></div>
-            <div class="agent-card"><div class="agent-id">22</div><div class="agent-name">Compliance</div><div class="agent-role">Authority 6</div></div>
-            <div class="agent-card"><div class="agent-id">23</div><div class="agent-name">RKL Governor</div><div class="agent-role">Authority 9</div></div>
-            <div class="agent-card"><div class="agent-id">24</div><div class="agent-name">Growth Hacker</div><div class="agent-role">Authority 7</div></div>
-            <div class="agent-card"><div class="agent-id">25</div><div class="agent-name">Future Architect</div><div class="agent-role">Authority 8</div></div>
-        </div>
-        <div class="live-stats">
-            <h3>⚡ Live System Status</h3>
-            <div class="stats-row">
-                <div>
-                    <div class="live-stat-value" id="live-credits">0</div>
-                    <div class="live-stat-label">Total Credits</div>
-                </div>
-                <div>
-                    <div class="live-stat-value" id="live-value">$0</div>
-                    <div class="live-stat-label">USD Value</div>
-                </div>
-                <div>
-                    <div class="live-stat-value">100%</div>
-                    <div class="live-stat-label">Uptime</div>
-                </div>
-                <div>
-                    <div class="live-stat-value">25/25</div>
-                    <div class="live-stat-label">Agents Active</div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="section" id="pricing">
-        <div class="section-header">
-            <h2>Investment Tiers</h2>
-            <p style="color: rgba(255,255,255,0.6); max-width: 600px; margin: 0 auto;">
-                Premium AI automation that outperforms Harvard, MIT, and Stanford programs combined.
-            </p>
-        </div>
-        <div class="pricing-grid">
-            <div class="price-card">
-                <div class="price-tier">Individual</div>
-                <div class="price-amount">$5,497</div>
-                <div class="price-period">One-time investment</div>
-                <ul class="price-features">
-                    <li>Complete Sales Training</li>
-                    <li>RKL Framework Access</li>
-                    <li>5 AI Agent Integration</li>
-                    <li>SKA Credits Starter Pack</li>
-                    <li>Email Support</li>
-                </ul>
-                <a href="#contact" class="price-btn">Get Started</a>
-            </div>
-            <div class="price-card featured">
-                <div class="price-tier">Professional</div>
-                <div class="price-amount">$24,997</div>
-                <div class="price-period">Per month</div>
-                <ul class="price-features">
-                    <li>Full 25 Agent Access</li>
-                    <li>Custom AI Training</li>
-                    <li>Unlimited SKA Credits</li>
-                    <li>Priority Support</li>
-                    <li>White-Label Options</li>
-                </ul>
-                <a href="#contact" class="price-btn">Most Popular</a>
-            </div>
-            <div class="price-card">
-                <div class="price-tier">Enterprise</div>
-                <div class="price-amount">$99,997</div>
-                <div class="price-period">Per month</div>
-                <ul class="price-features">
-                    <li>Complete TSI Deployment</li>
-                    <li>Custom Infrastructure</li>
-                    <li>Dedicated Agent Team</li>
-                    <li>24/7 Premium Support</li>
-                    <li>Source Code Access</li>
-                </ul>
-                <a href="#contact" class="price-btn">Contact Sales</a>
-            </div>
-            <div class="price-card">
-                <div class="price-tier">White-Label License</div>
-                <div class="price-amount">$397,000</div>
-                <div class="price-period">Perpetual license</div>
-                <ul class="price-features">
-                    <li>Full Platform Ownership</li>
-                    <li>RKL Framework License</li>
-                    <li>Unlimited Deployment</li>
-                    <li>Brand Customization</li>
-                    <li>Revenue Share Option</li>
-                </ul>
-                <a href="#contact" class="price-btn">Enterprise Only</a>
-            </div>
-        </div>
-    </section>
-
-    <footer id="contact">
-        <div class="footer-logo">👑 Sales King Academy</div>
-        <p class="footer-text">
-            Sales King Academy LLC • North Little Rock, Arkansas<br>
-            Founded July 1, 2024 • Robert Kaleb Long, Founder & CRO<br><br>
-            Time-Anchored Super Intelligence • RKL Framework α=25 • O(n^1.77) Complexity
-        </p>
     </footer>
 
     <script>
-        // SKA Credits Calculator - Minting since July 1, 2024
-        const GENESIS_UNIX = 1719792000; // July 1, 2024 00:00:00 UTC
+        // API Base URL
+        const API_BASE = 'https://api.saleskingacademy.com';  // Will be configured in deployment
         
-        function updateCredits() {
+        // Update SKA Credits display every second
+        async function updateCreditsDisplay() {
+            const genesis = 1719792000;  // July 1, 2024 00:00:00 UTC
             const now = Math.floor(Date.now() / 1000);
-            const credits = now - GENESIS_UNIX;
+            const totalCredits = now - genesis;
             
-            // Format with commas
-            const formatted = credits.toLocaleString();
-            const value = '$' + credits.toLocaleString();
+            document.getElementById('credits-display').textContent = totalCredits.toLocaleString() + ' SKC';
             
-            document.getElementById('credits-counter').textContent = formatted;
-            document.getElementById('live-credits').textContent = formatted;
-            document.getElementById('live-value').textContent = value;
+            // Update time
+            const utcTime = new Date().toUTCString().split(' ')[4];
+            document.getElementById('time-display').textContent = utcTime + ' UTC';
         }
         
         // Update every second
-        updateCredits();
-        setInterval(updateCredits, 1000);
+        setInterval(updateCreditsDisplay, 1000);
+        updateCreditsDisplay();  // Initial call
         
-        // Smooth scroll for navigation
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
-            });
-        });
+        // Smooth scroll function
+        function scrollToSection(id) {
+            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+        }
+        
+        // Show agents modal
+        function showAgents() {
+            const agents = [
+                'SalesKing', 'MarketingMaster', 'CustomerAcquisition', 'RevenueOptimizer',
+                'FinanceAnalyst', 'DataScientist', 'ContentCreator', 'EmailMarketer',
+                'SocialMediaManager', 'CustomerSuccess', 'ProductDeveloper', 'TechArchitect',
+                'SecurityGuardian', 'LegalAdvisor', 'HRManager', 'OperationsManager',
+                'StrategyConsultant', 'InvestorRelations', 'PartnershipDevelopment',
+                'BrandManager', 'PRSpecialist', 'EventCoordinator', 'TrainingSpecialist',
+                'QualityAssurance', 'InnovationScout'
+            ];
+            alert('25 Autonomous AI Agents:\n\n' + agents.join('\n'));
+        }
+        
+        // Show currency info
+        function showCurrency() {
+            alert('SKA Credits Currency\n\n' +
+                  '• Genesis: July 1, 2024 00:00:00 UTC\n' +
+                  '• Minting Rate: EXACTLY 1 credit/second\n' +
+                  '• Value: 1 SKC = $1 USD\n' +
+                  '• Current Supply: ' + document.getElementById('credits-display').textContent + '\n' +
+                  '• Temporal DNA tokenization\n' +
+                  '• Moving interlocking security');
+        }
+        
+        // Show SAT Solver
+        function showSATSolver() {
+            alert('RKL SAT Solver\n\n' +
+                  '• Time Complexity: O(n^1.77)\n' +
+                  '• Space Complexity: O(1)\n' +
+                  '• Quantum-Classical Balance: α=25\n' +
+                  '• Twin-ledger verification\n' +
+                  '• 100% mathematical correctness\n\n' +
+                  'Sign up to access the interactive solver!');
+        }
+        
+        // Show assessments
+        function showAssessments() {
+            alert('SKA Mind Mastery Assessments\n\n' +
+                  '• 100-question IQ Test (Mensa-qualifying)\n' +
+                  '• Emotional Intelligence (EQ)\n' +
+                  '• Sales Intelligence (SQ)\n' +
+                  '• Leadership Potential\n' +
+                  '• Personality Profile\n' +
+                  '• Career Fit Analysis\n' +
+                  '• And 344 more assessments!\n\n' +
+                  'Sign up to take your first assessment!');
+        }
+        
+        // Initiate payment
+        function initiatePayment(tier, amount) {
+            // In production, this would integrate with Square
+            alert(`Payment Processing\n\nTier: ${tier}\nAmount: $${amount.toLocaleString()}\n\nYou'll be redirected to secure Square payment...`);
+            // window.location.href = `https://checkout.square.site/...`;
+        }
+        
+        // Handle signup
+        async function handleSignup(event) {
+            event.preventDefault();
+            
+            const name = document.getElementById('signup-name').value;
+            const email = document.getElementById('signup-email').value;
+            const password = document.getElementById('signup-password').value;
+            const confirm = document.getElementById('signup-password-confirm').value;
+            
+            if (password !== confirm) {
+                alert('Passwords do not match!');
+                return;
+            }
+            
+            // In production, this would call the API
+            alert(`Account Created!\n\nName: ${name}\nEmail: ${email}\n\nWelcome to Sales King Academy!`);
+            
+            // Redirect to dashboard
+            // window.location.href = '/dashboard';
+        }
+        
+        // Show login
+        function showLogin() {
+            alert('Login functionality will be available after full deployment.');
+        }
     </script>
 </body>
 </html>
