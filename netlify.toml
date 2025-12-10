@@ -1,15 +1,27 @@
 [build]
-  publish = "."
-  command = "echo 'Sales King Academy Complete System Ready'"
   functions = "netlify/functions"
+  publish = "."
 
-[build.environment]
-  NODE_VERSION = "18"
+[[plugins]]
+  package = "@netlify/plugin-functions-install"
 
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
+# CRON JOBS - Run autonomous systems continuously
+[[plugins]]
+  package = "netlify-plugin-cron"
 
-[functions]
-  node_bundler = "esbuild"
+  [plugins.inputs]
+    # Lead Generation: Every 4 hours (6x/day = 600 leads)
+    - schedule = "0 */4 * * *"
+      function = "lead_generator"
+    
+    # Email Outreach: Every hour (1,000 emails/day)
+    - schedule = "0 * * * *"
+      function = "email_outreach"
+    
+    # SMS Outreach: Every 2 hours (500 SMS/day)
+    - schedule = "0 */2 * * *"
+      function = "sms_outreach"
+    
+    # Revenue Metrics: Every 15 minutes
+    - schedule = "*/15 * * * *"
+      function = "update_metrics"
