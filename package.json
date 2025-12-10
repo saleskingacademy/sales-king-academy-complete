@@ -1,7 +1,9 @@
 {
-  "name": "sales-king-academy-complete",
+  "name": "sales-king-academy",
   "version": "2.0.0",
+  "description": "Sales King Academy - 100% Autonomous AI Revenue System",
   "dependencies": {
-    "square": "^36.0.0"
+    "square": "^40.1.0",
+    "node-fetch": "^2.7.0"
   }
 }
