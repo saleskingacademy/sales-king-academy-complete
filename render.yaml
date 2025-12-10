@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: saleskingacademy-site
+    name: sales-king-academy-complete
     runtime: python
     repo: https://github.com/saleskingacademy/sales-king-academy-complete
     region: virginia
