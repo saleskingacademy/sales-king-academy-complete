@@ -317,3 +317,35 @@ if __name__ == "__main__":
     print(f"✅ AI Engine: {'Ready' if claude_client else 'Needs API key'}")
     print("="*70)
     app.run(host="0.0.0.0", port=port)
+
+@app.route('/api/purchase', methods=['POST'])
+def process_purchase():
+    """Process service purchase"""
+    data = request.json
+    
+    # Log the purchase
+    purchase_record = {
+        "id": f"SKA-{datetime.now().timestamp()}",
+        "category": data.get('category'),
+        "service": data.get('service'),
+        "amount": data.get('amount'),
+        "timestamp": datetime.now(timezone.utc).isoformat(),
+        "status": "pending"
+    }
+    
+    # In production: Process with Square
+    # For now: Simulate successful purchase
+    purchase_record["status"] = "completed"
+    purchase_record["payment_method"] = "square"
+    
+    # Trigger agent to deliver service
+    if data.get('category') == 'automation':
+        # Activate automation agents
+        agents.tasks_completed += 1
+    
+    return jsonify({
+        "success": True,
+        "purchase": purchase_record,
+        "message": f"{data.get('service')} activated successfully"
+    })
+
