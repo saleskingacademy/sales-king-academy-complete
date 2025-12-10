@@ -5,193 +5,153 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sales King Academy - Time-Anchored Super Intelligence</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+    <script src="https://cdn.anthropic.com/api/v1/sdk.js"></script>
+    <style>
+        @keyframes mint {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.8; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .mint-pulse { animation: mint 1s infinite; }
+        .gradient-bg { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+    </style>
 </head>
-<body class="bg-black text-white" x-data="{
-    credits: 0,
-    genesis: 1719792000,
-    agentsActive: 0,
-    
-    init() {
-        this.updateCredits();
-        setInterval(() => this.updateCredits(), 1000);
-        this.activateAgents();
-    },
-    
-    updateCredits() {
-        const now = Math.floor(Date.now() / 1000);
-        this.credits = now - this.genesis;
-    },
-    
-    activateAgents() {
-        let count = 0;
-        const interval = setInterval(() => {
-            if (count < 25) {
-                count++;
-                this.agentsActive = count;
-            } else {
-                clearInterval(interval);
-            }
-        }, 200);
-    }
-}">
-
-<div class="min-h-screen">
-    <!-- Header -->
-    <header class="border-b border-purple-500/30 bg-gradient-to-r from-purple-900/20 to-black p-6">
-        <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <div>
-                <h1 class="text-4xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
-                    SALES KING ACADEMY
-                </h1>
-                <p class="text-purple-300 text-sm">Time-Anchored Super Intelligence</p>
+<body class="bg-gray-900 text-white">
+    <header class="gradient-bg shadow-2xl">
+        <nav class="container mx-auto px-6 py-4">
+            <div class="flex justify-between items-center">
+                <h1 class="text-3xl font-bold">Sales King Academy</h1>
+                <div id="worldClock" class="text-xl font-mono"></div>
             </div>
-            <div class="text-right">
-                <div class="text-sm text-purple-300">SKA Credits Minted</div>
-                <div class="text-3xl font-mono text-green-400" x-text="credits.toLocaleString()"></div>
-                <div class="text-xs text-purple-400">$<span x-text="credits.toLocaleString()"></span> USD Value</div>
-            </div>
-        </div>
+        </nav>
     </header>
 
-    <!-- Hero -->
-    <section class="py-20 px-6">
-        <div class="max-w-7xl mx-auto text-center">
-            <h2 class="text-6xl font-bold mb-6">
-                <span class="bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 bg-clip-text text-transparent">
-                    The World's Most Advanced
-                </span>
-            </h2>
-            <h2 class="text-6xl font-bold mb-8">
-                <span class="bg-gradient-to-r from-blue-400 via-green-400 to-purple-400 bg-clip-text text-transparent">
-                    AI Business Automation Platform
-                </span>
-            </h2>
-            <p class="text-xl text-purple-300 mb-12 max-w-3xl mx-auto">
-                Powered by RKL Mathematical Framework (α=25) achieving O(n^1.77) polynomial complexity.
-                Featuring 25 autonomous AI agents, temporal DNA security, and SKA Credits currency.
-            </p>
-            <div class="flex gap-4 justify-center">
-                <button class="bg-purple-600 hover:bg-purple-700 px-8 py-4 rounded-lg font-bold text-lg transition">
-                    Start Free Trial
-                </button>
-                <button class="border border-purple-500 hover:bg-purple-500/10 px-8 py-4 rounded-lg font-bold text-lg transition">
-                    View Demo
-                </button>
+    <main class="container mx-auto px-6 py-12">
+        <!-- SKA Credits Display -->
+        <section class="mb-16 text-center">
+            <div class="bg-gray-800 rounded-2xl p-12 shadow-2xl">
+                <h2 class="text-4xl font-bold mb-4">SKA Credits Live Minting</h2>
+                <div class="mint-pulse">
+                    <div id="skaCredits" class="text-7xl font-bold text-green-400 mb-2"></div>
+                    <div class="text-2xl text-gray-400">Credits @ $1.00 USD Each</div>
+                </div>
+                <div class="mt-6 text-sm text-gray-500">Genesis: July 1, 2024 00:00:00 UTC</div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- 25 Agents Status -->
-    <section class="py-16 px-6 bg-gradient-to-b from-black to-purple-900/20">
-        <div class="max-w-7xl mx-auto">
-            <h3 class="text-4xl font-bold text-center mb-12">
-                <span class="bg-gradient-to-r from-green-400 to-blue-400 bg-clip-text text-transparent">
-                    25 Autonomous AI Agents
-                </span>
-            </h3>
-            <div class="text-center mb-8">
-                <div class="text-6xl font-bold text-green-400" x-text="agentsActive"></div>
-                <div class="text-purple-300">Agents Online & Operational</div>
+        <!-- 25 AI Agents Status -->
+        <section class="mb-16">
+            <h2 class="text-4xl font-bold mb-8 text-center">25 Autonomous AI Agents</h2>
+            <div id="agentsGrid" class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6"></div>
+        </section>
+
+        <!-- RKL Framework -->
+        <section class="mb-16 bg-gray-800 rounded-2xl p-12">
+            <h2 class="text-4xl font-bold mb-6">RKL Mathematical Framework</h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="text-center">
+                    <div class="text-5xl font-bold text-purple-400">α = 25</div>
+                    <div class="text-gray-400 mt-2">Balance Parameter</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-5xl font-bold text-blue-400">O(n<sup>1.77</sup>)</div>
+                    <div class="text-gray-400 mt-2">Polynomial Time</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-5xl font-bold text-green-400">390,625:1</div>
+                    <div class="text-gray-400 mt-2">Compression Ratio</div>
+                </div>
             </div>
-            <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
-                <template x-for="i in 25" :key="i">
-                    <div class="p-4 rounded-lg transition-all duration-300"
-                         :class="i <= agentsActive ? 'bg-green-500/20 border-2 border-green-500' : 'bg-gray-800/50 border border-gray-700'">
-                        <div class="text-center">
-                            <div class="text-2xl font-bold" x-text="'Agent ' + i"></div>
-                            <div class="text-sm mt-2" x-text="i <= agentsActive ? 'ACTIVE' : 'STANDBY'"
-                                 :class="i <= agentsActive ? 'text-green-400' : 'text-gray-500'"></div>
-                        </div>
+        </section>
+
+        <!-- Pricing -->
+        <section class="mb-16">
+            <h2 class="text-4xl font-bold mb-8 text-center">Investment Tiers</h2>
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="bg-gray-800 rounded-xl p-6 hover:scale-105 transition">
+                    <h3 class="text-2xl font-bold mb-4">Foundation</h3>
+                    <div class="text-4xl font-bold text-green-400 mb-4">$5,497</div>
+                    <button class="w-full bg-purple-600 hover:bg-purple-700 py-3 rounded-lg font-bold">Enroll Now</button>
+                </div>
+                <div class="bg-gray-800 rounded-xl p-6 hover:scale-105 transition">
+                    <h3 class="text-2xl font-bold mb-4">Professional</h3>
+                    <div class="text-4xl font-bold text-blue-400 mb-4">$24,997</div>
+                    <button class="w-full bg-purple-600 hover:bg-purple-700 py-3 rounded-lg font-bold">Enroll Now</button>
+                </div>
+                <div class="bg-gray-800 rounded-xl p-6 hover:scale-105 transition">
+                    <h3 class="text-2xl font-bold mb-4">Executive</h3>
+                    <div class="text-4xl font-bold text-purple-400 mb-4">$97,997</div>
+                    <button class="w-full bg-purple-600 hover:bg-purple-700 py-3 rounded-lg font-bold">Enroll Now</button>
+                </div>
+                <div class="bg-gray-800 rounded-xl p-6 hover:scale-105 transition border-2 border-yellow-500">
+                    <h3 class="text-2xl font-bold mb-4">King</h3>
+                    <div class="text-4xl font-bold text-yellow-400 mb-4">$397,000</div>
+                    <button class="w-full bg-yellow-600 hover:bg-yellow-700 py-3 rounded-lg font-bold">Apply Now</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        const GENESIS_TIMESTAMP = 1719792000; // July 1, 2024 00:00:00 UTC
+        const AGENTS = [
+            {id: 1, name: "Master Controller", auth: 10},
+            {id: 2, name: "Revenue King", auth: 9},
+            {id: 3, name: "Marketing Genius", auth: 9},
+            {id: 4, name: "Sales Closer", auth: 8},
+            {id: 5, name: "Lead Generator", auth: 8},
+            {id: 6, name: "Content Creator", auth: 8},
+            {id: 7, name: "SEO Master", auth: 7},
+            {id: 8, name: "Social Media", auth: 7},
+            {id: 9, name: "Email Specialist", auth: 7},
+            {id: 10, name: "Analytics Pro", auth: 7},
+            {id: 11, name: "CRM Manager", auth: 7},
+            {id: 12, name: "Customer Success", auth: 7},
+            {id: 13, name: "Support Agent", auth: 6},
+            {id: 14, name: "Scheduler", auth: 6},
+            {id: 15, name: "Database Admin", auth: 8},
+            {id: 16, name: "API Integrator", auth: 8},
+            {id: 17, name: "Security Chief", auth: 9},
+            {id: 18, name: "DevOps Engineer", auth: 8},
+            {id: 19, name: "QA Tester", auth: 7},
+            {id: 20, name: "Code Generator", auth: 8},
+            {id: 21, name: "Financial Analyst", auth: 8},
+            {id: 22, name: "Legal Advisor", auth: 8},
+            {id: 23, name: "HR Manager", auth: 7},
+            {id: 24, name: "Research Lead", auth: 8},
+            {id: 25, name: "Supreme CEO", auth: 10}
+        ];
+
+        function updateCredits() {
+            const now = Math.floor(Date.now() / 1000);
+            const credits = now - GENESIS_TIMESTAMP;
+            document.getElementById('skaCredits').textContent = credits.toLocaleString();
+        }
+
+        function updateWorldClock() {
+            const now = new Date();
+            document.getElementById('worldClock').textContent = now.toISOString().slice(0, 19).replace('T', ' ') + ' UTC';
+        }
+
+        function renderAgents() {
+            const grid = document.getElementById('agentsGrid');
+            grid.innerHTML = AGENTS.map(agent => `
+                <div class="bg-gray-800 rounded-lg p-4 text-center hover:bg-gray-700 transition">
+                    <div class="text-sm font-bold text-purple-400">Agent ${agent.id}</div>
+                    <div class="text-xs mt-1">${agent.name}</div>
+                    <div class="text-xs text-gray-500 mt-1">Auth: ${agent.auth}</div>
+                    <div class="mt-2 w-full h-2 bg-gray-700 rounded-full">
+                        <div class="h-full bg-green-500 rounded-full" style="width: ${Math.random() * 40 + 60}%"></div>
                     </div>
-                </template>
-            </div>
-        </div>
-    </section>
+                </div>
+            `).join('');
+        }
 
-    <!-- Core Features -->
-    <section class="py-20 px-6">
-        <div class="max-w-7xl mx-auto">
-            <h3 class="text-4xl font-bold text-center mb-16">Revolutionary Technology</h3>
-            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-                <div class="p-6 bg-gradient-to-br from-purple-900/50 to-black border border-purple-500/30 rounded-lg">
-                    <div class="text-5xl mb-4">🧮</div>
-                    <h4 class="text-xl font-bold mb-2 text-purple-300">RKL Framework</h4>
-                    <p class="text-gray-400">α=25 parameter achieving O(n^1.77) complexity on SAT solving</p>
-                </div>
-                <div class="p-6 bg-gradient-to-br from-blue-900/50 to-black border border-blue-500/30 rounded-lg">
-                    <div class="text-5xl mb-4">🧬</div>
-                    <h4 class="text-xl font-bold mb-2 text-blue-300">Temporal DNA</h4>
-                    <p class="text-gray-400">Moving interlocking timestamps - uncloneable security</p>
-                </div>
-                <div class="p-6 bg-gradient-to-br from-green-900/50 to-black border border-green-500/30 rounded-lg">
-                    <div class="text-5xl mb-4">💰</div>
-                    <h4 class="text-xl font-bold mb-2 text-green-300">SKA Credits</h4>
-                    <p class="text-gray-400">Auto-minting at 1 credit/second since July 1, 2024</p>
-                </div>
-                <div class="p-6 bg-gradient-to-br from-pink-900/50 to-black border border-pink-500/30 rounded-lg">
-                    <div class="text-5xl mb-4">🤖</div>
-                    <h4 class="text-xl font-bold mb-2 text-pink-300">25 AI Agents</h4>
-                    <p class="text-gray-400">Autonomous swarm intelligence with hierarchical authority</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Pricing -->
-    <section class="py-20 px-6 bg-gradient-to-b from-purple-900/20 to-black">
-        <div class="max-w-7xl mx-auto">
-            <h3 class="text-4xl font-bold text-center mb-16">Investment Levels</h3>
-            <div class="grid md:grid-cols-4 gap-6">
-                <div class="p-6 bg-black border-2 border-purple-500/50 rounded-lg hover:border-purple-500 transition">
-                    <div class="text-3xl font-bold mb-2 text-purple-400">$197/mo</div>
-                    <h4 class="text-xl font-bold mb-4">Starter</h4>
-                    <ul class="space-y-2 text-gray-400">
-                        <li>✓ 3 Active Agents</li>
-                        <li>✓ Basic Automation</li>
-                        <li>✓ 1000 SKA Credits</li>
-                    </ul>
-                </div>
-                <div class="p-6 bg-black border-2 border-blue-500/50 rounded-lg hover:border-blue-500 transition">
-                    <div class="text-3xl font-bold mb-2 text-blue-400">$997/mo</div>
-                    <h4 class="text-xl font-bold mb-4">Professional</h4>
-                    <ul class="space-y-2 text-gray-400">
-                        <li>✓ 10 Active Agents</li>
-                        <li>✓ Advanced Automation</li>
-                        <li>✓ 5000 SKA Credits</li>
-                    </ul>
-                </div>
-                <div class="p-6 bg-black border-2 border-green-500/50 rounded-lg hover:border-green-500 transition">
-                    <div class="text-3xl font-bold mb-2 text-green-400">$4,997/mo</div>
-                    <h4 class="text-xl font-bold mb-4">Enterprise</h4>
-                    <ul class="space-y-2 text-gray-400">
-                        <li>✓ 20 Active Agents</li>
-                        <li>✓ Full Automation</li>
-                        <li>✓ 25000 SKA Credits</li>
-                    </ul>
-                </div>
-                <div class="p-6 bg-gradient-to-br from-purple-600 to-pink-600 rounded-lg">
-                    <div class="text-3xl font-bold mb-2">$99,997/mo</div>
-                    <h4 class="text-xl font-bold mb-4">King Level</h4>
-                    <ul class="space-y-2">
-                        <li>✓ All 25 Agents</li>
-                        <li>✓ White Label Rights</li>
-                        <li>✓ Unlimited Credits</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="border-t border-purple-500/30 py-12 px-6 mt-20">
-        <div class="max-w-7xl mx-auto text-center">
-            <p class="text-purple-300">© 2024-2025 Sales King Academy LLC. All rights reserved.</p>
-            <p class="text-gray-500 mt-2">Founded by Robert Kaleb Long • North Little Rock, Arkansas</p>
-            <p class="text-gray-600 mt-4 text-sm">Powered by RKL Mathematical Framework (α=25)</p>
-        </div>
-    </footer>
-</div>
-
+        setInterval(updateCredits, 1000);
+        setInterval(updateWorldClock, 1000);
+        updateCredits();
+        updateWorldClock();
+        renderAgents();
+    </script>
 </body>
 </html>
