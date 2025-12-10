@@ -1,15 +1,12 @@
 [build]
   publish = "."
   functions = "netlify/functions"
-  ignore = "exit 1"
 
 [build.environment]
   NODE_VERSION = "18"
-  PYTHON_VERSION = ""
 
 [functions]
   node_bundler = "esbuild"
-  included_files = ["netlify/functions/**"]
 
 [[redirects]]
   from = "/api/*"
