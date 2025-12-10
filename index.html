@@ -3,482 +3,296 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sales King Academy | Time-Anchored Super Intelligence</title>
+    <title>Sales King Academy - AI Business Automation</title>
     <script src="https://sandbox.web.squarecdn.com/v1/square.js"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
             color: #ffffff;
             line-height: 1.6;
         }
-        .header {
-            background: rgba(0,0,0,0.8);
-            padding: 20px 0;
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-            backdrop-filter: blur(10px);
-        }
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-        .logo {
-            font-size: 28px;
-            font-weight: 800;
-            background: linear-gradient(135deg, #FFD700, #FFA500);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
         .hero {
-            padding: 150px 20px 80px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
             text-align: center;
+            padding: 2rem;
+            background: linear-gradient(135deg, #000000 0%, #1a1a2e 50%, #0f3460 100%);
         }
-        .hero h1 {
-            font-size: 56px;
-            font-weight: 900;
-            margin-bottom: 20px;
-            background: linear-gradient(135deg, #FFD700, #FFA500, #FFD700);
+        .crown { font-size: 4rem; margin-bottom: 1rem; }
+        h1 {
+            font-size: 3.5rem;
+            background: linear-gradient(90deg, #FFD700, #FFA500);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            background-clip: text;
-            animation: shine 3s infinite;
+            margin-bottom: 1rem;
         }
-        @keyframes shine {
-            0%, 100% { filter: brightness(1); }
-            50% { filter: brightness(1.3); }
+        .tagline {
+            font-size: 1.5rem;
+            color: #cccccc;
+            margin-bottom: 3rem;
         }
-        .hero-subtitle {
-            font-size: 24px;
-            color: #aaa;
-            margin-bottom: 30px;
-        }
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin: 60px 0;
-        }
-        .stat-card {
-            background: rgba(255,255,255,0.05);
-            padding: 30px;
+        .credits-display {
+            background: rgba(255, 215, 0, 0.1);
+            border: 2px solid #FFD700;
             border-radius: 15px;
-            border: 1px solid rgba(255,215,0,0.2);
-            transition: all 0.3s;
+            padding: 2rem;
+            margin: 2rem 0;
+            min-width: 400px;
         }
-        .stat-card:hover {
-            transform: translateY(-5px);
-            border-color: rgba(255,215,0,0.5);
-            box-shadow: 0 10px 30px rgba(255,215,0,0.2);
-        }
-        .stat-number {
-            font-size: 42px;
-            font-weight: 900;
+        .credits-number {
+            font-size: 3rem;
             color: #FFD700;
-            margin-bottom: 10px;
-        }
-        .stat-label {
-            font-size: 14px;
-            color: #888;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            font-weight: bold;
         }
         .programs {
-            padding: 80px 20px;
+            padding: 4rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
         }
-        .section-title {
-            text-align: center;
-            font-size: 42px;
-            margin-bottom: 60px;
-            font-weight: 900;
-        }
-        .program-grid {
+        .programs-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            margin-top: 40px;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
         }
         .program-card {
-            background: rgba(255,255,255,0.03);
-            padding: 40px;
-            border-radius: 20px;
-            border: 2px solid rgba(255,215,0,0.1);
-            position: relative;
-            overflow: hidden;
-            transition: all 0.4s;
-        }
-        .program-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background: linear-gradient(90deg, #FFD700, #FFA500);
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            border-radius: 15px;
+            padding: 2rem;
+            transition: all 0.3s ease;
         }
         .program-card:hover {
             transform: translateY(-10px);
-            border-color: rgba(255,215,0,0.4);
-            box-shadow: 0 20px 50px rgba(255,215,0,0.3);
+            border-color: #FFD700;
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
         }
-        .program-title {
-            font-size: 28px;
-            font-weight: 800;
-            margin-bottom: 15px;
+        .price {
+            font-size: 2.5rem;
             color: #FFD700;
-        }
-        .program-price {
-            font-size: 48px;
-            font-weight: 900;
-            margin: 20px 0;
-            color: #fff;
-        }
-        .program-features {
-            list-style: none;
-            margin: 30px 0;
-        }
-        .program-features li {
-            padding: 12px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            color: #ccc;
-        }
-        .program-features li:before {
-            content: '✓ ';
-            color: #FFD700;
-            font-weight: bold;
-            margin-right: 10px;
+            margin: 1rem 0;
         }
         .buy-button {
-            width: 100%;
-            padding: 18px;
-            font-size: 18px;
-            font-weight: 700;
-            background: linear-gradient(135deg, #FFD700, #FFA500);
-            color: #000;
+            background: linear-gradient(90deg, #FFD700, #FFA500);
+            color: #000000;
             border: none;
-            border-radius: 12px;
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 50px;
             cursor: pointer;
-            transition: all 0.3s;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            width: 100%;
+            margin-top: 1rem;
+            transition: all 0.3s ease;
         }
         .buy-button:hover {
             transform: scale(1.05);
-            box-shadow: 0 10px 30px rgba(255,215,0,0.5);
+            box-shadow: 0 5px 20px rgba(255, 215, 0, 0.5);
         }
-        .buy-button:active {
-            transform: scale(0.98);
+        .buy-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
         }
-        .framework {
-            padding: 80px 20px;
-            background: rgba(0,0,0,0.3);
-        }
-        .framework-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 30px;
-            margin-top: 40px;
-        }
-        .framework-item {
-            background: rgba(255,255,255,0.05);
-            padding: 30px;
-            border-radius: 15px;
-            border-left: 4px solid #FFD700;
-        }
-        .framework-item h3 {
-            color: #FFD700;
-            margin-bottom: 15px;
-            font-size: 20px;
-        }
-        .framework-item p {
-            color: #aaa;
-            line-height: 1.8;
-        }
-        .footer {
-            padding: 60px 20px;
+        .email-capture {
+            background: rgba(255, 215, 0, 0.1);
+            padding: 3rem 2rem;
             text-align: center;
-            background: rgba(0,0,0,0.5);
-            margin-top: 80px;
         }
-        .loading {
-            display: none;
+        .email-form {
+            max-width: 500px;
+            margin: 2rem auto;
+            display: flex;
+            gap: 1rem;
+        }
+        .email-input {
+            flex: 1;
+            padding: 1rem;
+            border: 2px solid #FFD700;
+            background: rgba(0, 0, 0, 0.5);
+            color: #ffffff;
+            border-radius: 50px;
+            font-size: 1rem;
+        }
+        .submit-button {
+            background: #FFD700;
+            color: #000000;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        #payment-status {
             position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: rgba(0,0,0,0.9);
-            padding: 40px;
-            border-radius: 15px;
-            z-index: 9999;
-        }
-        .loading.active {
-            display: block;
-        }
-        .spinner {
-            border: 4px solid rgba(255,215,0,0.3);
-            border-top: 4px solid #FFD700;
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 20px;
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        @media (max-width: 768px) {
-            .hero h1 { font-size: 36px; }
-            .program-grid { grid-template-columns: 1fr; }
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.9);
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            border: 2px solid #FFD700;
+            display: none;
+            z-index: 1000;
         }
     </style>
 </head>
 <body>
-    <div class="header">
-        <div class="container">
-            <div class="logo">⚡ SALES KING ACADEMY</div>
+    <div id="payment-status"></div>
+    
+    <section class="hero">
+        <div class="crown">👑</div>
+        <h1>Sales King Academy</h1>
+        <p class="tagline">AI-Powered Business Automation Platform</p>
+        
+        <div class="credits-display">
+            <div>⚡ Live SKA Credits</div>
+            <div class="credits-number" id="credits-counter">Loading...</div>
+            <div style="font-size: 0.9rem; color: #aaa;">Minting 1 credit/second since July 1, 2024</div>
         </div>
-    </div>
+    </section>
 
-    <div class="hero">
-        <div class="container">
-            <h1>TIME-ANCHORED SUPER INTELLIGENCE</h1>
-            <p class="hero-subtitle">RKL Mathematical Framework | 25 AI Agents | O(n^1.77) Efficiency</p>
-            <div class="stats">
-                <div class="stat-card">
-                    <div class="stat-number">25</div>
-                    <div class="stat-label">AI Agents</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number">$500M+</div>
-                    <div class="stat-label">Generated Revenue</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number">12,000+</div>
-                    <div class="stat-label">Students Trained</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number">O(n^1.77)</div>
-                    <div class="stat-label">Framework Efficiency</div>
-                </div>
+    <section class="programs">
+        <h2 style="text-align: center; font-size: 2.5rem; margin-bottom: 1rem;">Training Programs</h2>
+        <p style="text-align: center; color: #aaa; margin-bottom: 2rem;">Choose your path to business automation mastery</p>
+        
+        <div class="programs-grid">
+            <div class="program-card">
+                <h3>Foundation</h3>
+                <div class="price">$5,497</div>
+                <p>Core RKL Framework training and 5 AI agents</p>
+                <button class="buy-button" onclick="buyProgram('Foundation Program', 5497, 'XXVNHPVPNDQ2C')">
+                    Purchase Now
+                </button>
+            </div>
+            
+            <div class="program-card">
+                <h3>Advanced</h3>
+                <div class="price">$27,997</div>
+                <p>Full agent swarm + temporal DNA security</p>
+                <button class="buy-button" onclick="buyProgram('Advanced Program', 27997, 'YF3XQXAQR4CRE')">
+                    Purchase Now
+                </button>
+            </div>
+            
+            <div class="program-card">
+                <h3>Executive</h3>
+                <div class="price">$97,997</div>
+                <p>Complete automation suite + white-label rights</p>
+                <button class="buy-button" onclick="buyProgram('Executive Program', 97997, '4YA43F4KFQJLG')">
+                    Purchase Now
+                </button>
+            </div>
+            
+            <div class="program-card">
+                <h3>Supreme King</h3>
+                <div class="price">$397,000</div>
+                <p>Master AI controller + lifetime access</p>
+                <button class="buy-button" onclick="buyProgram('Supreme King Program', 397000, 'UEBOKD2YWRTY6')">
+                    Purchase Now
+                </button>
             </div>
         </div>
-    </div>
+    </section>
 
-    <div class="programs">
-        <div class="container">
-            <h2 class="section-title">TRAINING PROGRAMS</h2>
-            <div class="program-grid">
-                <div class="program-card">
-                    <h3 class="program-title">FOUNDATION</h3>
-                    <div class="program-price">$5,497</div>
-                    <ul class="program-features">
-                        <li>RKL Framework Fundamentals</li>
-                        <li>5 Core AI Agents</li>
-                        <li>90-Day Sales Mastery</li>
-                        <li>Lifetime Platform Access</li>
-                        <li>Community Support</li>
-                        <li>Weekly Group Coaching</li>
-                    </ul>
-                    <button class="buy-button" onclick="buyProgram('FOUNDATION', 5497, 'XXVNHPVPNDQ2C')">
-                        ENROLL NOW
-                    </button>
-                </div>
-
-                <div class="program-card">
-                    <h3 class="program-title">ADVANCED</h3>
-                    <div class="program-price">$27,997</div>
-                    <ul class="program-features">
-                        <li>Full RKL Framework Implementation</li>
-                        <li>15 AI Agents Deployment</li>
-                        <li>Advanced Automation Systems</li>
-                        <li>1-on-1 Strategy Sessions</li>
-                        <li>Custom Agent Configuration</li>
-                        <li>Priority Technical Support</li>
-                        <li>SKA Credits Integration</li>
-                    </ul>
-                    <button class="buy-button" onclick="buyProgram('ADVANCED', 27997, 'YF3XQXAQR4CRE')">
-                        ENROLL NOW
-                    </button>
-                </div>
-
-                <div class="program-card">
-                    <h3 class="program-title">EXECUTIVE</h3>
-                    <div class="program-price">$97,997</div>
-                    <ul class="program-features">
-                        <li>Complete 25-Agent System</li>
-                        <li>Enterprise Implementation</li>
-                        <li>White-Label Rights</li>
-                        <li>Dedicated Success Manager</li>
-                        <li>Custom Development Hours</li>
-                        <li>Temporal DNA Tokenization</li>
-                        <li>Multi-Location Deployment</li>
-                        <li>Quarterly Strategy Retreats</li>
-                    </ul>
-                    <button class="buy-button" onclick="buyProgram('EXECUTIVE', 97997, '4YA43F4KFQJLG')">
-                        ENROLL NOW
-                    </button>
-                </div>
-
-                <div class="program-card" style="border-color: rgba(255,215,0,0.5); box-shadow: 0 0 30px rgba(255,215,0,0.3);">
-                    <h3 class="program-title">SUPREME KING</h3>
-                    <div class="program-price">$397,000</div>
-                    <ul class="program-features">
-                        <li>Master CEO Agent 25 Access</li>
-                        <li>L10 Authority Level</li>
-                        <li>Complete Source Code Rights</li>
-                        <li>24/7 Direct Line to Robert Kaleb Long</li>
-                        <li>Joint Venture Opportunities</li>
-                        <li>Equity Partnership Options</li>
-                        <li>Global Expansion Support</li>
-                        <li>Infinite SKA Credits Genesis</li>
-                        <li>Patent Portfolio Access</li>
-                    </ul>
-                    <button class="buy-button" onclick="buyProgram('SUPREME_KING', 397000, 'UEBOKD2YWRTY6')">
-                        BECOME SUPREME KING
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="framework">
-        <div class="container">
-            <h2 class="section-title">RKL MATHEMATICAL FRAMEWORK</h2>
-            <div class="framework-grid">
-                <div class="framework-item">
-                    <h3>α=25 Parameter</h3>
-                    <p>25 autonomous AI agents operating in perfect computational harmony with O(n^1.77) polynomial time complexity.</p>
-                </div>
-                <div class="framework-item">
-                    <h3>Temporal DNA</h3>
-                    <p>Genesis timestamp: July 1, 2024. Every transaction carries unique temporal signature for complete traceability.</p>
-                </div>
-                <div class="framework-item">
-                    <h3>SKA Credits</h3>
-                    <p>Auto-minting at 1 credit per second. Temporal DNA tokenization provides moving interlocking security.</p>
-                </div>
-                <div class="framework-item">
-                    <h3>Triple-Plane Computing</h3>
-                    <p>Pre-compute King, Operational King, Shadow King architecture for maximum reliability and failsafe operation.</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="footer">
-        <div class="container">
-            <p style="font-size: 18px; margin-bottom: 20px;">© 2025 Sales King Academy LLC | Robert Kaleb Long, Founder & Chief Research Officer</p>
-            <p style="color: #888;">North Little Rock, Arkansas | Powered by Time-Anchored Super Intelligence</p>
-        </div>
-    </div>
-
-    <div class="loading" id="loading">
-        <div class="spinner"></div>
-        <p>Processing payment...</p>
-    </div>
+    <section class="email-capture">
+        <h2 style="font-size: 2rem; margin-bottom: 1rem;">Get Started</h2>
+        <p>Join the AI revolution in business automation</p>
+        <form class="email-form" onsubmit="captureEmail(event)">
+            <input type="email" class="email-input" placeholder="Enter your email" required id="email-input">
+            <button type="submit" class="submit-button">Get Access</button>
+        </form>
+        <div id="email-status"></div>
+    </section>
 
     <script>
-        const SQUARE_APPLICATION_ID = 'sandbox-sq0idb-1Y5pYRVu1O-L_M2V9_bFIw';
-        const SQUARE_LOCATION_ID = 'LCX039E7QRA5G';
+        // SKA Credits live counter
+        function updateCredits() {
+            const genesis = new Date('2024-07-01T00:00:00Z');
+            const now = new Date();
+            const seconds = Math.floor((now - genesis) / 1000);
+            document.getElementById('credits-counter').textContent = seconds.toLocaleString();
+        }
+        setInterval(updateCredits, 1000);
+        updateCredits();
+
+        // Square Payments
         let payments;
-
-        async function initializeSquare() {
-            if (!window.Square) {
-                console.error('Square SDK not loaded');
-                return;
-            }
+        async function initSquare() {
             try {
-                payments = window.Square.payments(SQUARE_APPLICATION_ID, SQUARE_LOCATION_ID);
-                console.log('✅ Square Payments initialized');
-            } catch (error) {
-                console.error('Square initialization error:', error);
+                payments = Square.payments('sandbox-sq0idb-xGWPpe39FkjkflL23DHgDQ', 'LCX039E7QRA5G');
+            } catch (e) {
+                console.error('Square init error:', e);
             }
         }
+        initSquare();
 
-        async function buyProgram(programName, amount, productId) {
-            const loading = document.getElementById('loading');
-            loading.classList.add('active');
-
+        async function buyProgram(name, amount, productId) {
+            const button = event.target;
+            button.disabled = true;
+            button.textContent = 'Processing...';
+            
             try {
-                if (!payments) {
-                    await initializeSquare();
-                }
-
-                const card = await payments.card();
-                await card.attach('#card-container');
-
-                const result = await card.tokenize();
-                if (result.status === 'OK') {
-                    const response = await fetch('/.netlify/functions/process_payment', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            sourceId: result.token,
-                            amount: amount * 100,
-                            currency: 'USD',
-                            productId: productId,
-                            programName: programName,
-                            locationId: SQUARE_LOCATION_ID
-                        })
-                    });
-
-                    const data = await response.json();
-                    
-                    if (data.success) {
-                        alert(`🎉 SUCCESS! Welcome to ${programName}!\n\nPayment ID: ${data.paymentId}\n\nCheck your email for access details.`);
-                        
-                        // Log to revenue metrics
-                        await fetch('/.netlify/functions/get_metrics', {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({
-                                action: 'record_sale',
-                                amount: amount,
-                                program: programName
-                            })
-                        });
-                    } else {
-                        alert('❌ Payment failed: ' + data.error);
-                    }
-                }
-            } catch (error) {
-                console.error('Payment error:', error);
-                alert('❌ Payment processing error. Please try again.');
-            } finally {
-                loading.classList.remove('active');
-            }
-        }
-
-        // Initialize on page load
-        document.addEventListener('DOMContentLoaded', initializeSquare);
-
-        // Activate autonomous systems
-        async function activateAutonomousSystems() {
-            try {
-                const response = await fetch('/.netlify/functions/activate_system', {
+                const response = await fetch('https://saleskingacademy.com/.netlify/functions/process-payment', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        timestamp: new Date().toISOString(),
-                        genesisDate: '2024-07-01T00:00:00Z',
-                        alpha: 25
+                        productName: name,
+                        amount: amount * 100,
+                        productId: productId
                     })
                 });
+                
                 const data = await response.json();
-                console.log('🚀 Autonomous systems activated:', data);
+                
+                if (data.success) {
+                    showStatus('✅ Payment Successful! Check your email.', 'success');
+                    setTimeout(() => window.location.href = '/thank-you', 2000);
+                } else {
+                    showStatus('❌ Payment failed. Please try again.', 'error');
+                }
             } catch (error) {
-                console.error('System activation error:', error);
+                showStatus('❌ Error: ' + error.message, 'error');
+            } finally {
+                button.disabled = false;
+                button.textContent = 'Purchase Now';
             }
         }
 
-        // Activate systems on page load
-        setTimeout(activateAutonomousSystems, 2000);
+        async function captureEmail(e) {
+            e.preventDefault();
+            const email = document.getElementById('email-input').value;
+            const statusDiv = document.getElementById('email-status');
+            
+            try {
+                const response = await fetch('https://saleskingacademy.com/.netlify/functions/crm-system', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        action: 'capture_lead',
+                        email: email,
+                        source: 'website'
+                    })
+                });
+                
+                const data = await response.json();
+                statusDiv.innerHTML = '<p style="color: #4CAF50; margin-top: 1rem;">✅ Success! Check your email.</p>';
+                document.getElementById('email-input').value = '';
+            } catch (error) {
+                statusDiv.innerHTML = '<p style="color: #ff4444; margin-top: 1rem;">❌ Error. Please try again.</p>';
+            }
+        }
+
+        function showStatus(message, type) {
+            const status = document.getElementById('payment-status');
+            status.textContent = message;
+            status.style.display = 'block';
+            status.style.borderColor = type === 'success' ? '#4CAF50' : '#ff4444';
+            setTimeout(() => status.style.display = 'none', 5000);
+        }
     </script>
 </body>
 </html>
