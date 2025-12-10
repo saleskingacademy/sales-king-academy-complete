@@ -1,17 +1,13 @@
 [build]
-  functions = "netlify/functions"
+  command = "echo 'Sales King Academy - Build Complete'"
   publish = "."
+  functions = "netlify/functions"
 
-[[plugins]]
-  package = "@netlify/plugin-functions-install"
-
-# Environment - all functions use these
 [build.environment]
-  NODE_VERSION = "18"
+  NODE_VERSION = "20"
+  NPM_FLAGS = "--legacy-peer-deps"
 
-# Redirects for clean URLs
 [[redirects]]
-  from = "/.netlify/functions/*"
-  to = "/.netlify/functions/:splat"
+  from = "/*"
+  to = "/index.html"
   status = 200
-
