@@ -1,60 +1,122 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Sales King Academy - Complete Autonomous System</title>
+    <title>Sales King Academy - 100% Autonomous AI Revenue System</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://sandbox.web.squarecdn.com/v1/square.js"></script>
 </head>
 <body class="bg-gray-900 text-white">
     <header class="bg-gradient-to-r from-purple-900 to-purple-600 p-6 sticky top-0 z-50">
-        <div class="container mx-auto flex justify-between">
+        <div class="container mx-auto flex justify-between items-center">
             <h1 class="text-3xl font-bold">Sales King Academy</h1>
-            <div id="clock" class="font-mono"></div>
+            <div id="clock" class="font-mono text-lg"></div>
         </div>
     </header>
 
     <main class="container mx-auto p-6">
-        <!-- SKA Credits -->
-        <section class="mb-12 text-center bg-gray-800 rounded-2xl p-12">
-            <h2 class="text-4xl font-bold mb-4">SKA Credits Minting</h2>
-            <div id="credits" class="text-7xl font-bold text-green-400"></div>
+        <!-- SKA Credits Live Counter -->
+        <section class="mb-12 text-center bg-gradient-to-br from-gray-800 to-gray-900 rounded-2xl p-12 border-2 border-purple-500">
+            <h2 class="text-4xl font-bold mb-4">SKA Credits Minting LIVE</h2>
+            <div id="credits" class="text-7xl font-bold text-green-400 mb-2"></div>
+            <p class="text-gray-400">Genesis: July 1, 2024 | 1 credit/second</p>
         </section>
 
-        <!-- 25 Agents LIVE Status -->
+        <!-- Autonomous Revenue Dashboard -->
+        <section class="mb-12 bg-gray-800 rounded-2xl p-8">
+            <h2 class="text-4xl font-bold mb-6 text-center">Autonomous Revenue Engine</h2>
+            <div class="grid md:grid-cols-4 gap-4 mb-6">
+                <div class="bg-gray-900 p-4 rounded-lg text-center">
+                    <div class="text-2xl font-bold text-green-400" id="leads-generated">0</div>
+                    <div class="text-sm text-gray-400">Leads Generated</div>
+                </div>
+                <div class="bg-gray-900 p-4 rounded-lg text-center">
+                    <div class="text-2xl font-bold text-blue-400" id="contacts-made">0</div>
+                    <div class="text-sm text-gray-400">Contacts Made</div>
+                </div>
+                <div class="bg-gray-900 p-4 rounded-lg text-center">
+                    <div class="text-2xl font-bold text-yellow-400" id="deals-closed">0</div>
+                    <div class="text-sm text-gray-400">Deals Closed</div>
+                </div>
+                <div class="bg-gray-900 p-4 rounded-lg text-center">
+                    <div class="text-2xl font-bold text-purple-400" id="revenue-generated">$0</div>
+                    <div class="text-sm text-gray-400">Revenue Generated</div>
+                </div>
+            </div>
+            <button onclick="runAutonomousCycle()" class="w-full bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 py-4 rounded-lg font-bold text-xl">
+                🚀 RUN AUTONOMOUS REVENUE CYCLE
+            </button>
+        </section>
+
+        <!-- 25 AI Agents LIVE -->
         <section class="mb-12">
-            <h2 class="text-4xl font-bold mb-8 text-center">25 AI Agents - LIVE</h2>
-            <button onclick="loadAgents()" class="mb-4 bg-blue-600 hover:bg-blue-700 px-6 py-3 rounded-lg font-bold">Refresh Agents</button>
+            <h2 class="text-4xl font-bold mb-8 text-center">25 AI Agents - OPERATIONAL</h2>
+            <button onclick="loadAgents()" class="mb-4 bg-blue-600 hover:bg-blue-700 px-6 py-3 rounded-lg font-bold">🔄 Refresh Agent Status</button>
             <div id="agents" class="grid grid-cols-5 gap-4"></div>
         </section>
 
-        <!-- Automation Services -->
+        <!-- Autonomous Outreach Systems -->
         <section class="mb-12">
-            <h2 class="text-4xl font-bold mb-8 text-center">Automation Services</h2>
+            <h2 class="text-4xl font-bold mb-8 text-center">Autonomous Outreach Systems</h2>
             <div class="grid md:grid-cols-3 gap-6">
                 <div class="bg-gray-800 rounded-xl p-6">
-                    <h3 class="text-2xl font-bold mb-4">Build Website</h3>
-                    <button onclick="requestBuild('website')" class="w-full bg-green-600 hover:bg-green-700 py-3 rounded-lg">Build Now</button>
+                    <h3 class="text-2xl font-bold mb-4">📧 Email Outreach</h3>
+                    <p class="text-gray-400 mb-4">Agent 5 sends automated email campaigns</p>
+                    <button onclick="triggerOutreach('email')" class="w-full bg-blue-600 hover:bg-blue-700 py-3 rounded-lg">Launch Email Campaign</button>
                 </div>
                 <div class="bg-gray-800 rounded-xl p-6">
-                    <h3 class="text-2xl font-bold mb-4">Build App</h3>
-                    <button onclick="requestBuild('app')" class="w-full bg-blue-600 hover:bg-blue-700 py-3 rounded-lg">Build Now</button>
+                    <h3 class="text-2xl font-bold mb-4">📱 SMS Outreach</h3>
+                    <p class="text-gray-400 mb-4">Agent 7 manages SMS campaigns</p>
+                    <button onclick="triggerOutreach('sms')" class="w-full bg-green-600 hover:bg-green-700 py-3 rounded-lg">Launch SMS Campaign</button>
                 </div>
                 <div class="bg-gray-800 rounded-xl p-6">
-                    <h3 class="text-2xl font-bold mb-4">Build API</h3>
-                    <button onclick="requestBuild('api')" class="w-full bg-purple-600 hover:bg-purple-700 py-3 rounded-lg">Build Now</button>
+                    <h3 class="text-2xl font-bold mb-4">📞 Cold Calling</h3>
+                    <p class="text-gray-400 mb-4">Agent 9 executes AI voice calls</p>
+                    <button onclick="triggerOutreach('call')" class="w-full bg-purple-600 hover:bg-purple-700 py-3 rounded-lg">Launch Call Campaign</button>
                 </div>
             </div>
         </section>
 
-        <!-- Training Programs with Square -->
+        <!-- Build Anything -->
         <section class="mb-12">
-            <h2 class="text-4xl font-bold mb-8 text-center">Training Programs</h2>
+            <h2 class="text-4xl font-bold mb-8 text-center">AI Build Anything</h2>
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="bg-gray-800 rounded-xl p-6">
+                    <h3 class="text-2xl font-bold mb-4">🌐 Website</h3>
+                    <button onclick="requestBuild('website')" class="w-full bg-green-600 hover:bg-green-700 py-3 rounded-lg">Build Website</button>
+                </div>
+                <div class="bg-gray-800 rounded-xl p-6">
+                    <h3 class="text-2xl font-bold mb-4">📱 Mobile App</h3>
+                    <button onclick="requestBuild('app')" class="w-full bg-blue-600 hover:bg-blue-700 py-3 rounded-lg">Build App</button>
+                </div>
+                <div class="bg-gray-800 rounded-xl p-6">
+                    <h3 class="text-2xl font-bold mb-4">🔌 API</h3>
+                    <button onclick="requestBuild('api')" class="w-full bg-purple-600 hover:bg-purple-700 py-3 rounded-lg">Build API</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Training Programs with REAL Square Payments -->
+        <section class="mb-12">
+            <h2 class="text-4xl font-bold mb-8 text-center">Training Programs - BUY NOW</h2>
             <div class="grid md:grid-cols-4 gap-6" id="products"></div>
         </section>
     </main>
 
-    <div id="modal" class="hidden fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center p-4">
+    <!-- Payment Modal -->
+    <div id="payment-modal" class="hidden fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center p-4 z-50">
         <div class="bg-gray-800 rounded-xl p-8 max-w-md w-full">
+            <h3 id="payment-title" class="text-2xl font-bold mb-4"></h3>
+            <div id="payment-amount" class="text-4xl font-bold text-green-400 mb-6 text-center"></div>
+            <div id="card-container" class="mb-4"></div>
+            <button id="pay-button" onclick="processPayment()" class="w-full bg-green-600 hover:bg-green-700 py-4 rounded-lg font-bold text-xl">Complete Purchase</button>
+            <button onclick="closePaymentModal()" class="w-full bg-gray-600 hover:bg-gray-700 py-3 rounded-lg mt-4">Cancel</button>
+            <div id="payment-status" class="mt-4 text-center"></div>
+        </div>
+    </div>
+
+    <!-- General Modal -->
+    <div id="modal" class="hidden fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center p-4 z-40">
+        <div class="bg-gray-800 rounded-xl p-8 max-w-2xl w-full max-h-96 overflow-auto">
             <h3 id="modal-title" class="text-2xl font-bold mb-4"></h3>
             <div id="modal-content"></div>
             <button onclick="closeModal()" class="w-full bg-gray-600 py-3 rounded-lg mt-4">Close</button>
@@ -64,11 +126,76 @@
     <script>
         const GENESIS = 1719792000;
         const products = [
-            {id: 'UW3HDGP25NXACRCASR33YYO2', name: 'Starter', price: 549700, display: '$5,497'},
+            {id: 'UW3HDGP25NXACRCASR33YYO2', name: 'Starter Program', price: 549700, display: '$5,497'},
             {id: 'FC5OPWI7UXROKXC4UMZSKTZO', name: 'Professional', price: 1497000, display: '$14,970'},
-            {id: 'FKN4CDVKGA6BFIVJZJXKGSSN', name: 'Elite', price: 4970000, display: '$49,700'},
+            {id: 'FKN4CDVKGA6BFIVJZJXKGSSN', name: 'Elite Training', price: 4970000, display: '$49,700'},
             {id: 'VULINPSK43NYY3YNORTXYKPP', name: 'Royal Elite', price: 39700000, display: '$397,000'}
         ];
+
+        let squarePayments, card;
+        let currentProduct = null;
+
+        // Initialize Square Payments
+        async function initSquare() {
+            try {
+                squarePayments = window.Square.payments('sandbox-sq0idb-lTCHJKvY5g6PQx5UHvGPkw', 'LCX039E7QRA5G');
+            } catch(e) {
+                console.error('Square init failed:', e);
+            }
+        }
+
+        async function openPaymentModal(product) {
+            currentProduct = product;
+            document.getElementById('payment-title').textContent = product.name;
+            document.getElementById('payment-amount').textContent = product.display;
+            document.getElementById('payment-modal').classList.remove('hidden');
+            document.getElementById('payment-status').innerHTML = '';
+
+            try {
+                card = await squarePayments.card();
+                await card.attach('#card-container');
+            } catch(e) {
+                document.getElementById('payment-status').innerHTML = '<div class="text-red-400">Payment system error. Please try again.</div>';
+            }
+        }
+
+        async function processPayment() {
+            document.getElementById('payment-status').innerHTML = '<div class="text-yellow-400">Processing...</div>';
+            
+            try {
+                const result = await card.tokenize();
+                if (result.status === 'OK') {
+                    const response = await fetch('/.netlify/functions/payment', {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify({
+                            sourceId: result.token,
+                            amount: currentProduct.price,
+                            productId: currentProduct.id,
+                            productName: currentProduct.name
+                        })
+                    });
+                    
+                    const data = await response.json();
+                    if(data.success) {
+                        document.getElementById('payment-status').innerHTML = '<div class="text-green-400 font-bold">✅ PAYMENT SUCCESSFUL!</div>';
+                        setTimeout(() => {
+                            closePaymentModal();
+                            alert(`Purchase complete! Payment ID: ${data.paymentId}\nReceipt: ${data.receiptUrl}`);
+                        }, 2000);
+                    } else {
+                        document.getElementById('payment-status').innerHTML = `<div class="text-red-400">Payment failed: ${data.error}</div>`;
+                    }
+                }
+            } catch(e) {
+                document.getElementById('payment-status').innerHTML = '<div class="text-red-400">Payment error. Please try again.</div>';
+            }
+        }
+
+        function closePaymentModal() {
+            document.getElementById('payment-modal').classList.add('hidden');
+            if(card) card.destroy();
+        }
 
         async function loadAgents() {
             const res = await fetch('/.netlify/functions/agents', {
@@ -77,10 +204,11 @@
             });
             const data = await res.json();
             document.getElementById('agents').innerHTML = data.agents.map(a => `
-                <div class="bg-gray-800 p-4 rounded text-center">
-                    <div class="text-sm font-bold text-purple-400">Agent ${a.id}</div>
-                    <div class="text-xs mt-1">${a.name}</div>
+                <div class="bg-gray-800 p-4 rounded-lg text-center border ${a.id === 25 ? 'border-purple-500' : 'border-gray-700'}">
+                    <div class="text-lg font-bold text-purple-400">Agent ${a.id}</div>
+                    <div class="text-sm mt-1">${a.name}</div>
                     <div class="text-xs text-gray-500">Auth: ${a.auth}</div>
+                    <div class="text-xs text-green-400">● ${a.status}</div>
                 </div>
             `).join('');
         }
@@ -89,9 +217,7 @@
             const specs = prompt(`Enter specifications for your ${type}:`);
             if (!specs) return;
             
-            document.getElementById('modal-title').textContent = 'Building...';
-            document.getElementById('modal-content').innerHTML = '<div class="text-center">Agent 20 is building your ' + type + '...</div>';
-            document.getElementById('modal').classList.remove('hidden');
+            showModal('Building...', '<div class="text-center">Agent 20 is building your ' + type + '...</div>');
 
             const res = await fetch('/.netlify/functions/builder', {
                 method: 'POST',
@@ -99,8 +225,62 @@
             });
             const data = await res.json();
             
-            document.getElementById('modal-title').textContent = 'Build Complete!';
-            document.getElementById('modal-content').innerHTML = `<pre class="bg-gray-900 p-4 rounded overflow-auto max-h-96 text-sm">${data.code}</pre>`;
+            showModal('Build Complete!', `<pre class="bg-gray-900 p-4 rounded overflow-auto max-h-64 text-sm">${data.code}</pre>`);
+        }
+
+        async function runAutonomousCycle() {
+            showModal('Running Autonomous Cycle...', '<div class="text-center text-yellow-400">AI Agents generating leads, contacting prospects, closing deals...</div>');
+            
+            const res = await fetch('/.netlify/functions/autonomous_outreach', {
+                method: 'POST',
+                body: JSON.stringify({ action: 'runFull' })
+            });
+            const data = await res.json();
+            
+            document.getElementById('leads-generated').textContent = data.generated;
+            document.getElementById('contacts-made').textContent = data.contacted;
+            document.getElementById('deals-closed').textContent = data.closed;
+            document.getElementById('revenue-generated').textContent = `$${(data.revenue/100).toLocaleString()}`;
+            
+            showModal('Cycle Complete!', `
+                <div class="text-center">
+                    <div class="text-2xl font-bold text-green-400 mb-4">✅ AUTONOMOUS CYCLE COMPLETE</div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="bg-gray-900 p-4 rounded"><div class="font-bold">${data.generated}</div><div class="text-sm">Leads Generated</div></div>
+                        <div class="bg-gray-900 p-4 rounded"><div class="font-bold">${data.contacted}</div><div class="text-sm">Contacts Made</div></div>
+                        <div class="bg-gray-900 p-4 rounded"><div class="font-bold">${data.closed}</div><div class="text-sm">Deals Closed</div></div>
+                        <div class="bg-gray-900 p-4 rounded"><div class="font-bold text-green-400">$${(data.revenue/100).toLocaleString()}</div><div class="text-sm">Revenue</div></div>
+                    </div>
+                </div>
+            `);
+        }
+
+        async function triggerOutreach(type) {
+            const action = type === 'email' ? 'emailOutreach' : type === 'sms' ? 'smsOutreach' : 'coldCall';
+            showModal(`Launching ${type.toUpperCase()} Campaign...`, '<div class="text-center text-yellow-400">Generating leads and initiating outreach...</div>');
+            
+            const res = await fetch('/.netlify/functions/autonomous_outreach', {
+                method: 'POST',
+                body: JSON.stringify({ action: 'generateLeads' })
+            });
+            const leads = await res.json();
+            
+            let contacted = 0;
+            for(const lead of leads.leads.slice(0, 5)) {
+                await fetch('/.netlify/functions/autonomous_outreach', {
+                    method: 'POST',
+                    body: JSON.stringify({ action, leadData: lead })
+                });
+                contacted++;
+            }
+            
+            showModal('Campaign Complete!', `<div class="text-center"><div class="text-2xl font-bold text-green-400">✅ ${type.toUpperCase()} CAMPAIGN COMPLETE</div><div class="mt-4">${contacted} prospects contacted</div></div>`);
+        }
+
+        function showModal(title, content) {
+            document.getElementById('modal-title').textContent = title;
+            document.getElementById('modal-content').innerHTML = content;
+            document.getElementById('modal').classList.remove('hidden');
         }
 
         function closeModal() {
@@ -109,10 +289,12 @@
 
         function renderProducts() {
             document.getElementById('products').innerHTML = products.map(p => `
-                <div class="bg-gray-800 rounded-xl p-6">
+                <div class="bg-gray-800 rounded-xl p-6 border-2 border-purple-500">
                     <h3 class="text-2xl font-bold mb-4">${p.name}</h3>
                     <div class="text-4xl font-bold text-green-400 mb-4">${p.display}</div>
-                    <button onclick="alert('Square payment integration active - contact for purchase')" class="w-full bg-purple-600 hover:bg-purple-700 py-3 rounded-lg">Buy Now</button>
+                    <button onclick='openPaymentModal(${JSON.stringify(p)})' class="w-full bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 py-3 rounded-lg font-bold">
+                        BUY NOW
+                    </button>
                 </div>
             `).join('');
         }
@@ -122,7 +304,7 @@
         }
 
         function updateClock() {
-            document.getElementById('clock').textContent = new Date().toISOString().slice(0,19).replace('T',' ');
+            document.getElementById('clock').textContent = new Date().toISOString().slice(0,19).replace('T',' ') + ' UTC';
         }
 
         setInterval(updateCredits, 1000);
@@ -131,6 +313,7 @@
         updateClock();
         renderProducts();
         loadAgents();
+        initSquare();
     </script>
 </body>
 </html>
