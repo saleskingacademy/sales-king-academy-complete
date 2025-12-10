@@ -1,7 +1,0 @@
-{
-  "name": "ska-netlify-functions",
-  "version": "1.0.0",
-  "dependencies": {
-    "square": "^40.1.0"
-  }
-}
