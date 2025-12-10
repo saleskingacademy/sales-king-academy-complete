@@ -5,23 +5,13 @@
 [[plugins]]
   package = "@netlify/plugin-functions-install"
 
-# CRON JOBS - Run autonomous systems continuously
-[[plugins]]
-  package = "netlify-plugin-cron"
+# Environment - all functions use these
+[build.environment]
+  NODE_VERSION = "18"
 
-  [plugins.inputs]
-    # Lead Generation: Every 4 hours (6x/day = 600 leads)
-    - schedule = "0 */4 * * *"
-      function = "lead_generator"
-    
-    # Email Outreach: Every hour (1,000 emails/day)
-    - schedule = "0 * * * *"
-      function = "email_outreach"
-    
-    # SMS Outreach: Every 2 hours (500 SMS/day)
-    - schedule = "0 */2 * * *"
-      function = "sms_outreach"
-    
-    # Revenue Metrics: Every 15 minutes
-    - schedule = "*/15 * * * *"
-      function = "update_metrics"
+# Redirects for clean URLs
+[[redirects]]
+  from = "/.netlify/functions/*"
+  to = "/.netlify/functions/:splat"
+  status = 200
+
