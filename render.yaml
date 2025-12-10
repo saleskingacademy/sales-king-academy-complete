@@ -1,20 +1,11 @@
 services:
   - type: web
-    name: sales-king-academy-complete
+    name: ska-autonomous-backend
     runtime: python
-    repo: https://github.com/saleskingacademy/sales-king-academy-complete
-    region: virginia
-    plan: free
-    branch: main
     buildCommand: pip install -r requirements.txt
-    startCommand: gunicorn app:app --bind 0.0.0.0:$PORT --workers 1 --timeout 120
+    startCommand: gunicorn ska_backend_complete:app
     envVars:
-      - key: PORT
-        value: "10000"
       - key: ANTHROPIC_API_KEY
         sync: false
-      - key: SQUARE_LOCATION_ID
-        value: "LCX039E7QRA5G"
       - key: SQUARE_ACCESS_TOKEN
         sync: false
-    healthCheckPath: /health
