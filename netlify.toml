@@ -1,17 +1,20 @@
 [build]
-  publish = "."
-  command = "echo 'Sales King Academy - TSI Deployed'"
+  publish = "frontend"
+  command = "echo 'Frontend ready'"
 
 [[redirects]]
   from = "/api/*"
-  to = "/.netlify/functions/:splat"
+  to = "https://api.saleskingacademy.com/:splat"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
   status = 200
 
-[[headers]]
-  for = "/*"
-  [headers.values]
-    X-Frame-Options = "DENY"
-    X-Content-Type-Options = "nosniff"
+[build.environment]
+  NODE_VERSION = "18"
 
-[functions]
-  directory = "netlify/functions"
+[context.production.environment]
+  API_BASE = "https://api.saleskingacademy.com"
