@@ -1,13 +1,13 @@
 services:
   - type: web
-    name: ska-autonomous-engine
+    name: saleskingacademy-site
     runtime: python
     repo: https://github.com/saleskingacademy/sales-king-academy-complete
-    region: oregon
+    region: virginia
     plan: free
     branch: main
     buildCommand: pip install -r requirements.txt
-    startCommand: python ska_live_service.py
+    startCommand: uvicorn ska_live_service:app --host 0.0.0.0 --port $PORT
     envVars:
       - key: AUTONOMOUS_ENABLED
         value: "true"
@@ -17,4 +17,10 @@ services:
         value: "100"
       - key: PORT
         value: "10000"
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: SQUARE_LOCATION_ID
+        value: "LCX039E7QRA5G"
+      - key: SQUARE_ACCESS_TOKEN
+        sync: false
     healthCheckPath: /health
