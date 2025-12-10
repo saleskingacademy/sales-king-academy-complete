@@ -1,6 +1,6 @@
 {
-  "name": "sales-king-academy-backend",
-  "version": "1.0.0",
+  "name": "sales-king-academy-complete",
+  "version": "2.0.0",
   "dependencies": {
     "square": "^36.0.0"
   }
