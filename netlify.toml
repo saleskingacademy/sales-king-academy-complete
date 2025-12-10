@@ -1,11 +1,10 @@
 [build]
-  command = "echo 'Sales King Academy - Build Complete'"
+  command = ":"
   publish = "."
   functions = "netlify/functions"
 
-[build.environment]
-  NODE_VERSION = "20"
-  NPM_FLAGS = "--legacy-peer-deps"
+[functions]
+  node_bundler = "esbuild"
 
 [[redirects]]
   from = "/*"
