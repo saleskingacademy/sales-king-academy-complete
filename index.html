@@ -1,300 +1,449 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sales King Academy - Complete AI Automation</title>
-    <script src="https://sandbox.web.squarecdn.com/v1/square.js"></script>
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: 'Segoe UI', sans-serif;
-            background: linear-gradient(135deg, #000 0%, #1a1a2e 100%);
-            color: #fff;
-        }
-        .nav {
-            background: rgba(0,0,0,0.95);
-            padding: 1rem 2rem;
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-            border-bottom: 2px solid #FFD700;
-        }
-        .logo { font-size: 1.5rem; color: #FFD700; font-weight: bold; }
-        
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 6rem 2rem 2rem;
-        }
-        h1 {
-            font-size: 3.5rem;
-            background: linear-gradient(90deg, #FFD700, #FFA500);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 1rem;
-        }
-        .tagline { font-size: 1.5rem; color: #aaa; margin-bottom: 2rem; }
-        
-        .credits-display {
-            background: rgba(255,215,0,0.1);
-            border: 2px solid #FFD700;
-            border-radius: 15px;
-            padding: 2rem;
-            margin: 2rem 0;
-            min-width: 400px;
-        }
-        .credits-number {
-            font-size: 3rem;
-            color: #FFD700;
-            font-weight: bold;
-        }
-        
-        .section {
-            padding: 4rem 2rem;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-        .section-title {
-            font-size: 2.5rem;
-            text-align: center;
-            margin-bottom: 3rem;
-            color: #FFD700;
-        }
-        
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-        }
-        .service-card {
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,215,0,0.3);
-            border-radius: 15px;
-            padding: 2rem;
-            transition: all 0.3s;
-        }
-        .service-card:hover {
-            transform: translateY(-5px);
-            border-color: #FFD700;
-            box-shadow: 0 10px 30px rgba(255,215,0,0.3);
-        }
-        .service-title {
-            font-size: 1.8rem;
-            color: #FFD700;
-            margin-bottom: 1rem;
-        }
-        .price {
-            font-size: 2rem;
-            color: #FFD700;
-            margin: 1rem 0;
-        }
-        .btn {
-            background: linear-gradient(90deg, #FFD700, #FFA500);
-            color: #000;
-            border: none;
-            padding: 1rem 2rem;
-            font-size: 1.1rem;
-            font-weight: bold;
-            border-radius: 50px;
-            cursor: pointer;
-            width: 100%;
-            margin-top: 1rem;
-            transition: all 0.3s;
-        }
-        .btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 5px 20px rgba(255,215,0,0.5);
-        }
-        .btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-        .status-message {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: rgba(0,0,0,0.9);
-            padding: 1rem 2rem;
-            border-radius: 10px;
-            border: 2px solid #FFD700;
-            display: none;
-            z-index: 2000;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sales King Academy - Master Control</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      min-height: 100vh;
+      padding: 20px;
+    }
+    .container { max-width: 1400px; margin: 0 auto; }
+    h1 { text-align: center; margin-bottom: 10px; font-size: 2.5em; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
+    .subtitle { text-align: center; margin-bottom: 30px; opacity: 0.9; }
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+    .stat-card {
+      background: rgba(255,255,255,0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 15px;
+      padding: 20px;
+      border: 1px solid rgba(255,255,255,0.2);
+    }
+    .stat-card h3 { font-size: 0.9em; opacity: 0.8; margin-bottom: 10px; }
+    .stat-card .value { font-size: 2em; font-weight: bold; }
+    .systems-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 15px;
+    }
+    .system-card {
+      background: rgba(255,255,255,0.15);
+      backdrop-filter: blur(10px);
+      border-radius: 12px;
+      padding: 15px;
+      border: 1px solid rgba(255,255,255,0.2);
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .system-card:hover {
+      transform: translateY(-3px);
+      background: rgba(255,255,255,0.2);
+      box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+    }
+    .system-card h4 { margin-bottom: 8px; font-size: 1.1em; }
+    .system-card p { font-size: 0.85em; opacity: 0.9; margin-bottom: 10px; }
+    .system-card .endpoint {
+      font-family: monospace;
+      font-size: 0.75em;
+      background: rgba(0,0,0,0.3);
+      padding: 5px 10px;
+      border-radius: 5px;
+      word-break: break-all;
+    }
+    .status-indicator {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #4ade80;
+      margin-right: 5px;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+    @media (max-width: 768px) {
+      h1 { font-size: 1.8em; }
+      .stats { grid-template-columns: 1fr; }
+      .systems-grid { grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
 <body>
-    <div id="status-message" class="status-message"></div>
+  <div class="container">
+    <h1>🔥 SALES KING ACADEMY</h1>
+    <p class="subtitle">Master Control Dashboard - All 44+ Systems Operational</p>
     
-    <nav class="nav">
-        <div class="logo">👑 Sales King Academy</div>
-    </nav>
+    <div class="stats" id="stats">
+      <div class="stat-card">
+        <h3><span class="status-indicator"></span>SKA CREDITS</h3>
+        <div class="value" id="credits">Loading...</div>
+      </div>
+      <div class="stat-card">
+        <h3><span class="status-indicator"></span>ACTIVE AGENTS</h3>
+        <div class="value">25/25</div>
+      </div>
+      <div class="stat-card">
+        <h3><span class="status-indicator"></span>SYSTEMS</h3>
+        <div class="value">44/44+</div>
+      </div>
+      <div class="stat-card">
+        <h3><span class="status-indicator"></span>FRAMEWORK</h3>
+        <div class="value">α=25</div>
+      </div>
+    </div>
 
-    <section class="hero">
-        <h1>Complete AI Business Automation</h1>
-        <p class="tagline">Your Autonomous Business Empire</p>
-        
-        <div class="credits-display">
-            <div>⚡ Live SKA Credits</div>
-            <div class="credits-number" id="credits-counter">Loading...</div>
-            <div style="font-size: 0.9rem; color: #aaa;">Auto-minting 1 credit/second</div>
-        </div>
-    </section>
+    <div class="systems-grid">
 
-    <section class="section">
-        <h2 class="section-title">🎓 Training Programs</h2>
-        <div class="services-grid">
-            <div class="service-card">
-                <h3 class="service-title">Foundation</h3>
-                <div class="price">$5,497</div>
-                <p>Core training + 5 AI agents</p>
-                <button class="btn" onclick="purchaseService('training', 'Foundation', 5497)">
-                    Purchase Now
-                </button>
-            </div>
-            <div class="service-card">
-                <h3 class="service-title">Advanced</h3>
-                <div class="price">$27,997</div>
-                <p>Full agent swarm + automation</p>
-                <button class="btn" onclick="purchaseService('training', 'Advanced', 27997)">
-                    Purchase Now
-                </button>
-            </div>
-            <div class="service-card">
-                <h3 class="service-title">Executive</h3>
-                <div class="price">$97,997</div>
-                <p>Complete suite + white-label</p>
-                <button class="btn" onclick="purchaseService('training', 'Executive', 97997)">
-                    Purchase Now
-                </button>
-            </div>
-            <div class="service-card">
-                <h3 class="service-title">Supreme King</h3>
-                <div class="price">$397,000</div>
-                <p>Master AI + lifetime access</p>
-                <button class="btn" onclick="purchaseService('training', 'Supreme', 397000)">
-                    Purchase Now
-                </button>
-            </div>
-        </div>
-    </section>
+      <div class="system-card" onclick="window.open('/.netlify/functions/master_control', '_blank')">
+        <h4><span class="status-indicator"></span>Master Control</h4>
+        <p>Ultimate authority over all systems</p>
+        <div class="endpoint">/.netlify/functions/master_control</div>
+      </div>
 
-    <section class="section" style="background: rgba(255,215,0,0.05);">
-        <h2 class="section-title">🤖 Automation Services</h2>
-        <div class="services-grid">
-            <div class="service-card">
-                <h3 class="service-title">Lead Generation</h3>
-                <div class="price">$2,997/mo</div>
-                <p>1000+ leads per month</p>
-                <button class="btn" onclick="purchaseService('automation', 'Lead Generation', 2997)">
-                    Get Started
-                </button>
-            </div>
-            <div class="service-card">
-                <h3 class="service-title">Sales Call Bot</h3>
-                <div class="price">$1,997/mo</div>
-                <p>AI calls and closes deals</p>
-                <button class="btn" onclick="purchaseService('automation', 'Sales Bot', 1997)">
-                    Get Started
-                </button>
-            </div>
-            <div class="service-card">
-                <h3 class="service-title">Complete Automation</h3>
-                <div class="price">$4,997/mo</div>
-                <p>Full autonomous operations</p>
-                <button class="btn" onclick="purchaseService('automation', 'Complete', 4997)">
-                    Get Started
-                </button>
-            </div>
-        </div>
-    </section>
 
-    <script>
-        // Backend API URL - CONNECTED TO RENDER
-        const BACKEND_URL = 'https://sales-king-academy-complete.onrender.com';
-        
-        // Update SKA Credits from backend
-        async function updateCredits() {
-            try {
-                const response = await fetch(`${BACKEND_URL}/api/ledger/credits`);
-                const data = await response.json();
-                document.getElementById('credits-counter').textContent = 
-                    data.total_credits.toLocaleString();
-            } catch (error) {
-                document.getElementById('credits-counter').textContent = 'Loading...';
-            }
-        }
-        
-        // Update every second
-        setInterval(updateCredits, 1000);
-        updateCredits();
-        
-        // Purchase service function - CONNECTED TO BACKEND
-        async function purchaseService(category, name, price) {
-            const button = event.target;
-            button.disabled = true;
-            button.textContent = 'Processing...';
-            
-            showStatus('Processing purchase...', 'info');
-            
-            try {
-                // Call Render backend for payment processing
-                const response = await fetch(`${BACKEND_URL}/api/purchase`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        category: category,
-                        service: name,
-                        amount: price
-                    })
-                });
-                
-                const data = await response.json();
-                
-                if (response.ok) {
-                    showStatus(`✅ ${name} purchased successfully!`, 'success');
-                    setTimeout(() => {
-                        window.location.href = '/thank-you.html';
-                    }, 2000);
-                } else {
-                    showStatus(`❌ Error: ${data.error || 'Purchase failed'}`, 'error');
-                }
-            } catch (error) {
-                showStatus(`❌ Connection error: ${error.message}`, 'error');
-            } finally {
-                button.disabled = false;
-                button.textContent = category === 'training' ? 'Purchase Now' : 'Get Started';
-            }
-        }
-        
-        function showStatus(message, type) {
-            const statusEl = document.getElementById('status-message');
-            statusEl.textContent = message;
-            statusEl.style.display = 'block';
-            statusEl.style.borderColor = type === 'success' ? '#4CAF50' : 
-                                         type === 'error' ? '#ff4444' : '#FFD700';
-            
-            setTimeout(() => {
-                statusEl.style.display = 'none';
-            }, 5000);
-        }
-        
-        // Test backend connection on load
-        window.addEventListener('load', async () => {
-            try {
-                const response = await fetch(`${BACKEND_URL}/health`);
-                const data = await response.json();
-                console.log('✅ Backend connected:', data);
-            } catch (error) {
-                console.error('❌ Backend connection failed:', error);
-                showStatus('⚠️ Backend starting up... Please wait 30 seconds', 'info');
-            }
-        });
-    </script>
+      <div class="system-card" onclick="window.open('/.netlify/functions/status', '_blank')">
+        <h4><span class="status-indicator"></span>System Status</h4>
+        <p>Real-time operational metrics</p>
+        <div class="endpoint">/.netlify/functions/status</div>
+      </div>
+
+
+      <div class="system-card" onclick="window.open('/.netlify/functions/credits', '_blank')">
+        <h4><span class="status-indicator"></span>SKA Credits</h4>
+        <p>Live credit counter & valuation</p>
+        <div class="endpoint">/.netlify/functions/credits</div>
+      </div>
+
+
+      <div class="system-card" onclick="window.open('/.netlify/functions/lead_generation', '_blank')">
+        <h4><span class="status-indicator"></span>Lead Generation</h4>
+        <p>100K+ contacts/minute capability</p>
+        <div class="endpoint">/.netlify/functions/lead_generation</div>
+      </div>
+
+
+      <div class="system-card" onclick="window.open('/.netlify/functions/b2c_sales', '_blank')">
+        <h4><span class="status-indicator"></span>B2C Sales System</h4>
+        <p>Emotional AI with RELL/REAL</p>
+        <div class="endpoint">/.netlify/functions/b2c_sales</div>
+      </div>
+
+
+      <div class="system-card" onclick="window.open('/.netlify/functions/real_estate', '_blank')">
+        <h4><span class="status-indicator"></span>Real Estate Wholesaling</h4>
+        <p>Property analysis & deals</p>
+        <div class="endpoint">/.netlify/functions/real_estate</div>
+      </div>
+
+
+      <div class="system-card" onclick="window.open('/.netlify/functions/heartbeat', '_blank')">
+        <h4><span class="status-indicator"></span>11-Layer Heartbeat</h4>
+        <p>Multi-layer fail-safe validation</p>
+        <div class="endpoint">/.netlify/functions/heartbeat</div>
+      </div>
+
+
+      <div class="system-card" onclick="window.open('/.netlify/functions/contracting', '_blank')">
+        <h4><span class="status-indicator"></span>Contracting Engine</h4>
+        <p>AI-powered proposals & contracts</p>
+        <div class="endpoint">/.netlify/functions/contracting</div>
+      </div>
+
+
+      <div class="system-card" onclick="window.open('/.netlify/functions/closing', '_blank')">
+        <h4><span class="status-indicator"></span>Autonomous Closing</h4>
+        <p>AI negotiation & deal optimization</p>
+        <div class="endpoint">/.netlify/functions/closing</div>
+      </div>
+
+
+      <div class="system-card" onclick="window.open('/.netlify/functions/marketing', '_blank')">
+        <h4><span class="status-indicator"></span>Marketing Automation</h4>
+        <p>Multi-channel campaigns</p>
+        <div class="endpoint">/.netlify/functions/marketing</div>
+      </div>
+
+
+      <div class="system-card" onclick="window.open('/.netlify/functions/training', '_blank')">
+        <h4><span class="status-indicator"></span>Training Engine</h4>
+        <p>Multi-industry curriculum</p>
+        <div class="endpoint">/.netlify/functions/training</div>
+      </div>
+
+
+      <div class="system-card" onclick="window.open('/.netlify/functions/compliance', '_blank')">
+        <h4><span class="status-indicator"></span>Compliance Engine</h4>
+        <p>Automated regulatory tracking</p>
+        <div class="endpoint">/.netlify/functions/compliance</div>
+      </div>
+
+
+      <div class="system-card" onclick="window.open('/.netlify/functions/devcore', '_blank')">
+        <h4><span class="status-indicator"></span>DevCore System</h4>
+        <p>Full-stack AI development</p>
+        <div class="endpoint">/.netlify/functions/devcore</div>
+      </div>
+
+
+      <div class="system-card" onclick="window.open('/.netlify/functions/rell', '_blank')">
+        <h4><span class="status-indicator"></span>RELL</h4>
+        <p>Recursive Emotional-Loyalty Loop</p>
+        <div class="endpoint">/.netlify/functions/rell</div>
+      </div>
+
+
+      <div class="system-card" onclick="window.open('/.netlify/functions/real', '_blank')">
+        <h4><span class="status-indicator"></span>REAL</h4>
+        <p>Emotional-Adaptation Logic</p>
+        <div class="endpoint">/.netlify/functions/real</div>
+      </div>
+
+
+      <div class="system-card" onclick="window.open('/.netlify/functions/rrmmre', '_blank')">
+        <h4><span class="status-indicator"></span>RRMMRE</h4>
+        <p>Memory-Based Recursive Execution</p>
+        <div class="endpoint">/.netlify/functions/rrmmre</div>
+      </div>
+
+
+      <div class="system-card" onclick="window.open('/.netlify/functions/airess', '_blank')">
+        <h4><span class="status-indicator"></span>AIRESS</h4>
+        <p>Intent Recognition System</p>
+        <div class="endpoint">/.netlify/functions/airess</div>
+      </div>
+
+
+      <div class="system-card" onclick="window.open('/.netlify/functions/ki_airess', '_blank')">
+        <h4><span class="status-indicator"></span>KI-AIRESS</h4>
+        <p>King-Level Intent Recognition</p>
+        <div class="endpoint">/.netlify/functions/ki_airess</div>
+      </div>
+
+
+      <div class="system-card" onclick="window.open('/.netlify/functions/qi_np', '_blank')">
+        <h4><span class="status-indicator"></span>Qi-NP Framework</h4>
+        <p>Mathematical computation engine</p>
+        <div class="endpoint">/.netlify/functions/qi_np</div>
+      </div>
+
+
+      <div class="system-card" onclick="window.open('/.netlify/functions/square_payments', '_blank')">
+        <h4><span class="status-indicator"></span>Square Payments</h4>
+        <p>Payment processing integration</p>
+        <div class="endpoint">/.netlify/functions/square_payments</div>
+      </div>
+
+
+      <div class="system-card" onclick="window.open('/.netlify/functions/revenue_ops', '_blank')">
+        <h4><span class="status-indicator"></span>Revenue Operations</h4>
+        <p>Dashboard & metrics</p>
+        <div class="endpoint">/.netlify/functions/revenue_ops</div>
+      </div>
+
+
+      <div class="system-card" onclick="window.open('/.netlify/functions/pricing', '_blank')">
+        <h4><span class="status-indicator"></span>Pricing Architecture</h4>
+        <p>$5K-$397K tiers</p>
+        <div class="endpoint">/.netlify/functions/pricing</div>
+      </div>
+
+
+      <div class="system-card" onclick="window.open('/.netlify/functions/agent_interface', '_blank')">
+        <h4><span class="status-indicator"></span>Agent Interface</h4>
+        <p>25-agent command center</p>
+        <div class="endpoint">/.netlify/functions/agent_interface</div>
+      </div>
+
+
+      <div class="system-card" onclick="window.open('/.netlify/functions/analytics', '_blank')">
+        <h4><span class="status-indicator"></span>Performance Analytics</h4>
+        <p>Real-time dashboards</p>
+        <div class="endpoint">/.netlify/functions/analytics</div>
+      </div>
+
+
+      <div class="system-card" onclick="window.open('/.netlify/functions/zero_cost_revenue', '_blank')">
+        <h4><span class="status-indicator"></span>Zero-Cost Revenue</h4>
+        <p>6 revenue streams</p>
+        <div class="endpoint">/.netlify/functions/zero_cost_revenue</div>
+      </div>
+
+
+      <div class="system-card" onclick="window.open('/.netlify/functions/righteous_tutoring', '_blank')">
+        <h4><span class="status-indicator"></span>Righteous Tutoring</h4>
+        <p>Non-profit education</p>
+        <div class="endpoint">/.netlify/functions/righteous_tutoring</div>
+      </div>
+
+
+      <div class="system-card" onclick="window.open('/.netlify/functions/aiak', '_blank')">
+        <h4><span class="status-indicator"></span>AIAK</h4>
+        <p>AI Academic Research King</p>
+        <div class="endpoint">/.netlify/functions/aiak</div>
+      </div>
+
+
+      <div class="system-card" onclick="window.open('/.netlify/functions/language_decipher', '_blank')">
+        <h4><span class="status-indicator"></span>Language Decipherment</h4>
+        <p>Ancient script analysis</p>
+        <div class="endpoint">/.netlify/functions/language_decipher</div>
+      </div>
+
+
+      <div class="system-card" onclick="window.open('/.netlify/functions/global_expansion', '_blank')">
+        <h4><span class="status-indicator"></span>Global Expansion</h4>
+        <p>47+ language support</p>
+        <div class="endpoint">/.netlify/functions/global_expansion</div>
+      </div>
+
+
+      <div class="system-card" onclick="window.open('/.netlify/functions/funnels', '_blank')">
+        <h4><span class="status-indicator"></span>Sales Funnels</h4>
+        <p>Multi-step conversion paths</p>
+        <div class="endpoint">/.netlify/functions/funnels</div>
+      </div>
+
+
+      <div class="system-card" onclick="window.open('/.netlify/functions/influencer_network', '_blank')">
+        <h4><span class="status-indicator"></span>Influencer Network</h4>
+        <p>Partner ecosystem</p>
+        <div class="endpoint">/.netlify/functions/influencer_network</div>
+      </div>
+
+
+      <div class="system-card" onclick="window.open('/.netlify/functions/android_apk', '_blank')">
+        <h4><span class="status-indicator"></span>Android APK</h4>
+        <p>Mobile system framework</p>
+        <div class="endpoint">/.netlify/functions/android_apk</div>
+      </div>
+
+
+      <div class="system-card" onclick="window.open('/.netlify/functions/pnp_engine', '_blank')">
+        <h4><span class="status-indicator"></span>P=NP Engine</h4>
+        <p>O(n^1.77) breakthrough</p>
+        <div class="endpoint">/.netlify/functions/pnp_engine</div>
+      </div>
+
+
+      <div class="system-card" onclick="window.open('/.netlify/functions/structural_sim', '_blank')">
+        <h4><span class="status-indicator"></span>Structural Simulator</h4>
+        <p>Engineering logic AI</p>
+        <div class="endpoint">/.netlify/functions/structural_sim</div>
+      </div>
+
+
+      <div class="system-card" onclick="window.open('/.netlify/functions/yocto_cycle', '_blank')">
+        <h4><span class="status-indicator"></span>Yocto-Cycle Protocol</h4>
+        <p>Ultra-precision timing</p>
+        <div class="endpoint">/.netlify/functions/yocto_cycle</div>
+      </div>
+
+
+      <div class="system-card" onclick="window.open('/.netlify/functions/ip_portfolio', '_blank')">
+        <h4><span class="status-indicator"></span>IP Portfolio</h4>
+        <p>$2M-$50M valuation</p>
+        <div class="endpoint">/.netlify/functions/ip_portfolio</div>
+      </div>
+
+
+      <div class="system-card" onclick="window.open('/.netlify/functions/licensing', '_blank')">
+        <h4><span class="status-indicator"></span>Commercial Licensing</h4>
+        <p>Revenue partnerships</p>
+        <div class="endpoint">/.netlify/functions/licensing</div>
+      </div>
+
+
+      <div class="system-card" onclick="window.open('/.netlify/functions/king_infinity', '_blank')">
+        <h4><span class="status-indicator"></span>King Infinity</h4>
+        <p>0.0000001μs iterations</p>
+        <div class="endpoint">/.netlify/functions/king_infinity</div>
+      </div>
+
+
+      <div class="system-card" onclick="window.open('/.netlify/functions/king_infinity_prime', '_blank')">
+        <h4><span class="status-indicator"></span>King Infinity Prime</h4>
+        <p>Counter-rotation protocol</p>
+        <div class="endpoint">/.netlify/functions/king_infinity_prime</div>
+      </div>
+
+
+      <div class="system-card" onclick="window.open('/.netlify/functions/king_infinavera', '_blank')">
+        <h4><span class="status-indicator"></span>King-InfinaVera</h4>
+        <p>Pre-sync alignment</p>
+        <div class="endpoint">/.netlify/functions/king_infinavera</div>
+      </div>
+
+
+      <div class="system-card" onclick="window.open('/.netlify/functions/quantum_king', '_blank')">
+        <h4><span class="status-indicator"></span>Quantum King</h4>
+        <p>Quantum-classical balance</p>
+        <div class="endpoint">/.netlify/functions/quantum_king</div>
+      </div>
+
+
+      <div class="system-card" onclick="window.open('/.netlify/functions/ultimate_orchestration', '_blank')">
+        <h4><span class="status-indicator"></span>Ultimate Orchestration</h4>
+        <p>Master system control</p>
+        <div class="endpoint">/.netlify/functions/ultimate_orchestration</div>
+      </div>
+
+
+      <div class="system-card" onclick="window.open('/.netlify/functions/team_protocol', '_blank')">
+        <h4><span class="status-indicator"></span>TEAM Protocol</h4>
+        <p>25-agent collaboration</p>
+        <div class="endpoint">/.netlify/functions/team_protocol</div>
+      </div>
+
+
+      <div class="system-card" onclick="window.open('/.netlify/functions/supreme_king', '_blank')">
+        <h4><span class="status-indicator"></span>Supreme King Engine</h4>
+        <p>Multi-agent AI core</p>
+        <div class="endpoint">/.netlify/functions/supreme_king</div>
+      </div>
+
+
+      <div class="system-card" onclick="window.open('/.netlify/functions/inovity_ledger', '_blank')">
+        <h4><span class="status-indicator"></span>Inovity Kind Ledger</h4>
+        <p>Immutable token system</p>
+        <div class="endpoint">/.netlify/functions/inovity_ledger</div>
+      </div>
+
+
+      <div class="system-card" onclick="window.open('/.netlify/functions/skc_currency', '_blank')">
+        <h4><span class="status-indicator"></span>SKC Currency</h4>
+        <p>Internal utility currency</p>
+        <div class="endpoint">/.netlify/functions/skc_currency</div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    async function updateCredits() {
+      try {
+        const resp = await fetch('/.netlify/functions/credits');
+        const data = await resp.json();
+        document.getElementById('credits').textContent = 
+          (data.credits || 0).toLocaleString();
+      } catch (e) {
+        console.error('Credits update failed:', e);
+      }
+    }
+    
+    updateCredits();
+    setInterval(updateCredits, 5000);
+  </script>
 </body>
 </html>
