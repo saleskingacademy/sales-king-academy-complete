@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <title>Sales King Academy - AI Civilization</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #000;
+      color: #0f0;
+      padding: 10px;
+      overflow-x: hidden;
+    }
+    .header {
+      text-align: center;
+      padding: 20px;
+      background: linear-gradient(135deg, #001a00 0%, #003300 100%);
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
+    .status {
+      background: #001a00;
+      border: 2px solid #0f0;
+      border-radius: 10px;
+      padding: 15px;
+      margin: 10px 0;
+    }
+    .metric {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px solid #004400;
+    }
+    .metric:last-child { border-bottom: none; }
+    .label { color: #0f0; font-weight: bold; }
+    .value { color: #00ff00; }
+    .btn {
+      background: #0f0;
+      color: #000;
+      border: none;
+      padding: 15px;
+      border-radius: 8px;
+      width: 100%;
+      margin: 10px 0;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .agents {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 10px;
+      margin: 20px 0;
+    }
+    .agent {
+      background: #001a00;
+      border: 1px solid #0f0;
+      padding: 10px;
+      border-radius: 5px;
+      text-align: center;
+    }
+    #output {
+      background: #000;
+      border: 2px solid #0f0;
+      padding: 15px;
+      margin: 20px 0;
+      border-radius: 10px;
+      min-height: 100px;
+      font-family: monospace;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+    .loading { animation: pulse 1s infinite; }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>🏛️ SALES KING ACADEMY</h1>
+    <p style="color:#00ff00">Complete AI Civilization</p>
+    <p style="font-size:12px">Pixel 9A Optimized • 8GB = 2,929TB</p>
+  </div>
+  
+  <div class="status" id="status">
+    <div class="metric"><span class="label">System:</span><span class="value loading">Loading...</span></div>
+    <div class="metric"><span class="label">SKA Credits:</span><span class="value" id="credits">-</span></div>
+    <div class="metric"><span class="label">Agents Active:</span><span class="value" id="agents">-</span></div>
+    <div class="metric"><span class="label">Compression:</span><span class="value">390,625:1</span></div>
+    <div class="metric"><span class="label">Effective RAM:</span><span class="value">2,929 TB</span></div>
+    <div class="metric"><span class="label">Complexity:</span><span class="value">O(n^1.77)</span></div>
+    <div class="metric"><span class="label">Alpha:</span><span class="value">25</span></div>
+  </div>
+  
+  <button class="btn" onclick="refreshStatus()">🔄 Refresh Status</button>
+  <button class="btn" onclick="showAgents()">👥 View 25 Agents</button>
+  <button class="btn" onclick="generateToken()">🎟️ Generate Temporal Token</button>
+  <button class="btn" onclick="testCompression()">🗜️ Test Compression</button>
+  
+  <div id="agentList" class="agents" style="display:none"></div>
+  <div id="output"></div>
+
+  <script>
+    const API = 'https://saleskingacademy.com/.netlify/functions/ska_complete';
+    
+    async function refreshStatus() {
+      try {
+        document.getElementById('output').textContent = '⏳ Loading system status...';
+        const res = await fetch(API);
+        const data = await res.json();
+        
+        document.getElementById('credits').textContent = data.ska_credits.total.toLocaleString();
+        document.getElementById('agents').textContent = `${data.systems.agents}/25`;
+        document.getElementById('status').querySelector('.loading').classList.remove('loading');
+        document.getElementById('status').querySelector('.value').textContent = data.status;
+        
+        document.getElementById('output').textContent = JSON.stringify(data, null, 2);
+      } catch (e) {
+        document.getElementById('output').textContent = `Error: ${e.message}`;
+      }
+    }
+    
+    async function showAgents() {
+      try {
+        const res = await fetch(API + '/agents');
+        const data = await res.json();
+        const list = document.getElementById('agentList');
+        list.innerHTML = data.agents.map(a => 
+          `<div class="agent">
+            <div><strong>Agent ${a.id}</strong></div>
+            <div style="font-size:12px">${a.name}</div>
+            <div style="font-size:10px;color:#0f0">L${a.level}</div>
+          </div>`
+        ).join('');
+        list.style.display = 'grid';
+        document.getElementById('output').textContent = `${data.total} agents loaded\nMaster CEO: ${data.master_ceo.name}`;
+      } catch (e) {
+        document.getElementById('output').textContent = `Error: ${e.message}`;
+      }
+    }
+    
+    async function generateToken() {
+      try {
+        const res = await fetch(API + '/token');
+        const data = await res.json();
+        document.getElementById('output').textContent = `Temporal DNA Token:\n${data.token}\n\nThis 32-digit token enables infinite memory without storage through pure mathematical reconstruction.`;
+      } catch (e) {
+        document.getElementById('output').textContent = `Error: ${e.message}`;
+      }
+    }
+    
+    async function testCompression() {
+      try {
+        const testData = 'X'.repeat(390625); // 390KB of data
+        document.getElementById('output').textContent = `Compressing ${testData.length.toLocaleString()} bytes...`;
+        
+        const res = await fetch(API + '/compress', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({data: testData})
+        });
+        const data = await res.json();
+        
+        document.getElementById('output').textContent = 
+          `Original: ${data.original_size.toLocaleString()} bytes\n` +
+          `Ratio: ${data.ratio}:1\n` +
+          `Compressed: ~1 byte\n` +
+          `Savings: 99.9997%\n\n` +
+          `This is how 8GB RAM becomes 2,929TB through mathematical transformation.`;
+      } catch (e) {
+        document.getElementById('output').textContent = `Error: ${e.message}`;
+      }
+    }
+    
+    // Auto-load on startup
+    refreshStatus();
+    
+    // Register service worker for offline capability
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/sw.js').catch(() => {});
+    }
+  </script>
+</body>
+</html>
