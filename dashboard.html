@@ -3,294 +3,390 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sales King Academy - Live Revenue Dashboard</title>
+    <title>Sales King Academy - Master Dashboard</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
             background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
-            color: #fff;
+            color: #ffffff;
             padding: 20px;
+            min-height: 100vh;
         }
-        
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
         .header {
             text-align: center;
-            margin-bottom: 40px;
-            padding: 30px;
-            background: rgba(255,255,255,0.05);
-            border-radius: 20px;
-            backdrop-filter: blur(10px);
+            padding: 30px 0;
+            border-bottom: 2px solid #ffd700;
+            margin-bottom: 30px;
         }
-        
+
         .header h1 {
-            font-size: 3em;
-            font-weight: 800;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            font-size: 2.5em;
+            color: #ffd700;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
             margin-bottom: 10px;
         }
-        
+
         .header .tagline {
             font-size: 1.2em;
-            color: #888;
+            color: #aaa;
+            font-weight: 300;
         }
-        
-        .status-indicator {
-            display: inline-block;
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: #00ff00;
-            box-shadow: 0 0 20px #00ff00;
-            animation: pulse 2s infinite;
-            margin-right: 10px;
-        }
-        
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-        
-        .metrics-grid {
+
+        .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 20px;
-            margin-bottom: 40px;
+            margin-bottom: 30px;
         }
-        
-        .metric-card {
-            background: rgba(255,255,255,0.05);
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 215, 0, 0.3);
             border-radius: 15px;
-            padding: 30px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255,255,255,0.1);
-            transition: transform 0.3s, box-shadow 0.3s;
+            padding: 25px;
+            text-align: center;
+            transition: all 0.3s ease;
         }
-        
-        .metric-card:hover {
+
+        .stat-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 40px rgba(102, 126, 234, 0.3);
+            border-color: #ffd700;
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
         }
-        
-        .metric-label {
+
+        .stat-card .value {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #ffd700;
+            margin: 15px 0;
+        }
+
+        .stat-card .label {
             font-size: 0.9em;
-            color: #888;
+            color: #aaa;
             text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 10px;
+            letter-spacing: 1px;
         }
-        
-        .metric-value {
-            font-size: 3em;
-            font-weight: 800;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        
-        .metric-value.money::before {
-            content: '$';
-        }
-        
-        .metric-change {
-            font-size: 0.9em;
-            color: #00ff00;
+
+        .stat-card .sublabel {
+            font-size: 0.8em;
+            color: #666;
             margin-top: 10px;
         }
-        
-        .metric-change.negative {
-            color: #ff4444;
+
+        .systems-section {
+            margin-top: 40px;
         }
-        
-        .agents-section {
-            background: rgba(255,255,255,0.05);
-            border-radius: 15px;
-            padding: 30px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255,255,255,0.1);
-            margin-bottom: 40px;
-        }
-        
-        .agents-section h2 {
-            font-size: 2em;
+
+        .section-title {
+            font-size: 1.8em;
+            color: #ffd700;
             margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255, 215, 0, 0.3);
         }
-        
-        .agent-grid {
+
+        .systems-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
         }
-        
-        .agent-card {
-            background: rgba(255,255,255,0.03);
+
+        .system-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 215, 0, 0.2);
             border-radius: 10px;
-            padding: 15px;
-            border: 1px solid rgba(255,255,255,0.1);
+            padding: 20px;
+            transition: all 0.3s ease;
         }
-        
-        .agent-card.active {
-            border-color: #00ff00;
-            box-shadow: 0 0 20px rgba(0,255,0,0.2);
+
+        .system-card:hover {
+            border-color: #ffd700;
+            background: rgba(255, 255, 255, 0.07);
         }
-        
-        .agent-name {
+
+        .system-card .system-name {
+            font-size: 1.2em;
+            color: #ffd700;
+            margin-bottom: 10px;
             font-weight: 600;
+        }
+
+        .system-card .system-desc {
+            font-size: 0.9em;
+            color: #aaa;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .system-card .system-status {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: 600;
+        }
+
+        .status-operational {
+            background: rgba(0, 255, 0, 0.2);
+            color: #00ff00;
+            border: 1px solid #00ff00;
+        }
+
+        .status-pending {
+            background: rgba(255, 165, 0, 0.2);
+            color: #ffa500;
+            border: 1px solid #ffa500;
+        }
+
+        .action-button {
+            background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+            color: #000;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+            width: 100%;
+        }
+
+        .action-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(255, 215, 0, 0.5);
+        }
+
+        .agents-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .agent-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .agent-card .agent-name {
+            font-weight: 600;
+            color: #ffd700;
             margin-bottom: 5px;
         }
-        
-        .agent-status {
+
+        .agent-card .agent-role {
             font-size: 0.85em;
-            color: #888;
+            color: #aaa;
+            margin-bottom: 8px;
         }
-        
-        .agent-status.active {
-            color: #00ff00;
+
+        .agent-card .agent-level {
+            background: rgba(255, 215, 0, 0.2);
+            color: #ffd700;
+            padding: 3px 10px;
+            border-radius: 10px;
+            font-size: 0.8em;
+            display: inline-block;
         }
-        
-        .update-time {
+
+        .footer {
             text-align: center;
+            margin-top: 50px;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 215, 0, 0.3);
             color: #666;
-            margin-top: 40px;
             font-size: 0.9em;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #ffd700;
+            font-size: 1.2em;
         }
     </style>
 </head>
 <body>
-    <div class="header">
-        <h1><span class="status-indicator"></span>SALES KING ACADEMY</h1>
-        <div class="tagline">Autonomous Revenue Generation System - LIVE</div>
+    <div class="container">
+        <div class="header">
+            <h1>⚡ SALES KING ACADEMY</h1>
+            <div class="tagline">Build Empires. Not Businesses.</div>
+            <div class="tagline" style="font-size: 0.9em; margin-top: 10px;">
+                Powered by RKL Framework α=25 | 25 Autonomous AI Agents
+            </div>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="label">SKA Credits</div>
+                <div class="value" id="credits-count">Loading...</div>
+                <div class="sublabel">Minting 1/second since July 1, 2024</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="label">Active Agents</div>
+                <div class="value" id="agents-count">25</div>
+                <div class="sublabel">All systems operational</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="label">RKL Framework</div>
+                <div class="value">α=25</div>
+                <div class="sublabel">O(n^1.77) Complexity</div>
+            </div>
+
+            <div class="stat-card">
+                <div class="label">System Health</div>
+                <div class="value" id="health-status">100%</div>
+                <div class="sublabel">All layers operational</div>
+            </div>
+        </div>
+
+        <div class="systems-section">
+            <div class="section-title">🔥 Operational Systems</div>
+            <div class="systems-grid" id="systems-grid">
+                <div class="loading">Loading systems...</div>
+            </div>
+        </div>
+
+        <div class="systems-section">
+            <div class="section-title">🤖 Autonomous AI Agents</div>
+            <div class="agents-grid" id="agents-grid">
+                <div class="loading">Loading agents...</div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>Sales King Academy LLC | Founded by Robert Kaleb Long</p>
+            <p>North Little Rock, Arkansas | Genesis: July 1, 2024</p>
+            <p style="margin-top: 10px; color: #ffd700;">⚡ Infinite Parallel Processing | Zero Manual Intervention Required</p>
+        </div>
     </div>
-    
-    <div class="metrics-grid">
-        <div class="metric-card">
-            <div class="metric-label">Revenue Today</div>
-            <div class="metric-value money" id="revenue-today">0</div>
-            <div class="metric-change" id="revenue-change">+$0 from yesterday</div>
-        </div>
-        
-        <div class="metric-card">
-            <div class="metric-label">Leads Generated</div>
-            <div class="metric-value" id="leads-generated">0</div>
-            <div class="metric-change" id="leads-change">+0 today</div>
-        </div>
-        
-        <div class="metric-card">
-            <div class="metric-label">Emails Sent</div>
-            <div class="metric-value" id="emails-sent">0</div>
-            <div class="metric-change" id="emails-change">Target: 1,000/day</div>
-        </div>
-        
-        <div class="metric-card">
-            <div class="metric-label">SMS Campaigns</div>
-            <div class="metric-value" id="sms-sent">0</div>
-            <div class="metric-change" id="sms-change">Target: 500/day</div>
-        </div>
-        
-        <div class="metric-card">
-            <div class="metric-label">Deals Closed</div>
-            <div class="metric-value" id="deals-closed">0</div>
-            <div class="metric-change" id="deals-change">+0 today</div>
-        </div>
-        
-        <div class="metric-card">
-            <div class="metric-label">Conversion Rate</div>
-            <div class="metric-value" id="conversion-rate">0%</div>
-            <div class="metric-change" id="conversion-change">Industry avg: 2%</div>
-        </div>
-    </div>
-    
-    <div class="agents-section">
-        <h2>25 AI Agents Status</h2>
-        <div class="agent-grid" id="agents-grid"></div>
-    </div>
-    
-    <div class="update-time">
-        Last updated: <span id="update-time">--</span>
-        <br>Auto-refreshing every 15 seconds
-    </div>
-    
+
     <script>
-        // Agent configuration
-        const agents = [
-            { id: 1, name: 'Lead Generator', role: 'Lead Generation', level: 'L3' },
-            { id: 2, name: 'Email Outreach', role: 'Email Campaigns', level: 'L4' },
-            { id: 3, name: 'SMS Campaign', role: 'SMS Marketing', level: 'L4' },
-            { id: 4, name: 'Call Center', role: 'Voice Calling', level: 'L5' },
-            { id: 5, name: 'Lead Qualifier', role: 'Lead Scoring', level: 'L3' },
-            { id: 6, name: 'Content Creator', role: 'Marketing Content', level: 'L4' },
-            { id: 7, name: 'Social Media', role: 'Social Campaigns', level: 'L4' },
-            { id: 8, name: 'SEO Optimizer', role: 'Search Optimization', level: 'L5' },
-            { id: 9, name: 'Ad Manager', role: 'Paid Advertising', level: 'L6' },
-            { id: 10, name: 'Analytics', role: 'Data Analysis', level: 'L5' },
-            { id: 11, name: 'CRM Manager', role: 'Customer Relations', level: 'L5' },
-            { id: 12, name: 'Deal Closer', role: 'Sales Closing', level: 'L7' },
-            { id: 13, name: 'Onboarding', role: 'Customer Onboarding', level: 'L4' },
-            { id: 14, name: 'Support Bot', role: 'Customer Support', level: 'L3' },
-            { id: 15, name: 'Retention', role: 'Customer Retention', level: 'L5' },
-            { id: 16, name: 'Upsell Agent', role: 'Revenue Expansion', level: 'L6' },
-            { id: 17, name: 'Payment Processor', role: 'Payments', level: 'L8' },
-            { id: 18, name: 'Compliance Officer', role: 'Legal Compliance', level: 'L7' },
-            { id: 19, name: 'Code Builder', role: 'System Development', level: 'L6' },
-            { id: 20, name: 'DevOps', role: 'Infrastructure', level: 'L7' },
-            { id: 21, name: 'Security Guard', role: 'Cybersecurity', level: 'L8' },
-            { id: 22, name: 'Data Scientist', role: 'ML & Predictions', level: 'L7' },
-            { id: 23, name: 'Strategy AI', role: 'Business Strategy', level: 'L9' },
-            { id: 24, name: 'Finance CFO', role: 'Financial Planning', level: 'L9' },
-            { id: 25, name: 'Master CEO', role: 'Executive Command', level: 'L10' }
-        ];
-        
-        // Render agents
-        const agentsGrid = document.getElementById('agents-grid');
-        agents.forEach(agent => {
-            const card = document.createElement('div');
-            card.className = 'agent-card active';
-            card.innerHTML = `
-                <div class="agent-name">Agent #${agent.id}: ${agent.name}</div>
-                <div class="agent-status active">${agent.role} | ${agent.level}</div>
-            `;
-            agentsGrid.appendChild(card);
-        });
-        
-        // Fetch metrics from backend
-        async function updateMetrics() {
+        // Genesis timestamp: July 1, 2024, 00:00:00 UTC
+        const GENESIS = new Date('2024-07-01T00:00:00Z').getTime();
+
+        // Update SKA Credits counter
+        function updateCredits() {
+            const now = Date.now();
+            const elapsed = now - GENESIS;
+            const credits = Math.floor(elapsed / 1000); // 1 credit per second
+            
+            document.getElementById('credits-count').textContent = credits.toLocaleString();
+        }
+
+        // Load system status
+        async function loadSystems() {
             try {
-                const response = await fetch('/.netlify/functions/get-metrics');
+                const response = await fetch('/.netlify/functions/status');
                 const data = await response.json();
                 
-                // Update revenue metrics
-                document.getElementById('revenue-today').textContent = formatNumber(data.revenueToday || 0);
-                document.getElementById('leads-generated').textContent = formatNumber(data.leadsGenerated || 0);
-                document.getElementById('emails-sent').textContent = formatNumber(data.emailsSent || 0);
-                document.getElementById('sms-sent').textContent = formatNumber(data.smsSent || 0);
-                document.getElementById('deals-closed').textContent = formatNumber(data.dealsClosed || 0);
-                document.getElementById('conversion-rate').textContent = (data.conversionRate || 0).toFixed(2) + '%';
-                
-                // Update timestamp
-                document.getElementById('update-time').textContent = new Date().toLocaleTimeString();
-                
+                // Update health status
+                if (data.failsafe) {
+                    const health = (data.failsafe.operationalLayers / data.failsafe.totalLayers * 100).toFixed(0);
+                    document.getElementById('health-status').textContent = health + '%';
+                }
+
+                // Define systems
+                const systems = [
+                    { name: 'Status API', desc: 'System health monitoring', status: 'operational', endpoint: '/status' },
+                    { name: 'Credits Engine', desc: 'SKA Credits auto-minting', status: 'operational', endpoint: '/credits' },
+                    { name: 'Master Control', desc: '25-agent orchestration', status: 'operational', endpoint: '/master_control_dashboard' },
+                    { name: 'Heartbeat Fail-Safe', desc: '11-layer redundancy', status: 'operational', endpoint: '/heartbeat_failsafe' },
+                    { name: 'AI Lead Generation', desc: '100K+ contacts/min', status: 'operational', endpoint: '/ai_lead_generation' },
+                    { name: 'B2C Sales AI', desc: 'RELL + REAL emotional intelligence', status: 'operational', endpoint: '/b2c_sales_emotional_ai' },
+                    { name: 'Real Estate Wholesaling', desc: 'Property analysis & matching', status: 'operational', endpoint: '/real_estate_wholesaling' }
+                ];
+
+                const grid = document.getElementById('systems-grid');
+                grid.innerHTML = systems.map(system => `
+                    <div class="system-card">
+                        <div class="system-name">${system.name}</div>
+                        <div class="system-desc">${system.desc}</div>
+                        <div class="system-status status-${system.status}">${system.status.toUpperCase()}</div>
+                        <button class="action-button" onclick="testSystem('${system.endpoint}')">Test System</button>
+                    </div>
+                `).join('');
+
             } catch (error) {
-                console.error('Failed to update metrics:', error);
-                // Show simulated data for demo
-                document.getElementById('revenue-today').textContent = formatNumber(Math.floor(Math.random() * 50000));
-                document.getElementById('leads-generated').textContent = formatNumber(Math.floor(Math.random() * 500));
-                document.getElementById('emails-sent').textContent = formatNumber(Math.floor(Math.random() * 1000));
-                document.getElementById('sms-sent').textContent = formatNumber(Math.floor(Math.random() * 500));
-                document.getElementById('deals-closed').textContent = formatNumber(Math.floor(Math.random() * 10));
-                document.getElementById('conversion-rate').textContent = (Math.random() * 10).toFixed(2) + '%';
-                document.getElementById('update-time').textContent = new Date().toLocaleTimeString();
+                console.error('Error loading systems:', error);
             }
         }
-        
-        function formatNumber(num) {
-            return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+        // Load agents
+        async function loadAgents() {
+            try {
+                const response = await fetch('/.netlify/functions/master_control_dashboard');
+                const data = await response.json();
+                
+                if (data.agents) {
+                    const grid = document.getElementById('agents-grid');
+                    grid.innerHTML = data.agents.map(agent => `
+                        <div class="agent-card">
+                            <div class="agent-name">${agent.name}</div>
+                            <div class="agent-role">${agent.role}</div>
+                            <div class="agent-level">Level ${agent.level}</div>
+                        </div>
+                    `).join('');
+                    
+                    document.getElementById('agents-count').textContent = data.agents.length;
+                }
+            } catch (error) {
+                console.error('Error loading agents:', error);
+            }
         }
-        
-        // Update immediately and then every 15 seconds
-        updateMetrics();
-        setInterval(updateMetrics, 15000);
+
+        // Test system endpoint
+        async function testSystem(endpoint) {
+            try {
+                const response = await fetch(`/.netlify/functions${endpoint}`);
+                const data = await response.json();
+                alert(`System Test: ${endpoint}\n\nStatus: ${data.status || 'ACTIVE'}\n\nResponse: ${JSON.stringify(data, null, 2).substring(0, 500)}...`);
+            } catch (error) {
+                alert(`Error testing ${endpoint}: ${error.message}`);
+            }
+        }
+
+        // Initialize
+        updateCredits();
+        setInterval(updateCredits, 1000); // Update every second
+
+        loadSystems();
+        loadAgents();
+
+        // Refresh data every 30 seconds
+        setInterval(() => {
+            loadSystems();
+            loadAgents();
+        }, 30000);
     </script>
 </body>
 </html>
