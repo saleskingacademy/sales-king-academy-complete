@@ -1,13 +1,8 @@
-# Ignore Python files
 *.py
-requirements.txt
-requirements_*.txt
 __pycache__/
 *.pyc
-
-# Ignore Render config
-render.yaml
-Dockerfile*
-
-# Ignore backend if it's Python
+requirements.txt
+app.py
 backend/
+Dockerfile*
+render.yaml
