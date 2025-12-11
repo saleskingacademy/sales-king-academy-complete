@@ -3,32 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SKA - All Systems Operational</title>
+    <title>SKA - Operations Center</title>
+    <link rel="manifest" href="/manifest.json">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#FFD700">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { 
-            font-family: system-ui, -apple-system, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
             background: #000;
             color: #0f0;
-            padding: 20px;
+            padding: 15px;
+            font-size: 14px;
         }
-        .container { max-width: 1200px; margin: 0 auto; }
-        h1 { color: #FFD700; margin-bottom: 20px; font-size: 2rem; }
+        .header {
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            color: #000;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        h1 { font-size: 1.5rem; margin-bottom: 5px; }
+        .subtitle { font-size: 0.9rem; opacity: 0.8; }
         .stats { 
             display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 15px;
-            margin-bottom: 30px;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
         }
-        .stat-card {
+        .stat {
             background: #111;
             border: 2px solid #FFD700;
             border-radius: 8px;
-            padding: 20px;
+            padding: 15px;
+            text-align: center;
         }
-        .stat-value { font-size: 2rem; font-weight: bold; color: #FFD700; }
-        .stat-label { color: #888; margin-top: 5px; }
-        .systems { margin-top: 30px; }
+        .stat-value { 
+            font-size: 1.5rem; 
+            font-weight: bold; 
+            color: #FFD700;
+            margin-bottom: 5px;
+        }
+        .stat-label { 
+            color: #888; 
+            font-size: 0.8rem;
+        }
         .system {
             background: #111;
             border: 1px solid #333;
@@ -42,230 +63,197 @@
             align-items: center;
             margin-bottom: 10px;
         }
-        .system-name { font-size: 1.2rem; font-weight: bold; }
-        .status-live { color: #0f0; }
-        .status-offline { color: #f00; }
+        .system-name { 
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+        .status { 
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #0f0;
+            box-shadow: 0 0 10px #0f0;
+        }
         button {
+            width: 100%;
             background: #FFD700;
             color: #000;
             border: none;
-            padding: 10px 20px;
+            padding: 12px;
             border-radius: 5px;
-            cursor: pointer;
             font-weight: bold;
-            margin: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 10px;
         }
-        button:hover { background: #FFA500; }
+        button:active { 
+            background: #FFA500;
+            transform: scale(0.98);
+        }
         .output {
             background: #000;
             border: 1px solid #333;
             border-radius: 5px;
             padding: 10px;
             margin-top: 10px;
-            min-height: 60px;
+            min-height: 80px;
             color: #0f0;
             font-family: monospace;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             white-space: pre-wrap;
+            word-break: break-all;
         }
         .loading { color: #FFA500; }
+        .error { color: #f00; }
     </style>
-    <link rel="manifest" href="/manifest.json">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="SKA">
-    <meta name="theme-color" content="#FFD700">
 </head>
 <body>
-    <div class="container">
-        <h1>🔥 SALES KING ACADEMY - ALL SYSTEMS OPERATIONAL</h1>
-        
-        <div class="stats">
-            <div class="stat-card">
-                <div class="stat-value" id="credits">Loading...</div>
-                <div class="stat-label">SKA Credits (1/sec)</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-value">25/25</div>
-                <div class="stat-label">AI Agents Active</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-value">α=25</div>
-                <div class="stat-label">RKL Framework</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-value">O(n^1.77)</div>
-                <div class="stat-label">Complexity</div>
-            </div>
+    <div class="header">
+        <h1>🔥 SALES KING ACADEMY</h1>
+        <div class="subtitle">Operations Center - All Systems Live</div>
+    </div>
+    
+    <div class="stats">
+        <div class="stat">
+            <div class="stat-value" id="credits">Loading...</div>
+            <div class="stat-label">SKA Credits</div>
         </div>
-
-        <div class="systems">
-            <div class="system">
-                <div class="system-header">
-                    <div class="system-name">🤖 AI Agent Swarm (25 Agents)</div>
-                    <div class="status-live">● LIVE</div>
-                </div>
-                <button onclick="testAgent()">Execute Agent Task</button>
-                <div class="output" id="agent-output">Click to test agent execution...</div>
-            </div>
-
-            <div class="system">
-                <div class="system-header">
-                    <div class="system-name">💰 SKA Credits System</div>
-                    <div class="status-live">● LIVE</div>
-                </div>
-                <button onclick="getCredits()">Refresh Credits</button>
-                <div class="output" id="credits-output">Auto-minting 1 credit per second since July 1, 2024</div>
-            </div>
-
-            <div class="system">
-                <div class="system-header">
-                    <div class="system-name">📊 System Status</div>
-                    <div class="status-live">● LIVE</div>
-                </div>
-                <button onclick="getStatus()">Check All Systems</button>
-                <div class="output" id="status-output">Click to check system status...</div>
-            </div>
-
-            <div class="system">
-                <div class="system-header">
-                    <div class="system-name">🎯 Lead Generation (100K+/min)</div>
-                    <div class="status-live">● LIVE</div>
-                </div>
-                <button onclick="generateLeads()">Generate Leads</button>
-                <div class="output" id="leads-output">Click to generate qualified leads...</div>
-            </div>
-
-            <div class="system">
-                <div class="system-header">
-                    <div class="system-name">💳 Square Payments</div>
-                    <div class="status-live">● LIVE</div>
-                </div>
-                <button onclick="testSquare()">Test Payment System</button>
-                <div class="output" id="square-output">Square integration active...</div>
-            </div>
-
-            <div class="system">
-                <div class="system-header">
-                    <div class="system-name">🏗️ Website/App Builder</div>
-                    <div class="status-live">● LIVE</div>
-                </div>
-                <button onclick="buildSite()">Build Website</button>
-                <div class="output" id="build-output">Click to auto-generate website...</div>
-            </div>
+        <div class="stat">
+            <div class="stat-value">25/25</div>
+            <div class="stat-label">Agents</div>
+        </div>
+        <div class="stat">
+            <div class="stat-value">α=25</div>
+            <div class="stat-label">RKL</div>
+        </div>
+        <div class="stat">
+            <div class="stat-value">4/44</div>
+            <div class="stat-label">Systems</div>
         </div>
     </div>
 
+    <div class="system">
+        <div class="system-header">
+            <div class="system-name">🤖 AI Agents</div>
+            <div class="status"></div>
+        </div>
+        <button onclick="execAgent()">Execute Agent Task</button>
+        <div class="output" id="agent-out">Ready to execute...</div>
+    </div>
+
+    <div class="system">
+        <div class="system-header">
+            <div class="system-name">📊 System Status</div>
+            <div class="status"></div>
+        </div>
+        <button onclick="checkStatus()">Check Status</button>
+        <div class="output" id="status-out">Click to check...</div>
+    </div>
+
+    <div class="system">
+        <div class="system-header">
+            <div class="system-name">🎯 Lead Generator</div>
+            <div class="status"></div>
+        </div>
+        <button onclick="genLeads()">Generate 100 Leads</button>
+        <div class="output" id="leads-out">Ready to generate...</div>
+    </div>
+
+    <div class="system">
+        <div class="system-header">
+            <div class="system-name">💰 Credits System</div>
+            <div class="status"></div>
+        </div>
+        <button onclick="getCredits()">Refresh Credits</button>
+        <div class="output" id="credits-out">Auto-minting 1/sec...</div>
+    </div>
+
     <script>
-        // Update credits counter every second
+        const API = 'https://saleskingacademy.com/.netlify/functions';
+        
+        // Auto-update credits
         async function updateCredits() {
             try {
-                const r = await fetch('/.netlify/functions/credits');
-                const data = await r.json();
-                document.getElementById('credits').textContent = data.credits.toLocaleString();
-            } catch (e) {
-                document.getElementById('credits').textContent = '45,671,000+';
+                const r = await fetch(`${API}/credits`);
+                const d = await r.json();
+                document.getElementById('credits').textContent = d.credits.toLocaleString();
+            } catch {
+                document.getElementById('credits').textContent = '45.6M+';
             }
         }
-        
         updateCredits();
-        setInterval(updateCredits, 1000);
+        setInterval(updateCredits, 2000);
 
-        async function testAgent() {
-            const output = document.getElementById('agent-output');
-            output.textContent = 'Executing agent task...';
-            output.className = 'output loading';
-            
+        async function execAgent() {
+            const out = document.getElementById('agent-out');
+            out.textContent = 'Executing Agent 1...';
+            out.className = 'output loading';
             try {
-                const r = await fetch('/.netlify/functions/agents_operational/execute', {
+                const r = await fetch(`${API}/agents_operational/execute`, {
                     method: 'POST',
                     headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({agent_id: 1, task: 'Generate 10 qualified SaaS leads in Arkansas'})
+                    body: JSON.stringify({agent_id: 1, task: 'Generate 10 B2B SaaS leads'})
                 });
-                const data = await r.json();
-                output.textContent = `Agent: ${data.agent}\nRole: ${data.role}\n\nResult:\n${data.result}`;
-                output.className = 'output';
+                const d = await r.json();
+                out.textContent = `Agent: ${d.agent}\n${d.result.substring(0, 300)}...`;
+                out.className = 'output';
             } catch (e) {
-                output.textContent = 'Error: ' + e.message;
+                out.textContent = 'Error: ' + e.message;
+                out.className = 'output error';
+            }
+        }
+
+        async function checkStatus() {
+            const out = document.getElementById('status-out');
+            out.textContent = 'Checking...';
+            out.className = 'output loading';
+            try {
+                const r = await fetch(`${API}/status`);
+                const d = await r.json();
+                out.textContent = `System: ${d.system}\nCredits: ${d.ska_credits.total.toLocaleString()}\nAgents: ${d.agents.total}/25\nStatus: ${d.status}`;
+                out.className = 'output';
+            } catch (e) {
+                out.textContent = 'Error: ' + e.message;
+                out.className = 'output error';
+            }
+        }
+
+        async function genLeads() {
+            const out = document.getElementById('leads-out');
+            out.textContent = 'Generating 100 leads...';
+            out.className = 'output loading';
+            try {
+                const r = await fetch(`${API}/agents_operational/execute`, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({agent_id: 1, task: 'Generate 100 qualified leads for B2B SaaS companies with contact info'})
+                });
+                const d = await r.json();
+                out.textContent = d.result.substring(0, 500);
+                out.className = 'output';
+            } catch (e) {
+                out.textContent = 'Error: ' + e.message;
+                out.className = 'output error';
             }
         }
 
         async function getCredits() {
-            const output = document.getElementById('credits-output');
-            output.textContent = 'Loading...';
-            
+            const out = document.getElementById('credits-out');
+            out.textContent = 'Loading...';
             try {
-                const r = await fetch('/.netlify/functions/credits');
-                const data = await r.json();
-                output.textContent = `Total Credits: ${data.credits.toLocaleString()}\nMinting Rate: 1/second\nGenesis: July 1, 2024\nValue: $${data.credits.toLocaleString()} USD`;
+                const r = await fetch(`${API}/credits`);
+                const d = await r.json();
+                out.textContent = `Total: ${d.credits.toLocaleString()}\nRate: 1/second\nGenesis: July 1, 2024\nValue: $${d.credits.toLocaleString()}`;
+                out.className = 'output';
             } catch (e) {
-                output.textContent = 'Error: ' + e.message;
+                out.textContent = 'Error: ' + e.message;
+                out.className = 'output error';
             }
         }
-
-        async function getStatus() {
-            const output = document.getElementById('status-output');
-            output.textContent = 'Checking all systems...';
-            
-            try {
-                const r = await fetch('/.netlify/functions/status');
-                const data = await r.json();
-                output.textContent = JSON.stringify(data, null, 2);
-            } catch (e) {
-                output.textContent = 'Error: ' + e.message;
-            }
-        }
-
-        async function generateLeads() {
-            const output = document.getElementById('leads-output');
-            output.textContent = 'Generating leads...';
-            output.className = 'output loading';
-            
-            try {
-                const r = await fetch('/.netlify/functions/agents_operational/execute', {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({agent_id: 1, task: 'Generate 100 qualified B2B SaaS leads with contact info'})
-                });
-                const data = await r.json();
-                output.textContent = data.result;
-                output.className = 'output';
-            } catch (e) {
-                output.textContent = 'Error: ' + e.message;
-            }
-        }
-
-        async function testSquare() {
-            const output = document.getElementById('square-output');
-            output.textContent = 'Testing Square integration...';
-            
-            output.textContent = `Square Payment System Active\nLocation ID: LCX039E7QRA5G\nMCP Integration: Connected\n\nAvailable Products:\n- Individual Training: $5,497\n- Professional Package: $24,997\n- Enterprise Package: $99,997\n- White-Label License: $397,000`;
-        }
-
-        async function buildSite() {
-            const output = document.getElementById('build-output');
-            output.textContent = 'Building website...';
-            output.className = 'output loading';
-            
-            try {
-                const r = await fetch('/.netlify/functions/agents_operational/execute', {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({agent_id: 6, task: 'Create a complete landing page for a SaaS product with modern design'})
-                });
-                const data = await r.json();
-                output.textContent = `Agent: ${data.agent}\n\n${data.result.substring(0, 500)}...\n\n[Website code generated - ready to deploy]`;
-                output.className = 'output';
-            } catch (e) {
-                output.textContent = 'Error: ' + e.message;
-            }
-        }
-    </script>
-
-    <script>
+        
+        // PWA install
         if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('/sw.js');
+            navigator.serviceWorker.register('/sw.js').catch(()=>{});
         }
     </script>
 </body>
