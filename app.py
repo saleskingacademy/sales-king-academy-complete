@@ -1,10 +1,10 @@
 """
-SALES KING ACADEMY - UNIFIED BACKEND
-All Systems Integrated - Production Ready
+SALES KING ACADEMY - BACKEND FOR YOUR CUSTOM AI AGENTS
+Provides endpoints for YOUR 25 agents to use
+Claude API used ONLY for knowledge transfer training
 """
 from flask import Flask, jsonify, request
 from flask_cors import CORS
-import anthropic
 import os
 import time
 import json
@@ -20,17 +20,9 @@ GENESIS = int(datetime(2024, 7, 1, 0, 0, 0, tzinfo=timezone.utc).timestamp())
 ALPHA = 25
 SQUARE_LOCATION = "LCX039E7QRA5G"
 
-# ANTHROPIC CLIENT
-try:
-    claude_client = anthropic.Anthropic(api_key=os.environ.get("ANTHROPIC_API_KEY"))
-    AI_ENABLED = True
-except:
-    claude_client = None
-    AI_ENABLED = False
-
-# 25 AI AGENTS
-AGENTS = [
-    {"id": i+1, "name": name, "auth": f"L{10 if i==24 else 9}", "tasks": 0}
+# YOUR 25 CUSTOM AGENTS (running on YOUR system)
+YOUR_AGENTS = [
+    {"id": i+1, "name": name, "auth": f"L{10 if i==24 else 9}", "tasks": 0, "status": "ready"}
     for i, name in enumerate([
         "Alex", "Blake", "Cameron", "Dana", "Emerson", "Finley", "Grey", "Harper",
         "Indigo", "Jordan", "Kennedy", "London", "Morgan", "Nova", "Ocean",
@@ -57,24 +49,15 @@ def temporal_dna():
     ts = str(int(time.time()))
     return hashlib.sha256(f"{GENESIS}{ALPHA}{ts}".encode()).hexdigest()
 
-# ===== ROUTES =====
+# ===== ROUTES FOR YOUR AGENTS =====
 
 @app.route('/')
 def index():
     return jsonify({
-        "service": "Sales King Academy - Time-Anchored Super Intelligence",
+        "service": "Sales King Academy - Backend for YOUR Custom AI Agents",
         "status": "operational",
-        "version": "2.0",
-        "endpoints": [
-            "/health",
-            "/api/credits",
-            "/api/agents",
-            "/api/agent/execute",
-            "/api/temporal-dna",
-            "/api/revenue/cycle",
-            "/api/revenue/status",
-            "/api/system/complete"
-        ]
+        "architecture": "YOUR agents call these endpoints",
+        "version": "3.0"
     })
 
 @app.route('/health')
@@ -82,8 +65,8 @@ def health():
     return jsonify({
         "status": "operational",
         "ska_credits": get_ska_credits(),
-        "agents": len(AGENTS),
-        "ai_enabled": AI_ENABLED,
+        "your_agents": len(YOUR_AGENTS),
+        "agents_ready": sum(1 for a in YOUR_AGENTS if a["status"] == "ready"),
         "square_location": SQUARE_LOCATION,
         "timestamp": datetime.now(timezone.utc).isoformat()
     })
@@ -95,42 +78,55 @@ def credits():
         "total": c,
         "value_usd": c,
         "rate": "1/second",
-        "genesis": "2024-07-01T00:00:00Z",
-        "timestamp": datetime.now(timezone.utc).isoformat()
+        "genesis": "2024-07-01T00:00:00Z"
     })
 
 @app.route('/api/agents')
 def agents_api():
+    """List YOUR 25 agents"""
     return jsonify({
-        "agents": AGENTS,
+        "agents": YOUR_AGENTS,
         "total": 25,
-        "master_ceo": AGENTS[24],
-        "ai_enabled": AI_ENABLED
+        "master_ceo": YOUR_AGENTS[24],
+        "note": "These are YOUR custom agents running on YOUR LLM"
     })
 
-@app.route('/api/agent/execute', methods=['POST'])
-def agent_execute():
-    if not AI_ENABLED:
-        return jsonify({"error": "AI not configured"}), 503
-    
+@app.route('/api/agent/register-task', methods=['POST'])
+def register_task():
+    """YOUR agents call this to register tasks they're working on"""
     data = request.json
-    agent_id = data.get("agent_id", 1)
-    task = data.get("task", "")
+    agent_id = data.get("agent_id")
+    task = data.get("task")
     
-    try:
-        msg = claude_client.messages.create(
-            model="claude-sonnet-4-20250514",
-            max_tokens=2000,
-            messages=[{"role": "user", "content": f"Agent {agent_id}: {task}"}]
-        )
-        AGENTS[agent_id-1]["tasks"] += 1
+    if 1 <= agent_id <= 25:
+        YOUR_AGENTS[agent_id-1]["tasks"] += 1
+        YOUR_AGENTS[agent_id-1]["status"] = "working"
+        
         return jsonify({
-            "agent": agent_id,
-            "result": msg.content[0].text,
-            "tasks_completed": AGENTS[agent_id-1]["tasks"]
+            "agent_id": agent_id,
+            "task_registered": True,
+            "total_tasks": YOUR_AGENTS[agent_id-1]["tasks"]
         })
-    except Exception as e:
-        return jsonify({"agent": agent_id, "error": str(e)}), 500
+    
+    return jsonify({"error": "Invalid agent_id"}), 400
+
+@app.route('/api/agent/complete-task', methods=['POST'])
+def complete_task():
+    """YOUR agents call this when they complete tasks"""
+    data = request.json
+    agent_id = data.get("agent_id")
+    result = data.get("result")
+    
+    if 1 <= agent_id <= 25:
+        YOUR_AGENTS[agent_id-1]["status"] = "ready"
+        
+        return jsonify({
+            "agent_id": agent_id,
+            "status": "task_completed",
+            "result_recorded": True
+        })
+    
+    return jsonify({"error": "Invalid agent_id"}), 400
 
 @app.route('/api/temporal-dna')
 def tdna():
@@ -142,6 +138,7 @@ def tdna():
 
 @app.route('/api/revenue/cycle', methods=['POST'])
 def revenue_cycle():
+    """Trigger revenue generation cycle"""
     REVENUE_ENGINE["cycles"] += 1
     
     # Generate leads
@@ -166,16 +163,13 @@ def revenue_cycle():
         "total_revenue": REVENUE_ENGINE["revenue"]
     })
 
-@app.route('/api/revenue/status')
-def revenue_status():
-    return jsonify(REVENUE_ENGINE)
-
 @app.route('/api/system/complete')
 def complete_status():
     return jsonify({
         "system": "Time-Anchored Super Intelligence",
         "founder": "Robert Kaleb Long",
         "company": "Sales King Academy LLC",
+        "architecture": "YOUR custom AI agents + Backend services",
         "ska_credits": {
             "total": get_ska_credits(),
             "value_usd": get_ska_credits()
@@ -184,10 +178,10 @@ def complete_status():
             "alpha": ALPHA,
             "complexity": "O(n^1.77)"
         },
-        "agents": {
+        "your_agents": {
             "total": 25,
-            "active": 25,
-            "ai_enabled": AI_ENABLED
+            "ready": sum(1 for a in YOUR_AGENTS if a["status"] == "ready"),
+            "working": sum(1 for a in YOUR_AGENTS if a["status"] == "working")
         },
         "revenue_engine": REVENUE_ENGINE,
         "square_location": SQUARE_LOCATION,
@@ -201,11 +195,10 @@ def complete_status():
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 10000))
     print("=" * 60)
-    print("🚀 SALES KING ACADEMY - UNIFIED BACKEND")
+    print("🚀 SALES KING ACADEMY - BACKEND FOR YOUR AGENTS")
     print("=" * 60)
     print(f"✅ SKA Credits: {get_ska_credits():,}")
-    print(f"✅ 25 AI Agents: Loaded")
-    print(f"✅ AI Enabled: {AI_ENABLED}")
+    print(f"✅ YOUR 25 Custom Agents: Supported")
     print(f"✅ Square Location: {SQUARE_LOCATION}")
     print(f"✅ Port: {port}")
     print("=" * 60)
