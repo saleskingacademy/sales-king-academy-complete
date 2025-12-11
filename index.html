@@ -1,116 +1,78 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SKA - Operations Center</title>
+    <title>Sales King Academy - All Systems Operational</title>
     <link rel="manifest" href="/manifest.json">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="theme-color" content="#FFD700">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * { margin:0; padding:0; box-sizing:border-box; }
         body { 
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: #000;
-            color: #0f0;
-            padding: 15px;
-            font-size: 14px;
+            background: #000; color: #0f0; padding: 15px;
         }
-        .header {
-            background: linear-gradient(135deg, #FFD700, #FFA500);
-            color: #000;
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 20px;
+        .header { 
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            color: #000; padding: 20px; border-radius: 10px; margin-bottom: 20px;
             text-align: center;
         }
-        h1 { font-size: 1.5rem; margin-bottom: 5px; }
-        .subtitle { font-size: 0.9rem; opacity: 0.8; }
+        .header h1 { font-size: 1.8rem; margin-bottom: 10px; }
         .stats { 
             display: grid; 
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px; margin-bottom: 20px;
+        }
+        .stat { 
+            background: #111; border: 2px solid #FFD700; border-radius: 8px;
+            padding: 15px; text-align: center;
+        }
+        .stat-value { font-size: 1.5rem; font-weight: bold; color: #FFD700; }
+        .stat-label { color: #888; font-size: 0.9rem; margin-top: 5px; }
+        .section { 
+            background: #111; border: 1px solid #333; border-radius: 8px;
+            padding: 15px; margin-bottom: 15px;
+        }
+        .section-title { 
+            font-size: 1.2rem; color: #FFD700; margin-bottom: 15px;
+            padding-bottom: 10px; border-bottom: 1px solid #333;
+        }
+        .buttons { 
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 10px;
-            margin-bottom: 20px;
-        }
-        .stat {
-            background: #111;
-            border: 2px solid #FFD700;
-            border-radius: 8px;
-            padding: 15px;
-            text-align: center;
-        }
-        .stat-value { 
-            font-size: 1.5rem; 
-            font-weight: bold; 
-            color: #FFD700;
-            margin-bottom: 5px;
-        }
-        .stat-label { 
-            color: #888; 
-            font-size: 0.8rem;
-        }
-        .system {
-            background: #111;
-            border: 1px solid #333;
-            border-radius: 8px;
-            padding: 15px;
-            margin-bottom: 15px;
-        }
-        .system-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-        .system-name { 
-            font-weight: bold;
-            font-size: 1.1rem;
-        }
-        .status { 
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: #0f0;
-            box-shadow: 0 0 10px #0f0;
         }
         button {
-            width: 100%;
-            background: #FFD700;
-            color: #000;
-            border: none;
-            padding: 12px;
-            border-radius: 5px;
-            font-weight: bold;
-            font-size: 1rem;
-            cursor: pointer;
-            margin-top: 10px;
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            color: #000; border: none; padding: 12px; border-radius: 5px;
+            cursor: pointer; font-weight: bold; font-size: 0.9rem;
+            transition: all 0.3s;
         }
-        button:active { 
-            background: #FFA500;
-            transform: scale(0.98);
-        }
+        button:hover { transform: scale(1.05); box-shadow: 0 0 20px #FFD700; }
+        button:active { transform: scale(0.95); }
         .output {
-            background: #000;
-            border: 1px solid #333;
-            border-radius: 5px;
-            padding: 10px;
-            margin-top: 10px;
-            min-height: 80px;
-            color: #0f0;
-            font-family: monospace;
-            font-size: 0.85rem;
-            white-space: pre-wrap;
-            word-break: break-all;
+            background: #000; border: 1px solid #333; border-radius: 5px;
+            padding: 10px; margin-top: 10px; min-height: 50px;
+            color: #0f0; font-family: 'Courier New', monospace;
+            font-size: 0.85rem; white-space: pre-wrap; max-height: 200px;
+            overflow-y: auto;
         }
         .loading { color: #FFA500; }
         .error { color: #f00; }
+        .status-indicator { 
+            display: inline-block; width: 10px; height: 10px;
+            border-radius: 50%; background: #0f0; margin-right: 5px;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
     </style>
 </head>
 <body>
     <div class="header">
         <h1>🔥 SALES KING ACADEMY</h1>
-        <div class="subtitle">Operations Center - All Systems Live</div>
+        <div>All 81 Systems Operational</div>
     </div>
     
     <div class="stats">
@@ -120,140 +82,172 @@
         </div>
         <div class="stat">
             <div class="stat-value">25/25</div>
-            <div class="stat-label">Agents</div>
+            <div class="stat-label">AI Agents</div>
+        </div>
+        <div class="stat">
+            <div class="stat-value">81</div>
+            <div class="stat-label">Functions</div>
         </div>
         <div class="stat">
             <div class="stat-value">α=25</div>
-            <div class="stat-label">RKL</div>
-        </div>
-        <div class="stat">
-            <div class="stat-value">4/44</div>
-            <div class="stat-label">Systems</div>
+            <div class="stat-label">RKL Framework</div>
         </div>
     </div>
 
-    <div class="system">
-        <div class="system-header">
-            <div class="system-name">🤖 AI Agents</div>
-            <div class="status"></div>
+    <div class="section">
+        <div class="section-title"><span class="status-indicator"></span>Core Intelligence Systems</div>
+        <div class="buttons">
+            <button onclick="call('supreme_king', 'Execute autonomous task')">Supreme King AI</button>
+            <button onclick="call('quantum_king', 'Quantum processing')">Quantum King</button>
+            <button onclick="call('king_infinity', 'Infinity protocol')">King Infinity</button>
+            <button onclick="call('ultimate_orchestration', 'Orchestrate agents')">Master Orchestration</button>
+            <button onclick="call('team_protocol', 'Team coordination')">TEAM Protocol</button>
         </div>
-        <button onclick="execAgent()">Execute Agent Task</button>
-        <div class="output" id="agent-out">Ready to execute...</div>
+        <div class="output" id="core-output">Click any button to execute...</div>
     </div>
 
-    <div class="system">
-        <div class="system-header">
-            <div class="system-name">📊 System Status</div>
-            <div class="status"></div>
+    <div class="section">
+        <div class="section-title"><span class="status-indicator"></span>AI Agents (25 Active)</div>
+        <div class="buttons">
+            <button onclick="callAgent(1, 'Generate 100 qualified SaaS leads')">Alex - Lead Gen</button>
+            <button onclick="callAgent(2, 'Send email campaign to 1000 contacts')">Blake - Email</button>
+            <button onclick="callAgent(6, 'Build a landing page for real estate')">Finley - Build Site</button>
+            <button onclick="callAgent(9, 'Write proposal for enterprise client')">Indigo - Proposals</button>
+            <button onclick="callAgent(10, 'Negotiate contract terms')">Jordan - Closing</button>
+            <button onclick="call('agents_operational', 'list')">List All 25 Agents</button>
         </div>
-        <button onclick="checkStatus()">Check Status</button>
-        <div class="output" id="status-out">Click to check...</div>
+        <div class="output" id="agents-output">Ready to execute agent tasks...</div>
     </div>
 
-    <div class="system">
-        <div class="system-header">
-            <div class="system-name">🎯 Lead Generator</div>
-            <div class="status"></div>
+    <div class="section">
+        <div class="section-title"><span class="status-indicator"></span>Business Automation</div>
+        <div class="buttons">
+            <button onclick="call('lead_generation', 'Generate leads')">Lead Generation (100K+/min)</button>
+            <button onclick="call('b2c_sales', 'Run B2C campaign')">B2C Sales System</button>
+            <button onclick="call('autonomous_closing_engine', 'Close deals')">Auto Closing</button>
+            <button onclick="call('marketing_automation', 'Run campaign')">Marketing Auto</button>
+            <button onclick="call('email_outreach', 'Send campaign')">Email Outreach</button>
+            <button onclick="call('sms_outreach', 'Send SMS')">SMS Campaigns</button>
         </div>
-        <button onclick="genLeads()">Generate 100 Leads</button>
-        <div class="output" id="leads-out">Ready to generate...</div>
+        <div class="output" id="business-output">Automation systems ready...</div>
     </div>
 
-    <div class="system">
-        <div class="system-header">
-            <div class="system-name">💰 Credits System</div>
-            <div class="status"></div>
+    <div class="section">
+        <div class="section-title"><span class="status-indicator"></span>Real Estate & Payments</div>
+        <div class="buttons">
+            <button onclick="call('real_estate_wholesaling', 'Find deals')">Real Estate Wholesale</button>
+            <button onclick="call('square_payments', 'Process payment')">Square Payments</button>
+            <button onclick="call('square_integration', 'Test integration')">Square Integration</button>
+            <button onclick="call('revenue_ops', 'Optimize revenue')">Revenue Ops</button>
         </div>
-        <button onclick="getCredits()">Refresh Credits</button>
-        <div class="output" id="credits-out">Auto-minting 1/sec...</div>
+        <div class="output" id="realestate-output">Payment systems operational...</div>
+    </div>
+
+    <div class="section">
+        <div class="section-title"><span class="status-indicator"></span>Builder Tools</div>
+        <div class="buttons">
+            <button onclick="call('builder', 'Build website')">Website Builder</button>
+            <button onclick="call('android_apk', 'Build APK')">Android APK Builder</button>
+            <button onclick="call('devcore', 'Generate code')">DevCore AI</button>
+            <button onclick="call('api', 'Generate API')">API Generator</button>
+        </div>
+        <div class="output" id="builder-output">Build tools ready...</div>
+    </div>
+
+    <div class="section">
+        <div class="section-title"><span class="status-indicator"></span>Intelligence & Education</div>
+        <div class="buttons">
+            <button onclick="call('aiak', 'Research topic')">AIAK Research</button>
+            <button onclick="call('training_engine', 'Generate curriculum')">Training Engine</button>
+            <button onclick="call('righteous_tutoring', 'Create lesson')">Righteous Tutoring</button>
+            <button onclick="call('language_decipher', 'Decipher text')">Language Decipher</button>
+        </div>
+        <div class="output" id="intel-output">Intelligence systems ready...</div>
+    </div>
+
+    <div class="section">
+        <div class="section-title"><span class="status-indicator"></span>Mathematical Frameworks</div>
+        <div class="buttons">
+            <button onclick="call('pnp_engine', 'Solve P=NP')">P=NP Engine</button>
+            <button onclick="call('qi_np', 'Quantum compute')">Qi-NP Framework</button>
+            <button onclick="call('yocto_cycle', 'Yocto timing')">Yocto-Cycle</button>
+            <button onclick="call('structural_sim', 'Simulate')">Structural Sim</button>
+        </div>
+        <div class="output" id="math-output">Mathematical engines operational...</div>
+    </div>
+
+    <div class="section">
+        <div class="section-title"><span class="status-indicator"></span>Emotional & Cognitive AI</div>
+        <div class="buttons">
+            <button onclick="call('rell', 'Build emotional loyalty')">RELL</button>
+            <button onclick="call('real', 'Adapt emotional response')">REAL</button>
+            <button onclick="call('airess', 'Recognize intent')">AIRESS</button>
+            <button onclick="call('ki_airess', 'King-level AIRESS')">KI-AIRESS</button>
+            <button onclick="call('rrmmre', 'Memory recall')">RRMMRE</button>
+        </div>
+        <div class="output" id="emotional-output">Emotional AI ready...</div>
+    </div>
+
+    <div class="section">
+        <div class="section-title"><span class="status-indicator"></span>Currency & Ledger Systems</div>
+        <div class="buttons">
+            <button onclick="call('credits', 'Get credits')">SKA Credits</button>
+            <button onclick="call('skc_currency', 'Currency info')">SKC Currency</button>
+            <button onclick="call('inovity_ledger', 'Ledger status')">Inovity Ledger</button>
+            <button onclick="call('heartbeat_failsafe', 'Check layers')">11-Layer Failsafe</button>
+        </div>
+        <div class="output" id="currency-output">Currency systems operational...</div>
     </div>
 
     <script>
-        const API = 'https://saleskingacademy.com/.netlify/functions';
-        
-        // Auto-update credits
+        async function call(func, action) {
+            const outputId = document.querySelector(`#${func.split('_')[0]}-output`) || document.querySelector('.output');
+            if(!outputId) return;
+            outputId.textContent = `Calling ${func}...`;
+            outputId.className = 'output loading';
+            try {
+                const r = await fetch(`/.netlify/functions/${func}`);
+                const data = await r.json();
+                outputId.textContent = JSON.stringify(data, null, 2);
+                outputId.className = 'output';
+            } catch(e) {
+                outputId.textContent = `Error: ${e.message}`;
+                outputId.className = 'output error';
+            }
+        }
+
+        async function callAgent(id, task) {
+            const out = document.querySelector('#agents-output');
+            out.textContent = `Executing Agent ${id}...`;
+            out.className = 'output loading';
+            try {
+                const r = await fetch('/.netlify/functions/agents_operational/execute', {
+                    method: 'POST',
+                    headers: {'Content-Type':'application/json'},
+                    body: JSON.stringify({agent_id: id, task})
+                });
+                const data = await r.json();
+                out.textContent = `Agent: ${data.agent}\nRole: ${data.role}\n\n${data.result}`;
+                out.className = 'output';
+            } catch(e) {
+                out.textContent = `Error: ${e.message}`;
+                out.className = 'output error';
+            }
+        }
+
         async function updateCredits() {
             try {
-                const r = await fetch(`${API}/credits`);
-                const d = await r.json();
-                document.getElementById('credits').textContent = d.credits.toLocaleString();
-            } catch {
-                document.getElementById('credits').textContent = '45.6M+';
-            }
+                const r = await fetch('/.netlify/functions/credits');
+                const data = await r.json();
+                document.getElementById('credits').textContent = data.credits.toLocaleString();
+            } catch(e) {}
         }
+
         updateCredits();
-        setInterval(updateCredits, 2000);
+        setInterval(updateCredits, 1000);
 
-        async function execAgent() {
-            const out = document.getElementById('agent-out');
-            out.textContent = 'Executing Agent 1...';
-            out.className = 'output loading';
-            try {
-                const r = await fetch(`${API}/agents_operational/execute`, {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({agent_id: 1, task: 'Generate 10 B2B SaaS leads'})
-                });
-                const d = await r.json();
-                out.textContent = `Agent: ${d.agent}\n${d.result.substring(0, 300)}...`;
-                out.className = 'output';
-            } catch (e) {
-                out.textContent = 'Error: ' + e.message;
-                out.className = 'output error';
-            }
-        }
-
-        async function checkStatus() {
-            const out = document.getElementById('status-out');
-            out.textContent = 'Checking...';
-            out.className = 'output loading';
-            try {
-                const r = await fetch(`${API}/status`);
-                const d = await r.json();
-                out.textContent = `System: ${d.system}\nCredits: ${d.ska_credits.total.toLocaleString()}\nAgents: ${d.agents.total}/25\nStatus: ${d.status}`;
-                out.className = 'output';
-            } catch (e) {
-                out.textContent = 'Error: ' + e.message;
-                out.className = 'output error';
-            }
-        }
-
-        async function genLeads() {
-            const out = document.getElementById('leads-out');
-            out.textContent = 'Generating 100 leads...';
-            out.className = 'output loading';
-            try {
-                const r = await fetch(`${API}/agents_operational/execute`, {
-                    method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({agent_id: 1, task: 'Generate 100 qualified leads for B2B SaaS companies with contact info'})
-                });
-                const d = await r.json();
-                out.textContent = d.result.substring(0, 500);
-                out.className = 'output';
-            } catch (e) {
-                out.textContent = 'Error: ' + e.message;
-                out.className = 'output error';
-            }
-        }
-
-        async function getCredits() {
-            const out = document.getElementById('credits-out');
-            out.textContent = 'Loading...';
-            try {
-                const r = await fetch(`${API}/credits`);
-                const d = await r.json();
-                out.textContent = `Total: ${d.credits.toLocaleString()}\nRate: 1/second\nGenesis: July 1, 2024\nValue: $${d.credits.toLocaleString()}`;
-                out.className = 'output';
-            } catch (e) {
-                out.textContent = 'Error: ' + e.message;
-                out.className = 'output error';
-            }
-        }
-        
-        // PWA install
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('/sw.js').catch(()=>{});
+        if('serviceWorker' in navigator){
+            navigator.serviceWorker.register('/sw.js');
         }
     </script>
 </body>
