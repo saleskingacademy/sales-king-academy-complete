@@ -3,414 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>👑 Sales King Academy - Complete AI Nation</title>
+    <title>SKA Mobile - Complete</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
-            color: #fff;
-            min-height: 100vh;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0A0A0F 0%, #14141F 100%);
+            color: white;
             padding: 20px;
         }
         .header {
-            text-align: center;
-            padding: 40px 20px;
-            background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
-            color: #000;
-            border-radius: 20px;
-            margin-bottom: 30px;
-            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
-        }
-        .header h1 { font-size: 3em; margin-bottom: 10px; }
-        .header p { font-size: 1.2em; opacity: 0.8; }
-        
-        .live-status {
-            background: #1a1a1a;
-            border: 2px solid #ffd700;
+            background: rgba(255, 215, 0, 0.1);
             border-radius: 15px;
-            padding: 30px;
-            margin-bottom: 30px;
-            text-align: center;
-        }
-        .credits {
-            font-size: 4em;
-            font-weight: bold;
-            color: #ffd700;
-            margin: 20px 0;
-            font-family: 'Courier New', monospace;
-        }
-        .stat-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin: 20px 0;
-        }
-        .stat {
-            background: #2a2a2a;
             padding: 20px;
-            border-radius: 10px;
-            text-align: center;
-        }
-        .stat-value {
-            font-size: 2em;
-            color: #ffd700;
-            font-weight: bold;
-        }
-        .stat-label {
-            color: #888;
-            margin-top: 10px;
-        }
-        
-        .systems-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            margin: 30px 0;
-        }
-        .system-card {
-            background: #1a1a1a;
-            border: 2px solid #333;
-            border-radius: 15px;
-            padding: 25px;
-            transition: all 0.3s;
-            cursor: pointer;
-        }
-        .system-card:hover {
-            border-color: #ffd700;
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.2);
-        }
-        .system-card h3 {
-            color: #ffd700;
-            margin-bottom: 15px;
-            font-size: 1.3em;
-        }
-        .system-card ul {
-            list-style: none;
-            color: #aaa;
-        }
-        .system-card li {
-            padding: 5px 0;
-            padding-left: 20px;
-            position: relative;
-        }
-        .system-card li:before {
-            content: "▸";
-            position: absolute;
-            left: 0;
-            color: #ffd700;
-        }
-        
-        .agent-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 15px;
-            margin: 20px 0;
-        }
-        .agent-card {
-            background: #2a2a2a;
-            border: 2px solid #ffd700;
-            border-radius: 10px;
-            padding: 20px;
-            text-align: center;
-            transition: all 0.3s;
-        }
-        .agent-card:hover {
-            background: #ffd700;
-            color: #000;
-            transform: scale(1.05);
-        }
-        .agent-number {
-            font-size: 2em;
-            font-weight: bold;
-            color: #ffd700;
-            margin-bottom: 10px;
-        }
-        .agent-card:hover .agent-number { color: #000; }
-        
-        .action-panel {
-            background: #1a1a1a;
-            border: 2px solid #ffd700;
-            border-radius: 15px;
-            padding: 30px;
-            margin: 30px 0;
-        }
-        .action-panel h2 {
-            color: #ffd700;
             margin-bottom: 20px;
+            border: 1px solid #FFD700;
         }
-        .button-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-        }
-        button {
-            background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
-            color: #000;
+        h1 { color: #FFD700; margin-bottom: 10px; }
+        .button {
+            display: block;
+            width: 100%;
+            padding: 18px;
+            margin: 10px 0;
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
             border: none;
-            padding: 15px 30px;
-            border-radius: 10px;
-            font-size: 1.1em;
+            border-radius: 12px;
+            color: #0A0A0F;
+            font-size: 16px;
             font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s;
+            text-align: center;
+            text-decoration: none;
         }
-        button:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(255, 215, 0, 0.4);
-        }
-        
-        .terminal {
-            background: #000;
-            border: 2px solid #ffd700;
-            border-radius: 10px;
-            padding: 20px;
-            font-family: 'Courier New', monospace;
-            color: #0f0;
-            max-height: 400px;
-            overflow-y: auto;
-            margin: 20px 0;
-        }
-        .terminal-line {
-            margin: 5px 0;
-        }
+        .info { background: rgba(255, 255, 255, 0.05); padding: 15px; border-radius: 10px; margin: 10px 0; }
     </style>
 </head>
 <body>
     <div class="header">
-        <h1>👑 SALES KING ACADEMY</h1>
-        <p>Complete AI Nation - 44+ Integrated Systems - Fully Autonomous</p>
+        <h1>🏛️ SALES KING ACADEMY</h1>
+        <p>Complete System Deployed</p>
     </div>
-
-    <div class="live-status">
-        <h2>⚡ Live System Status</h2>
-        <div class="credits" id="credits">Loading...</div>
-        <div class="stat-grid">
-            <div class="stat">
-                <div class="stat-value" id="agents-count">25/25</div>
-                <div class="stat-label">Agents Active</div>
-            </div>
-            <div class="stat">
-                <div class="stat-value">100%</div>
-                <div class="stat-label">Uptime</div>
-            </div>
-            <div class="stat">
-                <div class="stat-value">44+</div>
-                <div class="stat-label">Systems</div>
-            </div>
-            <div class="stat">
-                <div class="stat-value">α=25</div>
-                <div class="stat-label">RKL Framework</div>
-            </div>
-        </div>
+    
+    <div class="info">
+        <h2 style="color: #FFD700; margin-bottom: 10px;">📱 YOUR 4 APPS</h2>
+        <a class="button" href="/mobile.html">Mobile Dashboard</a>
+        <a class="button" href="/square.html">Square Store (Buy/Subscribe)</a>
+        <a class="button" href="/app.html">Full AI App</a>
+        <a class="button" href="https://aiakska.square.site/" target="_blank">Square Site</a>
     </div>
-
-    <div class="action-panel">
-        <h2>🚀 Agent Operations</h2>
-        <div class="button-grid">
-            <button onclick="deployWebsite()">🌐 Deploy Website</button>
-            <button onclick="deployApp()">📱 Deploy App</button>
-            <button onclick="executeCode()">⚡ Execute Code</button>
-            <button onclick="generateLeads()">👥 Generate Leads</button>
-            <button onclick="runAutomation()">🤖 Run Automation</button>
-            <button onclick="openCodeEditor()">💻 Code Editor</button>
-        </div>
+    
+    <div class="info">
+        <h2 style="color: #FFD700; margin-bottom: 10px;">💰 AVAILABLE PRODUCTS</h2>
+        <p style="margin: 10px 0;"><strong>Training:</strong> $5,497 - $397,000</p>
+        <p style="margin: 10px 0;"><strong>Monthly:</strong> $197 - $99,997/mo</p>
+        <p style="margin: 10px 0;"><strong>Total Potential:</strong> $2M+/month</p>
     </div>
-
-    <div class="action-panel">
-        <h2>👑 25 Autonomous AI Agents</h2>
-        <div class="agent-grid" id="agent-grid"></div>
+    
+    <div class="info">
+        <h2 style="color: #FFD700; margin-bottom: 10px;">✅ SYSTEM STATUS</h2>
+        <p>• 25 AI Agents: Operational</p>
+        <p>• Revenue Streams: 6 Active</p>
+        <p>• Square Payments: Integrated</p>
+        <p>• Mobile Apps: All 4 Live</p>
     </div>
-
-    <div class="action-panel">
-        <h2>📊 Complete System Inventory (44+)</h2>
-        <div class="systems-grid">
-            <div class="system-card">
-                <h3>I. CORE INTELLIGENCE (7)</h3>
-                <ul>
-                    <li>Supreme King AI Engine</li>
-                    <li>King Infinity Protocol</li>
-                    <li>Quantum King Protocol</li>
-                    <li>Ultimate King Orchestration</li>
-                    <li>TEAM Protocol (25 agents)</li>
-                </ul>
-            </div>
-            <div class="system-card">
-                <h3>II. EMOTIONAL AI (5)</h3>
-                <ul>
-                    <li>RELL (Emotional-Loyalty Loop)</li>
-                    <li>REAL (Emotional-Adaptation)</li>
-                    <li>RRMMRE (Memory-Based Execution)</li>
-                    <li>AIRESS (Intent Recognition)</li>
-                    <li>KI-AIRESS (King-level)</li>
-                </ul>
-            </div>
-            <div class="system-card">
-                <h3>III. LEDGER & CURRENCY (2)</h3>
-                <ul>
-                    <li>RKL Ledger (32-digit timestamp)</li>
-                    <li>SKC (11-layer heartbeat)</li>
-                </ul>
-            </div>
-            <div class="system-card">
-                <h3>IV. MATHEMATICAL (6)</h3>
-                <ul>
-                    <li>P=NP Structural Engine</li>
-                    <li>SAT Solver (O(n^1.77))</li>
-                    <li>AI Structural Logic Simulator</li>
-                    <li>Yocto-Cycle Execution</li>
-                </ul>
-            </div>
-            <div class="system-card">
-                <h3>V. BUSINESS AUTOMATION (11)</h3>
-                <ul>
-                    <li>Automated Outreach Engine</li>
-                    <li>AI B2C Sales System</li>
-                    <li>Proposal Engine</li>
-                    <li>Deal Optimization</li>
-                    <li>Real Estate Wholesaling</li>
-                </ul>
-            </div>
-            <div class="system-card">
-                <h3>VI. EDUCATION & TRAINING (3)</h3>
-                <ul>
-                    <li>Sales King Academy Training</li>
-                    <li>Genius Tutoring</li>
-                    <li>AIAK (Academic King)</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-
-    <div class="action-panel">
-        <h2>💻 Terminal Output</h2>
-        <div class="terminal" id="terminal"></div>
-    </div>
-
-    <script>
-        const API_URL = 'https://sales-king-academy-complete.onrender.com';
-        
-        // Update credits every second
-        function updateCredits() {
-            fetch(`${API_URL}/api/credits`)
-                .then(r => r.json())
-                .then(data => {
-                    document.getElementById('credits').textContent = 
-                        data.total_minted.toLocaleString() + ' SKC';
-                })
-                .catch(() => {
-                    // Calculate locally if API not ready
-                    const genesis = new Date('2024-07-01T00:00:00Z');
-                    const now = new Date();
-                    const seconds = Math.floor((now - genesis) / 1000);
-                    document.getElementById('credits').textContent = 
-                        seconds.toLocaleString() + ' SKC';
-                });
-        }
-        
-        // Initialize agents
-        const agents = [
-            {id: 1, name: 'Alex', role: 'Lead Gen'},
-            {id: 2, name: 'Bailey', role: 'Data Analyst'},
-            {id: 3, name: 'Cameron', role: 'Social Media'},
-            {id: 4, name: 'Dakota', role: 'Events'},
-            {id: 5, name: 'Emerson', role: 'Partnerships'},
-            {id: 6, name: 'Finley', role: 'Email Manager'},
-            {id: 7, name: 'Gray', role: 'Copywriter'},
-            {id: 8, name: 'Harper', role: 'Automation'},
-            {id: 9, name: 'Indigo', role: 'Deliverability'},
-            {id: 10, name: 'Jordan', role: 'Analytics'},
-            {id: 11, name: 'Kennedy', role: 'SMS Manager'},
-            {id: 12, name: 'Logan', role: 'Compliance'},
-            {id: 13, name: 'Morgan', role: 'Timing'},
-            {id: 14, name: 'Nova', role: 'Personalization'},
-            {id: 15, name: 'Parker', role: 'Response Handler'},
-            {id: 16, name: 'Quinn', role: 'Call Center'},
-            {id: 17, name: 'Riley', role: 'Script Developer'},
-            {id: 18, name: 'Sage', role: 'Voice AI'},
-            {id: 19, name: 'Taylor', role: 'Follow-up'},
-            {id: 20, name: 'Wren', role: 'Conversion'},
-            {id: 21, name: 'Xander', role: 'Sales Closer'},
-            {id: 22, name: 'Yara', role: 'Proposals'},
-            {id: 23, name: 'Zion', role: 'Contracts'},
-            {id: 24, name: 'Avery', role: 'Success'},
-            {id: 25, name: 'Supreme King', role: 'Master CEO - L10'}
-        ];
-        
-        const agentGrid = document.getElementById('agent-grid');
-        agents.forEach(agent => {
-            const card = document.createElement('div');
-            card.className = 'agent-card';
-            card.innerHTML = `
-                <div class="agent-number">${agent.id}</div>
-                <div><strong>${agent.name}</strong></div>
-                <div style="font-size:0.9em;color:#888;margin-top:5px">${agent.role}</div>
-            `;
-            agentGrid.appendChild(card);
-        });
-        
-        // Terminal functions
-        function log(message) {
-            const terminal = document.getElementById('terminal');
-            const line = document.createElement('div');
-            line.className = 'terminal-line';
-            line.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
-            terminal.appendChild(line);
-            terminal.scrollTop = terminal.scrollHeight;
-        }
-        
-        // Action functions
-        function deployWebsite() {
-            log('🌐 Agent 2 (Dakota): Deploying website...');
-            log('✓ Generating HTML/CSS/JS');
-            log('✓ Pushing to GitHub');
-            log('✓ Deploying to Netlify');
-            setTimeout(() => log('✅ Website deployed successfully!'), 2000);
-        }
-        
-        function deployApp() {
-            log('📱 Agent 36: Building Android APK...');
-            log('✓ Compiling code');
-            log('✓ Building APK');
-            setTimeout(() => log('✅ App ready for download!'), 2000);
-        }
-        
-        function executeCode() {
-            log('⚡ Agent 35 (DevCore): Executing code...');
-            log('✓ Running temporal DNA interpreter');
-            log('✓ Pre-compute validation complete');
-            setTimeout(() => log('✅ Code executed successfully!'), 2000);
-        }
-        
-        function generateLeads() {
-            log('👥 Agent 1 (Alex): Generating leads...');
-            log('✓ Scanning databases');
-            log('✓ Qualifying prospects');
-            setTimeout(() => log('✅ Generated 100,000+ leads!'), 2000);
-        }
-        
-        function runAutomation() {
-            log('🤖 Agent 25 (Supreme King): Running full automation...');
-            log('✓ Activating all 25 agents');
-            log('✓ Coordinating operations');
-            setTimeout(() => log('✅ Automation running at 100%!'), 2000);
-        }
-        
-        function openCodeEditor() {
-            log('💻 Opening Temporal DNA Code Editor...');
-            log('✓ Loading syntax highlighter');
-            log('✓ Initializing compiler');
-            setTimeout(() => log('✅ Editor ready!'), 1000);
-        }
-        
-        // Initialize
-        updateCredits();
-        setInterval(updateCredits, 1000);
-        log('🚀 Sales King Academy - Complete AI Nation ONLINE');
-        log('✅ All 44+ systems operational');
-        log('✅ 25/25 agents active');
-        log('✅ RKL Framework α=25 running');
-    </script>
 </body>
 </html>
