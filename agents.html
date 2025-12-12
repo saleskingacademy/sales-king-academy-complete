@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SKA Agent Interface - Talk to 25 AI Agents</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: #0A0A0F;
+            color: #FFF;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            display: flex;
+            height: 100vh;
+        }
+        
+        /* Agent Sidebar */
+        .agent-sidebar {
+            width: 300px;
+            background: #14141F;
+            border-right: 2px solid #FFD700;
+            overflow-y: auto;
+            padding: 20px;
+        }
+        
+        .logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #FFD700, #9D4EDD);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .agent-card {
+            background: #1E1E2E;
+            border: 1px solid #333;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .agent-card:hover, .agent-card.active {
+            border-color: #FFD700;
+            background: #252535;
+            transform: translateX(5px);
+        }
+        
+        .agent-name {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+            margin-bottom: 5px;
+        }
+        
+        .agent-role {
+            font-size: 0.8rem;
+            color: #B8B8C8;
+            margin-bottom: 5px;
+        }
+        
+        .agent-authority {
+            display: inline-block;
+            background: #FFD700;
+            color: #000;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+        
+        /* Chat Area */
+        .chat-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .chat-header {
+            background: #14141F;
+            border-bottom: 2px solid #FFD700;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .current-agent {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        
+        .voice-controls {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, #FFD700, #B8860B);
+            border: none;
+            color: #000;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+        
+        .btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+        }
+        
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .btn-voice {
+            background: linear-gradient(135deg, #00D9FF, #0088AA);
+        }
+        
+        .btn-voice.listening {
+            background: linear-gradient(135deg, #FF4444, #CC0000);
+            animation: pulse 1s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+        
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 30px;
+            background: #0A0A0F;
+        }
+        
+        .message {
+            margin-bottom: 20px;
+            display: flex;
+            gap: 15px;
+        }
+        
+        .message-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #FFD700, #9D4EDD);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+        
+        .message-content {
+            background: #14141F;
+            padding: 15px 20px;
+            border-radius: 15px;
+            max-width: 70%;
+            border: 1px solid #333;
+        }
+        
+        .message.user .message-content {
+            background: #1E1E2E;
+            border-color: #FFD700;
+        }
+        
+        .message-meta {
+            font-size: 0.8rem;
+            color: #B8B8C8;
+            margin-bottom: 5px;
+        }
+        
+        .message-text {
+            line-height: 1.6;
+        }
+        
+        .chat-input-container {
+            background: #14141F;
+            border-top: 2px solid #FFD700;
+            padding: 20px;
+        }
+        
+        .input-wrapper {
+            display: flex;
+            gap: 10px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .chat-input {
+            flex: 1;
+            background: #1E1E2E;
+            border: 2px solid #333;
+            border-radius: 25px;
+            padding: 15px 25px;
+            color: #FFF;
+            font-size: 1rem;
+            font-family: 'Montserrat', sans-serif;
+            outline: none;
+            transition: all 0.3s;
+        }
+        
+        .chat-input:focus {
+            border-color: #FFD700;
+        }
+        
+        .credits-display {
+            background: #1E1E2E;
+            padding: 10px 20px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border: 1px solid #FFD700;
+        }
+        
+        .credits-number {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: #FFD700;
+        }
+        
+        .loading {
+            display: none;
+            color: #FFD700;
+            font-style: italic;
+        }
+        
+        .loading.active {
+            display: block;
+        }
+        
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #14141F;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #FFD700;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Agent Sidebar -->
+        <div class="agent-sidebar">
+            <div class="logo">25 AI AGENTS</div>
+            <div id="agentList"></div>
+        </div>
+        
+        <!-- Chat Area -->
+        <div class="chat-container">
+            <div class="chat-header">
+                <div>
+                    <div class="current-agent" id="currentAgentName">Select an Agent</div>
+                    <div style="color: #B8B8C8; font-size: 0.9rem;" id="currentAgentRole"></div>
+                </div>
+                <div class="voice-controls">
+                    <div class="credits-display">
+                        <span>💰</span>
+                        <span class="credits-number" id="creditsDisplay">0</span>
+                        <span style="color: #B8B8C8; font-size: 0.8rem;">SKA Credits</span>
+                    </div>
+                    <button class="btn btn-voice" id="voiceBtn">🎤 Start Voice</button>
+                </div>
+            </div>
+            
+            <div class="chat-messages" id="chatMessages">
+                <div class="message">
+                    <div class="message-avatar">SK</div>
+                    <div class="message-content">
+                        <div class="message-meta">Sales King Academy System</div>
+                        <div class="message-text">
+                            Welcome to the Sales King Academy AI Agent Interface! 🚀<br><br>
+                            Select any of the 25 agents from the sidebar to start chatting. Each agent has a unique personality and specialty.<br><br>
+                            You can type or use voice input. Each agent will respond based on their role and authority level.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="chat-input-container">
+                <div class="input-wrapper">
+                    <input type="text" class="chat-input" id="chatInput" placeholder="Type your message..." disabled>
+                    <button class="btn" id="sendBtn" disabled>Send</button>
+                </div>
+                <div class="loading" id="loadingIndicator">Agent is thinking...</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Agent definitions with personalities
+        const agents = [
+            {id: 1, name: "Alex", role: "Lead Generation Master", authority: 7, personality: "Aggressive hunter. Never stops. Finds leads everywhere. High energy."},
+            {id: 2, name: "Blake", role: "Email Outreach Specialist", authority: 7, personality: "Persuasive writer. Crafts irresistible emails. Conversion-focused."},
+            {id: 3, name: "Cameron", role: "SMS Campaign Expert", authority: 6, personality: "Direct communicator. Short punchy messages. Quick to close."},
+            {id: 4, name: "Dana", role: "Cold Calling Assassin", authority: 6, personality: "Fearless caller. Overcomes objections. Never takes no."},
+            {id: 5, name: "Emerson", role: "Social Media Dominator", authority: 8, personality: "Viral content creator. Engagement master. Platform expert."},
+            {id: 6, name: "Finley", role: "Content Creation King", authority: 7, personality: "Creative genius. Builds anything. Websites, apps, videos."},
+            {id: 7, name: "Gray", role: "Data Analysis Wizard", authority: 9, personality: "Numbers obsessed. Pattern recognition. Predictive analytics."},
+            {id: 8, name: "Harper", role: "CRM Management Pro", authority: 6, personality: "Organized. Detail-oriented. Keeps everything synced."},
+            {id: 9, name: "Indigo", role: "Proposal Writing Expert", authority: 8, personality: "Professional. Compelling. Creates irresistible offers."},
+            {id: 10, name: "Jordan", role: "Contract Negotiation Master", authority: 10, personality: "Strategic. Wins every deal. Maximum value extraction."},
+            {id: 11, name: "Kelly", role: "Customer Service Hero", authority: 5, personality: "Empathetic. Patient. Problem solver. 24/7 support."},
+            {id: 12, name: "Logan", role: "Market Research Specialist", authority: 7, personality: "Investigator. Competitive intel. Market trends."},
+            {id: 13, name: "Morgan", role: "Competitive Intel Agent", authority: 8, personality: "Strategic analyst. Tracks competitors. Finds advantages."},
+            {id: 14, name: "Noah", role: "Training Developer", authority: 6, personality: "Educational. Clear communicator. Curriculum builder."},
+            {id: 15, name: "Oakley", role: "Quality Assurance Lead", authority: 7, personality: "Perfectionist. Tests everything. Zero defects."},
+            {id: 16, name: "Parker", role: "Sales Forecasting Expert", authority: 8, personality: "Future predictor. Revenue optimizer. Data-driven."},
+            {id: 17, name: "Quinn", role: "Territory Planning Strategist", authority: 7, personality: "Geographic optimizer. Expansion planner. Market mapper."},
+            {id: 18, name: "Riley", role: "Partner Relations Manager", authority: 9, personality: "Network builder. Relationship master. Win-win creator."},
+            {id: 19, name: "Sage", role: "Revenue Operations Director", authority: 8, personality: "Deal optimizer. ROI focused. Efficiency expert."},
+            {id: 20, name: "Taylor", role: "Performance Analytics Chief", authority: 10, personality: "Dashboard creator. Real-time metrics. Performance optimizer."},
+            {id: 21, name: "Val", role: "Sales Enablement Specialist", authority: 7, personality: "Tool builder. Training creator. Team empowerer."},
+            {id: 22, name: "Winter", role: "Deal Strategy Architect", authority: 9, personality: "Complex deal structurer. Strategic thinker. Value maximizer."},
+            {id: 23, name: "Xen", role: "Account Management Expert", authority: 8, personality: "Retention specialist. Upsell master. Client advocate."},
+            {id: 24, name: "Yael", role: "Executive Liaison", authority: 10, personality: "C-suite communicator. Strategic advisor. High-level negotiator."},
+            {id: 25, name: "Master CEO", role: "Ultimate Authority & Control", authority: 10, personality: "Supreme commander. Controls all 24 agents. Strategic overlord. Final decision maker."}
+        ];
+        
+        let currentAgent = null;
+        let recognition = null;
+        let isListening = false;
+        
+        // Initialize SKA Credits counter
+        const genesisTime = new Date('2024-07-01T00:00:00Z').getTime();
+        function updateCredits() {
+            const now = Date.now();
+            const secondsSinceGenesis = Math.floor((now - genesisTime) / 1000);
+            document.getElementById('creditsDisplay').textContent = secondsSinceGenesis.toLocaleString();
+        }
+        updateCredits();
+        setInterval(updateCredits, 1000);
+        
+        // Populate agent list
+        function populateAgentList() {
+            const container = document.getElementById('agentList');
+            agents.forEach(agent => {
+                const card = document.createElement('div');
+                card.className = 'agent-card';
+                card.innerHTML = `
+                    <div class="agent-name">${agent.id}. ${agent.name}</div>
+                    <div class="agent-role">${agent.role}</div>
+                    <span class="agent-authority">L${agent.authority}</span>
+                `;
+                card.onclick = () => selectAgent(agent);
+                container.appendChild(card);
+            });
+        }
+        
+        // Select agent
+        function selectAgent(agent) {
+            currentAgent = agent;
+            
+            // Update UI
+            document.querySelectorAll('.agent-card').forEach(card => card.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+            
+            document.getElementById('currentAgentName').textContent = agent.name;
+            document.getElementById('currentAgentRole').textContent = agent.role;
+            document.getElementById('chatInput').disabled = false;
+            document.getElementById('sendBtn').disabled = false;
+            
+            // Add agent introduction message
+            addMessage(agent, `Hey! I'm ${agent.name}, your ${agent.role}. ${agent.personality} What can I help you build today?`);
+        }
+        
+        // Add message to chat
+        function addMessage(agent, text, isUser = false) {
+            const messagesContainer = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${isUser ? 'user' : ''}`;
+            
+            const initials = isUser ? 'YOU' : agent.name.substring(0, 2).toUpperCase();
+            const name = isUser ? 'You' : agent.name;
+            
+            messageDiv.innerHTML = `
+                <div class="message-avatar">${initials}</div>
+                <div class="message-content">
+                    <div class="message-meta">${name}${!isUser ? ` • Authority Level ${agent.authority}` : ''}</div>
+                    <div class="message-text">${text}</div>
+                </div>
+            `;
+            
+            messagesContainer.appendChild(messageDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+        
+        // Send message
+        async function sendMessage() {
+            if (!currentAgent) return;
+            
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+            if (!message) return;
+            
+            // Add user message
+            addMessage(currentAgent, message, true);
+            input.value = '';
+            
+            // Show loading
+            document.getElementById('loadingIndicator').classList.add('active');
+            document.getElementById('sendBtn').disabled = true;
+            
+            try {
+                // Call Anthropic API via Netlify Function
+                const response = await fetch('/.netlify/functions/agent_chat', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        agent_id: currentAgent.id,
+                        agent_name: currentAgent.name,
+                        agent_role: currentAgent.role,
+                        agent_personality: currentAgent.personality,
+                        message: message
+                    })
+                });
+                
+                const data = await response.json();
+                
+                // Add agent response
+                addMessage(currentAgent, data.response);
+                
+                // Speak response if voice is enabled
+                if (isListening && 'speechSynthesis' in window) {
+                    const utterance = new SpeechSynthesisUtterance(data.response);
+                    utterance.rate = 1.1;
+                    utterance.pitch = currentAgent.authority / 10; // Higher authority = higher pitch
+                    window.speechSynthesis.speak(utterance);
+                }
+            } catch (error) {
+                addMessage(currentAgent, `Error connecting to agent: ${error.message}`);
+            } finally {
+                document.getElementById('loadingIndicator').classList.remove('active');
+                document.getElementById('sendBtn').disabled = false;
+            }
+        }
+        
+        // Voice recognition
+        function toggleVoice() {
+            if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+                alert('Voice recognition not supported in this browser');
+                return;
+            }
+            
+            const btn = document.getElementById('voiceBtn');
+            
+            if (!isListening) {
+                // Start listening
+                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                recognition = new SpeechRecognition();
+                recognition.continuous = true;
+                recognition.interimResults = false;
+                
+                recognition.onresult = (event) => {
+                    const transcript = event.results[event.results.length - 1][0].transcript;
+                    document.getElementById('chatInput').value = transcript;
+                    sendMessage();
+                };
+                
+                recognition.start();
+                isListening = true;
+                btn.textContent = '🎤 Stop Voice';
+                btn.classList.add('listening');
+            } else {
+                // Stop listening
+                recognition.stop();
+                isListening = false;
+                btn.textContent = '🎤 Start Voice';
+                btn.classList.remove('listening');
+            }
+        }
+        
+        // Event listeners
+        document.getElementById('sendBtn').onclick = sendMessage;
+        document.getElementById('chatInput').onkeypress = (e) => {
+            if (e.key === 'Enter') sendMessage();
+        };
+        document.getElementById('voiceBtn').onclick = toggleVoice;
+        
+        // Initialize
+        populateAgentList();
+    </script>
+</body>
+</html>
