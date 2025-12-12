@@ -351,5 +351,70 @@ updateSKACredits();
 setInterval(updateSKACredits, 1000);
 </script>
 
+
+<script>
+// UPDATE ALL NAVIGATION BUTTONS
+document.addEventListener('DOMContentLoaded', function() {
+    // Update nav menu to include AI Agents link
+    const navLinks = document.querySelector('.nav-links');
+    if (navLinks && !document.querySelector('a[href="/agents.html"]')) {
+        const agentLink = document.createElement('a');
+        agentLink.href = '/agents.html';
+        agentLink.textContent = '🤖 AI Agents';
+        agentLink.style.cssText = 'color: var(--gold); font-weight: 600; text-decoration: none; transition: all 0.3s;';
+        navLinks.insertBefore(agentLink, navLinks.firstChild);
+    }
+    
+    // Update all "Get Started" and similar CTA buttons
+    const allButtons = document.querySelectorAll('button, a.btn, .cta-button, [class*="button"]');
+    allButtons.forEach(btn => {
+        const text = btn.textContent.toLowerCase();
+        
+        // Primary CTAs go to agents
+        if (text.includes('get started') || text.includes('transform') || text.includes('build')) {
+            btn.onclick = function(e) {
+                e.preventDefault();
+                window.location.href = '/agents.html';
+            };
+            btn.style.cursor = 'pointer';
+        }
+        
+        // Contact buttons
+        else if (text.includes('contact') || text.includes('sales')) {
+            btn.onclick = function(e) {
+                e.preventDefault();
+                document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
+            };
+            btn.style.cursor = 'pointer';
+        }
+    });
+    
+    // Add floating action button for agents
+    const fab = document.createElement('div');
+    fab.innerHTML = `
+        <a href="/agents.html" style="
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #FFD700, #B8860B);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            text-decoration: none;
+            box-shadow: 0 4px 20px rgba(255, 215, 0, 0.4);
+            z-index: 9999;
+            transition: all 0.3s;
+        " onmouseover="this.style.transform='scale(1.1)'; this.style.boxShadow='0 6px 30px rgba(255, 215, 0, 0.6)';" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 4px 20px rgba(255, 215, 0, 0.4)';">
+            🤖
+        </a>
+    `;
+    document.body.appendChild(fab);
+});
+</script>
+
 </body>
 </html>
