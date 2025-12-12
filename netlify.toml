@@ -1,8 +1,13 @@
 [build]
-  publish = "public"
-  command = "echo 'Static site - no build needed'"
+  publish = "."
+  command = "echo 'No build needed'"
 
 [[redirects]]
-  from = "/*"
-  to = "/index.html"
+  from = "/api/*"
+  to = "https://sales-king-academy-complete.onrender.com/api/:splat"
   status = 200
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Access-Control-Allow-Origin = "*"
