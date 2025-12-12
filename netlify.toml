@@ -2,10 +2,6 @@
   functions = "netlify/functions"
   publish = "."
 
-[functions]
-  node_bundler = "esbuild"
-  external_node_modules = ["@anthropic-ai/sdk"]
-
 [[redirects]]
   from = "/*"
   to = "/index.html"
