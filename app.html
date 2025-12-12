@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>SKA - 25 AI Agents</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 text-white">
+    <div class="container mx-auto px-6 py-8">
+        <h1 class="text-4xl font-bold mb-8">25 AI Agents - Individual Chat</h1>
+        
+        <div class="grid md:grid-cols-5 gap-4 mb-8" id="agentButtons"></div>
+        
+        <div id="chatArea" class="bg-gray-800 rounded-xl p-6 hidden">
+            <div id="messages" class="h-96 overflow-y-auto mb-4 space-y-4"></div>
+            <div class="flex gap-2">
+                <input type="text" id="userInput" placeholder="Type message..." class="flex-1 px-4 py-3 bg-gray-700 rounded-lg">
+                <button onclick="sendMessage()" class="bg-yellow-500 px-6 py-3 rounded-lg font-bold">Send</button>
+                <button onclick="startVoice()" class="bg-green-500 px-6 py-3 rounded-lg font-bold">🎤 Voice</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+const agents = [
+    {id: 1, name: "Alex", role: "Lead Generation"},
+    {id: 2, name: "Blake", role: "Email Campaigns"},
+    {id: 3, name: "Cameron", role: "SMS Automation"},
+    {id: 4, name: "Dana", role: "Cold Calling"},
+    {id: 5, name: "Emerson", role: "Social Media"},
+    {id: 6, name: "Finley", role: "Content Creation"},
+    {id: 7, name: "Gray", role: "Data Analytics"},
+    {id: 8, name: "Harper", role: "CRM Management"},
+    {id: 9, name: "Indigo", role: "Proposals"},
+    {id: 10, name: "Jordan", role: "Negotiations"},
+    {id: 11, name: "Kelly", role: "Customer Success"},
+    {id: 12, name: "Logan", role: "Market Research"},
+    {id: 13, name: "Morgan", role: "Competitive Intel"},
+    {id: 14, name: "Noah", role: "Training"},
+    {id: 15, name: "Oakley", role: "Quality Assurance"},
+    {id: 16, name: "Parker", role: "Sales Forecasting"},
+    {id: 17, name: "Quinn", role: "Territory Planning"},
+    {id: 18, name: "Riley", role: "Partnerships"},
+    {id: 19, name: "Sage", role: "Revenue Ops"},
+    {id: 20, name: "Taylor", role: "Performance Analytics"},
+    {id: 21, name: "Val", role: "Sales Enablement"},
+    {id: 22, name: "Winter", role: "Deal Strategy"},
+    {id: 23, name: "Xen", role: "Account Management"},
+    {id: 24, name: "Yael", role: "Executive Comms"},
+    {id: 25, name: "Zane", role: "Master CEO"}
+];
+
+let currentAgent = null;
+let conversation = [];
+
+// Render agent buttons
+document.getElementById('agentButtons').innerHTML = agents.map(a => 
+    `<button onclick="selectAgent(${a.id})" class="bg-gray-800 hover:bg-gray-700 p-4 rounded-lg border border-gray-700 hover:border-yellow-500 transition">
+        <div class="font-bold">${a.name}</div>
+        <div class="text-sm text-gray-400">${a.role}</div>
+    </button>`
+).join('');
+
+function selectAgent(id) {
+    currentAgent = agents.find(a => a.id === id);
+    conversation = [];
+    document.getElementById('chatArea').classList.remove('hidden');
+    document.getElementById('messages').innerHTML = 
+        `<div class="bg-yellow-500/20 p-4 rounded-lg border border-yellow-500">
+            <strong>Now chatting with ${currentAgent.name}</strong> - ${currentAgent.role}
+        </div>`;
+}
+
+async function sendMessage() {
+    if (!currentAgent) return;
+    
+    const input = document.getElementById('userInput');
+    const userMsg = input.value.trim();
+    if (!userMsg) return;
+    
+    // Show user message
+    addMessage('user', userMsg);
+    input.value = '';
+    
+    // Show loading
+    const loadingDiv = addMessage('agent', 'Thinking...');
+    
+    try {
+        // Call backend
+        const response = await fetch('/.netlify/functions/agent-chat', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                agentId: currentAgent.id,
+                message: userMsg,
+                conversation: conversation
+            })
+        });
+        
+        const data = await response.json();
+        
+        // Remove loading, show response
+        loadingDiv.remove();
+        addMessage('agent', data.response);
+        conversation = data.conversation;
+        
+    } catch (error) {
+        loadingDiv.textContent = 'Error connecting to agent. Please try again.';
+    }
+}
+
+function addMessage(type, text) {
+    const div = document.createElement('div');
+    div.className = type === 'user' ? 'bg-blue-500/20 p-4 rounded-lg ml-12' : 'bg-gray-700 p-4 rounded-lg mr-12';
+    div.textContent = text;
+    document.getElementById('messages').appendChild(div);
+    div.scrollIntoView({behavior: 'smooth'});
+    return div;
+}
+
+function startVoice() {
+    if (!('webkitSpeechRecognition' in window)) {
+        alert('Voice not supported in this browser');
+        return;
+    }
+    
+    const recognition = new webkitSpeechRecognition();
+    recognition.onresult = (event) => {
+        document.getElementById('userInput').value = event.results[0][0].transcript;
+        sendMessage();
+    };
+    recognition.start();
+}
+
+document.getElementById('userInput').addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') sendMessage();
+});
+    </script>
+</body>
+</html>
