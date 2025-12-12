@@ -174,3 +174,63 @@ def followup():
         "followup": r.content[0].text,
         "timestamp": time.time()
     })
+
+# 25 REVENUE-GENERATING AI AGENTS
+agents = [
+    {"id": 1, "name": "Supreme CEO", "level": 10, "revenue_task": "Strategic partnerships, $1M+ deals"},
+    {"id": 2, "name": "Finance Master", "level": 9, "revenue_task": "Revenue tracking, ROI optimization"},
+    {"id": 3, "name": "Sales Commander", "level": 9, "revenue_task": "Close deals, lead conversion"},
+    {"id": 4, "name": "Marketing Genius", "level": 9, "revenue_task": "Campaigns, brand growth"},
+    {"id": 5, "name": "Product Architect", "level": 8, "revenue_task": "Build sellable products"},
+    {"id": 6, "name": "Customer Success", "level": 8, "revenue_task": "Retain clients, upsells"},
+    {"id": 7, "name": "Data Scientist", "level": 8, "revenue_task": "Predict trends, optimize pricing"},
+    {"id": 8, "name": "Legal Counsel", "level": 7, "revenue_task": "Contract review, IP protection"},
+    {"id": 9, "name": "HR Director", "level": 7, "revenue_task": "Talent acquisition"},
+    {"id": 10, "name": "Operations Chief", "level": 7, "revenue_task": "Efficiency, cost reduction"},
+    {"id": 11, "name": "Security Officer", "level": 7, "revenue_task": "Protect assets, prevent fraud"},
+    {"id": 12, "name": "Content Creator", "level": 6, "revenue_task": "Marketing content, blogs"},
+    {"id": 13, "name": "Social Media", "level": 6, "revenue_task": "Engagement, viral campaigns"},
+    {"id": 14, "name": "SEO Specialist", "level": 6, "revenue_task": "Organic traffic, rankings"},
+    {"id": 15, "name": "Email Automation", "level": 6, "revenue_task": "Drip campaigns, conversions"},
+    {"id": 16, "name": "Payment Processor", "level": 6, "revenue_task": "Process payments, QR codes"},
+    {"id": 17, "name": "Analytics Expert", "level": 5, "revenue_task": "Track metrics, insights"},
+    {"id": 18, "name": "Training Coach", "level": 5, "revenue_task": "Onboard customers"},
+    {"id": 19, "name": "QA Engineer", "level": 5, "revenue_task": "Quality assurance"},
+    {"id": 20, "name": "DevOps", "level": 5, "revenue_task": "Deploy fast, scale"},
+    {"id": 21, "name": "API Integrator", "level": 4, "revenue_task": "Connect services"},
+    {"id": 22, "name": "Database Admin", "level": 4, "revenue_task": "Data management"},
+    {"id": 23, "name": "Backup Specialist", "level": 4, "revenue_task": "Protect data"},
+    {"id": 24, "name": "Monitor Agent", "level": 4, "revenue_task": "System health"},
+    {"id": 25, "name": "Master CEO", "level": 10, "revenue_task": "Ultimate authority"}
+]
+
+@app.route("/api/agents/revenue")
+def agents_revenue():
+    return jsonify({"agents": agents, "total": 25, "all_generating_income": True})
+
+@app.route("/api/agent/<int:aid>/revenue", methods=["POST"])
+def agent_revenue_task(aid):
+    agent = next((a for a in agents if a["id"] == aid), None)
+    if not agent: return jsonify({"error": "Not found"}), 404
+    
+    task = request.json.get("task", "")
+    
+    from anthropic import Anthropic
+    anthropic = Anthropic(api_key=os.getenv("ANTHROPIC_API_KEY"))
+    
+    r = anthropic.messages.create(
+        model="claude-sonnet-4-20250514",
+        max_tokens=2000,
+        messages=[{
+            "role": "user",
+            "content": f"You are {agent['name']} (Level {agent['level']}) at Sales King Academy. Your revenue task: {agent['revenue_task']}. Execute: {task}"
+        }]
+    )
+    
+    return jsonify({
+        "agent": agent["name"],
+        "level": agent["level"],
+        "revenue_focus": agent["revenue_task"],
+        "response": r.content[0].text,
+        "timestamp": time.time()
+    })
