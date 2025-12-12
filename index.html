@@ -1,420 +1,323 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sales King Academy - All Systems Operational</title>
-    <link rel="manifest" href="/manifest.json">
+    <title>Sales King Academy - AI Business Automation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        * { margin:0; padding:0; box-sizing:border-box; }
-        body { 
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: #000; color: #0f0; padding: 15px;
-        }
-        .header { 
+        body { font-family: 'Inter', system-ui, sans-serif; }
+        .gradient-text { 
             background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
-            color: #000; padding: 20px; border-radius: 10px; margin-bottom: 20px;
-            text-align: center;
-        }
-        .header h1 { font-size: 1.8rem; margin-bottom: 10px; }
-        .stats { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 10px; margin-bottom: 20px;
-        }
-        .stat { 
-            background: #111; border: 2px solid #FFD700; border-radius: 8px;
-            padding: 15px; text-align: center;
-        }
-        .stat-value { font-size: 1.5rem; font-weight: bold; color: #FFD700; }
-        .stat-label { color: #888; font-size: 0.9rem; margin-top: 5px; }
-        .section { 
-            background: #111; border: 1px solid #333; border-radius: 8px;
-            padding: 15px; margin-bottom: 15px;
-        }
-        .section-title { 
-            font-size: 1.2rem; color: #FFD700; margin-bottom: 15px;
-            padding-bottom: 10px; border-bottom: 1px solid #333;
-        }
-        .buttons { 
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 10px;
-        }
-        button {
-            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
-            color: #000; border: none; padding: 12px; border-radius: 5px;
-            cursor: pointer; font-weight: bold; font-size: 0.9rem;
-            transition: all 0.3s;
-        }
-        button:hover { transform: scale(1.05); box-shadow: 0 0 20px #FFD700; }
-        button:active { transform: scale(0.95); }
-        .output {
-            background: #000; border: 1px solid #333; border-radius: 5px;
-            padding: 10px; margin-top: 10px; min-height: 50px;
-            color: #0f0; font-family: 'Courier New', monospace;
-            font-size: 0.85rem; white-space: pre-wrap; max-height: 200px;
-            overflow-y: auto;
-        }
-        .loading { color: #FFA500; }
-        .error { color: #f00; }
-        .status-indicator { 
-            display: inline-block; width: 10px; height: 10px;
-            border-radius: 50%; background: #0f0; margin-right: 5px;
-            animation: pulse 2s infinite;
-        }
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.3; }
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
     </style>
 </head>
-<body>
-    <div class="header">
-        <h1>🔥 SALES KING ACADEMY</h1>
-        <div>All 81 Systems Operational</div>
-    </div>
-    
-    <div class="stats">
-        <div class="stat">
-            <div class="stat-value" id="credits">Loading...</div>
-            <div class="stat-label">SKA Credits</div>
-        </div>
-        <div class="stat">
-            <div class="stat-value">25/25</div>
-            <div class="stat-label">AI Agents</div>
-        </div>
-        <div class="stat">
-            <div class="stat-value">81</div>
-            <div class="stat-label">Functions</div>
-        </div>
-        <div class="stat">
-            <div class="stat-value">α=25</div>
-            <div class="stat-label">RKL Framework</div>
-        </div>
-    </div>
+<body class="bg-gray-900 text-white">
+    <!-- Header -->
+    <header class="fixed w-full top-0 z-50 bg-gray-900/95 backdrop-blur border-b border-gray-800">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="text-2xl font-bold gradient-text">Sales King Academy</div>
+            <div class="hidden md:flex space-x-8">
+                <a href="#services" class="hover:text-yellow-500">Services</a>
+                <a href="#agents" class="hover:text-yellow-500">AI Agents</a>
+                <a href="#pricing" class="hover:text-yellow-500">Pricing</a>
+                <a href="#contact" class="hover:text-yellow-500">Contact</a>
+            </div>
+            <a href="#contact" class="bg-gradient-to-r from-yellow-500 to-orange-500 px-6 py-2 rounded-lg font-semibold hover:scale-105 transition">
+                Get Started
+            </a>
+        </nav>
+    </header>
 
-    <div class="section">
-        <div class="section-title"><span class="status-indicator"></span>Core Intelligence Systems</div>
-        <div class="buttons">
-            <button onclick="call('supreme_king', 'Execute autonomous task')">Supreme King AI</button>
-            <button onclick="call('quantum_king', 'Quantum processing')">Quantum King</button>
-            <button onclick="call('king_infinity', 'Infinity protocol')">King Infinity</button>
-            <button onclick="call('ultimate_orchestration', 'Orchestrate agents')">Master Orchestration</button>
-            <button onclick="call('team_protocol', 'Team coordination')">TEAM Protocol</button>
-        </div>
-        <div class="output" id="core-output">Click any button to execute...</div>
-    </div>
-
-    <div class="section">
-        <div class="section-title"><span class="status-indicator"></span>AI Agents (25 Active)</div>
-        <div class="buttons">
-            <button onclick="callAgent(1, 'Generate 100 qualified SaaS leads')">Alex - Lead Gen</button>
-            <button onclick="callAgent(2, 'Send email campaign to 1000 contacts')">Blake - Email</button>
-            <button onclick="callAgent(6, 'Build a landing page for real estate')">Finley - Build Site</button>
-            <button onclick="callAgent(9, 'Write proposal for enterprise client')">Indigo - Proposals</button>
-            <button onclick="callAgent(10, 'Negotiate contract terms')">Jordan - Closing</button>
-            <button onclick="call('agents_operational', 'list')">List All 25 Agents</button>
-        </div>
-        <div class="output" id="agents-output">Ready to execute agent tasks...</div>
-    </div>
-
-    <div class="section">
-        <div class="section-title"><span class="status-indicator"></span>Business Automation</div>
-        <div class="buttons">
-            <button onclick="call('lead_generation', 'Generate leads')">Lead Generation (100K+/min)</button>
-            <button onclick="call('b2c_sales', 'Run B2C campaign')">B2C Sales System</button>
-            <button onclick="call('autonomous_closing_engine', 'Close deals')">Auto Closing</button>
-            <button onclick="call('marketing_automation', 'Run campaign')">Marketing Auto</button>
-            <button onclick="call('email_outreach', 'Send campaign')">Email Outreach</button>
-            <button onclick="call('sms_outreach', 'Send SMS')">SMS Campaigns</button>
-        </div>
-        <div class="output" id="business-output">Automation systems ready...</div>
-    </div>
-
-    <div class="section">
-        <div class="section-title"><span class="status-indicator"></span>Real Estate & Payments</div>
-        <div class="buttons">
-            <button onclick="call('real_estate_wholesaling', 'Find deals')">Real Estate Wholesale</button>
-            <button onclick="call('square_payments', 'Process payment')">Square Payments</button>
-            <button onclick="call('square_integration', 'Test integration')">Square Integration</button>
-            <button onclick="call('revenue_ops', 'Optimize revenue')">Revenue Ops</button>
-        </div>
-        <div class="output" id="realestate-output">Payment systems operational...</div>
-    </div>
-
-    <div class="section">
-        <div class="section-title"><span class="status-indicator"></span>Builder Tools</div>
-        <div class="buttons">
-            <button onclick="call('builder', 'Build website')">Website Builder</button>
-            <button onclick="call('android_apk', 'Build APK')">Android APK Builder</button>
-            <button onclick="call('devcore', 'Generate code')">DevCore AI</button>
-            <button onclick="call('api', 'Generate API')">API Generator</button>
-        </div>
-        <div class="output" id="builder-output">Build tools ready...</div>
-    </div>
-
-    <div class="section">
-        <div class="section-title"><span class="status-indicator"></span>Intelligence & Education</div>
-        <div class="buttons">
-            <button onclick="call('aiak', 'Research topic')">AIAK Research</button>
-            <button onclick="call('training_engine', 'Generate curriculum')">Training Engine</button>
-            <button onclick="call('righteous_tutoring', 'Create lesson')">Righteous Tutoring</button>
-            <button onclick="call('language_decipher', 'Decipher text')">Language Decipher</button>
-        </div>
-        <div class="output" id="intel-output">Intelligence systems ready...</div>
-    </div>
-
-    <div class="section">
-        <div class="section-title"><span class="status-indicator"></span>Mathematical Frameworks</div>
-        <div class="buttons">
-            <button onclick="call('pnp_engine', 'Solve P=NP')">P=NP Engine</button>
-            <button onclick="call('qi_np', 'Quantum compute')">Qi-NP Framework</button>
-            <button onclick="call('yocto_cycle', 'Yocto timing')">Yocto-Cycle</button>
-            <button onclick="call('structural_sim', 'Simulate')">Structural Sim</button>
-        </div>
-        <div class="output" id="math-output">Mathematical engines operational...</div>
-    </div>
-
-    <div class="section">
-        <div class="section-title"><span class="status-indicator"></span>Emotional & Cognitive AI</div>
-        <div class="buttons">
-            <button onclick="call('rell', 'Build emotional loyalty')">RELL</button>
-            <button onclick="call('real', 'Adapt emotional response')">REAL</button>
-            <button onclick="call('airess', 'Recognize intent')">AIRESS</button>
-            <button onclick="call('ki_airess', 'King-level AIRESS')">KI-AIRESS</button>
-            <button onclick="call('rrmmre', 'Memory recall')">RRMMRE</button>
-        </div>
-        <div class="output" id="emotional-output">Emotional AI ready...</div>
-    </div>
-
-    <div class="section">
-        <div class="section-title"><span class="status-indicator"></span>Currency & Ledger Systems</div>
-        <div class="buttons">
-            <button onclick="call('credits', 'Get credits')">SKA Credits</button>
-            <button onclick="call('skc_currency', 'Currency info')">SKC Currency</button>
-            <button onclick="call('inovity_ledger', 'Ledger status')">Inovity Ledger</button>
-            <button onclick="call('heartbeat_failsafe', 'Check layers')">11-Layer Failsafe</button>
-        </div>
-        <div class="output" id="currency-output">Currency systems operational...</div>
-    </div>
-
-    <script>
-        async function call(func, action) {
-            const outputId = document.querySelector(`#${func.split('_')[0]}-output`) || document.querySelector('.output');
-            if(!outputId) return;
-            outputId.textContent = `Calling ${func}...`;
-            outputId.className = 'output loading';
-            try {
-                const r = await fetch(`/.netlify/functions/${func}`);
-                const data = await r.json();
-                outputId.textContent = JSON.stringify(data, null, 2);
-                outputId.className = 'output';
-            } catch(e) {
-                outputId.textContent = `Error: ${e.message}`;
-                outputId.className = 'output error';
-            }
-        }
-
-        async function callAgent(id, task) {
-            const out = document.querySelector('#agents-output');
-            out.textContent = `Executing Agent ${id}...`;
-            out.className = 'output loading';
-            try {
-                const r = await fetch('/.netlify/functions/agents_operational/execute', {
-                    method: 'POST',
-                    headers: {'Content-Type':'application/json'},
-                    body: JSON.stringify({agent_id: id, task})
-                });
-                const data = await r.json();
-                out.textContent = `Agent: ${data.agent}\nRole: ${data.role}\n\n${data.result}`;
-                out.className = 'output';
-            } catch(e) {
-                out.textContent = `Error: ${e.message}`;
-                out.className = 'output error';
-            }
-        }
-
-        async function updateCredits() {
-            try {
-                const r = await fetch('/.netlify/functions/credits');
-                const data = await r.json();
-                document.getElementById('credits').textContent = data.credits.toLocaleString();
-            } catch(e) {}
-        }
-
-        updateCredits();
-        setInterval(updateCredits, 1000);
-
-        if('serviceWorker' in navigator){
-            navigator.serviceWorker.register('/sw.js');
-        }
-    </script>
-
-<!-- CONTACT SECTION -->
-<section id="contact" style="padding: 6rem 2rem; background: linear-gradient(180deg, #0A0A0F 0%, #14141F 100%);">
-    <div style="max-width: 1400px; margin: 0 auto;">
-        <div style="text-align: center; margin-bottom: 4rem;">
-            <h2 style="font-family: 'Orbitron', sans-serif; font-size: 3rem; font-weight: 900; margin-bottom: 1rem;">
-                Contact <span style="background: linear-gradient(135deg, #FFD700, #9D4EDD); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Sales King Academy</span>
-            </h2>
-            <p style="font-size: 1.2rem; color: #B8B8C8; max-width: 700px; margin: 0 auto;">
-                Ready to build your autonomous business empire? Get in touch with our founder.
+    <!-- Hero -->
+    <section class="pt-32 pb-20 px-6">
+        <div class="container mx-auto max-w-4xl text-center">
+            <h1 class="text-6xl md:text-7xl font-bold mb-6">
+                Build <span class="gradient-text">Empires</span><br/>Not Businesses
+            </h1>
+            <p class="text-xl md:text-2xl text-gray-300 mb-8">
+                Revolutionary AI automation with 25 autonomous agents. Eliminate 95% of manual work.
             </p>
-        </div>
-        
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; max-width: 1000px; margin: 0 auto;">
-            <div style="background: #1E1E2E; border: 2px solid #FFD700; border-radius: 20px; padding: 3rem; text-align: center;">
-                <div style="width: 120px; height: 120px; margin: 0 auto 2rem; background: linear-gradient(135deg, #FFD700, #9D4EDD); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Orbitron', sans-serif; font-size: 3rem; font-weight: 900; color: #000;">RKL</div>
-                <h3 style="font-family: 'Orbitron', sans-serif; font-size: 1.8rem; margin-bottom: 0.5rem;">Robert Kaleb Long</h3>
-                <p style="color: #FFD700; font-weight: 600; margin-bottom: 0.5rem;">Founder & Chief Research Officer</p>
-                <p style="color: #B8B8C8; font-size: 0.9rem; margin-bottom: 2rem;">Creator of RKL Framework • α=25 • O(n^1.77)</p>
-                
-                <div style="text-align: left; background: #14141F; padding: 1.5rem; border-radius: 15px; border: 1px solid #333;">
-                    <div style="margin-bottom: 1rem;">
-                        <div style="color: #FFD700; font-size: 0.8rem; margin-bottom: 0.3rem;">📧 EMAIL</div>
-                        <a href="mailto:kaleb@saleskingacademy.com" style="color: #FFF; text-decoration: none; word-break: break-all;">kaleb@saleskingacademy.com</a>
-                    </div>
-                    <div style="margin-bottom: 1rem;">
-                        <div style="color: #FFD700; font-size: 0.8rem; margin-bottom: 0.3rem;">📱 PHONE</div>
-                        <a href="tel:+15013791644" style="color: #FFF; text-decoration: none;">+1 (501) 379-1644</a>
-                    </div>
-                    <div>
-                        <div style="color: #FFD700; font-size: 0.8rem; margin-bottom: 0.3rem;">📍 LOCATION</div>
-                        <div style="color: #FFF;">North Little Rock, Arkansas</div>
-                    </div>
-                </div>
+            
+            <!-- Live SKA Credits Counter -->
+            <div class="bg-gray-800 p-8 rounded-xl mb-8">
+                <div class="text-sm text-gray-400 mb-2">SKA Credits Minting Live</div>
+                <div id="creditsCounter" class="text-5xl font-bold gradient-text">Loading...</div>
+                <div class="text-sm text-gray-500 mt-2">1 credit per second since July 1, 2024</div>
             </div>
             
-            <div style="background: #1E1E2E; border: 1px solid #333; border-radius: 20px; padding: 3rem;">
-                <h3 style="font-family: 'Orbitron', sans-serif; font-size: 1.5rem; margin-bottom: 2rem; color: #FFD700;">Company Information</h3>
-                <div style="margin-bottom: 1.5rem;">
-                    <div style="color: #B8B8C8; font-size: 0.8rem; margin-bottom: 0.5rem;">LEGAL NAME</div>
-                    <div style="font-weight: 600;">Sales King Academy LLC</div>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <button onclick="showAgents()" class="bg-gradient-to-r from-yellow-500 to-orange-500 px-8 py-4 rounded-lg font-bold text-lg hover:scale-105 transition">
+                    Talk to AI Agents
+                </button>
+                <a href="#contact" class="border-2 border-yellow-500 px-8 py-4 rounded-lg font-bold text-lg hover:bg-yellow-500/10 transition">
+                    Schedule Demo
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services -->
+    <section id="services" class="py-20 bg-gray-800/50 px-6">
+        <div class="container mx-auto">
+            <h2 class="text-4xl font-bold text-center mb-16">
+                <span class="gradient-text">Complete</span> Business Automation
+            </h2>
+            <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+                <div class="bg-gray-800 p-8 rounded-xl border border-gray-700 hover:border-yellow-500 transition">
+                    <div class="text-4xl mb-4">🤖</div>
+                    <h3 class="text-2xl font-bold mb-4">25 AI Agents</h3>
+                    <p class="text-gray-400">Each agent specialized in a specific business function, working autonomously 24/7.</p>
                 </div>
-                <div style="margin-bottom: 1.5rem;">
-                    <div style="color: #B8B8C8; font-size: 0.8rem; margin-bottom: 0.5rem;">FOUNDED</div>
-                    <div style="font-weight: 600;">July 1, 2024</div>
-                    <div style="color: #B8B8C8; font-size: 0.8rem; margin-top: 0.3rem;">Genesis Timestamp: 0701202400000000</div>
+                <div class="bg-gray-800 p-8 rounded-xl border border-gray-700 hover:border-yellow-500 transition">
+                    <div class="text-4xl mb-4">📞</div>
+                    <h3 class="text-2xl font-bold mb-4">Sales Automation</h3>
+                    <p class="text-gray-400">Lead generation, cold calling, email sequences, and autonomous closing.</p>
                 </div>
-                <div style="margin-bottom: 1.5rem;">
-                    <div style="color: #B8B8C8; font-size: 0.8rem; margin-bottom: 0.5rem;">HEADQUARTERS</div>
-                    <div>North Little Rock, Arkansas</div>
-                    <div style="color: #B8B8C8; font-size: 0.9rem;">United States</div>
-                </div>
-                <div style="margin-bottom: 1.5rem;">
-                    <div style="color: #B8B8C8; font-size: 0.8rem; margin-bottom: 0.5rem;">TECHNOLOGY</div>
-                    <div style="font-weight: 600;">RKL Framework α=25</div>
-                    <div style="color: #B8B8C8; font-size: 0.9rem;">O(n^1.77) Computational Complexity</div>
-                </div>
-                <div>
-                    <div style="color: #B8B8C8; font-size: 0.8rem; margin-bottom: 0.5rem;">LIVE SYSTEMS</div>
-                    <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
-                        <span style="background: #00FF88; color: #000; padding: 0.3rem 0.8rem; border-radius: 15px; font-size: 0.8rem; font-weight: 600;">25 AI Agents Active</span>
-                        <span style="background: #FFD700; color: #000; padding: 0.3rem 0.8rem; border-radius: 15px; font-size: 0.8rem; font-weight: 600;">45.6M+ Credits</span>
-                        <span style="background: #9D4EDD; color: #FFF; padding: 0.3rem 0.8rem; border-radius: 15px; font-size: 0.8rem; font-weight: 600;">100% Uptime</span>
-                    </div>
+                <div class="bg-gray-800 p-8 rounded-xl border border-gray-700 hover:border-yellow-500 transition">
+                    <div class="text-4xl mb-4">💻</div>
+                    <h3 class="text-2xl font-bold mb-4">Development Suite</h3>
+                    <p class="text-gray-400">AI builds websites, apps, APIs, and complete systems on demand.</p>
                 </div>
             </div>
         </div>
-        
-        <div style="display: flex; justify-content: center; gap: 2rem; margin-top: 3rem; flex-wrap: wrap;">
-            <a href="mailto:kaleb@saleskingacademy.com" style="background: linear-gradient(135deg, #FFD700, #B8860B); color: #000; padding: 1rem 2.5rem; border-radius: 30px; text-decoration: none; font-weight: 700; font-size: 1.1rem; transition: all 0.3s; display: inline-block;">📧 Email Kaleb</a>
-            <a href="tel:+15013791644" style="background: linear-gradient(135deg, #00D9FF, #0088AA); color: #FFF; padding: 1rem 2.5rem; border-radius: 30px; text-decoration: none; font-weight: 700; font-size: 1.1rem; transition: all 0.3s; display: inline-block;">📱 Call Now</a>
-            <a href="/agents.html" style="background: linear-gradient(135deg, #9D4EDD, #6A2CAA); color: #FFF; padding: 1rem 2.5rem; border-radius: 30px; text-decoration: none; font-weight: 700; font-size: 1.1rem; transition: all 0.3s; display: inline-block;">🤖 Talk to AI Agents</a>
+    </section>
+
+    <!-- AI Agents -->
+    <section id="agents" class="py-20 px-6">
+        <div class="container mx-auto">
+            <h2 class="text-4xl font-bold text-center mb-16">
+                Meet Your <span class="gradient-text">25 AI Agents</span>
+            </h2>
+            <div id="agentsList" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+                <div class="text-center text-gray-400">Loading agents...</div>
+            </div>
         </div>
-    </div>
-</section>
+    </section>
 
+    <!-- Pricing -->
+    <section id="pricing" class="py-20 bg-gray-800/50 px-6">
+        <div class="container mx-auto">
+            <h2 class="text-4xl font-bold text-center mb-16">
+                Simple <span class="gradient-text">Pricing</span>
+            </h2>
+            <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+                <div class="bg-gray-800 p-8 rounded-xl border border-gray-700">
+                    <h3 class="text-2xl font-bold mb-4">Foundation</h3>
+                    <div class="text-4xl font-bold mb-6">$5,497</div>
+                    <ul class="space-y-3 mb-8">
+                        <li class="flex items-start"><span class="text-yellow-500 mr-2">✓</span> Core training</li>
+                        <li class="flex items-start"><span class="text-yellow-500 mr-2">✓</span> Sales methodology</li>
+                        <li class="flex items-start"><span class="text-yellow-500 mr-2">✓</span> Basic agent access</li>
+                    </ul>
+                    <button onclick="showContact('Foundation')" class="w-full border-2 border-yellow-500 px-6 py-3 rounded-lg font-semibold hover:bg-yellow-500/10 transition">
+                        Learn More
+                    </button>
+                </div>
+                
+                <div class="bg-gradient-to-b from-yellow-500/20 to-gray-800 p-8 rounded-xl border-2 border-yellow-500 transform scale-105">
+                    <div class="bg-yellow-500 text-gray-900 px-3 py-1 rounded-full text-sm font-bold inline-block mb-4">POPULAR</div>
+                    <h3 class="text-2xl font-bold mb-4">Business Automation</h3>
+                    <div class="text-4xl font-bold mb-6">$197<span class="text-lg">/mo</span></div>
+                    <ul class="space-y-3 mb-8">
+                        <li class="flex items-start"><span class="text-yellow-500 mr-2">✓</span> 10 AI agents</li>
+                        <li class="flex items-start"><span class="text-yellow-500 mr-2">✓</span> Lead generation</li>
+                        <li class="flex items-start"><span class="text-yellow-500 mr-2">✓</span> Email automation</li>
+                        <li class="flex items-start"><span class="text-yellow-500 mr-2">✓</span> Analytics dashboard</li>
+                    </ul>
+                    <button onclick="showContact('Business Automation')" class="w-full bg-yellow-500 text-gray-900 px-6 py-3 rounded-lg font-bold hover:bg-yellow-400 transition">
+                        Start Now
+                    </button>
+                </div>
+                
+                <div class="bg-gray-800 p-8 rounded-xl border border-gray-700">
+                    <h3 class="text-2xl font-bold mb-4">Empire Builder</h3>
+                    <div class="text-4xl font-bold mb-6">$99,997<span class="text-lg">/mo</span></div>
+                    <ul class="space-y-3 mb-8">
+                        <li class="flex items-start"><span class="text-yellow-500 mr-2">✓</span> All 25 agents</li>
+                        <li class="flex items-start"><span class="text-yellow-500 mr-2">✓</span> White-label licensing</li>
+                        <li class="flex items-start"><span class="text-yellow-500 mr-2">✓</span> Custom development</li>
+                        <li class="flex items-start"><span class="text-yellow-500 mr-2">✓</span> Dedicated support</li>
+                    </ul>
+                    <button onclick="showContact('Empire Builder')" class="w-full border-2 border-yellow-500 px-6 py-3 rounded-lg font-semibold hover:bg-yellow-500/10 transition">
+                        Contact Sales
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
 
-<script>
-// WORKING SKA CREDITS COUNTER
-const genesisTime = new Date('2024-07-01T00:00:00Z').getTime();
-function updateSKACredits() {
-    const now = Date.now();
-    const secondsSinceGenesis = Math.floor((now - genesisTime) / 1000);
-    
-    // Update all credit displays
-    const creditElements = document.querySelectorAll('#creditsCounter, .credits-counter, [data-credits]');
-    creditElements.forEach(el => {
-        el.textContent = secondsSinceGenesis.toLocaleString();
-    });
-    
-    // Update dollar value
-    const dollarElements = document.querySelectorAll('[data-usd-value]');
-    dollarElements.forEach(el => {
-        el.textContent = '$' + secondsSinceGenesis.toLocaleString();
-    });
-}
-// Run immediately and every second
-updateSKACredits();
-setInterval(updateSKACredits, 1000);
-</script>
+    <!-- Contact -->
+    <section id="contact" class="py-20 px-6">
+        <div class="container mx-auto max-w-4xl">
+            <h2 class="text-4xl font-bold text-center mb-16">
+                <span class="gradient-text">Get Started</span> Today
+            </h2>
+            <div class="grid md:grid-cols-2 gap-12">
+                <div>
+                    <h3 class="text-2xl font-bold mb-6">Contact Information</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-start">
+                            <div class="text-yellow-500 mr-4 text-xl">📍</div>
+                            <div>
+                                <div class="font-semibold">Sales King Academy LLC</div>
+                                <div class="text-gray-400">North Little Rock, Arkansas</div>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="text-yellow-500 mr-4 text-xl">👤</div>
+                            <div>
+                                <div class="font-semibold">Robert Kaleb Long</div>
+                                <div class="text-gray-400">Founder & Chief Research Officer</div>
+                            </div>
+                        </div>
+                        <div class="flex items-start">
+                            <div class="text-yellow-500 mr-4 text-xl">✉️</div>
+                            <div>
+                                <a href="mailto:contact@saleskingacademy.com" class="text-yellow-500 hover:text-yellow-400">
+                                    contact@saleskingacademy.com
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-gray-800 p-8 rounded-xl">
+                    <h3 class="text-2xl font-bold mb-6">Send Message</h3>
+                    <form id="contactForm" class="space-y-4">
+                        <input type="text" id="name" placeholder="Your Name" required
+                            class="w-full px-4 py-3 bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500">
+                        <input type="email" id="email" placeholder="Your Email" required
+                            class="w-full px-4 py-3 bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500">
+                        <textarea id="message" rows="4" placeholder="Your Message" required
+                            class="w-full px-4 py-3 bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500"></textarea>
+                        <button type="submit" 
+                            class="w-full bg-gradient-to-r from-yellow-500 to-orange-500 px-6 py-3 rounded-lg font-bold hover:scale-105 transition">
+                            Send Message
+                        </button>
+                    </form>
+                    <div id="formMessage" class="mt-4 text-center"></div>
+                </div>
+            </div>
+        </div>
+    </section>
 
+    <!-- Footer -->
+    <footer class="bg-gray-800 border-t border-gray-700 py-12 px-6">
+        <div class="container mx-auto text-center">
+            <div class="text-2xl font-bold gradient-text mb-4">Sales King Academy</div>
+            <p class="text-gray-400 mb-6">Build Empires. Not Businesses.</p>
+            <p class="text-gray-500 text-sm">© 2025 Sales King Academy LLC. All rights reserved.</p>
+            <p class="text-gray-600 text-sm mt-2">Founded by Robert Kaleb Long | North Little Rock, Arkansas</p>
+        </div>
+    </footer>
 
-<script>
-// UPDATE ALL NAVIGATION BUTTONS
-document.addEventListener('DOMContentLoaded', function() {
-    // Update nav menu to include AI Agents link
-    const navLinks = document.querySelector('.nav-links');
-    if (navLinks && !document.querySelector('a[href="/agents.html"]')) {
-        const agentLink = document.createElement('a');
-        agentLink.href = '/agents.html';
-        agentLink.textContent = '🤖 AI Agents';
-        agentLink.style.cssText = 'color: var(--gold); font-weight: 600; text-decoration: none; transition: all 0.3s;';
-        navLinks.insertBefore(agentLink, navLinks.firstChild);
-    }
-    
-    // Update all "Get Started" and similar CTA buttons
-    const allButtons = document.querySelectorAll('button, a.btn, .cta-button, [class*="button"]');
-    allButtons.forEach(btn => {
-        const text = btn.textContent.toLowerCase();
-        
-        // Primary CTAs go to agents
-        if (text.includes('get started') || text.includes('transform') || text.includes('build')) {
-            btn.onclick = function(e) {
-                e.preventDefault();
-                window.location.href = '/agents.html';
-            };
-            btn.style.cursor = 'pointer';
+    <script>
+        // Backend API URL
+        const API_URL = 'https://sales-king-academy-backend.onrender.com/api';
+
+        // Load SKA Credits Counter
+        async function updateCreditsCounter() {
+            try {
+                const response = await fetch(`${API_URL}/credits`);
+                const data = await response.json();
+                document.getElementById('creditsCounter').textContent = 
+                    data.total_credits.toLocaleString() + '+';
+            } catch (error) {
+                console.error('Credits fetch error:', error);
+                document.getElementById('creditsCounter').textContent = '45.6M+';
+            }
         }
-        
-        // Contact buttons
-        else if (text.includes('contact') || text.includes('sales')) {
-            btn.onclick = function(e) {
-                e.preventDefault();
-                document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
-            };
-            btn.style.cursor = 'pointer';
-        }
-    });
-    
-    // Add floating action button for agents
-    const fab = document.createElement('div');
-    fab.innerHTML = `
-        <a href="/agents.html" style="
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 70px;
-            height: 70px;
-            background: linear-gradient(135deg, #FFD700, #B8860B);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
-            text-decoration: none;
-            box-shadow: 0 4px 20px rgba(255, 215, 0, 0.4);
-            z-index: 9999;
-            transition: all 0.3s;
-        " onmouseover="this.style.transform='scale(1.1)'; this.style.boxShadow='0 6px 30px rgba(255, 215, 0, 0.6)';" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='0 4px 20px rgba(255, 215, 0, 0.4)';">
-            🤖
-        </a>
-    `;
-    document.body.appendChild(fab);
-});
-</script>
 
+        // Load agents from backend
+        async function loadAgents() {
+            try {
+                const response = await fetch(`${API_URL}/agents`);
+                const data = await response.json();
+                
+                const agentsList = document.getElementById('agentsList');
+                agentsList.innerHTML = data.agents.map(agent => `
+                    <div class="bg-gray-800 p-6 rounded-xl border border-gray-700 hover:border-yellow-500 transition cursor-pointer"
+                         onclick="chatWithAgent(${agent.id})">
+                        <div class="flex justify-between items-start mb-3">
+                            <h3 class="text-xl font-bold">${agent.name}</h3>
+                            <span class="bg-green-500/20 text-green-400 px-3 py-1 rounded-full text-sm">ACTIVE</span>
+                        </div>
+                        <p class="text-gray-400 text-sm mb-2">${agent.role}</p>
+                        <div class="text-xs text-gray-500">Authority: ${agent.authority}/10</div>
+                    </div>
+                `).join('');
+            } catch (error) {
+                console.error('Agents fetch error:', error);
+            }
+        }
+
+        // Chat with agent
+        function chatWithAgent(agentId) {
+            alert(`Agent ${agentId} chat interface coming soon! Full voice/text chat will be available.`);
+        }
+
+        // Show agents section
+        function showAgents() {
+            document.getElementById('agents').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Show contact with pre-filled plan
+        function showContact(plan) {
+            document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
+            document.getElementById('message').value = `I'm interested in the ${plan} plan.`;
+        }
+
+        // Handle contact form
+        document.getElementById('contactForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const formData = {
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                message: document.getElementById('message').value
+            };
+            
+            try {
+                const response = await fetch(`${API_URL}/contact`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formData)
+                });
+                
+                const result = await response.json();
+                
+                document.getElementById('formMessage').innerHTML = 
+                    `<div class="bg-green-500/20 border border-green-500 text-green-400 px-4 py-3 rounded-lg">
+                        ${result.message || 'Message sent successfully!'}
+                    </div>`;
+                
+                document.getElementById('contactForm').reset();
+            } catch (error) {
+                document.getElementById('formMessage').innerHTML = 
+                    `<div class="bg-red-500/20 border border-red-500 text-red-400 px-4 py-3 rounded-lg">
+                        Error sending message. Please email contact@saleskingacademy.com directly.
+                    </div>`;
+            }
+        });
+
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+
+        // Initialize
+        updateCreditsCounter();
+        setInterval(updateCreditsCounter, 10000); // Update every 10 seconds
+        loadAgents();
+    </script>
 </body>
 </html>
