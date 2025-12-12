@@ -3,1190 +3,165 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sales King Academy - Autonomous AI Business Automation</title>
-    <meta name="description" content="Revolutionary AI-powered business automation with 25 autonomous agents. O(n^1.77) computational breakthrough. Build empires, not businesses.">
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
+    <title>Sales King Academy - 25 Autonomous AI Agents</title>
     <style>
-        :root {
-            --gold: #FFD700;
-            --gold-dark: #B8860B;
-            --gold-light: #FFF5CC;
-            --dark-bg: #0A0A0F;
-            --dark-secondary: #14141F;
-            --dark-tertiary: #1E1E2E;
-            --accent-blue: #00D9FF;
-            --accent-purple: #9D4EDD;
-            --text-primary: #FFFFFF;
-            --text-secondary: #B8B8C8;
-            --neural-gradient: linear-gradient(135deg, var(--gold) 0%, var(--accent-purple) 50%, var(--accent-blue) 100%);
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            min-height: 100vh;
         }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: 'Montserrat', sans-serif;
-            background: var(--dark-bg);
-            color: var(--text-primary);
-            overflow-x: hidden;
-            line-height: 1.6;
-        }
-        
-        /* Animated background neural network */
-        .neural-bg {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 0;
-            opacity: 0.15;
-        }
-        
-        .neural-bg canvas {
-            width: 100%;
-            height: 100%;
-        }
-        
-        /* Header/Navigation */
-        header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 1000;
-            background: rgba(10, 10, 15, 0.95);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(255, 215, 0, 0.2);
-            padding: 1.5rem 0;
-            animation: slideDown 0.6s ease-out;
-        }
-        
-        @keyframes slideDown {
-            from { transform: translateY(-100%); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-        
-        nav {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .logo {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.8rem;
-            font-weight: 900;
-            background: var(--neural-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            letter-spacing: 2px;
-        }
-        
-        .nav-links {
-            display: flex;
-            gap: 2.5rem;
-            list-style: none;
-        }
-        
-        .nav-links a {
-            color: var(--text-secondary);
-            text-decoration: none;
-            font-weight: 500;
-            font-size: 0.95rem;
-            letter-spacing: 0.5px;
-            transition: all 0.3s ease;
-            position: relative;
-        }
-        
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--gold);
-            transition: width 0.3s ease;
-        }
-        
-        .nav-links a:hover {
-            color: var(--gold);
-        }
-        
-        .nav-links a:hover::after {
-            width: 100%;
-        }
-        
-        .cta-btn {
-            padding: 0.75rem 2rem;
-            background: var(--gold);
-            color: var(--dark-bg);
-            border: none;
-            border-radius: 50px;
-            font-weight: 700;
-            font-size: 0.95rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-block;
-            letter-spacing: 0.5px;
-        }
-        
-        .cta-btn:hover {
-            background: var(--gold-light);
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
-        }
-        
-        /* Main Content Container */
-        main {
-            position: relative;
-            z-index: 1;
-            padding-top: 100px;
-        }
-        
-        section {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 6rem 2rem;
-        }
-        
-        /* Hero Section */
-        .hero {
-            min-height: 90vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .hero-content {
-            animation: fadeInUp 1s ease-out;
-        }
-        
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(40px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        .hero h1 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 4.5rem;
-            font-weight: 900;
-            line-height: 1.1;
-            margin-bottom: 1.5rem;
-            background: var(--neural-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            letter-spacing: 1px;
-        }
-        
-        .hero .tagline {
-            font-size: 1.5rem;
-            color: var(--text-secondary);
-            margin-bottom: 1rem;
-            font-weight: 300;
-        }
-        
-        .hero .sub-tagline {
-            font-size: 1.1rem;
-            color: var(--gold);
-            margin-bottom: 3rem;
-            font-weight: 500;
-        }
-        
-        .hero-stats {
-            display: flex;
-            gap: 4rem;
-            justify-content: center;
-            margin: 3rem 0;
-            flex-wrap: wrap;
-        }
-        
-        .stat {
-            text-align: center;
-        }
-        
-        .stat-number {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 3rem;
-            font-weight: 900;
-            color: var(--gold);
-            display: block;
-        }
-        
-        .stat-label {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            margin-top: 0.5rem;
-        }
-        
-        .hero-cta {
-            display: flex;
-            gap: 1.5rem;
-            justify-content: center;
-            margin-top: 3rem;
-        }
-        
-        .btn-primary {
-            padding: 1.2rem 3rem;
-            background: var(--gold);
-            color: var(--dark-bg);
-            border: none;
-            border-radius: 50px;
-            font-weight: 700;
-            font-size: 1.1rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-block;
-            font-family: 'Montserrat', sans-serif;
-        }
-        
-        .btn-primary:hover {
-            background: var(--gold-light);
-            transform: translateY(-3px);
-            box-shadow: 0 15px 40px rgba(255, 215, 0, 0.4);
-        }
-        
-        .btn-secondary {
-            padding: 1.2rem 3rem;
-            background: transparent;
-            color: var(--text-primary);
-            border: 2px solid var(--gold);
-            border-radius: 50px;
-            font-weight: 700;
-            font-size: 1.1rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            display: inline-block;
-            font-family: 'Montserrat', sans-serif;
-        }
-        
-        .btn-secondary:hover {
-            background: var(--gold);
-            color: var(--dark-bg);
-            transform: translateY(-3px);
-        }
-        
-        /* Section Titles */
-        .section-title {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 3rem;
-            font-weight: 900;
-            text-align: center;
-            margin-bottom: 1rem;
-            background: var(--neural-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        
-        .section-subtitle {
-            text-align: center;
-            color: var(--text-secondary);
-            font-size: 1.2rem;
-            margin-bottom: 4rem;
-            max-width: 700px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        
-        /* Services Grid */
-        .services-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 2.5rem;
-            margin-top: 4rem;
-        }
-        
-        .service-card {
-            background: var(--dark-secondary);
-            border: 1px solid rgba(255, 215, 0, 0.15);
-            border-radius: 20px;
-            padding: 3rem;
-            transition: all 0.4s ease;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .service-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: var(--neural-gradient);
-            transform: scaleX(0);
-            transition: transform 0.4s ease;
-        }
-        
-        .service-card:hover {
-            transform: translateY(-10px);
-            border-color: var(--gold);
-            box-shadow: 0 20px 60px rgba(255, 215, 0, 0.2);
-        }
-        
-        .service-card:hover::before {
-            transform: scaleX(1);
-        }
-        
-        .service-icon {
-            font-size: 3rem;
-            margin-bottom: 1.5rem;
-        }
-        
-        .service-card h3 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-            color: var(--gold);
-        }
-        
-        .service-card p {
-            color: var(--text-secondary);
-            line-height: 1.8;
-            margin-bottom: 1.5rem;
-        }
-        
-        .service-features {
-            list-style: none;
-            margin-top: 1.5rem;
-        }
-        
-        .service-features li {
-            color: var(--text-secondary);
-            padding: 0.5rem 0;
-            padding-left: 1.5rem;
-            position: relative;
-        }
-        
-        .service-features li::before {
-            content: '▸';
-            position: absolute;
-            left: 0;
-            color: var(--gold);
-            font-weight: bold;
-        }
-        
-        /* Pricing Section */
-        .pricing-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 2.5rem;
-            margin-top: 4rem;
-        }
-        
-        .pricing-card {
-            background: var(--dark-secondary);
-            border: 2px solid rgba(255, 215, 0, 0.2);
-            border-radius: 20px;
-            padding: 3rem;
-            text-align: center;
-            transition: all 0.4s ease;
-            position: relative;
-        }
-        
-        .pricing-card.featured {
-            border-color: var(--gold);
-            transform: scale(1.05);
-            background: linear-gradient(135deg, var(--dark-secondary) 0%, rgba(255, 215, 0, 0.05) 100%);
-        }
-        
-        .pricing-card:hover {
-            transform: translateY(-10px) scale(1.02);
-            border-color: var(--gold);
-            box-shadow: 0 20px 60px rgba(255, 215, 0, 0.2);
-        }
-        
-        .pricing-badge {
-            background: var(--gold);
-            color: var(--dark-bg);
-            padding: 0.5rem 1.5rem;
-            border-radius: 50px;
-            font-weight: 700;
-            font-size: 0.8rem;
-            display: inline-block;
-            margin-bottom: 1.5rem;
-            letter-spacing: 1px;
-        }
-        
-        .pricing-card h3 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.8rem;
-            margin-bottom: 1rem;
-            color: var(--gold);
-        }
-        
-        .price {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 3.5rem;
-            font-weight: 900;
-            color: var(--text-primary);
-            margin: 1.5rem 0;
-        }
-        
-        .price-period {
-            font-size: 1rem;
-            color: var(--text-secondary);
-            font-weight: 400;
-        }
-        
-        .pricing-features {
-            list-style: none;
-            margin: 2rem 0;
-            text-align: left;
-        }
-        
-        .pricing-features li {
-            padding: 0.75rem 0;
-            color: var(--text-secondary);
-            padding-left: 2rem;
-            position: relative;
-        }
-        
-        .pricing-features li::before {
-            content: '✓';
-            position: absolute;
-            left: 0;
-            color: var(--gold);
-            font-weight: bold;
-            font-size: 1.2rem;
-        }
-        
-        /* AI Agents Showcase */
-        .agents-container {
-            background: var(--dark-secondary);
-            border: 1px solid rgba(255, 215, 0, 0.2);
-            border-radius: 30px;
-            padding: 4rem;
-            margin-top: 4rem;
-        }
-        
-        .agents-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
-        }
-        
-        .agent-card {
-            background: var(--dark-tertiary);
-            border: 1px solid rgba(255, 215, 0, 0.1);
+        .container { max-width: 1400px; margin: 0 auto; padding: 20px; }
+        header { text-align: center; padding: 40px 0; }
+        h1 { font-size: 3em; margin-bottom: 10px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3); }
+        .credits { 
+            font-size: 1.5em; 
+            background: rgba(255,255,255,0.2); 
+            padding: 20px; 
             border-radius: 15px;
-            padding: 2rem;
-            transition: all 0.3s ease;
+            margin: 20px auto;
+            max-width: 600px;
         }
-        
-        .agent-card:hover {
-            border-color: var(--gold);
-            transform: translateY(-5px);
-        }
-        
-        .agent-rank {
-            color: var(--gold);
-            font-family: 'Orbitron', sans-serif;
-            font-weight: 700;
-            font-size: 0.9rem;
-            margin-bottom: 0.5rem;
-        }
-        
-        .agent-card h4 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.2rem;
-            margin-bottom: 0.75rem;
-            color: var(--text-primary);
-        }
-        
-        .agent-card p {
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-            line-height: 1.6;
-        }
-        
-        /* Technology Section */
-        .tech-showcase {
-            background: linear-gradient(135deg, var(--dark-secondary) 0%, var(--dark-tertiary) 100%);
-            border: 2px solid rgba(255, 215, 0, 0.3);
-            border-radius: 30px;
-            padding: 4rem;
-            margin-top: 4rem;
-        }
-        
-        .tech-grid {
-            display: grid;
+        .agents-grid { 
+            display: grid; 
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 3rem;
-            margin-top: 3rem;
+            gap: 20px;
+            margin-top: 40px;
         }
-        
-        .tech-item {
-            text-align: center;
+        .agent-card {
+            background: rgba(255,255,255,0.95);
+            color: #333;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            transition: transform 0.3s;
         }
-        
-        .tech-item h4 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.5rem;
-            color: var(--gold);
-            margin-bottom: 1rem;
+        .agent-card:hover { transform: translateY(-5px); }
+        .agent-card h3 { color: #667eea; margin-bottom: 10px; }
+        .agent-status {
+            display: inline-block;
+            padding: 5px 15px;
+            background: #00ff00;
+            color: #000;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: bold;
         }
-        
-        .tech-item p {
-            color: var(--text-secondary);
-            line-height: 1.8;
-        }
-        
-        .tech-metric {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 2.5rem;
-            font-weight: 900;
-            color: var(--gold);
-            display: block;
-            margin: 1rem 0;
-        }
-        
-        /* CTA Section */
-        .cta-section {
-            text-align: center;
-            padding: 8rem 2rem;
-            background: linear-gradient(135deg, rgba(255, 215, 0, 0.1) 0%, transparent 100%);
-        }
-        
-        .cta-section h2 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 3.5rem;
-            font-weight: 900;
-            margin-bottom: 1.5rem;
-            background: var(--neural-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        
-        .cta-section p {
-            font-size: 1.3rem;
-            color: var(--text-secondary);
-            margin-bottom: 3rem;
-            max-width: 700px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        
-        /* Footer */
-        footer {
-            background: var(--dark-secondary);
-            border-top: 1px solid rgba(255, 215, 0, 0.2);
-            padding: 4rem 2rem 2rem;
-            margin-top: 6rem;
-        }
-        
-        .footer-content {
-            max-width: 1400px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 3rem;
-            margin-bottom: 3rem;
-        }
-        
-        .footer-section h4 {
-            font-family: 'Orbitron', sans-serif;
-            color: var(--gold);
-            margin-bottom: 1.5rem;
-            font-size: 1.2rem;
-        }
-        
-        .footer-section ul {
-            list-style: none;
-        }
-        
-        .footer-section li {
-            margin-bottom: 0.75rem;
-        }
-        
-        .footer-section a {
-            color: var(--text-secondary);
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-        
-        .footer-section a:hover {
-            color: var(--gold);
-        }
-        
-        .footer-bottom {
-            text-align: center;
-            padding-top: 2rem;
-            border-top: 1px solid rgba(255, 215, 0, 0.1);
-            color: var(--text-secondary);
-            font-size: 0.9rem;
-        }
-        
-        /* Mobile Menu */
-        .mobile-menu-btn {
-            display: none;
-            background: none;
+        button {
+            background: #667eea;
+            color: white;
             border: none;
-            color: var(--gold);
-            font-size: 1.5rem;
+            padding: 12px 30px;
+            border-radius: 25px;
             cursor: pointer;
+            font-size: 1em;
+            margin-top: 15px;
+            transition: background 0.3s;
         }
-        
-        @media (max-width: 968px) {
-            .mobile-menu-btn {
-                display: block;
-            }
-            
-            .nav-links {
-                display: none;
-            }
-            
-            .hero h1 {
-                font-size: 2.5rem;
-            }
-            
-            .hero .tagline {
-                font-size: 1.2rem;
-            }
-            
-            .section-title {
-                font-size: 2rem;
-            }
-            
-            .hero-stats {
-                gap: 2rem;
-            }
-            
-            .stat-number {
-                font-size: 2rem;
-            }
-        }
+        button:hover { background: #764ba2; }
     </style>
 </head>
 <body>
-    <!-- Animated Neural Network Background -->
-    <div class="neural-bg" id="neuralBg"></div>
-    
-    <!-- Header -->
-    <header>
-        <nav>
-            <div class="logo">SALES KING ACADEMY</div>
-            <ul class="nav-links">
-                <li><a href="#services">Services</a></li>
-                <li><a href="#agents">AI Agents</a></li>
-                <li><a href="#technology">Technology</a></li>
-                <li><a href="#pricing">Pricing</a></li>
-                <li><a href="#app">AI App</a></li>
-            </ul>
-            <a href="#contact" class="cta-btn">Get Started</a>
-            <button class="mobile-menu-btn">☰</button>
-        </nav>
-    </header>
-    
-    <!-- Main Content -->
-    <main>
-        <!-- Hero Section -->
-        <section class="hero">
-            <div class="hero-content">
-                <h1>Build Empires.<br>Not Businesses.</h1>
-                <p class="tagline">Revolutionary AI-Powered Business Automation</p>
-                <p class="sub-tagline">25 Autonomous Agents • O(n^1.77) Breakthrough • Zero Manual Work</p>
-                
-                <div class="hero-stats">
-                    <div class="stat">
-                        <span class="stat-number">25</span>
-                        <span class="stat-label">AI Agents</span>
-                    </div>
-                    <div class="stat">
-                        <span class="stat-number">100%</span>
-                        <span class="stat-label">Autonomous</span>
-                    </div>
-                    <div class="stat">
-                        <span class="stat-number">24/7</span>
-                        <span class="stat-label">Revenue Generation</span>
-                    </div>
-                    <div class="stat">
-                        <span class="stat-number">$50K+</span>
-                        <span class="stat-label">Daily Potential</span>
-                    </div>
-                </div>
-                
-                <div class="hero-cta">
-                    <a href="#pricing" class="btn-primary">Deploy Your Empire</a>
-                    <a href="#technology" class="btn-secondary">See The Technology</a>
-                </div>
+    <div class="container">
+        <header>
+            <h1>🏆 Sales King Academy</h1>
+            <p>25 Autonomous AI Agents Operating 24/7</p>
+            <div class="credits">
+                <div>💎 <span id="ska-credits">Loading...</span> SKA Credits</div>
+                <small>Auto-minting since July 1, 2024</small>
             </div>
-        </section>
-        
-        <!-- Services Section -->
-        <section id="services">
-            <h2 class="section-title">Autonomous Business Systems</h2>
-            <p class="section-subtitle">Complete AI-driven automation across every business function. Deploy once, generate revenue forever.</p>
-            
-            <div class="services-grid">
-                <div class="service-card">
-                    <div class="service-icon">🤖</div>
-                    <h3>AI Agent Deployment</h3>
-                    <p>Deploy 25 specialized AI agents that handle every aspect of your business automatically. From sales to customer service to financial operations.</p>
-                    <ul class="service-features">
-                        <li>Master Controller + 24 specialized agents</li>
-                        <li>Autonomous decision-making</li>
-                        <li>Real-time optimization</li>
-                        <li>Zero manual intervention</li>
-                    </ul>
-                </div>
-                
-                <div class="service-card">
-                    <div class="service-icon">💼</div>
-                    <h3>Business Automation</h3>
-                    <p>Complete business process automation including lead generation, outreach, sales, customer retention, and financial management.</p>
-                    <ul class="service-features">
-                        <li>Autonomous cold calling & emailing</li>
-                        <li>Lead scraping & qualification</li>
-                        <li>Customer retention systems</li>
-                        <li>Referral program automation</li>
-                    </ul>
-                </div>
-                
-                <div class="service-card">
-                    <div class="service-icon">🏗️</div>
-                    <h3>Development Automation</h3>
-                    <p>AI that builds websites, apps, APIs, and entire cloud infrastructures autonomously. Code generation, deployment, and optimization.</p>
-                    <ul class="service-features">
-                        <li>Website & app generation</li>
-                        <li>API & cloud infrastructure</li>
-                        <li>APK building for Android</li>
-                        <li>Continuous deployment</li>
-                    </ul>
-                </div>
-                
-                <div class="service-card">
-                    <div class="service-icon">📊</div>
-                    <h3>Financial Systems</h3>
-                    <p>SKA Credits currency system with auto-minting. Temporal DNA tokenization for uncloneable security. Complete financial automation.</p>
-                    <ul class="service-features">
-                        <li>SKA Credits (1 credit/second)</li>
-                        <li>Temporal DNA security</li>
-                        <li>Automated accounting</li>
-                        <li>Revenue optimization</li>
-                    </ul>
-                </div>
-                
-                <div class="service-card">
-                    <div class="service-icon">🎓</div>
-                    <h3>Training & Education</h3>
-                    <p>Comprehensive training programs from foundational to enterprise-level. King Q assessment platform with 350+ intelligence tests.</p>
-                    <ul class="service-features">
-                        <li>SKA Mind Mastery platform</li>
-                        <li>350+ intelligence assessments</li>
-                        <li>Custom training programs</li>
-                        <li>White-label licensing</li>
-                    </ul>
-                </div>
-                
-                <div class="service-card">
-                    <div class="service-icon">🔐</div>
-                    <h3>Enterprise Security</h3>
-                    <p>5-layer security fortress with temporal DNA tokenization, quantum-classical balance, and genesis-anchored authentication.</p>
-                    <ul class="service-features">
-                        <li>5-layer security architecture</li>
-                        <li>Temporal DNA (uncloneable)</li>
-                        <li>Genesis anchoring (July 1, 2024)</li>
-                        <li>Real-time threat detection</li>
-                    </ul>
-                </div>
-            </div>
-        </section>
-        
-        <!-- AI Agents Section -->
-        <section id="agents">
-            <h2 class="section-title">The 25 AI Agent Army</h2>
-            <p class="section-subtitle">Each agent is a specialist with defined authority and responsibilities. They work in harmony to run your entire empire.</p>
-            
-            <div class="agents-container">
-                <div class="agents-grid">
-                    <div class="agent-card">
-                        <div class="agent-rank">AUTHORITY 10 • SUPREME</div>
-                        <h4>Master Controller</h4>
-                        <p>Oversees all agents, makes final decisions, ensures system coherence and alignment with business objectives.</p>
-                    </div>
-                    
-                    <div class="agent-card">
-                        <div class="agent-rank">AUTHORITY 9 • EXECUTIVE</div>
-                        <h4>Predictive Twin</h4>
-                        <p>24-hour forward prediction system. Anticipates market changes, customer behavior, and business opportunities.</p>
-                    </div>
-                    
-                    <div class="agent-card">
-                        <div class="agent-rank">AUTHORITY 9 • EXECUTIVE</div>
-                        <h4>Revenue Optimizer</h4>
-                        <p>Maximizes revenue across all channels. Dynamic pricing, upsell automation, conversion optimization.</p>
-                    </div>
-                    
-                    <div class="agent-card">
-                        <div class="agent-rank">AUTHORITY 8 • DIRECTOR</div>
-                        <h4>Lead Generation AI</h4>
-                        <p>Internet-wide lead scraping. Identifies businesses without automation and qualifies opportunities.</p>
-                    </div>
-                    
-                    <div class="agent-card">
-                        <div class="agent-rank">AUTHORITY 8 • DIRECTOR</div>
-                        <h4>Sales Closer</h4>
-                        <p>Autonomous cold calling, email sequences, and multi-channel outreach. Closes deals without human intervention.</p>
-                    </div>
-                    
-                    <div class="agent-card">
-                        <div class="agent-rank">AUTHORITY 7 • MANAGER</div>
-                        <h4>Customer Success AI</h4>
-                        <p>Retention automation, satisfaction monitoring, proactive support, and relationship management.</p>
-                    </div>
-                    
-                    <div class="agent-card">
-                        <div class="agent-rank">AUTHORITY 7 • MANAGER</div>
-                        <h4>Development AI</h4>
-                        <p>Builds websites, apps, APIs, and cloud infrastructure. Full-stack development automation.</p>
-                    </div>
-                    
-                    <div class="agent-card">
-                        <div class="agent-rank">AUTHORITY 6 • SPECIALIST</div>
-                        <h4>Marketing Strategist</h4>
-                        <p>Campaign creation, content generation, SEO optimization, and multi-channel marketing automation.</p>
-                    </div>
-                    
-                    <div class="agent-card">
-                        <div class="agent-rank">AUTHORITY 6 • SPECIALIST</div>
-                        <h4>Financial Controller</h4>
-                        <p>Accounting automation, financial reporting, SKA Credits management, and revenue tracking.</p>
-                    </div>
-                    
-                    <div class="agent-card">
-                        <div class="agent-rank">AUTHORITY 5 • OPERATOR</div>
-                        <h4>Security Sentinel</h4>
-                        <p>5-layer security monitoring, threat detection, temporal DNA verification, and system protection.</p>
-                    </div>
-                    
-                    <div class="agent-card">
-                        <div class="agent-rank">+ 15 MORE AGENTS</div>
-                        <h4>Specialized Operations</h4>
-                        <p>Content creation, social media, analytics, compliance, quality assurance, and more. Every function automated.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-        
-        <!-- Technology Section -->
-        <section id="technology">
-            <h2 class="section-title">Breakthrough Technology</h2>
-            <p class="section-subtitle">The RKL Mathematical Framework with α=25 parameter. O(n^1.77) quasi-polynomial complexity that outperforms industry standards by 10-100x.</p>
-            
-            <div class="tech-showcase">
-                <div class="tech-grid">
-                    <div class="tech-item">
-                        <h4>Computational Breakthrough</h4>
-                        <span class="tech-metric">O(n^1.77)</span>
-                        <p>Revolutionary SAT solving algorithm that achieves quasi-polynomial complexity. Tested on quintillion-variable problems.</p>
-                    </div>
-                    
-                    <div class="tech-item">
-                        <h4>Temporal Compression</h4>
-                        <span class="tech-metric">3^8 • 5^8</span>
-                        <p>Temporal compression ratios enabling massive computational problems to run on standard hardware.</p>
-                    </div>
-                    
-                    <div class="tech-item">
-                        <h4>SKA Credits</h4>
-                        <span class="tech-metric">1/sec</span>
-                        <p>Auto-minting currency system. Genesis: July 1, 2024. Currently 44M+ credits. Uncloneable temporal DNA.</p>
-                    </div>
-                    
-                    <div class="tech-item">
-                        <h4>Triple-Plane Computing</h4>
-                        <span class="tech-metric">3-Layer</span>
-                        <p>24-hour forward prediction, real-time execution, backward validation. Complete temporal awareness.</p>
-                    </div>
-                    
-                    <div class="tech-item">
-                        <h4>Quantum-Classical Balance</h4>
-                        <span class="tech-metric">α=25</span>
-                        <p>The RKL Framework's signature parameter. Balances quantum possibilities with classical execution.</p>
-                    </div>
-                    
-                    <div class="tech-item">
-                        <h4>Security Layers</h4>
-                        <span class="tech-metric">5-Layer</span>
-                        <p>Temporal DNA, genesis anchoring, moving timestamps, zero-knowledge proofs, and quantum-resistant encryption.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-        
-        <!-- Pricing Section -->
-        <section id="pricing">
-            <h2 class="section-title">Investment Tiers</h2>
-            <p class="section-subtitle">From individual training to complete enterprise automation. Choose your path to autonomous revenue.</p>
-            
-            <div class="pricing-grid">
-                <div class="pricing-card">
-                    <div class="pricing-badge">STARTER</div>
-                    <h3>Foundation Training</h3>
-                    <div class="price">$5,497</div>
-                    <p style="color: var(--text-secondary); margin-bottom: 2rem;">Master the fundamentals</p>
-                    <ul class="pricing-features">
-                        <li>Core automation training</li>
-                        <li>Basic AI agent deployment</li>
-                        <li>Foundation business systems</li>
-                        <li>Community access</li>
-                        <li>Standard support</li>
-                    </ul>
-                    <a href="#contact" class="btn-primary" style="margin-top: 2rem; display: block;">Start Building</a>
-                </div>
-                
-                <div class="pricing-card featured">
-                    <div class="pricing-badge">MOST POPULAR</div>
-                    <h3>Business Automation</h3>
-                    <div class="price">$197<span class="price-period">/mo</span></div>
-                    <p style="color: var(--text-secondary); margin-bottom: 2rem;">Complete monthly automation</p>
-                    <ul class="pricing-features">
-                        <li>5-10 AI agents deployed</li>
-                        <li>Lead generation automation</li>
-                        <li>Sales & marketing systems</li>
-                        <li>Customer retention tools</li>
-                        <li>Monthly optimization</li>
-                        <li>Priority support</li>
-                    </ul>
-                    <a href="#contact" class="btn-primary" style="margin-top: 2rem; display: block;">Deploy Now</a>
-                </div>
-                
-                <div class="pricing-card">
-                    <div class="pricing-badge">ENTERPRISE</div>
-                    <h3>Empire Builder</h3>
-                    <div class="price">$99,997<span class="price-period">/mo</span></div>
-                    <p style="color: var(--text-secondary); margin-bottom: 2rem;">Full autonomous empire</p>
-                    <ul class="pricing-features">
-                        <li>All 25 AI agents</li>
-                        <li>Complete business automation</li>
-                        <li>Custom development AI</li>
-                        <li>White-label licensing rights</li>
-                        <li>SKA Credits integration</li>
-                        <li>Temporal DNA security</li>
-                        <li>24/7 elite support</li>
-                    </ul>
-                    <a href="#contact" class="btn-primary" style="margin-top: 2rem; display: block;">Build Empire</a>
-                </div>
-                
-                <div class="pricing-card">
-                    <div class="pricing-badge">TECHNOLOGY</div>
-                    <h3>Framework Licensing</h3>
-                    <div class="price">$19.7M</div>
-                    <p style="color: var(--text-secondary); margin-bottom: 2rem;">Complete RKL Framework</p>
-                    <ul class="pricing-features">
-                        <li>Full RKL Framework license</li>
-                        <li>O(n^1.77) algorithm rights</li>
-                        <li>25-agent architecture</li>
-                        <li>Temporal DNA technology</li>
-                        <li>SKA Credits system</li>
-                        <li>All intellectual property</li>
-                        <li>Perpetual usage rights</li>
-                    </ul>
-                    <a href="#contact" class="btn-primary" style="margin-top: 2rem; display: block;">Contact Sales</a>
-                </div>
-            </div>
-        </section>
-        
-        <!-- AI App Section -->
-        <section id="app">
-            <h2 class="section-title">Supreme AI App</h2>
-            <p class="section-subtitle">The AI that builds everything. Websites, apps, APIs, cloud infrastructure, and complete business systems. All autonomous.</p>
-            
-            <div class="service-card" style="max-width: 900px; margin: 0 auto; padding: 4rem;">
-                <div style="text-align: center; margin-bottom: 3rem;">
-                    <div class="service-icon" style="font-size: 5rem;">🚀</div>
-                    <h3 style="font-size: 2.5rem; margin: 1rem 0;">Launch Your AI Empire Builder</h3>
-                    <p style="font-size: 1.2rem; margin-bottom: 2rem;">Click below to access the Supreme AI App that can build websites, applications, APIs, cloud infrastructure, and complete business automation systems autonomously.</p>
-                </div>
-                
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin: 3rem 0;">
-                    <div style="text-align: center;">
-                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">🌐</div>
-                        <div style="font-weight: 700; color: var(--gold); margin-bottom: 0.5rem;">Website Builder</div>
-                        <p style="font-size: 0.9rem; color: var(--text-secondary);">Full-stack websites built autonomously</p>
-                    </div>
-                    <div style="text-align: center;">
-                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">📱</div>
-                        <div style="font-weight: 700; color: var(--gold); margin-bottom: 0.5rem;">App Generator</div>
-                        <p style="font-size: 0.9rem; color: var(--text-secondary);">iOS, Android, web apps</p>
-                    </div>
-                    <div style="text-align: center;">
-                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">☁️</div>
-                        <div style="font-weight: 700; color: var(--gold); margin-bottom: 0.5rem;">Cloud Systems</div>
-                        <p style="font-size: 0.9rem; color: var(--text-secondary);">Complete infrastructure automation</p>
-                    </div>
-                    <div style="text-align: center;">
-                        <div style="font-size: 2rem; margin-bottom: 0.5rem;">🔌</div>
-                        <div style="font-weight: 700; color: var(--gold); margin-bottom: 0.5rem;">API Creator</div>
-                        <p style="font-size: 0.9rem; color: var(--text-secondary);">RESTful & GraphQL APIs</p>
-                    </div>
-                </div>
-                
-                <div style="text-align: center; margin-top: 3rem;">
-                    <a href="app.html" class="btn-primary" style="font-size: 1.3rem; padding: 1.5rem 4rem;">Launch Supreme AI App →</a>
-                    <p style="margin-top: 1.5rem; color: var(--text-secondary); font-size: 0.95rem;">All 25 agents • Autonomous operation • Zero coding required</p>
-                </div>
-            </div>
-        </section>
-        
-        <!-- CTA Section -->
-        <section class="cta-section">
-            <h2>Ready to Build Your Empire?</h2>
-            <p>Join the autonomous business revolution. Deploy 25 AI agents and start generating revenue 24/7 with zero manual work.</p>
-            <div class="hero-cta">
-                <a href="#pricing" class="btn-primary">Get Started Today</a>
-                <a href="/cdn-cgi/l/email-protection#2c45424a436c5f4d40495f4745424b4d4f4d48494155024f4341" class="btn-secondary">Contact Sales</a>
-            </div>
-        </section>
-    </main>
-    
-    <!-- Footer -->
-    <footer id="contact">
-        <div class="footer-content">
-            <div class="footer-section">
-                <h4>Sales King Academy</h4>
-                <p style="color: var(--text-secondary); line-height: 1.8;">Revolutionary AI-powered business automation platform. Build empires, not businesses.</p>
-            </div>
-            
-            <div class="footer-section">
-                <h4>Services</h4>
-                <ul>
-                    <li><a href="#services">AI Agent Deployment</a></li>
-                    <li><a href="#services">Business Automation</a></li>
-                    <li><a href="#services">Development Systems</a></li>
-                    <li><a href="#services">Training Programs</a></li>
-                </ul>
-            </div>
-            
-            <div class="footer-section">
-                <h4>Company</h4>
-                <ul>
-                    <li><a href="#technology">Technology</a></li>
-                    <li><a href="#agents">AI Agents</a></li>
-                    <li><a href="#pricing">Pricing</a></li>
-                    <li><a href="#app">AI App</a></li>
-                </ul>
-            </div>
-            
-            <div class="footer-section">
-                <h4>Contact</h4>
-                <ul>
-                    <li><a href="/cdn-cgi/l/email-protection#70191e161f3003111c15031b191e1711131114151d095e131f1d"><span class="__cf_email__" data-cfemail="f990979f96b98a98959c8a9290979e989a989d9c9480d79a9694">[email&#160;protected]</span></a></li>
-                    <li>North Little Rock, Arkansas</li>
-                    <li><a href="#">Documentation</a></li>
-                    <li><a href="#">API Access</a></li>
-                </ul>
-            </div>
-        </div>
-        
-        <div class="footer-bottom">
-            <p>&copy; 2024 Sales King Academy LLC. All rights reserved. Founded by Robert Kaleb Long.</p>
-            <p style="margin-top: 0.5rem;">RKL Mathematical Framework • Temporal DNA Technology • SKA Credits System</p>
-        </div>
-    </footer>
-    
-    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-        // Animated Neural Network Background
-        const canvas = document.createElement('canvas');
-        const ctx = canvas.getContext('2d');
-        document.getElementById('neuralBg').appendChild(canvas);
-        
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-        
-        const particles = [];
-        const particleCount = 80;
-        
-        class Particle {
-            constructor() {
-                this.x = Math.random() * canvas.width;
-                this.y = Math.random() * canvas.height;
-                this.vx = (Math.random() - 0.5) * 0.5;
-                this.vy = (Math.random() - 0.5) * 0.5;
-                this.radius = Math.random() * 2 + 1;
-            }
-            
-            update() {
-                this.x += this.vx;
-                this.y += this.vy;
-                
-                if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
-                if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
-            }
-            
-            draw() {
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-                ctx.fillStyle = 'rgba(255, 215, 0, 0.5)';
-                ctx.fill();
-            }
+        </header>
+
+        <div class="agents-grid" id="agents-container"></div>
+    </div>
+
+    <script>
+        const API_URL = 'https://sales-king-academy-backend.onrender.com/api';
+
+        // 25 Agents Configuration
+        const agents = [
+            { id: 1, name: "Supreme CEO", role: "Strategic Leadership", level: 10 },
+            { id: 2, name: "Finance Master", role: "Revenue & Analytics", level: 9 },
+            { id: 3, name: "Sales Commander", role: "Client Acquisition", level: 9 },
+            { id: 4, name: "Marketing Genius", role: "Brand & Growth", level: 9 },
+            { id: 5, name: "Product Architect", role: "Development & Innovation", level: 8 },
+            { id: 6, name: "Customer Success", role: "Retention & Support", level: 8 },
+            { id: 7, name: "Data Scientist", role: "AI & Machine Learning", level: 8 },
+            { id: 8, name: "Legal Counsel", role: "Compliance & Contracts", level: 7 },
+            { id: 9, name: "HR Director", role: "Talent & Culture", level: 7 },
+            { id: 10, name: "Operations Chief", role: "Efficiency & Logistics", level: 7 },
+            { id: 11, name: "Security Officer", role: "Cybersecurity & Fraud", level: 7 },
+            { id: 12, name: "Content Creator", role: "Media & Communications", level: 6 },
+            { id: 13, name: "Social Media Manager", role: "Engagement & Community", level: 6 },
+            { id: 14, name: "SEO Specialist", role: "Search Optimization", level: 6 },
+            { id: 15, name: "Email Automation", role: "SMTP & Campaigns", level: 6 },
+            { id: 16, name: "Payment Processor", role: "Square Integration", level: 6 },
+            { id: 17, name: "Analytics Expert", role: "Business Intelligence", level: 5 },
+            { id: 18, name: "Training Coach", role: "Education & Onboarding", level: 5 },
+            { id: 19, name: "Quality Assurance", role: "Testing & Validation", level: 5 },
+            { id: 20, name: "Deployment Engineer", role: "CI/CD & Infrastructure", level: 5 },
+            { id: 21, name: "API Integrator", role: "Third-party Services", level: 4 },
+            { id: 22, name: "Database Admin", role: "Data Management", level: 4 },
+            { id: 23, name: "Backup Specialist", role: "Disaster Recovery", level: 4 },
+            { id: 24, name: "Monitor Agent", role: "System Health", level: 4 },
+            { id: 25, name: "Master CEO", role: "Ultimate Authority", level: 10 }
+        ];
+
+        // Calculate SKA Credits
+        function calculateSKACredits() {
+            const startDate = new Date('2024-07-01T00:00:00Z');
+            const now = new Date();
+            const secondsElapsed = Math.floor((now - startDate) / 1000);
+            return secondsElapsed.toLocaleString();
         }
-        
-        for (let i = 0; i < particleCount; i++) {
-            particles.push(new Particle());
+
+        // Update credits display
+        function updateCredits() {
+            document.getElementById('ska-credits').textContent = calculateSKACredits();
         }
-        
-        function animate() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            
-            particles.forEach(particle => {
-                particle.update();
-                particle.draw();
+        setInterval(updateCredits, 1000);
+        updateCredits();
+
+        // Render agents
+        function renderAgents() {
+            const container = document.getElementById('agents-container');
+            agents.forEach(agent => {
+                const card = document.createElement('div');
+                card.className = 'agent-card';
+                card.innerHTML = `
+                    <h3>Agent ${agent.id}: ${agent.name}</h3>
+                    <p><strong>${agent.role}</strong></p>
+                    <p>Authority Level: ${agent.level}</p>
+                    <span class="agent-status">● ACTIVE</span>
+                    <button onclick="interactWithAgent(${agent.id}, '${agent.name}')">
+                        Interact with ${agent.name}
+                    </button>
+                `;
+                container.appendChild(card);
             });
-            
-            // Draw connections
-            for (let i = 0; i < particles.length; i++) {
-                for (let j = i + 1; j < particles.length; j++) {
-                    const dx = particles[i].x - particles[j].x;
-                    const dy = particles[i].y - particles[j].y;
-                    const distance = Math.sqrt(dx * dx + dy * dy);
-                    
-                    if (distance < 150) {
-                        ctx.beginPath();
-                        ctx.moveTo(particles[i].x, particles[i].y);
-                        ctx.lineTo(particles[j].x, particles[j].y);
-                        ctx.strokeStyle = `rgba(255, 215, 0, ${0.2 * (1 - distance / 150)})`;
-                        ctx.lineWidth = 1;
-                        ctx.stroke();
-                    }
-                }
-            }
-            
-            requestAnimationFrame(animate);
         }
-        
-        animate();
-        
-        window.addEventListener('resize', () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        });
-        
-        // Smooth scrolling
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-    
+
+        // Agent interaction
+        async function interactWithAgent(id, name) {
+            const message = prompt(`Send message to ${name}:`);
+            if (!message) return;
+
+            try {
+                const response = await fetch(`${API_URL}/agent/${id}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message })
+                });
+                const data = await response.json();
+                alert(`${name} responds:\n\n${data.response}`);
+            } catch (error) {
+                alert('Error connecting to agent. Backend may be starting up...');
+            }
+        }
+
+        // Initialize
+        renderAgents();
+    </script>
+</body>
+</html>
