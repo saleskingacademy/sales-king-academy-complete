@@ -1,0 +1,8 @@
+{
+  "name": "sales-king-academy-functions",
+  "version": "1.0.0",
+  "description": "Netlify Functions for Sales King Academy AI Agents",
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.30.1"
+  }
+}
