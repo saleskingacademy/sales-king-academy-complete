@@ -1,368 +1,200 @@
-/* Sales King Academy — 25 Agent Frontend (Backend-optional)
-   - 25 agent cards
-   - Dedicated full-screen interface per agent
-   - Per-agent chat history saved to localStorage
-   - Attempts backend call; falls back to offline reply if backend unavailable
-*/
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Sales King Academy — 25 Agents</title>
+  <meta name="description" content="Sales King Academy multi-agent dashboard" />
+  <style>
+    :root{
+      --bg:#0b1220; --panel:#0f1b33; --panel2:#0c162b; --line:#203055;
+      --text:#eaf0ff; --muted:#9fb0d8; --good:#2ee59d; --warn:#ffcc66; --bad:#ff5c7a;
+      --btn:#1d3b7a; --btn2:#132a57;
+      --radius:16px;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:radial-gradient(1200px 800px at 20% 0%, #132a57 0%, var(--bg) 60%);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial}
+    a{color:inherit}
+    .wrap{max-width:1100px;margin:0 auto;padding:18px}
+    .top{
+      display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;
+      padding:14px 14px;border:1px solid var(--line);background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+      border-radius:var(--radius);
+    }
+    .brand{display:flex;gap:12px;align-items:center}
+    .badge{display:inline-flex;align-items:center;gap:8px;padding:8px 10px;border-radius:999px;background:rgba(255,255,255,.06);border:1px solid var(--line)}
+    .dot{width:10px;height:10px;border-radius:50%;background:var(--warn)}
+    .dot.ok{background:var(--good)}
+    .dot.bad{background:var(--bad)}
+    .title{font-size:18px;font-weight:700;letter-spacing:.2px}
+    .sub{font-size:12px;color:var(--muted)}
+    .controls{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+    .input{
+      display:flex;align-items:center;gap:8px;padding:10px 12px;border-radius:12px;background:rgba(0,0,0,.18);
+      border:1px solid var(--line);min-width:240px;
+    }
+    .input input{width:100%;border:none;outline:none;background:transparent;color:var(--text);font-size:14px}
+    .btn{
+      border:none;cursor:pointer;color:var(--text);background:linear-gradient(180deg, var(--btn), var(--btn2));
+      padding:10px 12px;border-radius:12px;border:1px solid var(--line);font-weight:600;
+    }
+    .btn:active{transform:translateY(1px)}
+    .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:12px;margin-top:14px}
+    .card{
+      grid-column:span 6;
+      padding:14px;border-radius:var(--radius);border:1px solid var(--line);
+      background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+      box-shadow:0 10px 30px rgba(0,0,0,.35);
+      display:flex;flex-direction:column;gap:10px;
+    }
+    @media (max-width:900px){ .card{grid-column:span 12} .input{min-width:200px}}
+    .row{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+    .name{font-weight:800;font-size:16px}
+    .role{font-size:12px;color:var(--muted);line-height:1.3}
+    .pill{
+      display:inline-flex;align-items:center;gap:8px;padding:6px 10px;border-radius:999px;
+      border:1px solid var(--line);background:rgba(0,0,0,.18);font-size:12px;color:var(--muted);
+    }
+    .miniDot{width:9px;height:9px;border-radius:50%;background:var(--warn)}
+    .miniDot.ok{background:var(--good)}
+    .miniDot.bad{background:var(--bad)}
+    .meta{display:flex;gap:10px;flex-wrap:wrap}
+    .cta{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+    .cta .btn{flex:1}
+    .small{font-size:12px;color:var(--muted)}
+    .sep{height:1px;background:rgba(255,255,255,.08);margin:4px 0}
 
-const DEFAULT_API_BASE = ""; // leave blank for auto; or set e.g. "https://your-backend.onrender.com"
-const API_TIMEOUT_MS = 6500;
-
-// You can rename/adjust these anytime.
-const AGENTS = [
-  { key:"agent1",  id:1,  name:"Executive Orchestrator", role:"Global control, prioritization, and system execution.", authority:10, status:"active" },
-  { key:"agent2",  id:2,  name:"Finance Master", role:"Revenue strategy, analytics, pricing, cashflow execution.", authority:9, status:"active" },
-  { key:"agent3",  id:3,  name:"Sales Commander", role:"Outbound/inbound sales, closing, objection handling, scripts.", authority:9, status:"active" },
-  { key:"agent4",  id:4,  name:"Marketing Strategist", role:"Ads, funnels, content, positioning, conversion optimization.", authority:8, status:"active" },
-  { key:"agent5",  id:5,  name:"Customer Success Lead", role:"Retention, onboarding, support systems, satisfaction metrics.", authority:8, status:"active" },
-  { key:"agent6",  id:6,  name:"Product Architect", role:"Platform features, roadmap, UX decisions, integration plan.", authority:9, status:"active" },
-  { key:"agent7",  id:7,  name:"Backend Engineer", role:"API design, services, reliability, deployment readiness.", authority:9, status:"active" },
-  { key:"agent8",  id:8,  name:"Frontend Engineer", role:"UI, performance, mobile-first refinement, accessibility.", authority:9, status:"active" },
-  { key:"agent9",  id:9,  name:"DevOps Operator", role:"Deploy pipelines, env vars, logs, uptime, incident response.", authority:9, status:"active" },
-  { key:"agent10", id:10, name:"Security Fortress", role:"Threat modeling, hardening, auth, rate limiting, audits.", authority:10, status:"active" },
-  { key:"agent11", id:11, name:"Legal & Compliance", role:"Policies, compliance posture, contracts, risk mitigation.", authority:9, status:"active" },
-  { key:"agent12", id:12, name:"Partnership Director", role:"Affiliates, alliances, reseller programs, territory strategy.", authority:8, status:"active" },
-  { key:"agent13", id:13, name:"Ops Manager", role:"SOPs, processes, team workflows, execution checklists.", authority:8, status:"active" },
-  { key:"agent14", id:14, name:"Recruiting & HR", role:"Hiring plans, role definitions, screening workflows.", authority:7, status:"active" },
-  { key:"agent15", id:15, name:"Data Analyst", role:"KPIs, dashboards, attribution logic, performance reporting.", authority:8, status:"active" },
-  { key:"agent16", id:16, name:"Content Engine", role:"Course copy, landing pages, email sequences, scripts.", authority:8, status:"active" },
-  { key:"agent17", id:17, name:"Automation Builder", role:"Workflows, integrations, bots, triggers, system glue.", authority:9, status:"active" },
-  { key:"agent18", id:18, name:"Payments & Billing", role:"Square/Stripe flows, checkout, receipts, subscription logic.", authority:8, status:"active" },
-  { key:"agent19", id:19, name:"QA & Testing", role:"Regression tests, acceptance checks, release readiness.", authority:8, status:"active" },
-  { key:"agent20", id:20, name:"Documentation Lead", role:"README, runbooks, setup docs, customer instructions.", authority:7, status:"active" },
-  { key:"agent21", id:21, name:"Brand Director", role:"Brand voice, design system, identity consistency.", authority:7, status:"active" },
-  { key:"agent22", id:22, name:"Education Designer", role:"Curriculum structure, learning outcomes, assessments.", authority:8, status:"active" },
-  { key:"agent23", id:23, name:"Research & R&D", role:"Innovation mapping, new capabilities, future modules.", authority:8, status:"active" },
-  { key:"agent24", id:24, name:"Real Estate Ops", role:"Lead screening, deal pipeline, as-is acquisition workflows.", authority:8, status:"active" },
-  { key:"agent25", id:25, name:"Investor Relations", role:"Pitch readiness, partner comms, evidence pack structure.", authority:8, status:"active" },
-];
-
-const els = {
-  grid: document.getElementById("grid"),
-  search: document.getElementById("search"),
-  clearLocal: document.getElementById("clearLocal"),
-  apiDot: document.getElementById("apiDot"),
-  apiText: document.getElementById("apiText"),
-
-  screen: document.getElementById("screen"),
-  backBtn: document.getElementById("backBtn"),
-  agentName: document.getElementById("agentName"),
-  agentRole: document.getElementById("agentRole"),
-  agentDot: document.getElementById("agentDot"),
-  agentStatus: document.getElementById("agentStatus"),
-  apiBaseView: document.getElementById("apiBaseView"),
-  chatLog: document.getElementById("chatLog"),
-  message: document.getElementById("message"),
-  sendBtn: document.getElementById("sendBtn"),
-};
-
-let currentAgent = null;
-let apiBase = DEFAULT_API_BASE;
-
-function storageKeyFor(agentKey){ return `ska_chat_${agentKey}`; }
-
-function safeJsonParse(str, fallback){
-  try { return JSON.parse(str); } catch { return fallback; }
-}
-
-function nowIso(){ return new Date().toISOString(); }
-
-function loadChat(agentKey){
-  return safeJsonParse(localStorage.getItem(storageKeyFor(agentKey)) || "[]", []);
-}
-
-function saveChat(agentKey, msgs){
-  localStorage.setItem(storageKeyFor(agentKey), JSON.stringify(msgs.slice(-200))); // cap
-}
-
-function addMsg(agentKey, who, text){
-  const msgs = loadChat(agentKey);
-  msgs.push({ who, text, at: nowIso() });
-  saveChat(agentKey, msgs);
-  return msgs;
-}
-
-function clearAllChats(){
-  AGENTS.forEach(a => localStorage.removeItem(storageKeyFor(a.key)));
-}
-
-function escapeHtml(s){
-  return (s||"").replace(/[&<>"']/g, (c)=>({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;" }[c]));
-}
-
-function renderGrid(list){
-  els.grid.innerHTML = "";
-  list.forEach(agent => {
-    const card = document.createElement("div");
-    card.className = "card";
-
-    const statusClass = agent.status === "active" ? "ok" : (agent.status === "down" ? "bad" : "");
-    card.innerHTML = `
-      <div class="row">
+    /* Fullscreen chat */
+    .screen{
+      position:fixed;inset:0;display:none;z-index:50;
+      background:radial-gradient(1200px 800px at 20% 0%, #132a57 0%, var(--bg) 60%);
+    }
+    .screen.on{display:block}
+    .screenWrap{max-width:1100px;margin:0 auto;height:100vh;display:flex;flex-direction:column;padding:14px}
+    .chatTop{
+      display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;
+      padding:12px;border-radius:var(--radius);border:1px solid var(--line);
+      background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+    }
+    .left{display:flex;gap:10px;align-items:center;min-width:240px}
+    .back{background:rgba(0,0,0,.18);border:1px solid var(--line);padding:10px 12px;border-radius:12px;cursor:pointer;color:var(--text);font-weight:700}
+    .agentTitle{display:flex;flex-direction:column;gap:2px}
+    .agentTitle .name{font-size:15px}
+    .agentTitle .role{font-size:12px}
+    .chatBody{
+      flex:1;display:flex;gap:12px;margin-top:12px;min-height:0;
+    }
+    .chatLog{
+      flex:1;border:1px solid var(--line);border-radius:var(--radius);
+      background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+      padding:12px;overflow:auto;min-height:0;
+    }
+    .side{
+      width:320px;max-width:45vw;
+      border:1px solid var(--line);border-radius:var(--radius);
+      background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+      padding:12px;overflow:auto;
+    }
+    @media (max-width:900px){ .side{display:none} }
+    .msg{display:flex;flex-direction:column;gap:6px;margin:10px 0}
+    .msg .who{font-size:12px;color:var(--muted)}
+    .bubble{
+      padding:10px 12px;border-radius:14px;border:1px solid var(--line);
+      background:rgba(0,0,0,.18);line-height:1.4;white-space:pre-wrap;
+    }
+    .bubble.user{background:rgba(29,59,122,.35)}
+    .chatInput{
+      display:flex;gap:10px;margin-top:12px;align-items:flex-end;flex-wrap:wrap;
+      padding:12px;border-radius:var(--radius);border:1px solid var(--line);
+      background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+    }
+    textarea{
+      flex:1;min-height:44px;max-height:140px;resize:vertical;
+      border-radius:12px;border:1px solid var(--line);
+      background:rgba(0,0,0,.18);color:var(--text);padding:10px 12px;outline:none;
+      font-size:14px;
+    }
+    .hint{font-size:12px;color:var(--muted);margin-top:6px}
+    .kbd{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size:12px; padding:2px 6px; border:1px solid var(--line); border-radius:8px; background:rgba(0,0,0,.18)}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="top">
+      <div class="brand">
         <div>
-          <div class="name">${escapeHtml(agent.name)}</div>
-          <div class="role">${escapeHtml(agent.role)}</div>
+          <div class="title">Sales King Academy</div>
+          <div class="sub">Multi-agent frontend (25 interfaces). Backend optional.</div>
         </div>
-        <div class="pill"><span class="miniDot ${statusClass}"></span>${escapeHtml(agent.status.toUpperCase())}</div>
+        <div class="badge" title="Backend connectivity status">
+          <span id="apiDot" class="dot"></span>
+          <span id="apiText" style="font-weight:700">Checking API…</span>
+        </div>
       </div>
-      <div class="meta">
-        <div class="pill">Agent ID: <b style="margin-left:6px">${agent.id}</b></div>
-        <div class="pill">Authority: <b style="margin-left:6px">${agent.authority}</b></div>
+
+      <div class="controls">
+        <div class="input" title="Filter agents">
+          <span style="color:var(--muted);font-weight:700">Search</span>
+          <input id="search" placeholder="finance, sales, legal, etc." />
+        </div>
+        <button class="btn" id="clearLocal">Clear local chat history</button>
       </div>
-      <div class="cta">
-        <button class="btn" data-open="${agent.key}">Open Interface</button>
+    </div>
+
+    <div class="grid" id="grid"></div>
+    <div class="hint">Tip: Click an agent to open a dedicated interface. Chats save locally per-agent until your backend is online.</div>
+  </div>
+
+  <!-- Fullscreen agent chat -->
+  <div class="screen" id="screen">
+    <div class="screenWrap">
+      <div class="chatTop">
+        <div class="left">
+          <button class="back" id="backBtn">← Agents</button>
+          <div class="agentTitle">
+            <div class="name" id="agentName">Agent</div>
+            <div class="role" id="agentRole">Role</div>
+          </div>
+        </div>
+
+        <div class="badge">
+          <span id="agentDot" class="dot"></span>
+          <span id="agentStatus" style="font-weight:700">…</span>
+        </div>
+
+        <div class="pill" title="Backend URL the frontend will call when available">
+          API: <span id="apiBaseView" style="font-weight:800;margin-left:6px">auto</span>
+        </div>
       </div>
-      <div class="small">Dedicated chat + local history. Will call backend when online.</div>
-    `;
 
-    card.querySelector("[data-open]")?.addEventListener("click", () => openAgent(agent.key));
-    els.grid.appendChild(card);
-  });
-}
+      <div class="chatBody">
+        <div class="chatLog" id="chatLog"></div>
 
-function setApiStatus(state, text){
-  els.apiDot.classList.remove("ok","bad");
-  if(state === "ok") els.apiDot.classList.add("ok");
-  if(state === "bad") els.apiDot.classList.add("bad");
-  els.apiText.textContent = text;
-}
+        <div class="side">
+          <div style="font-weight:800;margin-bottom:6px">Agent Controls</div>
+          <div class="sep"></div>
+          <div class="small"><b>Offline Mode:</b> If the API is down, the agent responds with a local placeholder. When API comes online, it switches automatically.</div>
+          <div class="sep"></div>
 
-async function probeApi(){
-  // If user didn't set apiBase, try to infer from window config later (you can hardcode)
-  if(!apiBase){
-    setApiStatus("bad", "API not set (offline mode)");
-    return false;
-  }
+          <div style="font-weight:800;margin:10px 0 6px">Quick Prompts</div>
+          <button class="btn" style="width:100%;margin-bottom:8px" data-quick="Give me a concise plan with steps and checklists.">Execution plan</button>
+          <button class="btn" style="width:100%;margin-bottom:8px" data-quick="Audit the current system and list the top 10 risks and fixes.">Audit & fixes</button>
+          <button class="btn" style="width:100%;margin-bottom:8px" data-quick="Create a prioritized task list for the next 24 hours.">24-hour tasks</button>
 
-  try{
-    const r = await fetchWithTimeout(`${apiBase}/health`, { method:"GET" });
-    if(r.ok){
-      setApiStatus("ok", "API online");
-      return true;
-    }
-    setApiStatus("bad", `API error (${r.status})`);
-    return false;
-  }catch{
-    setApiStatus("bad", "API offline (using local mode)");
-    return false;
-  }
-}
-
-function getApiBase(){
-  // Priority: localStorage override -> DEFAULT_API_BASE -> none
-  const saved = localStorage.getItem("ska_api_base") || "";
-  return (saved || DEFAULT_API_BASE || "").trim().replace(/\/+$/,"");
-}
-
-function setApiBase(url){
-  const clean = (url||"").trim().replace(/\/+$/,"");
-  apiBase = clean;
-  localStorage.setItem("ska_api_base", clean);
-  els.apiBaseView.textContent = clean ? clean : "offline";
-  probeApi();
-}
-
-function showScreen(on){
-  els.screen.classList.toggle("on", !!on);
-}
-
-function renderChat(agentKey){
-  const msgs = loadChat(agentKey);
-  els.chatLog.innerHTML = msgs.map(m => {
-    const isUser = m.who === "user";
-    return `
-      <div class="msg">
-        <div class="who">${escapeHtml(isUser ? "You" : "Agent")} • ${escapeHtml(new Date(m.at).toLocaleString())}</div>
-        <div class="bubble ${isUser ? "user":""}">${escapeHtml(m.text)}</div>
+          <div class="sep"></div>
+          <div class="small">
+            Send: <span class="kbd">Enter</span> • New line: <span class="kbd">Shift</span> + <span class="kbd">Enter</span>
+          </div>
+        </div>
       </div>
-    `;
-  }).join("");
-  els.chatLog.scrollTop = els.chatLog.scrollHeight;
-}
 
-function openAgent(agentKey){
-  const agent = AGENTS.find(a => a.key === agentKey);
-  if(!agent) return;
+      <div class="chatInput">
+        <textarea id="message" placeholder="Message this agent…"></textarea>
+        <button class="btn" id="sendBtn" style="min-width:140px">Send</button>
+      </div>
+    </div>
+  </div>
 
-  currentAgent = agent;
-  els.agentName.textContent = `${agent.name} (ID ${agent.id})`;
-  els.agentRole.textContent = agent.role;
-
-  els.agentDot.classList.remove("ok","bad");
-  els.agentDot.classList.add(agent.status === "active" ? "ok" : "bad");
-  els.agentStatus.textContent = agent.status === "active" ? "READY" : "NOT READY";
-
-  renderChat(agent.key);
-  showScreen(true);
-
-  // set hash route for direct linking
-  location.hash = `agent=${encodeURIComponent(agent.key)}`;
-  els.message.focus();
-}
-
-function closeAgent(){
-  showScreen(false);
-  currentAgent = null;
-  location.hash = "";
-}
-
-function offlineReply(agent, userText){
-  // Simple local fallback while backend is offline.
-  // Keep it deterministic, useful, and short.
-  return [
-    `OFFLINE MODE — ${agent.name}`,
-    ``,
-    `I cannot reach the backend API right now, so I'm responding locally.`,
-    `Message received:`,
-    `- ${userText}`,
-    ``,
-    `Next steps (frontend-ready):`,
-    `1) Keep building UI flows (agent screens, routing, storage, prompts).`,
-    `2) When backend is ready, set API base URL and this will switch to live calls automatically.`,
-    `3) If you tell me the exact API routes you want, I’ll wire them in.`,
-  ].join("\n");
-}
-
-async function fetchWithTimeout(url, options={}){
-  const controller = new AbortController();
-  const t = setTimeout(()=>controller.abort(), API_TIMEOUT_MS);
-  try{
-    const res = await fetch(url, { ...options, signal: controller.signal });
-    return res;
-  } finally {
-    clearTimeout(t);
-  }
-}
-
-async function sendMessage(){
-  if(!currentAgent) return;
-  const text = (els.message.value || "").trim();
-  if(!text) return;
-
-  els.message.value = "";
-  addMsg(currentAgent.key, "user", text);
-  renderChat(currentAgent.key);
-
-  // Try backend if configured; otherwise offline.
-  const base = getApiBase();
-  apiBase = base;
-  els.apiBaseView.textContent = base ? base : "offline";
-
-  if(!base){
-    addMsg(currentAgent.key, "agent", offlineReply(currentAgent, text));
-    renderChat(currentAgent.key);
-    return;
-  }
-
-  // Expected endpoint convention (you can change later):
-  // POST {API_BASE}/agents/{agentKey}/interact  or /agents/{id}/interact
-  const url = `${base}/agents/${encodeURIComponent(currentAgent.key)}/interact`;
-
-  try{
-    const res = await fetchWithTimeout(url, {
-      method:"POST",
-      headers:{ "Content-Type":"application/json" },
-      body: JSON.stringify({
-        agent_key: currentAgent.key,
-        agent_id: currentAgent.id,
-        message: text,
-        ts: nowIso(),
-      })
-    });
-
-    if(!res.ok){
-      const bodyText = await res.text().catch(()=> "");
-      addMsg(currentAgent.key, "agent", `Backend responded with error (${res.status}).\n\n${bodyText || "No details."}`);
-      renderChat(currentAgent.key);
-      return;
-    }
-
-    const data = await res.json().catch(()=>null);
-    const reply =
-      (data && (data.reply || data.message || data.output)) ?
-        (data.reply || data.message || data.output) :
-        `Backend OK, but no "reply/message/output" field returned.\nRaw: ${JSON.stringify(data)}`;
-
-    addMsg(currentAgent.key, "agent", reply);
-    renderChat(currentAgent.key);
-    setApiStatus("ok", "API online");
-  }catch(err){
-    addMsg(currentAgent.key, "agent", offlineReply(currentAgent, text));
-    renderChat(currentAgent.key);
-    setApiStatus("bad", "API offline (using local mode)");
-  }
-}
-
-function applySearch(){
-  const q = (els.search.value||"").trim().toLowerCase();
-  if(!q){
-    renderGrid(AGENTS);
-    return;
-  }
-  const filtered = AGENTS.filter(a =>
-    a.name.toLowerCase().includes(q) ||
-    a.role.toLowerCase().includes(q) ||
-    String(a.id) === q ||
-    a.key.toLowerCase().includes(q)
-  );
-  renderGrid(filtered);
-}
-
-function wireQuickPrompts(){
-  document.querySelectorAll("[data-quick]").forEach(btn=>{
-    btn.addEventListener("click", ()=>{
-      const txt = btn.getAttribute("data-quick") || "";
-      els.message.value = txt;
-      els.message.focus();
-    });
-  });
-}
-
-function restoreFromHash(){
-  const h = (location.hash || "").replace(/^#/,"");
-  if(!h) return;
-  const m = h.match(/^agent=(.+)$/);
-  if(!m) return;
-  const key = decodeURIComponent(m[1]);
-  const found = AGENTS.find(a => a.key === key);
-  if(found) openAgent(found.key);
-}
-
-function init(){
-  // API base can be set later in localStorage:
-  // localStorage.setItem("ska_api_base", "https://your-backend.onrender.com")
-  setApiBase(getApiBase());
-
-  renderGrid(AGENTS);
-
-  els.search.addEventListener("input", applySearch);
-
-  els.clearLocal.addEventListener("click", ()=>{
-    if(confirm("Clear ALL local agent chat histories on this device?")){
-      clearAllChats();
-      if(currentAgent) renderChat(currentAgent.key);
-      alert("Local histories cleared.");
-    }
-  });
-
-  els.backBtn.addEventListener("click", closeAgent);
-  els.sendBtn.addEventListener("click", sendMessage);
-
-  els.message.addEventListener("keydown", (e)=>{
-    if(e.key === "Enter" && !e.shiftKey){
-      e.preventDefault();
-      sendMessage();
-    }
-  });
-
-  window.addEventListener("hashchange", ()=>{
-    if(!location.hash) closeAgent();
-    else restoreFromHash();
-  });
-
-  wireQuickPrompts();
-  restoreFromHash();
-  probeApi();
-}
-
-init();
+  <script src="./app.js"></script>
+</body>
+</html>
