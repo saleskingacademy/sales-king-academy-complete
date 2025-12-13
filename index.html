@@ -1,200 +1,191 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Sales King Academy — 25 Agents</title>
-  <meta name="description" content="Sales King Academy multi-agent dashboard" />
-  <style>
-    :root{
-      --bg:#0b1220; --panel:#0f1b33; --panel2:#0c162b; --line:#203055;
-      --text:#eaf0ff; --muted:#9fb0d8; --good:#2ee59d; --warn:#ffcc66; --bad:#ff5c7a;
-      --btn:#1d3b7a; --btn2:#132a57;
-      --radius:16px;
-    }
-    *{box-sizing:border-box}
-    body{margin:0;background:radial-gradient(1200px 800px at 20% 0%, #132a57 0%, var(--bg) 60%);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial}
-    a{color:inherit}
-    .wrap{max-width:1100px;margin:0 auto;padding:18px}
-    .top{
-      display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;
-      padding:14px 14px;border:1px solid var(--line);background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
-      border-radius:var(--radius);
-    }
-    .brand{display:flex;gap:12px;align-items:center}
-    .badge{display:inline-flex;align-items:center;gap:8px;padding:8px 10px;border-radius:999px;background:rgba(255,255,255,.06);border:1px solid var(--line)}
-    .dot{width:10px;height:10px;border-radius:50%;background:var(--warn)}
-    .dot.ok{background:var(--good)}
-    .dot.bad{background:var(--bad)}
-    .title{font-size:18px;font-weight:700;letter-spacing:.2px}
-    .sub{font-size:12px;color:var(--muted)}
-    .controls{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-    .input{
-      display:flex;align-items:center;gap:8px;padding:10px 12px;border-radius:12px;background:rgba(0,0,0,.18);
-      border:1px solid var(--line);min-width:240px;
-    }
-    .input input{width:100%;border:none;outline:none;background:transparent;color:var(--text);font-size:14px}
-    .btn{
-      border:none;cursor:pointer;color:var(--text);background:linear-gradient(180deg, var(--btn), var(--btn2));
-      padding:10px 12px;border-radius:12px;border:1px solid var(--line);font-weight:600;
-    }
-    .btn:active{transform:translateY(1px)}
-    .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:12px;margin-top:14px}
-    .card{
-      grid-column:span 6;
-      padding:14px;border-radius:var(--radius);border:1px solid var(--line);
-      background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
-      box-shadow:0 10px 30px rgba(0,0,0,.35);
-      display:flex;flex-direction:column;gap:10px;
-    }
-    @media (max-width:900px){ .card{grid-column:span 12} .input{min-width:200px}}
-    .row{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
-    .name{font-weight:800;font-size:16px}
-    .role{font-size:12px;color:var(--muted);line-height:1.3}
-    .pill{
-      display:inline-flex;align-items:center;gap:8px;padding:6px 10px;border-radius:999px;
-      border:1px solid var(--line);background:rgba(0,0,0,.18);font-size:12px;color:var(--muted);
-    }
-    .miniDot{width:9px;height:9px;border-radius:50%;background:var(--warn)}
-    .miniDot.ok{background:var(--good)}
-    .miniDot.bad{background:var(--bad)}
-    .meta{display:flex;gap:10px;flex-wrap:wrap}
-    .cta{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-    .cta .btn{flex:1}
-    .small{font-size:12px;color:var(--muted)}
-    .sep{height:1px;background:rgba(255,255,255,.08);margin:4px 0}
+  <meta charset="UTF-8" />
+  <title>Sales King Academy — Agent Command Center</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    /* Fullscreen chat */
-    .screen{
-      position:fixed;inset:0;display:none;z-index:50;
-      background:radial-gradient(1200px 800px at 20% 0%, #132a57 0%, var(--bg) 60%);
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #0b0b0f;
+      color: #f1f1f1;
     }
-    .screen.on{display:block}
-    .screenWrap{max-width:1100px;margin:0 auto;height:100vh;display:flex;flex-direction:column;padding:14px}
-    .chatTop{
-      display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;
-      padding:12px;border-radius:var(--radius);border:1px solid var(--line);
-      background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+
+    header {
+      background: #111827;
+      padding: 16px;
+      text-align: center;
+      font-size: 20px;
+      font-weight: bold;
+      border-bottom: 1px solid #222;
     }
-    .left{display:flex;gap:10px;align-items:center;min-width:240px}
-    .back{background:rgba(0,0,0,.18);border:1px solid var(--line);padding:10px 12px;border-radius:12px;cursor:pointer;color:var(--text);font-weight:700}
-    .agentTitle{display:flex;flex-direction:column;gap:2px}
-    .agentTitle .name{font-size:15px}
-    .agentTitle .role{font-size:12px}
-    .chatBody{
-      flex:1;display:flex;gap:12px;margin-top:12px;min-height:0;
+
+    .container {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      height: calc(100vh - 60px);
     }
-    .chatLog{
-      flex:1;border:1px solid var(--line);border-radius:var(--radius);
-      background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
-      padding:12px;overflow:auto;min-height:0;
+
+    .sidebar {
+      background: #0f172a;
+      border-right: 1px solid #222;
+      overflow-y: auto;
     }
-    .side{
-      width:320px;max-width:45vw;
-      border:1px solid var(--line);border-radius:var(--radius);
-      background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
-      padding:12px;overflow:auto;
+
+    .agent {
+      padding: 12px 16px;
+      cursor: pointer;
+      border-bottom: 1px solid #1f2937;
     }
-    @media (max-width:900px){ .side{display:none} }
-    .msg{display:flex;flex-direction:column;gap:6px;margin:10px 0}
-    .msg .who{font-size:12px;color:var(--muted)}
-    .bubble{
-      padding:10px 12px;border-radius:14px;border:1px solid var(--line);
-      background:rgba(0,0,0,.18);line-height:1.4;white-space:pre-wrap;
+
+    .agent:hover {
+      background: #1e293b;
     }
-    .bubble.user{background:rgba(29,59,122,.35)}
-    .chatInput{
-      display:flex;gap:10px;margin-top:12px;align-items:flex-end;flex-wrap:wrap;
-      padding:12px;border-radius:var(--radius);border:1px solid var(--line);
-      background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+
+    .agent.active {
+      background: #2563eb;
     }
-    textarea{
-      flex:1;min-height:44px;max-height:140px;resize:vertical;
-      border-radius:12px;border:1px solid var(--line);
-      background:rgba(0,0,0,.18);color:var(--text);padding:10px 12px;outline:none;
-      font-size:14px;
+
+    .main {
+      padding: 24px;
     }
-    .hint{font-size:12px;color:var(--muted);margin-top:6px}
-    .kbd{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size:12px; padding:2px 6px; border:1px solid var(--line); border-radius:8px; background:rgba(0,0,0,.18)}
+
+    .card {
+      background: #020617;
+      border: 1px solid #1f2937;
+      padding: 20px;
+      border-radius: 6px;
+      max-width: 800px;
+    }
+
+    .card h2 {
+      margin-top: 0;
+    }
+
+    textarea {
+      width: 100%;
+      height: 120px;
+      background: #020617;
+      color: #f1f1f1;
+      border: 1px solid #334155;
+      padding: 10px;
+      margin-top: 10px;
+      resize: vertical;
+    }
+
+    button {
+      margin-top: 12px;
+      padding: 10px 16px;
+      background: #2563eb;
+      border: none;
+      color: white;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    button:hover {
+      background: #1d4ed8;
+    }
+
+    .output {
+      margin-top: 16px;
+      padding: 12px;
+      background: #020617;
+      border: 1px dashed #334155;
+      min-height: 60px;
+    }
+
+    footer {
+      text-align: center;
+      padding: 8px;
+      font-size: 12px;
+      color: #94a3b8;
+      border-top: 1px solid #1f2937;
+    }
   </style>
 </head>
+
 <body>
-  <div class="wrap">
-    <div class="top">
-      <div class="brand">
-        <div>
-          <div class="title">Sales King Academy</div>
-          <div class="sub">Multi-agent frontend (25 interfaces). Backend optional.</div>
-        </div>
-        <div class="badge" title="Backend connectivity status">
-          <span id="apiDot" class="dot"></span>
-          <span id="apiText" style="font-weight:700">Checking API…</span>
-        </div>
-      </div>
 
-      <div class="controls">
-        <div class="input" title="Filter agents">
-          <span style="color:var(--muted);font-weight:700">Search</span>
-          <input id="search" placeholder="finance, sales, legal, etc." />
-        </div>
-        <button class="btn" id="clearLocal">Clear local chat history</button>
-      </div>
-    </div>
+<header>
+  Sales King Academy — Agent Command Center
+</header>
 
-    <div class="grid" id="grid"></div>
-    <div class="hint">Tip: Click an agent to open a dedicated interface. Chats save locally per-agent until your backend is online.</div>
-  </div>
+<div class="container">
+  <div class="sidebar" id="agentList"></div>
 
-  <!-- Fullscreen agent chat -->
-  <div class="screen" id="screen">
-    <div class="screenWrap">
-      <div class="chatTop">
-        <div class="left">
-          <button class="back" id="backBtn">← Agents</button>
-          <div class="agentTitle">
-            <div class="name" id="agentName">Agent</div>
-            <div class="role" id="agentRole">Role</div>
-          </div>
-        </div>
+  <div class="main">
+    <div class="card">
+      <h2 id="agentTitle">Select an Agent</h2>
+      <p id="agentDescription">
+        Choose an autonomous agent from the left panel.
+      </p>
 
-        <div class="badge">
-          <span id="agentDot" class="dot"></span>
-          <span id="agentStatus" style="font-weight:700">…</span>
-        </div>
+      <textarea id="commandInput" placeholder="Enter command or task for this agent..."></textarea>
 
-        <div class="pill" title="Backend URL the frontend will call when available">
-          API: <span id="apiBaseView" style="font-weight:800;margin-left:6px">auto</span>
-        </div>
-      </div>
+      <button onclick="sendCommand()">Execute Command</button>
 
-      <div class="chatBody">
-        <div class="chatLog" id="chatLog"></div>
-
-        <div class="side">
-          <div style="font-weight:800;margin-bottom:6px">Agent Controls</div>
-          <div class="sep"></div>
-          <div class="small"><b>Offline Mode:</b> If the API is down, the agent responds with a local placeholder. When API comes online, it switches automatically.</div>
-          <div class="sep"></div>
-
-          <div style="font-weight:800;margin:10px 0 6px">Quick Prompts</div>
-          <button class="btn" style="width:100%;margin-bottom:8px" data-quick="Give me a concise plan with steps and checklists.">Execution plan</button>
-          <button class="btn" style="width:100%;margin-bottom:8px" data-quick="Audit the current system and list the top 10 risks and fixes.">Audit & fixes</button>
-          <button class="btn" style="width:100%;margin-bottom:8px" data-quick="Create a prioritized task list for the next 24 hours.">24-hour tasks</button>
-
-          <div class="sep"></div>
-          <div class="small">
-            Send: <span class="kbd">Enter</span> • New line: <span class="kbd">Shift</span> + <span class="kbd">Enter</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="chatInput">
-        <textarea id="message" placeholder="Message this agent…"></textarea>
-        <button class="btn" id="sendBtn" style="min-width:140px">Send</button>
+      <div class="output" id="outputBox">
+        Awaiting command…
       </div>
     </div>
   </div>
+</div>
 
-  <script src="./app.js"></script>
+<footer>
+  © Sales King Academy LLC • Frontend Interface Only (Backend Pending)
+</footer>
+
+<script>
+  const agents = Array.from({ length: 25 }).map((_, i) => ({
+    id: i + 1,
+    name: "Agent " + (i + 1),
+    role: "Autonomous AI Unit"
+  }));
+
+  const agentList = document.getElementById("agentList");
+  let activeAgent = null;
+
+  agents.forEach(agent => {
+    const div = document.createElement("div");
+    div.className = "agent";
+    div.innerText = agent.name;
+    div.onclick = () => selectAgent(agent, div);
+    agentList.appendChild(div);
+  });
+
+  function selectAgent(agent, element) {
+    document.querySelectorAll(".agent").forEach(a => a.classList.remove("active"));
+    element.classList.add("active");
+
+    activeAgent = agent;
+    document.getElementById("agentTitle").innerText = agent.name;
+    document.getElementById("agentDescription").innerText = agent.role;
+    document.getElementById("outputBox").innerText = "Agent ready.";
+  }
+
+  function sendCommand() {
+    if (!activeAgent) {
+      alert("Select an agent first.");
+      return;
+    }
+
+    const command = document.getElementById("commandInput").value.trim();
+    if (!command) {
+      alert("Enter a command.");
+      return;
+    }
+
+    // FRONTEND-ONLY STUB (no backend call yet)
+    document.getElementById("outputBox").innerText =
+      "Command sent to " + activeAgent.name + ":\n\n" + command +
+      "\n\n(Status: queued — backend not connected)";
+
+    document.getElementById("commandInput").value = "";
+  }
+</script>
+
 </body>
 </html>
