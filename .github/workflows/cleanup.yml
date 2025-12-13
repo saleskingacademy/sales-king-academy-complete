@@ -1,0 +1,44 @@
+name: One-Time Repo Cleanup
+
+on:
+  workflow_dispatch:
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Remove duplicate / dead files
+        run: |
+          rm -rf backend
+          rm -rf functions
+          rm -rf netlify/functions
+          rm -rf android
+
+          rm -f complete_backend.py
+          rm -f ska_backend_complete.py
+          rm -f ska_complete_backend.py
+          rm -f ska_autonomous_complete.py
+          rm -f ska_live_service.py
+          rm -f autonomous_revenue_service.py
+          rm -f revenue_engine_live.py
+
+          rm -f DEPLOYMENT_*
+          rm -f FINAL_STATUS_*
+          rm -f LIVE_SERVICE_DEPLOYED*
+          rm -f DIY_SYSTEMS_DEPLOYED*
+          rm -f EXECUTIVE_DEPLOYMENT_*
+          rm -f KNOWLEDGE_TRANSFER_*
+
+          rm -f START_GENERATING_REVENUE_NOW.sh
+          rm -f deploy.sh
+          rm -f Dockerfile.revenue
+
+      - name: Commit cleanup
+        run: |
+          git config user.name "repo-cleaner"
+          git config user.email "cleanup@github.com"
+          git add -A
+          git commit -m "One-time repo cleanup"
+          git push
