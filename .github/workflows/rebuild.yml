@@ -1,0 +1,116 @@
+name: One-Time Cleanup + Rebuild
+
+on:
+  workflow_dispatch:
+
+jobs:
+  rebuild:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      # -------------------------
+      # CLEANUP PHASE
+      # -------------------------
+      - name: Remove conflicting systems
+        run: |
+          rm -rf backend functions netlify/functions android system || true
+
+          rm -f complete_backend.py
+          rm -f ska_backend_complete.py
+          rm -f ska_complete_backend.py
+          rm -f ska_autonomous_complete.py
+          rm -f ska_live_service.py
+          rm -f autonomous_revenue_service.py
+          rm -f revenue_engine_live.py
+
+          rm -f DEPLOYMENT_*
+          rm -f FINAL_STATUS_*
+          rm -f LIVE_SERVICE_DEPLOYED*
+          rm -f DIY_SYSTEMS_DEPLOYED*
+          rm -f EXECUTIVE_DEPLOYMENT_*
+          rm -f KNOWLEDGE_TRANSFER_*
+
+          rm -f START_GENERATING_REVENUE_NOW.sh
+          rm -f deploy.sh
+          rm -f Dockerfile.revenue
+
+      # -------------------------
+      # REBUILD PHASE
+      # -------------------------
+      - name: Rebuild backend core
+        run: |
+          cat > app.py << 'EOF'
+          from fastapi import FastAPI
+          from fastapi.middleware.cors import CORSMiddleware
+
+          app = FastAPI(title="Sales King Academy API")
+
+          app.add_middleware(
+              CORSMiddleware,
+              allow_origins=["*"],
+              allow_credentials=True,
+              allow_methods=["*"],
+              allow_headers=["*"],
+          )
+
+          @app.get("/")
+          def root():
+              return {"status": "online"}
+
+          @app.get("/health")
+          def health():
+              return {"ok": True}
+
+          from agents import router as agents_router
+          app.include_router(agents_router)
+          EOF
+
+          cat > agents.py << 'EOF'
+          from fastapi import APIRouter
+
+          router = APIRouter(prefix="/agents", tags=["agents"])
+
+          AGENTS = {
+              "finance": {
+                  "id": 2,
+                  "name": "Finance Master",
+                  "authority": 9,
+                  "status": "active"
+              },
+              "sales": {
+                  "id": 3,
+                  "name": "Sales Commander",
+                  "authority": 9,
+                  "status": "active"
+              }
+          }
+
+          @router.get("")
+          def list_agents():
+              return list(AGENTS.values())
+
+          @router.post("/{agent_id}/interact")
+          def interact(agent_id: str, payload: dict):
+              agent = AGENTS.get(agent_id)
+              if not agent:
+                  return {"error": "Agent not found"}
+
+              return {
+                  "agent": agent["name"],
+                  "received": payload,
+                  "response": "Agent online"
+              }
+          EOF
+
+      # -------------------------
+      # COMMIT PHASE
+      # -------------------------
+      - name: Commit rebuilt system
+        run: |
+          git config user.name "rebuild-bot"
+          git config user.email "rebuild@github.com"
+          git add -A
+          git commit -m "One-time cleanup and rebuild"
+          git push
