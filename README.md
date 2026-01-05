@@ -1,7 +1,7 @@
 # Sales King Academy - Complete Production System
 
 **Author:** Robert Kaleb Long  
-**Company:** Sales King Academy LLC  
+**Company:** Sales King Academy
 **Location:** North Little Rock, Arkansas  
 **Genesis:** July 1, 2024 00:00:00 UTC  
 
@@ -86,6 +86,7 @@ python -m http.server 8080
 ## Contact
 
 Robert Kaleb Long  
-Sales King Academy LLC  
-Email: robert@saleskingacademy.com  
+Sales King Academy
+Email: aiak@saleskingacademy.online
+crown@saleskingacademy.website
 Web: https://saleskingacademy.com
