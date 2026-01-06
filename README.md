@@ -1,92 +1,45 @@
-# Sales King Academy - Complete Production System
+# Sales King Academy - Complete System
 
-**Author:** Robert Kaleb Long  
-**Company:** Sales King Academy
-**Location:** North Little Rock, Arkansas  
-**Genesis:** July 1, 2024 00:00:00 UTC  
+Production AI business automation: 44+ systems, 25 autonomous agents, RKL Framework.
 
-## System Architecture
+## Deploy
 
-### Core Components
-1. **TSI Core** - Time-Anchored Super Intelligence
-   - 25 Autonomous AI Agents (flat hierarchy)
-   - RKL Mathematical Framework (α=25, O(n^1.77))
-   - Temporal DNA Tokenization
-   - SKA Credits Currency (1/second minting)
+**Backend (Render)**: Auto-deploys via render.yaml
+**Frontend (Netlify)**: Auto-deploys via netlify.toml
 
-2. **SAT Solver** - Polynomial-time Boolean satisfiability
-   - O(n^1.77) complexity
-   - Twin-ledger verification
-   - Quantum-classical balance
+## Environment Variables
 
-3. **SKA Mind Mastery** - Intelligence assessment platform
-   - 350+ assessments across 8 dimensions
-   - Competes with MyIQ.com
-   - AI-powered coaching
+**Required**: ANTHROPIC_API_KEY, SQUARE_ACCESS_TOKEN, SQUARE_LOCATION_ID
+**Optional**: GITHUB_TOKEN, NETLIFY_TOKEN
 
-4. **Payment Integration** - Square payment processing
-   - Location ID: LCX039E7QRA5G
-   - Multi-tier pricing ($47 - $397,000)
+## Architecture
 
-## Directory Structure
-```
-ska-production/
-├── backend/
-│   ├── tsi_core.py          # Core TSI system
-│   ├── sat_solver.py        # RKL SAT solver
-│   ├── mind_mastery.py      # Assessment platform
-│   └── api.py               # FastAPI backend
-├── frontend/
-│   └── index.html           # Complete frontend
-├── requirements.txt         # Python dependencies
-├── netlify.toml            # Netlify configuration
-└── README.md               # This file
-```
+- **Backend**: Flask + APScheduler (main.py)
+- **Agents**: 25 AI specialists (Agent 25 = Master CEO)
+- **Security**: Temporal DNA tokenization
+- **Payments**: Square integration
+- **Credits**: Auto-minting (1/sec since July 1, 2024)
+- **RKL Framework**: α=25, O(n^1.77) SAT solving
 
-## Deployment
+## API
 
-### Netlify (Frontend)
-- Auto-deploys from GitHub
-- Domain: saleskingacademy.com
-- Site: saleskingacademy-live
+- `GET /` - Health + system status
+- `POST /api/auth/token` - Generate token
+- `GET /api/credits/balance` - Credit balance
+- `POST /api/agents/execute` - Execute agent task
+- `POST /api/payments/create` - Process payment
+- `POST /api/rkl/solve` - Solve SAT
+- `GET /api/system/status` - Full status
 
-### API Backend
-- Deploy to Render/Railway/Fly.io
-- Environment variables required:
-  - ANTHROPIC_API_KEY
-  - SQUARE_LOCATION_ID
+## Revenue
 
-### Cloudflare DNS
-- A/CNAME records pointing to Netlify
-- Zone ID: bb56d6ffba21ccc0f582e2a0d502c5c3
+1. Training: $397-$397K
+2. Automation: $197-$99,997/mo
+3. White-label: Custom
+4. SKA Credits: Auto-minting
 
-## Local Development
+**Status**: ✅ Operational | Zero manual intervention
 
-```bash
-# Backend
-cd backend
-pip install -r ../requirements.txt
-python api.py
+**License**: PROPRIETARY - Robert Kaleb Long / Sales King Academy LLC
 
-# Frontend
-cd frontend
-python -m http.server 8080
-```
-
-## API Endpoints
-
-- `GET /` - Root endpoint
-- `GET /status` - System status
-- `POST /agent/task` - Delegate task to AI agent
-- `GET /credits/supply` - Current SKA Credits supply
-- `GET /assessments` - List all assessments
-- `POST /assessments/score` - Score assessment
-- `GET /sat/benchmark` - Run SAT solver benchmark
-
-## Contact
-
-Robert Kaleb Long  
-Sales King Academy
-Email: aiak@saleskingacademy.online
-crown@saleskingacademy.website
-Web: https://saleskingacademy.com
+Updated: January 6, 2026
