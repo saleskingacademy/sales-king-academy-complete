@@ -1,59 +1,43 @@
-# Sales King Academy - Complete Production System
+# Sales King Academy - Complete AI Business Automation Platform
 
-## Overview
-Complete AI-powered business automation platform with 25 autonomous agents, RKL mathematical framework, and SKA Credits system.
+🌐 **Live Website:** https://saleskingacademy.com
 
-## System Components
+## Complete Production Deployment
 
-### Core Systems
-- **RKL Framework**: α=25, O(n^1.77) complexity
-- **SKA Credits**: Auto-mint 1 credit/second (47.3M+ minted)
-- **25 AI Agents**: Autonomous operation with Agent 25 as Master CEO
-- **Temporal DNA**: Genesis token-based security
-- **Triple-Plane Computing**: Pre-compute, Operational, Shadow
-- **Square Payments**: Location LCX039E7QRA5G
+- **RKL Framework:** α=25, O(n^1.77) computational complexity
+- **SKA Credits:** Auto-minting system (1 credit/second since July 1, 2024)
+- **25 AI Agents:** Full autonomous agent orchestration with Agent 25 as Master CEO
+- **Temporal DNA:** Moving timestamp-based security tokenization
+- **Square Integration:** Live payment processing
+- **Complete Database:** SQLite with all transaction and agent task tracking
 
-### Revenue Tiers
+## Deployment
+
+This repository contains the complete production system deployed at saleskingacademy.com
+
+**Backend:** Python/FastAPI with Anthropic Claude API integration
+**Frontend:** Professional responsive website with live features
+**Infrastructure:** Render (backend) + Cloudflare (DNS/CDN)
+
+## Features
+
+✅ Live SKA Credits counter (47M+ credits = $47M+ value)
+✅ 25 autonomous AI agents with specialized roles
+✅ Payment processing for tiers from $5,497 to $397,000
+✅ Lead capture and contact forms
+✅ Real-time API endpoints
+✅ Complete business automation system
+
+## Revenue Model
+
 - Individual Training: $5,497
 - Professional Package: $27,997
 - Enterprise Package: $97,997
 - Supreme Mastery: $397,000
-- Monthly Plans: $197 - $99,997/month
+- Monthly plans: $197 - $99,997/month
+- White-label licensing: $50K + 15% revenue
+- Master franchise: $250K + 5% revenue
 
-## Deployment
-
-### Local Development
-```bash
-# Install dependencies
-pip install -r requirements.txt
-
-# Run backend
-python ska_complete_backend.py
-
-# Open frontend
-open index.html
-```
-
-### Production Deployment
-
-#### Render (Backend)
-1. Connect GitHub repository
-2. Set environment variables
-3. Deploy automatically
-
-#### Netlify (Frontend)
-1. Connect GitHub repository
-2. Set build command: `echo 'Static site ready'`
-3. Deploy automatically
-
-## Configuration
-
-Set these environment variables:
-- `ANTHROPIC_API_KEY`: Your Anthropic API key
-- `SQUARE_LOCATION_ID`: LCX039E7QRA5G
-
-## Support
-
-Founded by Robert Kaleb Long
-Sales King Academy LLC
-North Little Rock, Arkansas
+**Founder:** Robert Kaleb Long
+**Company:** Sales King Academy LLC
+**Location:** North Little Rock, Arkansas
