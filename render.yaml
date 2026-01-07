@@ -1,14 +1,14 @@
 services:
   - type: web
-    name: ska-backend-api
+    name: saleskingacademy-complete
     env: python
     region: oregon
     plan: free
     buildCommand: pip install --upgrade pip && pip install -r requirements.txt
-    startCommand: python ska_complete_backend.py
+    startCommand: python server.py
     envVars:
       - key: ANTHROPIC_API_KEY
-        sync: false
+        value: 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
       - key: SQUARE_LOCATION_ID
         value: LCX039E7QRA5G
       - key: PORT
