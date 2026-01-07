@@ -1,45 +1,59 @@
-# Sales King Academy - Complete System
+# Sales King Academy - Complete Production System
 
-Production AI business automation: 44+ systems, 25 autonomous agents, RKL Framework.
+## Overview
+Complete AI-powered business automation platform with 25 autonomous agents, RKL mathematical framework, and SKA Credits system.
 
-## Deploy
+## System Components
 
-**Backend (Render)**: Auto-deploys via render.yaml
-**Frontend (Netlify)**: Auto-deploys via netlify.toml
+### Core Systems
+- **RKL Framework**: α=25, O(n^1.77) complexity
+- **SKA Credits**: Auto-mint 1 credit/second (47.3M+ minted)
+- **25 AI Agents**: Autonomous operation with Agent 25 as Master CEO
+- **Temporal DNA**: Genesis token-based security
+- **Triple-Plane Computing**: Pre-compute, Operational, Shadow
+- **Square Payments**: Location LCX039E7QRA5G
 
-## Environment Variables
+### Revenue Tiers
+- Individual Training: $5,497
+- Professional Package: $27,997
+- Enterprise Package: $97,997
+- Supreme Mastery: $397,000
+- Monthly Plans: $197 - $99,997/month
 
-**Required**: ANTHROPIC_API_KEY, SQUARE_ACCESS_TOKEN, SQUARE_LOCATION_ID
-**Optional**: GITHUB_TOKEN, NETLIFY_TOKEN
+## Deployment
 
-## Architecture
+### Local Development
+```bash
+# Install dependencies
+pip install -r requirements.txt
 
-- **Backend**: Flask + APScheduler (main.py)
-- **Agents**: 25 AI specialists (Agent 25 = Master CEO)
-- **Security**: Temporal DNA tokenization
-- **Payments**: Square integration
-- **Credits**: Auto-minting (1/sec since July 1, 2024)
-- **RKL Framework**: α=25, O(n^1.77) SAT solving
+# Run backend
+python ska_complete_backend.py
 
-## API
+# Open frontend
+open index.html
+```
 
-- `GET /` - Health + system status
-- `POST /api/auth/token` - Generate token
-- `GET /api/credits/balance` - Credit balance
-- `POST /api/agents/execute` - Execute agent task
-- `POST /api/payments/create` - Process payment
-- `POST /api/rkl/solve` - Solve SAT
-- `GET /api/system/status` - Full status
+### Production Deployment
 
-## Revenue
+#### Render (Backend)
+1. Connect GitHub repository
+2. Set environment variables
+3. Deploy automatically
 
-1. Training: $397-$397K
-2. Automation: $197-$99,997/mo
-3. White-label: Custom
-4. SKA Credits: Auto-minting
+#### Netlify (Frontend)
+1. Connect GitHub repository
+2. Set build command: `echo 'Static site ready'`
+3. Deploy automatically
 
-**Status**: ✅ Operational | Zero manual intervention
+## Configuration
 
-**License**: PROPRIETARY - Robert Kaleb Long / Sales King Academy LLC
+Set these environment variables:
+- `ANTHROPIC_API_KEY`: Your Anthropic API key
+- `SQUARE_LOCATION_ID`: LCX039E7QRA5G
 
-Updated: January 6, 2026
+## Support
+
+Founded by Robert Kaleb Long
+Sales King Academy LLC
+North Little Rock, Arkansas
