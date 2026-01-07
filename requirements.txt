@@ -1,18 +1,9 @@
-# Core web frameworks
-flask
-flask-cors
-fastapi
-uvicorn
+anthropic==0.18.1
+fastapi==0.109.0
+uvic
 
-# WSGI server for Render
-gunicorn
-
-# Background jobs / schedulers
-apscheduler
-
-# HTTP + external API clients
-requests
-anthropic
-
-# Data / validation
-pydantic
+orn==0.25.0
+python-multipart==0.0.6
+pydantic==2.5.3
+python-dotenv==1.0.0
+httpx==0.26.0
