@@ -1,21 +1,15 @@
 services:
   - type: web
-    name: ska-complete
+    name: ska-backend-api
     env: python
     region: oregon
-    plan: starter
-    buildCommand: pip install -r requirements.txt
-    startCommand: gunicorn main:app
+    plan: free
+    buildCommand: pip install --upgrade pip && pip install -r requirements.txt
+    startCommand: python ska_complete_backend.py
     envVars:
-      - key: PYTHON_VERSION
-        value: 3.11.0
       - key: ANTHROPIC_API_KEY
         sync: false
-      - key: SQUARE_ACCESS_TOKEN
-        sync: false
       - key: SQUARE_LOCATION_ID
-        sync: false
-      - key: GITHUB_TOKEN
-        sync: false
-    healthCheckPath: /api/health
-    autoDeploy: true
+        value: LCX039E7QRA5G
+      - key: PORT
+        value: 10000
