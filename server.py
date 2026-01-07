@@ -17,6 +17,9 @@ import asyncio
 # Initialize backend
 backend = SKABackend()
 
+# Set working directory to script location
+os.chdir(os.path.dirname(os.path.abspath(__file__)))
+
 class SKARequestHandler(SimpleHTTPRequestHandler):
     """Unified request handler for frontend + API"""
     
@@ -30,9 +33,17 @@ class SKARequestHandler(SimpleHTTPRequestHandler):
         # Frontend files
         else:
             # Serve index.html for root
-            if self.path == '/':
+            if self.path == '/' or self.path == '':
                 self.path = '/index.html'
-            return SimpleHTTPRequestHandler.do_GET(self)
+            
+            # Check if file exists
+            filepath = '.' + self.path
+            if os.path.exists(filepath):
+                return SimpleHTTPRequestHandler.do_GET(self)
+            else:
+                # File not found, serve index.html (for SPA routing)
+                self.path = '/index.html'
+                return SimpleHTTPRequestHandler.do_GET(self)
     
     def do_POST(self):
         """Handle POST requests"""
@@ -62,7 +73,7 @@ class SKARequestHandler(SimpleHTTPRequestHandler):
                     data.get('email'),
                     data.get('name'),
                     data.get('tier'),
-                    backend.rkl_core.alpha * 1000  # Amount based on tier
+                    backend.rkl_core.alpha * 1000
                 ))
                 self.send_json_response(result)
             
@@ -106,8 +117,16 @@ def run_server(port=10000):
     print("SALES KING ACADEMY - UNIFIED SERVER STARTING")
     print("=" * 80)
     print(f"\n🌐 Server running on port {port}")
+    print(f"📂 Serving files from: {os.getcwd()}")
     print(f"🌍 Frontend: http://0.0.0.0:{port}")
     print(f"🔌 API: http://0.0.0.0:{port}/api/status")
+    
+    # List files in current directory
+    print(f"\n📄 Files available:")
+    for f in os.listdir('.'):
+        if not f.startswith('.') and os.path.isfile(f):
+            print(f"   • {f}")
+    
     print("\n" + "=" * 80)
     print("✅ ALL SYSTEMS OPERATIONAL")
     print("=" * 80 + "\n")
