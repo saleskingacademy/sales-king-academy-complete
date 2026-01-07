@@ -1,12 +1,16 @@
 [build]
-  publish = "public"
-  command = "echo 'Static site - no build needed'"
+  publish = "."
+  command = "echo 'Static site ready'"
 
 [[redirects]]
   from = "/api/*"
-  to = "https://sales-king-academy-backend.onrender.com/api/:splat"
+  to = "https://saleskingacademy-api.onrender.com/api/:splat"
   status = 200
   force = true
 
-[build.environment]
-  NODE_VERSION = "18"
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Access-Control-Allow-Origin = "*"
+    Access-Control-Allow-Methods = "GET, POST, PUT, DELETE, OPTIONS"
+    Access-Control-Allow-Headers = "Content-Type"
