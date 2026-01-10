@@ -1,3 +1,14 @@
+"""
+DEPRECATED - DO NOT EXECUTE
+This file is NO LONGER an entry point.
+Logic has been migrated to backend/main.py
+
+See ARCHITECTURE.md for current system structure.
+"""
+
+# LEGACY CODE BELOW - DO NOT RUN DIRECTLY
+# ==========================================
+
 #!/usr/bin/env python3
 """
 Sales King Academy - Production Server
@@ -189,6 +200,4 @@ def run_server(port=10000):
         print(f"\n❌ Server error: {e}", file=sys.stderr)
         raise
 
-if __name__ == "__main__":
-    port = int(os.environ.get('PORT', 10000))
-    run_server(port)
+# REMOVED: if __name__ == "__main__" - NO LONGER EXECUTABLE
