@@ -1,3 +1,14 @@
+"""
+DEPRECATED - DO NOT EXECUTE
+This file is NO LONGER an entry point.
+Logic has been migrated to backend/main.py
+
+See ARCHITECTURE.md for current system structure.
+"""
+
+# LEGACY CODE BELOW - DO NOT RUN DIRECTLY
+# ==========================================
+
 #!/usr/bin/env python3
 """
 ═══════════════════════════════════════════════════════════════════════════════════════
@@ -294,7 +305,4 @@ class TimeAnchoredSuperIntelligence:
             "failsafe": self.failsafe.layer_status
         }
 
-if __name__ == "__main__":
-    tsi = TimeAnchoredSuperIntelligence()
-    tsi.start()
-    print(f"\n✅ SYSTEM READY - Credits: {tsi.currency.get_total_credits():,}")
+# REMOVED: if __name__ == "__main__" - NO LONGER EXECUTABLE
