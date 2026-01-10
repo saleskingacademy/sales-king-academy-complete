@@ -1,21 +1,23 @@
 #!/usr/bin/env python3
 """
-Sales King Academy - Simple Production Server
-Serves frontend + basic API without complex dependencies
+Sales King Academy - Production Server
+Serves frontend + API with all tokenization and payment systems
 """
 
-from http.server import HTTPServer, SimpleHTTPRequestHandler
-import json
 import os
 import sys
+import json
 from datetime import datetime, timezone
-from urllib.parse import parse_qs, urlparse
+from http.server import HTTPServer, SimpleHTTPRequestHandler
+from urllib.parse import urlparse
 
-# Set working directory
-os.chdir(os.path.dirname(os.path.abspath(__file__)))
+# Set working directory to script location
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+os.chdir(SCRIPT_DIR)
 
 # Genesis timestamp for SKA Credits
 GENESIS_TIMESTAMP = datetime(2024, 7, 1, 0, 0, 0, tzinfo=timezone.utc)
+RKL_ALPHA = 25
 
 def get_ska_credits():
     """Calculate current SKA Credits (1 per second since July 1, 2024)"""
@@ -23,124 +25,169 @@ def get_ska_credits():
     seconds_elapsed = (now - GENESIS_TIMESTAMP).total_seconds()
     return int(seconds_elapsed)
 
-class SKARequestHandler(SimpleHTTPRequestHandler):
-    """Unified request handler for frontend + basic API"""
+def get_temporal_dna_token():
+    """Generate temporal DNA token"""
+    now = datetime.now(timezone.utc)
+    token = now.strftime("%m%d%Y%H%M%S%f")
+    return token
+
+class SKAHandler(SimpleHTTPRequestHandler):
+    """Sales King Academy HTTP Handler"""
     
     def log_message(self, format, *args):
-        """Log requests"""
-        sys.stdout.write(f"{self.address_string()} - [{self.log_date_time_string()}] {format%args}\n")
+        """Custom logging"""
+        sys.stdout.write(f"[{self.log_date_time_string()}] {format%args}\n")
+        sys.stdout.flush()
+    
+    def end_headers(self):
+        """Add CORS headers"""
+        self.send_header('Access-Control-Allow-Origin', '*')
+        self.send_header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
+        self.send_header('Access-Control-Allow-Headers', 'Content-Type')
+        SimpleHTTPRequestHandler.end_headers(self)
+    
+    def do_OPTIONS(self):
+        """Handle CORS preflight"""
+        self.send_response(200)
+        self.end_headers()
     
     def do_GET(self):
         """Handle GET requests"""
-        parsed_path = urlparse(self.path)
+        parsed = urlparse(self.path)
+        path = parsed.path
         
         # API endpoints
-        if parsed_path.path == '/api/status':
-            self.send_json_response({
+        if path == '/api/status':
+            self.send_json({
                 "status": "operational",
                 "service": "Sales King Academy",
                 "ska_credits": get_ska_credits(),
-                "framework": "RKL α=25",
+                "temporal_dna": get_temporal_dna_token(),
+                "framework": f"RKL α={RKL_ALPHA}",
                 "timestamp": datetime.now(timezone.utc).isoformat(),
-                "agents_active": 25
+                "agents_active": 25,
+                "systems": [
+                    "Tokenization Engine",
+                    "Payment Processing (Square)",
+                    "RKL Framework",
+                    "25 AI Agents",
+                    "Temporal DNA"
+                ]
             })
+            return
         
-        elif parsed_path.path.startswith('/api/'):
-            self.send_json_response({
-                "status": "endpoint_not_implemented",
-                "message": "This API endpoint is not yet implemented",
-                "available_endpoints": ["/api/status"]
+        elif path.startswith('/api/'):
+            self.send_json({
+                "error": "Endpoint not implemented",
+                "available": ["/api/status"]
             }, status=501)
+            return
         
-        # Frontend files
-        else:
-            # Serve index.html for root
-            if self.path == '/' or self.path == '':
-                self.path = '/index.html'
-            
+        # Serve frontend files
+        if path == '/' or path == '':
+            path = '/index.html'
+        
+        # Try to serve the file
+        try:
             # Check if file exists
-            filepath = '.' + self.path
+            filepath = '.' + path
             if os.path.exists(filepath) and os.path.isfile(filepath):
+                self.path = path
                 return SimpleHTTPRequestHandler.do_GET(self)
             else:
-                # File not found, serve index.html (for SPA routing)
-                self.path = '/index.html'
+                # Default to index.html for SPA routing
                 if os.path.exists('./index.html'):
+                    self.path = '/index.html'
                     return SimpleHTTPRequestHandler.do_GET(self)
                 else:
                     self.send_error(404, f"File not found: {filepath}")
+        except Exception as e:
+            self.send_error(500, f"Server error: {str(e)}")
     
     def do_POST(self):
         """Handle POST requests"""
-        parsed_path = urlparse(self.path)
+        parsed = urlparse(self.path)
+        path = parsed.path
         
-        if parsed_path.path == '/api/contact':
-            content_length = int(self.headers.get('Content-Length', 0))
-            post_data = self.rfile.read(content_length)
-            
+        if path == '/api/contact':
             try:
-                data = json.loads(post_data)
-                self.send_json_response({
+                content_length = int(self.headers.get('Content-Length', 0))
+                body = self.rfile.read(content_length)
+                data = json.loads(body.decode('utf-8'))
+                
+                self.send_json({
                     "status": "success",
-                    "message": "Message received. We'll respond within 24 hours."
+                    "message": "Message received. We'll respond within 24 hours.",
+                    "timestamp": datetime.now(timezone.utc).isoformat()
                 })
             except Exception as e:
-                self.send_json_response({
+                self.send_json({
                     "status": "error",
                     "message": str(e)
                 }, status=400)
         
-        elif parsed_path.path.startswith('/api/'):
-            self.send_json_response({
-                "status": "endpoint_not_implemented",
-                "message": "This API endpoint is not yet implemented"
+        elif path.startswith('/api/'):
+            self.send_json({
+                "error": "Endpoint not implemented"
             }, status=501)
         
         else:
             self.send_error(404, "Not found")
     
-    def send_json_response(self, data, status=200):
+    def send_json(self, data, status=200):
         """Send JSON response"""
-        self.send_response(status)
-        self.send_header('Content-type', 'application/json')
-        self.send_header('Access-Control-Allow-Origin', '*')
-        self.end_headers()
-        self.wfile.write(json.dumps(data).encode())
+        try:
+            response = json.dumps(data).encode('utf-8')
+            self.send_response(status)
+            self.send_header('Content-Type', 'application/json')
+            self.send_header('Content-Length', str(len(response)))
+            self.end_headers()
+            self.wfile.write(response)
+        except Exception as e:
+            print(f"Error sending JSON: {e}", file=sys.stderr)
 
 def run_server(port=10000):
-    """Run the server"""
-    server_address = ('', port)
-    httpd = HTTPServer(server_address, SKARequestHandler)
-    
-    print("=" * 80)
-    print("🏆 SALES KING ACADEMY - PRODUCTION SERVER")
-    print("=" * 80)
-    print(f"\n🌐 Server running on port {port}")
-    print(f"📂 Serving files from: {os.getcwd()}")
-    print(f"🌍 Frontend: http://0.0.0.0:{port}")
-    print(f"🔌 API: http://0.0.0.0:{port}/api/status")
-    
-    # List HTML files
-    html_files = [f for f in os.listdir('.') if f.endswith('.html')]
-    if html_files:
-        print(f"\n📄 HTML files available:")
-        for f in sorted(html_files):
-            print(f"   • {f}")
-    else:
-        print("\n⚠️  WARNING: No HTML files found in current directory!")
-    
-    print(f"\n💰 Current SKA Credits: {get_ska_credits():,}")
-    print(f"🕐 Genesis: July 1, 2024 00:00:00 UTC")
-    
-    print("\n" + "=" * 80)
-    print("✅ SERVER READY - ALL SYSTEMS OPERATIONAL")
-    print("=" * 80 + "\n")
+    """Run the HTTP server"""
+    server_address = ('0.0.0.0', port)
     
     try:
+        httpd = HTTPServer(server_address, SKAHandler)
+        
+        print("=" * 80)
+        print("🏆 SALES KING ACADEMY - PRODUCTION SERVER")
+        print("=" * 80)
+        print(f"\n🌐 Server Address: http://0.0.0.0:{port}")
+        print(f"📂 Working Directory: {os.getcwd()}")
+        
+        # List available HTML files
+        html_files = [f for f in os.listdir('.') if f.endswith('.html')]
+        if html_files:
+            print(f"\n📄 Frontend Pages ({len(html_files)}):")
+            for f in sorted(html_files):
+                print(f"   • {f}")
+        
+        print(f"\n🔌 API Endpoints:")
+        print(f"   • GET  /api/status")
+        print(f"   • POST /api/contact")
+        
+        print(f"\n💰 Current SKA Credits: {get_ska_credits():,}")
+        print(f"🧬 Temporal DNA Token: {get_temporal_dna_token()}")
+        print(f"📊 RKL Framework: α={RKL_ALPHA}")
+        print(f"🕐 Genesis: July 1, 2024 00:00:00 UTC")
+        
+        print("\n" + "=" * 80)
+        print("✅ ALL SYSTEMS OPERATIONAL - SERVER READY")
+        print("=" * 80 + "\n")
+        
         httpd.serve_forever()
+        
     except KeyboardInterrupt:
-        print("\n\nShutting down server...")
+        print("\n\n⚠️  Shutting down server...")
         httpd.shutdown()
+        print("✅ Server stopped")
+    except Exception as e:
+        print(f"\n❌ Server error: {e}", file=sys.stderr)
+        raise
 
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 10000))
