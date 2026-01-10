@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: saleskingacademy-complete
+    name: sales-king-academy-complete
     env: python
     region: oregon
     plan: free
@@ -9,6 +9,8 @@ services:
     envVars:
       - key: ANTHROPIC_API_KEY
         value: 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
+      - key: SQUARE_ACCESS_TOKEN
+        value: EAAAl-swRUlg58R-PB33iXSwbL3vqgOv-KxNqLyWJqJlSZ7lV5c6FkmK1K4NHpYh
       - key: SQUARE_LOCATION_ID
         value: LCX039E7QRA5G
       - key: PORT
