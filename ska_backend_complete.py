@@ -1,3 +1,14 @@
+"""
+DEPRECATED - DO NOT EXECUTE
+This file is NO LONGER an entry point.
+Logic has been migrated to backend/main.py
+
+See ARCHITECTURE.md for current system structure.
+"""
+
+# LEGACY CODE BELOW - DO NOT RUN DIRECTLY
+# ==========================================
+
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 import os
@@ -99,10 +110,4 @@ def generate_revenue():
 def revenue_stats_endpoint():
     return jsonify(revenue_stats)
 
-if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 10000))
-    print(f"🚀 Sales King Academy Backend - Port {port}")
-    print(f"✅ SKA Credits: {get_ska_credits():,}")
-    print(f"✅ Agents: {AGENTS_COUNT}")
-    print(f"✅ Square Location: {SQUARE_LOCATION}")
-    app.run(host="0.0.0.0", port=port)
+# REMOVED: if __name__ == "__main__" - NO LONGER EXECUTABLE
