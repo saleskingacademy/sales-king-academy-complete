@@ -1,3 +1,14 @@
+"""
+DEPRECATED - DO NOT EXECUTE
+This file is NO LONGER an entry point.
+Logic has been migrated to backend/main.py
+
+See ARCHITECTURE.md for current system structure.
+"""
+
+# LEGACY CODE BELOW - DO NOT RUN DIRECTLY
+# ==========================================
+
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 import anthropic
@@ -58,6 +69,4 @@ def revenue_cycle():
 def complete_status():
     return jsonify({"system":"Time-Anchored Super Intelligence","founder":"Robert Kaleb Long","company":"Sales King Academy LLC","ska_credits":{"total":get_ska_credits(),"value_usd":get_ska_credits()},"rkl_framework":{"alpha":ALPHA,"complexity":"O(n^1.77)"},"agents":{"total":25,"active":25},"revenue_engine":REVENUE_ENGINE,"square_location":os.environ.get("SQUARE_LOCATION"),"failsafe":{"layers":8,"status":"ALL_OPERATIONAL"},"timestamp":datetime.now(timezone.utc).isoformat()})
 
-if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 10000))
-    app.run(host="0.0.0.0", port=port, threaded=True)
+# REMOVED: if __name__ == "__main__" - NO LONGER EXECUTABLE
