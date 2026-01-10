@@ -1,4 +1,15 @@
 """
+DEPRECATED - DO NOT EXECUTE
+This file is NO LONGER an entry point.
+Logic has been migrated to backend/main.py
+
+See ARCHITECTURE.md for current system structure.
+"""
+
+# LEGACY CODE BELOW - DO NOT RUN DIRECTLY
+# ==========================================
+
+"""
 Sales King Academy - Unified Production Backend
 All 44+ systems, 25 AI agents, RKL Framework integrated
 Zero manual intervention, fully autonomous operation
@@ -395,6 +406,4 @@ scheduler.start()
 # MAIN ENTRY POINT
 # =============================================================================
 
-if __name__ == '__main__':
-    port = int(os.environ.get('PORT', 10000))
-    app.run(host='0.0.0.0', port=port)
+# REMOVED: if __name__ == "__main__" - NO LONGER EXECUTABLE
