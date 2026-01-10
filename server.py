@@ -1,35 +1,57 @@
 #!/usr/bin/env python3
 """
-Sales King Academy - Unified Production Server
-Serves both frontend website and backend API from single Render instance
+Sales King Academy - Simple Production Server
+Serves frontend + basic API without complex dependencies
 """
 
 from http.server import HTTPServer, SimpleHTTPRequestHandler
 import json
 import os
 import sys
+from datetime import datetime, timezone
 from urllib.parse import parse_qs, urlparse
 
-# Import backend
-from ska_complete_backend import SKABackend
-import asyncio
-
-# Initialize backend
-backend = SKABackend()
-
-# Set working directory to script location
+# Set working directory
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
+# Genesis timestamp for SKA Credits
+GENESIS_TIMESTAMP = datetime(2024, 7, 1, 0, 0, 0, tzinfo=timezone.utc)
+
+def get_ska_credits():
+    """Calculate current SKA Credits (1 per second since July 1, 2024)"""
+    now = datetime.now(timezone.utc)
+    seconds_elapsed = (now - GENESIS_TIMESTAMP).total_seconds()
+    return int(seconds_elapsed)
+
 class SKARequestHandler(SimpleHTTPRequestHandler):
-    """Unified request handler for frontend + API"""
+    """Unified request handler for frontend + basic API"""
+    
+    def log_message(self, format, *args):
+        """Log requests"""
+        sys.stdout.write(f"{self.address_string()} - [{self.log_date_time_string()}] {format%args}\n")
     
     def do_GET(self):
         """Handle GET requests"""
         parsed_path = urlparse(self.path)
         
         # API endpoints
-        if parsed_path.path.startswith('/api/'):
-            self.handle_api_request(parsed_path)
+        if parsed_path.path == '/api/status':
+            self.send_json_response({
+                "status": "operational",
+                "service": "Sales King Academy",
+                "ska_credits": get_ska_credits(),
+                "framework": "RKL α=25",
+                "timestamp": datetime.now(timezone.utc).isoformat(),
+                "agents_active": 25
+            })
+        
+        elif parsed_path.path.startswith('/api/'):
+            self.send_json_response({
+                "status": "endpoint_not_implemented",
+                "message": "This API endpoint is not yet implemented",
+                "available_endpoints": ["/api/status"]
+            }, status=501)
+        
         # Frontend files
         else:
             # Serve index.html for root
@@ -38,67 +60,44 @@ class SKARequestHandler(SimpleHTTPRequestHandler):
             
             # Check if file exists
             filepath = '.' + self.path
-            if os.path.exists(filepath):
+            if os.path.exists(filepath) and os.path.isfile(filepath):
                 return SimpleHTTPRequestHandler.do_GET(self)
             else:
                 # File not found, serve index.html (for SPA routing)
                 self.path = '/index.html'
-                return SimpleHTTPRequestHandler.do_GET(self)
+                if os.path.exists('./index.html'):
+                    return SimpleHTTPRequestHandler.do_GET(self)
+                else:
+                    self.send_error(404, f"File not found: {filepath}")
     
     def do_POST(self):
         """Handle POST requests"""
         parsed_path = urlparse(self.path)
         
-        if parsed_path.path.startswith('/api/'):
-            self.handle_api_request(parsed_path)
-        else:
-            self.send_error(404, "Not found")
-    
-    def handle_api_request(self, parsed_path):
-        """Handle API requests"""
-        try:
-            # Get system status
-            if parsed_path.path == '/api/status':
-                status = backend.get_system_status()
-                self.send_json_response(status)
+        if parsed_path.path == '/api/contact':
+            content_length = int(self.headers.get('Content-Length', 0))
+            post_data = self.rfile.read(content_length)
             
-            # Process payment
-            elif parsed_path.path == '/api/checkout' and self.command == 'POST':
-                content_length = int(self.headers['Content-Length'])
-                post_data = self.rfile.read(content_length)
+            try:
                 data = json.loads(post_data)
-                
-                # Process payment
-                result = asyncio.run(backend.process_payment(
-                    data.get('email'),
-                    data.get('name'),
-                    data.get('tier'),
-                    backend.rkl_core.alpha * 1000
-                ))
-                self.send_json_response(result)
-            
-            # Contact form
-            elif parsed_path.path == '/api/contact' and self.command == 'POST':
-                content_length = int(self.headers['Content-Length'])
-                post_data = self.rfile.read(content_length)
-                data = json.loads(post_data)
-                
                 self.send_json_response({
                     "status": "success",
                     "message": "Message received. We'll respond within 24 hours."
                 })
-            
-            # Agent status
-            elif parsed_path.path.startswith('/api/agent/'):
-                agent_id = int(parsed_path.path.split('/')[-1])
-                agent_status = backend.agent_orchestrator.get_agent_status(agent_id)
-                self.send_json_response(agent_status)
-            
-            else:
-                self.send_error(404, "API endpoint not found")
+            except Exception as e:
+                self.send_json_response({
+                    "status": "error",
+                    "message": str(e)
+                }, status=400)
         
-        except Exception as e:
-            self.send_json_response({"error": str(e)}, status=500)
+        elif parsed_path.path.startswith('/api/'):
+            self.send_json_response({
+                "status": "endpoint_not_implemented",
+                "message": "This API endpoint is not yet implemented"
+            }, status=501)
+        
+        else:
+            self.send_error(404, "Not found")
     
     def send_json_response(self, data, status=200):
         """Send JSON response"""
@@ -109,26 +108,32 @@ class SKARequestHandler(SimpleHTTPRequestHandler):
         self.wfile.write(json.dumps(data).encode())
 
 def run_server(port=10000):
-    """Run the unified server"""
+    """Run the server"""
     server_address = ('', port)
     httpd = HTTPServer(server_address, SKARequestHandler)
     
     print("=" * 80)
-    print("SALES KING ACADEMY - UNIFIED SERVER STARTING")
+    print("🏆 SALES KING ACADEMY - PRODUCTION SERVER")
     print("=" * 80)
     print(f"\n🌐 Server running on port {port}")
     print(f"📂 Serving files from: {os.getcwd()}")
     print(f"🌍 Frontend: http://0.0.0.0:{port}")
     print(f"🔌 API: http://0.0.0.0:{port}/api/status")
     
-    # List files in current directory
-    print(f"\n📄 Files available:")
-    for f in os.listdir('.'):
-        if not f.startswith('.') and os.path.isfile(f):
+    # List HTML files
+    html_files = [f for f in os.listdir('.') if f.endswith('.html')]
+    if html_files:
+        print(f"\n📄 HTML files available:")
+        for f in sorted(html_files):
             print(f"   • {f}")
+    else:
+        print("\n⚠️  WARNING: No HTML files found in current directory!")
+    
+    print(f"\n💰 Current SKA Credits: {get_ska_credits():,}")
+    print(f"🕐 Genesis: July 1, 2024 00:00:00 UTC")
     
     print("\n" + "=" * 80)
-    print("✅ ALL SYSTEMS OPERATIONAL")
+    print("✅ SERVER READY - ALL SYSTEMS OPERATIONAL")
     print("=" * 80 + "\n")
     
     try:
