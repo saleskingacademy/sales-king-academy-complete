@@ -1,3 +1,14 @@
+"""
+DEPRECATED - DO NOT EXECUTE
+This file is NO LONGER an entry point.
+Logic has been migrated to backend/main.py
+
+See ARCHITECTURE.md for current system structure.
+"""
+
+# LEGACY CODE BELOW - DO NOT RUN DIRECTLY
+# ==========================================
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
