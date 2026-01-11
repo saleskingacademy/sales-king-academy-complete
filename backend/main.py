@@ -1,13 +1,11 @@
 """
-SALES KING ACADEMY - CANONICAL BACKEND ENTRY POINT
-FastAPI Application - Single Source of Truth
-Runtime: uvicorn backend.main:app --host 0.0.0.0 --port $PORT
+SALES KING ACADEMY - BULLETPROOF BACKEND
+Finds files regardless of working directory
 """
 
 from fastapi import FastAPI, Request, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse, HTMLResponse, FileResponse
-from fastapi.staticfiles import StaticFiles
 from datetime import datetime, timezone
 import logging
 import sys
@@ -21,9 +19,6 @@ logging.basicConfig(
     handlers=[logging.StreamHandler(sys.stdout)]
 )
 logger = logging.getLogger(__name__)
-
-# Add backend to path
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 # Initialize FastAPI
 app = FastAPI(
@@ -41,13 +36,54 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Get the project root directory (parent of backend/)
-BASE_DIR = Path(__file__).resolve().parent.parent
+# SMART PATH DETECTION - Works anywhere
+def find_project_root():
+    """Find project root by looking for marker files"""
+    current = Path(__file__).resolve().parent  # Start at backend/
+    
+    # Check parent directory (should be project root)
+    project_root = current.parent
+    
+    # Verify we found the right place by checking for index.html
+    if (project_root / "index.html").exists():
+        logger.info(f"✅ Found project root at: {project_root}")
+        return project_root
+    
+    # Fallback: check current working directory
+    cwd = Path.cwd()
+    if (cwd / "index.html").exists():
+        logger.info(f"✅ Found project root at CWD: {cwd}")
+        return cwd
+    
+    # Last resort: check /opt/render/project/src (Render's default)
+    render_path = Path("/opt/render/project/src")
+    if render_path.exists() and (render_path / "index.html").exists():
+        logger.info(f"✅ Found project root at Render path: {render_path}")
+        return render_path
+    
+    logger.warning(f"⚠️ Could not find index.html, using: {project_root}")
+    return project_root
 
-# Mount static files if they exist
-if (BASE_DIR / "public").exists():
-    app.mount("/static", StaticFiles(directory=str(BASE_DIR / "public")), name="static")
-    logger.info(f"✅ Mounted /public directory")
+BASE_DIR = find_project_root()
+
+def safe_serve_file(filename: str, fallback_content: str = None):
+    """Safely serve a file with fallback"""
+    try:
+        file_path = BASE_DIR / filename
+        logger.info(f"Attempting to serve: {file_path}")
+        
+        if file_path.exists():
+            logger.info(f"✅ File found, serving: {filename}")
+            return FileResponse(file_path)
+        else:
+            logger.warning(f"⚠️ File not found: {filename}")
+            if fallback_content:
+                return HTMLResponse(content=fallback_content)
+            else:
+                return HTMLResponse(content=f"<h1>File not found: {filename}</h1><p>Path: {file_path}</p>")
+    except Exception as e:
+        logger.error(f"❌ Error serving {filename}: {e}")
+        return HTMLResponse(content=f"<h1>Error</h1><p>{str(e)}</p>")
 
 # ============================================================================
 # FRONTEND ROUTES
@@ -56,53 +92,44 @@ if (BASE_DIR / "public").exists():
 @app.get("/", response_class=HTMLResponse)
 async def root():
     """Serve the main frontend page"""
-    try:
-        index_path = BASE_DIR / "index.html"
-        if index_path.exists():
-            return FileResponse(index_path)
-        else:
-            return HTMLResponse(content="""
-            <html>
-                <head><title>Sales King Academy</title></head>
-                <body>
-                    <h1>🚀 Sales King Academy API</h1>
-                    <p>Service is live and running!</p>
-                    <ul>
-                        <li><a href="/health">Health Check</a></li>
-                        <li><a href="/api/status">System Status</a></li>
-                        <li><a href="/api/ska_credits">SKA Credits</a></li>
-                        <li><a href="/docs">API Documentation</a></li>
-                    </ul>
-                </body>
-            </html>
-            """)
-    except Exception as e:
-        logger.error(f"Error serving index: {e}")
-        return HTMLResponse(content=f"<h1>Sales King Academy</h1><p>Service running. Error: {e}</p>")
+    fallback = """
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>Sales King Academy</title>
+        <style>
+            body { font-family: Arial; max-width: 800px; margin: 50px auto; padding: 20px; }
+            h1 { color: #333; }
+            .links { margin: 20px 0; }
+            .links a { display: block; margin: 10px 0; padding: 10px; background: #007bff; color: white; text-decoration: none; border-radius: 5px; }
+            .links a:hover { background: #0056b3; }
+        </style>
+    </head>
+    <body>
+        <h1>🚀 Sales King Academy</h1>
+        <p><strong>Service Status:</strong> ✅ Online</p>
+        <div class="links">
+            <a href="/api/status">System Status</a>
+            <a href="/api/ska_credits">SKA Credits</a>
+            <a href="/api/agents">AI Agents</a>
+            <a href="/api/temporal_dna">Temporal DNA</a>
+            <a href="/health">Health Check</a>
+            <a href="/docs">API Documentation</a>
+        </div>
+    </body>
+    </html>
+    """
+    return safe_serve_file("index.html", fallback)
 
 @app.get("/app", response_class=HTMLResponse)
 async def app_page():
     """Serve the app page"""
-    try:
-        app_path = BASE_DIR / "app.html"
-        if app_path.exists():
-            return FileResponse(app_path)
-        return HTMLResponse(content="<h1>App page not found</h1>")
-    except Exception as e:
-        logger.error(f"Error serving app: {e}")
-        raise HTTPException(status_code=500, detail=str(e))
+    return safe_serve_file("app.html", "<h1>App page not available</h1>")
 
 @app.get("/dashboard", response_class=HTMLResponse)
 async def dashboard_page():
     """Serve the dashboard page"""
-    try:
-        dashboard_path = BASE_DIR / "dashboard.html"
-        if dashboard_path.exists():
-            return FileResponse(dashboard_path)
-        return HTMLResponse(content="<h1>Dashboard page not found</h1>")
-    except Exception as e:
-        logger.error(f"Error serving dashboard: {e}")
-        raise HTTPException(status_code=500, detail=str(e))
+    return safe_serve_file("dashboard.html", "<h1>Dashboard page not available</h1>")
 
 # ============================================================================
 # API ROUTES
@@ -110,8 +137,13 @@ async def dashboard_page():
 
 @app.get("/health")
 async def health_check():
-    """Health check endpoint for monitoring"""
-    return {"status": "healthy", "timestamp": datetime.now(timezone.utc).isoformat()}
+    """Health check endpoint"""
+    return {
+        "status": "healthy",
+        "timestamp": datetime.now(timezone.utc).isoformat(),
+        "base_dir": str(BASE_DIR),
+        "index_exists": (BASE_DIR / "index.html").exists()
+    }
 
 @app.get("/api/status")
 async def system_status():
@@ -121,6 +153,12 @@ async def system_status():
         "service": "Sales King Academy",
         "version": "1.0.0",
         "timestamp": datetime.now(timezone.utc).isoformat(),
+        "base_directory": str(BASE_DIR),
+        "files_found": {
+            "index.html": (BASE_DIR / "index.html").exists(),
+            "app.html": (BASE_DIR / "app.html").exists(),
+            "dashboard.html": (BASE_DIR / "dashboard.html").exists()
+        },
         "components": {
             "backend": "online",
             "framework": "FastAPI",
@@ -133,11 +171,8 @@ async def system_status():
 async def get_ska_credits():
     """Get current SKA Credits"""
     try:
-        # Genesis: July 1, 2024 00:00:00 UTC
         genesis = datetime(2024, 7, 1, 0, 0, 0, tzinfo=timezone.utc)
         now = datetime.now(timezone.utc)
-        
-        # Calculate credits (1 per second since genesis)
         elapsed_seconds = int((now - genesis).total_seconds())
         
         return {
@@ -156,8 +191,6 @@ async def get_temporal_dna():
     """Generate current Temporal DNA block"""
     try:
         now = datetime.now(timezone.utc)
-        
-        # 16-digit temporal DNA format: MMDDHHMMSSUUUUUU
         temporal_dna = now.strftime("%m%d%H%M%S") + f"{now.microsecond:06d}"
         
         return {
@@ -195,8 +228,11 @@ async def startup_event():
     logger.info("🚀 SALES KING ACADEMY - STARTING UP")
     logger.info("=" * 80)
     logger.info(f"📂 Base directory: {BASE_DIR}")
-    logger.info(f"📄 Index file exists: {(BASE_DIR / 'index.html').exists()}")
-    logger.info(f"📁 Public directory exists: {(BASE_DIR / 'public').exists()}")
+    logger.info(f"📂 Current working directory: {Path.cwd()}")
+    logger.info(f"📂 Backend file location: {Path(__file__).resolve()}")
+    logger.info(f"📄 index.html exists: {(BASE_DIR / 'index.html').exists()}")
+    logger.info(f"📄 app.html exists: {(BASE_DIR / 'app.html').exists()}")
+    logger.info(f"📄 dashboard.html exists: {(BASE_DIR / 'dashboard.html').exists()}")
     logger.info("✅ Service ready to accept requests")
     logger.info("=" * 80)
 
