@@ -1,15 +1,4 @@
 """
-DEPRECATED - DO NOT EXECUTE
-This file is NO LONGER an entry point.
-Logic has been migrated to backend/main.py
-
-See ARCHITECTURE.md for current system structure.
-"""
-
-# LEGACY CODE BELOW - DO NOT RUN DIRECTLY
-# ==========================================
-
-"""
 Sales King Academy - Unified Production Backend
 All 44+ systems, 25 AI agents, RKL Framework integrated
 Zero manual intervention, fully autonomous operation
@@ -49,21 +38,8 @@ NETLIFY_TOKEN = os.environ.get('NETLIFY_TOKEN', '')
 # FLASK APP INITIALIZATION
 # =============================================================================
 
-app = Flask(__name__, static_folder='public', static_url_path='')
+app = Flask(__name__)
 CORS(app)
-
-@app.route('/')
-def index():
-    """Serve frontend index.html"""
-    return app.send_static_file('index.html')
-
-@app.route('/app')
-@app.route('/agents')  
-@app.route('/square')
-@app.route('/dashboard')
-def serve_spa_routes():
-    """Serve SPA routes"""
-    return app.send_static_file('index.html')
 
 # =============================================================================
 # TEMPORAL DNA TOKENIZATION SYSTEM
@@ -282,9 +258,9 @@ class SquarePayments:
 # API ROUTES
 # =============================================================================
 
-@app.route('/api/health')
-def health_check():
-    """API health check and system status"""
+@app.route('/')
+def index():
+    """Health check and system status"""
     return jsonify({
         "system": "Sales King Academy",
         "status": "operational",
@@ -406,4 +382,6 @@ scheduler.start()
 # MAIN ENTRY POINT
 # =============================================================================
 
-# REMOVED: if __name__ == "__main__" - NO LONGER EXECUTABLE
+if __name__ == '__main__':
+    port = int(os.environ.get('PORT', 10000))
+    app.run(host='0.0.0.0', port=port)
