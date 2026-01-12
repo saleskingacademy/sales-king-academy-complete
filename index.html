@@ -1,191 +1,313 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Sales King Academy — Agent Command Center</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
-      background: #0b0b0f;
-      color: #f1f1f1;
-    }
-
-    header {
-      background: #111827;
-      padding: 16px;
-      text-align: center;
-      font-size: 20px;
-      font-weight: bold;
-      border-bottom: 1px solid #222;
-    }
-
-    .container {
-      display: grid;
-      grid-template-columns: 260px 1fr;
-      height: calc(100vh - 60px);
-    }
-
-    .sidebar {
-      background: #0f172a;
-      border-right: 1px solid #222;
-      overflow-y: auto;
-    }
-
-    .agent {
-      padding: 12px 16px;
-      cursor: pointer;
-      border-bottom: 1px solid #1f2937;
-    }
-
-    .agent:hover {
-      background: #1e293b;
-    }
-
-    .agent.active {
-      background: #2563eb;
-    }
-
-    .main {
-      padding: 24px;
-    }
-
-    .card {
-      background: #020617;
-      border: 1px solid #1f2937;
-      padding: 20px;
-      border-radius: 6px;
-      max-width: 800px;
-    }
-
-    .card h2 {
-      margin-top: 0;
-    }
-
-    textarea {
-      width: 100%;
-      height: 120px;
-      background: #020617;
-      color: #f1f1f1;
-      border: 1px solid #334155;
-      padding: 10px;
-      margin-top: 10px;
-      resize: vertical;
-    }
-
-    button {
-      margin-top: 12px;
-      padding: 10px 16px;
-      background: #2563eb;
-      border: none;
-      color: white;
-      cursor: pointer;
-      font-weight: bold;
-    }
-
-    button:hover {
-      background: #1d4ed8;
-    }
-
-    .output {
-      margin-top: 16px;
-      padding: 12px;
-      background: #020617;
-      border: 1px dashed #334155;
-      min-height: 60px;
-    }
-
-    footer {
-      text-align: center;
-      padding: 8px;
-      font-size: 12px;
-      color: #94a3b8;
-      border-top: 1px solid #1f2937;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sales King Academy - Complete Platform</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-
-<body>
-
-<header>
-  Sales King Academy — Agent Command Center
-</header>
-
-<div class="container">
-  <div class="sidebar" id="agentList"></div>
-
-  <div class="main">
-    <div class="card">
-      <h2 id="agentTitle">Select an Agent</h2>
-      <p id="agentDescription">
-        Choose an autonomous agent from the left panel.
-      </p>
-
-      <textarea id="commandInput" placeholder="Enter command or task for this agent..."></textarea>
-
-      <button onclick="sendCommand()">Execute Command</button>
-
-      <div class="output" id="outputBox">
-        Awaiting command…
-      </div>
-    </div>
-  </div>
-</div>
-
-<footer>
-  © Sales King Academy LLC • Frontend Interface Only (Backend Pending)
-</footer>
-
-<script>
-  const agents = Array.from({ length: 25 }).map((_, i) => ({
-    id: i + 1,
-    name: "Agent " + (i + 1),
-    role: "Autonomous AI Unit"
-  }));
-
-  const agentList = document.getElementById("agentList");
-  let activeAgent = null;
-
-  agents.forEach(agent => {
-    const div = document.createElement("div");
-    div.className = "agent";
-    div.innerText = agent.name;
-    div.onclick = () => selectAgent(agent, div);
-    agentList.appendChild(div);
-  });
-
-  function selectAgent(agent, element) {
-    document.querySelectorAll(".agent").forEach(a => a.classList.remove("active"));
-    element.classList.add("active");
-
-    activeAgent = agent;
-    document.getElementById("agentTitle").innerText = agent.name;
-    document.getElementById("agentDescription").innerText = agent.role;
-    document.getElementById("outputBox").innerText = "Agent ready.";
-  }
-
-  function sendCommand() {
-    if (!activeAgent) {
-      alert("Select an agent first.");
-      return;
-    }
-
-    const command = document.getElementById("commandInput").value.trim();
-    if (!command) {
-      alert("Enter a command.");
-      return;
-    }
-
-    // FRONTEND-ONLY STUB (no backend call yet)
-    document.getElementById("outputBox").innerText =
-      "Command sent to " + activeAgent.name + ":\n\n" + command +
-      "\n\n(Status: queued — backend not connected)";
-
-    document.getElementById("commandInput").value = "";
-  }
-</script>
-
+<body class="bg-gray-900 text-white">
+    <div id="app"></div>
+    
+    <script>
+        const API_URL = window.location.origin;
+        let TOKEN = localStorage.getItem('ska_token');
+        let CURRENT_USER = null;
+        
+        // ═══════════════════════════════════════════════════════════
+        // API FUNCTIONS
+        // ═══════════════════════════════════════════════════════════
+        
+        async function apiCall(endpoint, options = {}) {
+            const headers = {'Content-Type': 'application/json'};
+            if (TOKEN) headers['Authorization'] = `Bearer ${TOKEN}`;
+            
+            const response = await fetch(API_URL + endpoint, {
+                ...options,
+                headers: {...headers, ...options.headers}
+            });
+            
+            if (!response.ok) throw new Error(await response.text());
+            return response.json();
+        }
+        
+        async function login(email, password) {
+            const data = await apiCall('/auth/login', {
+                method: 'POST',
+                body: JSON.stringify({email, password})
+            });
+            TOKEN = data.token;
+            localStorage.setItem('ska_token', TOKEN);
+            CURRENT_USER = data;
+            return data;
+        }
+        
+        async function register(email, password) {
+            const data = await apiCall('/auth/register', {
+                method: 'POST',
+                body: JSON.stringify({email, password})
+            });
+            TOKEN = data.token;
+            localStorage.setItem('ska_token', TOKEN);
+            CURRENT_USER = data;
+            return data;
+        }
+        
+        async function getBalance() {
+            return apiCall('/currency/balance');
+        }
+        
+        async function getAgents() {
+            return apiCall('/agents/list');
+        }
+        
+        async function chatWithAgent(agent_id, message) {
+            return apiCall('/agents/chat', {
+                method: 'POST',
+                body: JSON.stringify({agent_id, message})
+            });
+        }
+        
+        async function createBuild(build_type, prompt) {
+            return apiCall('/builders/build', {
+                method: 'POST',
+                body: JSON.stringify({build_type, prompt})
+            });
+        }
+        
+        // ═══════════════════════════════════════════════════════════
+        // UI COMPONENTS
+        // ═══════════════════════════════════════════════════════════
+        
+        function LoginPage() {
+            return `
+                <div class="min-h-screen flex items-center justify-center">
+                    <div class="bg-gray-800 p-8 rounded-lg max-w-md w-full">
+                        <h1 class="text-3xl font-bold mb-6 text-center">Sales King Academy</h1>
+                        <div id="login-form">
+                            <input type="email" id="email" placeholder="Email" 
+                                class="w-full p-3 mb-4 bg-gray-700 rounded">
+                            <input type="password" id="password" placeholder="Password" 
+                                class="w-full p-3 mb-4 bg-gray-700 rounded">
+                            <button onclick="handleLogin()" 
+                                class="w-full p-3 bg-blue-600 hover:bg-blue-700 rounded font-bold">
+                                Login
+                            </button>
+                            <button onclick="handleRegister()" 
+                                class="w-full p-3 mt-2 bg-green-600 hover:bg-green-700 rounded font-bold">
+                                Register
+                            </button>
+                            <div id="error" class="mt-4 text-red-500 text-center"></div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+        
+        function Dashboard() {
+            return `
+                <div class="min-h-screen p-6">
+                    <div class="max-w-7xl mx-auto">
+                        <div class="flex justify-between items-center mb-6">
+                            <h1 class="text-3xl font-bold">Sales King Academy Dashboard</h1>
+                            <div class="flex items-center gap-4">
+                                <div>Credits: <span id="balance" class="font-bold">0</span></div>
+                                <button onclick="logout()" class="px-4 py-2 bg-red-600 rounded">Logout</button>
+                            </div>
+                        </div>
+                        
+                        <div class="grid grid-cols-3 gap-4 mb-6">
+                            <button onclick="showAgents()" 
+                                class="p-6 bg-blue-600 hover:bg-blue-700 rounded-lg font-bold text-xl">
+                                AI Agents
+                            </button>
+                            <button onclick="showAppBuilder()" 
+                                class="p-6 bg-green-600 hover:bg-green-700 rounded-lg font-bold text-xl">
+                                App Builder
+                            </button>
+                            <button onclick="showWebsiteBuilder()" 
+                                class="p-6 bg-purple-600 hover:bg-purple-700 rounded-lg font-bold text-xl">
+                                Website Builder
+                            </button>
+                        </div>
+                        
+                        <div id="content" class="bg-gray-800 rounded-lg p-6"></div>
+                    </div>
+                </div>
+            `;
+        }
+        
+        function AgentsView(agents) {
+            return `
+                <h2 class="text-2xl font-bold mb-4">25 AI Agents</h2>
+                <div class="grid grid-cols-5 gap-4">
+                    ${agents.map(agent => `
+                        <div class="bg-gray-700 p-4 rounded cursor-pointer hover:bg-gray-600"
+                             onclick="openAgentChat(${agent.id}, '${agent.name}')">
+                            <div class="font-bold">Agent ${agent.id}</div>
+                            <div class="text-sm text-gray-400">${agent.role}</div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+        
+        function AgentChat(agentId, agentName) {
+            return `
+                <div class="flex flex-col h-96">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-2xl font-bold">Chat with ${agentName}</h2>
+                        <button onclick="showAgents()" class="px-4 py-2 bg-gray-600 rounded">Back</button>
+                    </div>
+                    <div id="chat-messages" class="flex-1 bg-gray-900 rounded p-4 overflow-y-auto mb-4"></div>
+                    <div class="flex gap-2">
+                        <input type="text" id="chat-input" placeholder="Type your message..." 
+                            class="flex-1 p-3 bg-gray-700 rounded"
+                            onkeypress="if(event.key==='Enter') sendMessage(${agentId})">
+                        <button onclick="sendMessage(${agentId})" 
+                            class="px-6 py-3 bg-blue-600 hover:bg-blue-700 rounded font-bold">
+                            Send
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+        
+        function BuilderView(type) {
+            return `
+                <h2 class="text-2xl font-bold mb-4">${type === 'app' ? 'App' : 'Website'} Builder</h2>
+                <textarea id="build-prompt" 
+                    class="w-full h-32 p-4 bg-gray-700 rounded mb-4" 
+                    placeholder="Describe what you want to build..."></textarea>
+                <button onclick="startBuild('${type}')" 
+                    class="px-6 py-3 bg-green-600 hover:bg-green-700 rounded font-bold">
+                    Build ${type === 'app' ? 'App' : 'Website'}
+                </button>
+                <div id="build-output" class="mt-4 bg-gray-900 rounded p-4 hidden">
+                    <h3 class="font-bold mb-2">Output:</h3>
+                    <pre id="build-code" class="text-sm overflow-x-auto"></pre>
+                    <button onclick="downloadBuild()" 
+                        class="mt-4 px-4 py-2 bg-blue-600 rounded">
+                        Download
+                    </button>
+                </div>
+            `;
+        }
+        
+        // ═══════════════════════════════════════════════════════════
+        // EVENT HANDLERS
+        // ═══════════════════════════════════════════════════════════
+        
+        window.handleLogin = async function() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            try {
+                await login(email, password);
+                render();
+            } catch(e) {
+                document.getElementById('error').textContent = 'Login failed: ' + e.message;
+            }
+        };
+        
+        window.handleRegister = async function() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            try {
+                await register(email, password);
+                render();
+            } catch(e) {
+                document.getElementById('error').textContent = 'Registration failed: ' + e.message;
+            }
+        };
+        
+        window.logout = function() {
+            localStorage.removeItem('ska_token');
+            TOKEN = null;
+            CURRENT_USER = null;
+            render();
+        };
+        
+        window.showAgents = async function() {
+            const data = await getAgents();
+            document.getElementById('content').innerHTML = AgentsView(data.agents);
+        };
+        
+        window.openAgentChat = function(agentId, agentName) {
+            document.getElementById('content').innerHTML = AgentChat(agentId, agentName);
+        };
+        
+        window.sendMessage = async function(agentId) {
+            const input = document.getElementById('chat-input');
+            const message = input.value.trim();
+            if (!message) return;
+            
+            const messagesDiv = document.getElementById('chat-messages');
+            messagesDiv.innerHTML += `<div class="mb-2"><b>You:</b> ${message}</div>`;
+            input.value = '';
+            
+            const data = await chatWithAgent(agentId, message);
+            messagesDiv.innerHTML += `<div class="mb-2 text-blue-400"><b>Agent:</b> ${data.response}</div>`;
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        };
+        
+        window.showAppBuilder = function() {
+            document.getElementById('content').innerHTML = BuilderView('app');
+        };
+        
+        window.showWebsiteBuilder = function() {
+            document.getElementById('content').innerHTML = BuilderView('website');
+        };
+        
+        let currentBuildOutput = '';
+        
+        window.startBuild = async function(type) {
+            const prompt = document.getElementById('build-prompt').value;
+            if (!prompt) return;
+            
+            const data = await createBuild(type, prompt);
+            currentBuildOutput = data.output;
+            
+            document.getElementById('build-output').classList.remove('hidden');
+            document.getElementById('build-code').textContent = data.output;
+        };
+        
+        window.downloadBuild = function() {
+            const blob = new Blob([currentBuildOutput], {type: 'text/plain'});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'build.txt';
+            a.click();
+        };
+        
+        // ═══════════════════════════════════════════════════════════
+        // MAIN RENDER
+        // ═══════════════════════════════════════════════════════════
+        
+        async function render() {
+            const app = document.getElementById('app');
+            
+            if (!TOKEN) {
+                app.innerHTML = LoginPage();
+                return;
+            }
+            
+            app.innerHTML = Dashboard();
+            
+            // Load balance
+            try {
+                const balanceData = await getBalance();
+                document.getElementById('balance').textContent = balanceData.balance;
+            } catch(e) {
+                console.error('Failed to load balance:', e);
+            }
+            
+            // Show agents by default
+            await showAgents();
+        }
+        
+        // Initialize
+        render();
+    </script>
 </body>
 </html>
