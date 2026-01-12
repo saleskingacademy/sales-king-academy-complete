@@ -1,9 +1,13 @@
 services:
   - type: web
-    name: sales-king-academy-complete
+    name: sales-king-academy
     env: python
     buildCommand: pip install -r requirements.txt
-    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    startCommand: python main.py
     envVars:
-      - key: PYTHON_VERSION
-        value: 3.11.0
+      - key: JWT_SECRET
+        generateValue: true
+      - key: SQUARE_ACCESS_TOKEN
+        sync: false
+      - key: SQUARE_LOCATION_ID
+        value: LCX039E7QRA5G
