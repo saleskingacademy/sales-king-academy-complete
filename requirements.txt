@@ -4,3 +4,4 @@ pyjwt==2.9.0
 bcrypt==4.2.1
 python-multipart==0.0.9
 pydantic[email]==2.10.6
+squareup==37.1.0.20250115
