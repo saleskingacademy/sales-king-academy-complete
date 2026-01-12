@@ -1,6 +1,0 @@
-fastapi==0.115.0
-uvicorn==0.32.0
-pyjwt==2.9.0
-bcrypt==4.2.1
-python-multipart==0.0.9
-pydantic[email]==2.10.6
