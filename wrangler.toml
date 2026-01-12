@@ -1,0 +1,12 @@
+name = "sales-king-academy"
+main = "worker.js"
+compatibility_date = "2025-01-12"
+
+# Cloudflare D1 Database (coming soon)
+# [[d1_databases]]
+# binding = "DB"
+# database_name = "ska_production"
+# database_id = "YOUR_D1_DATABASE_ID"
+
+[env.production]
+name = "sales-king-academy"
