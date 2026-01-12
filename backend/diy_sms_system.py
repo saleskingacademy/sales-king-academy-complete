@@ -90,8 +90,8 @@ if __name__ == '__main__':
     # Test configuration
     sms = DIYSMSSystem(
         provider_api_url='https://api.bandwidth.com/v2/users/{accountId}/messages',
-        api_key='YOUR_API_KEY',
-        api_secret='YOUR_API_SECRET'
+        api_key=os.environ.get('VONAGE_API_KEY', ''),
+        api_secret=os.environ.get('VONAGE_API_SECRET', '')
     )
     
     sms.add_phone_numbers([
