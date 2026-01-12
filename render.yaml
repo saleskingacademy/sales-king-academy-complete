@@ -1,20 +1,23 @@
-# SALES KING ACADEMY - AUTHORITATIVE DEPLOYMENT CONFIG
-# Single source of truth for Render deployment
-
 services:
   - type: web
-    name: sales-king-academy-complete
+    name: ska-backend
     env: python
     region: oregon
-    plan: free
-    buildCommand: pip install --upgrade pip && pip install -r requirements.txt && chmod +x start.sh
-    startCommand: ./start.sh
+    plan: starter
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn main:app
     envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.0
       - key: ANTHROPIC_API_KEY
-        value: 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
+        sync: false
       - key: SQUARE_ACCESS_TOKEN
-        value: EAAAl-swRUlg58R-PB33iXSwbL3vqgOv-KxNqLyWJqJlSZ7lV5c6FkmK1K4NHpYh
+        sync: false
       - key: SQUARE_LOCATION_ID
-        value: LCX039E7QRA5G
-      - key: PORT
-        value: 10000
+        sync: false
+      - key: GITHUB_TOKEN
+        sync: false
+      - key: NETLIFY_TOKEN
+        sync: false
+    healthCheckPath: /
+    autoDeploy: true
