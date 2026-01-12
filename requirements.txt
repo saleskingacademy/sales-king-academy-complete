@@ -1,28 +1,6 @@
-# SALES KING ACADEMY - AUTHORITATIVE DEPENDENCIES
-# Single source of truth for Python packages
-
-# Core Backend Framework (REQUIRED)
-fastapi==0.115.5
-uvicorn[standard]==0.32.1
-
-# AI & ML
-anthropic==0.39.0
-
-# Data & Validation
-pydantic==2.10.3
-python-multipart==0.0.17
-python-dotenv==1.0.1
-
-# HTTP & API
-httpx==0.27.2
-requests==2.32.3
-
-# Scheduling (if needed for agents)
-apscheduler==3.10.4
-
-# Database (if needed)
-sqlalchemy==2.0.36
-
-# Utilities
-python-dateutil==2.9.0
-pytz==2024.2
+fastapi[all]
+uvicorn[standard]
+psycopg2-binary
+pyjwt
+bcrypt
+python-multipart
