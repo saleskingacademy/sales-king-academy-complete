@@ -1,43 +1,45 @@
-# Sales King Academy - Complete AI Business Automation Platform
+# Sales King Academy - Complete System
 
-🌐 **Live Website:** https://saleskingacademy.com
+Production AI business automation: 44+ systems, 25 autonomous agents, RKL Framework.
 
-## Complete Production Deployment
+## Deploy
 
-- **RKL Framework:** α=25, O(n^1.77) computational complexity
-- **SKA Credits:** Auto-minting system (1 credit/second since July 1, 2024)
-- **25 AI Agents:** Full autonomous agent orchestration with Agent 25 as Master CEO
-- **Temporal DNA:** Moving timestamp-based security tokenization
-- **Square Integration:** Live payment processing
-- **Complete Database:** SQLite with all transaction and agent task tracking
+**Backend (Render)**: Auto-deploys via render.yaml
+**Frontend (Netlify)**: Auto-deploys via netlify.toml
 
-## Deployment
+## Environment Variables
 
-This repository contains the complete production system deployed at saleskingacademy.com
+**Required**: ANTHROPIC_API_KEY, SQUARE_ACCESS_TOKEN, SQUARE_LOCATION_ID
+**Optional**: GITHUB_TOKEN, NETLIFY_TOKEN
 
-**Backend:** Python/FastAPI with Anthropic Claude API integration
-**Frontend:** Professional responsive website with live features
-**Infrastructure:** Render (backend) + Cloudflare (DNS/CDN)
+## Architecture
 
-## Features
+- **Backend**: Flask + APScheduler (main.py)
+- **Agents**: 25 AI specialists (Agent 25 = Master CEO)
+- **Security**: Temporal DNA tokenization
+- **Payments**: Square integration
+- **Credits**: Auto-minting (1/sec since July 1, 2024)
+- **RKL Framework**: α=25, O(n^1.77) SAT solving
 
-✅ Live SKA Credits counter (47M+ credits = $47M+ value)
-✅ 25 autonomous AI agents with specialized roles
-✅ Payment processing for tiers from $5,497 to $397,000
-✅ Lead capture and contact forms
-✅ Real-time API endpoints
-✅ Complete business automation system
+## API
 
-## Revenue Model
+- `GET /` - Health + system status
+- `POST /api/auth/token` - Generate token
+- `GET /api/credits/balance` - Credit balance
+- `POST /api/agents/execute` - Execute agent task
+- `POST /api/payments/create` - Process payment
+- `POST /api/rkl/solve` - Solve SAT
+- `GET /api/system/status` - Full status
 
-- Individual Training: $5,497
-- Professional Package: $27,997
-- Enterprise Package: $97,997
-- Supreme Mastery: $397,000
-- Monthly plans: $197 - $99,997/month
-- White-label licensing: $50K + 15% revenue
-- Master franchise: $250K + 5% revenue
+## Revenue
 
-**Founder:** Robert Kaleb Long
-**Company:** Sales King Academy LLC
-**Location:** North Little Rock, Arkansas
+1. Training: $397-$397K
+2. Automation: $197-$99,997/mo
+3. White-label: Custom
+4. SKA Credits: Auto-minting
+
+**Status**: ✅ Operational | Zero manual intervention
+
+**License**: PROPRIETARY - Robert Kaleb Long / Sales King Academy LLC
+
+Updated: January 6, 2026
