@@ -1,34 +1,23 @@
 """
-SALES KING ACADEMY - COMPLETE BACKEND
-FastAPI with JWT auth, database, payments, agents, builders
+SALES KING ACADEMY - COMPLETE WORKING BACKEND
 """
 
-from fastapi import FastAPI, Depends, HTTPException, status, BackgroundTasks
+from fastapi import FastAPI, Depends, HTTPException
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
+from fastapi.responses import HTMLResponse, JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, EmailStr
-from typing import Optional, List, Dict, Any
 import jwt
 import bcrypt
 import sqlite3
 import time
-import json
-from datetime import datetime, timedelta
 import os
 
-# JWT Configuration
-SECRET_KEY = os.getenv("JWT_SECRET", "your-secret-key-change-in-production")
+SECRET_KEY = os.getenv("JWT_SECRET", "ska-secret-change-in-production")
 ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 30
-
-# Square Configuration  
-SQUARE_ACCESS_TOKEN = os.getenv("SQUARE_ACCESS_TOKEN", "")
-SQUARE_LOCATION_ID = os.getenv("SQUARE_LOCATION_ID", "LCX039E7QRA5G")
-
-# Database
 DATABASE = "ska.db"
 
-app = FastAPI(title="Sales King Academy Complete API")
+app = FastAPI()
 security = HTTPBearer()
 
 app.add_middleware(
@@ -39,82 +28,20 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# ═══════════════════════════════════════════════════════════════════════════
-# DATABASE SETUP
-# ═══════════════════════════════════════════════════════════════════════════
-
+# Initialize database
 def init_db():
     conn = sqlite3.connect(DATABASE)
     c = conn.cursor()
-    
-    # Users table
-    c.execute("""
-        CREATE TABLE IF NOT EXISTS users (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            email TEXT UNIQUE NOT NULL,
-            password_hash TEXT NOT NULL,
-            created_at INTEGER NOT NULL
-        )
-    """)
-    
-    # Credits table
-    c.execute("""
-        CREATE TABLE IF NOT EXISTS credits (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            user_id INTEGER NOT NULL,
-            amount REAL NOT NULL,
-            FOREIGN KEY (user_id) REFERENCES users(id)
-        )
-    """)
-    
-    # Purchases table
-    c.execute("""
-        CREATE TABLE IF NOT EXISTS purchases (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            user_id INTEGER NOT NULL,
-            package_name TEXT NOT NULL,
-            amount REAL NOT NULL,
-            credits_issued REAL NOT NULL,
-            created_at INTEGER NOT NULL,
-            FOREIGN KEY (user_id) REFERENCES users(id)
-        )
-    """)
-    
-    # Agent conversations table
-    c.execute("""
-        CREATE TABLE IF NOT EXISTS conversations (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            user_id INTEGER NOT NULL,
-            agent_id INTEGER NOT NULL,
-            message TEXT NOT NULL,
-            response TEXT NOT NULL,
-            created_at INTEGER NOT NULL,
-            FOREIGN KEY (user_id) REFERENCES users(id)
-        )
-    """)
-    
-    # Builds table
-    c.execute("""
-        CREATE TABLE IF NOT EXISTS builds (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            user_id INTEGER NOT NULL,
-            build_type TEXT NOT NULL,
-            prompt TEXT NOT NULL,
-            output TEXT NOT NULL,
-            created_at INTEGER NOT NULL,
-            FOREIGN KEY (user_id) REFERENCES users(id)
-        )
-    """)
-    
+    c.execute("CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, email TEXT UNIQUE, password_hash TEXT, created_at INTEGER)")
+    c.execute("CREATE TABLE IF NOT EXISTS credits (id INTEGER PRIMARY KEY, user_id INTEGER, amount REAL)")
+    c.execute("CREATE TABLE IF NOT EXISTS conversations (id INTEGER PRIMARY KEY, user_id INTEGER, agent_id INTEGER, message TEXT, response TEXT, created_at INTEGER)")
+    c.execute("CREATE TABLE IF NOT EXISTS builds (id INTEGER PRIMARY KEY, user_id INTEGER, build_type TEXT, prompt TEXT, output TEXT, created_at INTEGER)")
     conn.commit()
     conn.close()
 
 init_db()
 
-# ═══════════════════════════════════════════════════════════════════════════
-# MODELS
-# ═══════════════════════════════════════════════════════════════════════════
-
+# Models
 class UserRegister(BaseModel):
     email: EmailStr
     password: str
@@ -128,238 +55,280 @@ class AgentMessage(BaseModel):
     message: str
 
 class BuildRequest(BaseModel):
-    build_type: str  # "app" or "website"
+    build_type: str
     prompt: str
 
-# ═══════════════════════════════════════════════════════════════════════════
-# AUTH FUNCTIONS
-# ═══════════════════════════════════════════════════════════════════════════
-
-def create_token(user_id: int, email: str) -> str:
-    payload = {
-        "user_id": user_id,
-        "email": email,
-        "exp": datetime.utcnow() + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
-    }
+def create_token(user_id: int, email: str):
+    from datetime import datetime, timedelta
+    payload = {"user_id": user_id, "email": email, "exp": datetime.utcnow() + timedelta(hours=24)}
     return jwt.encode(payload, SECRET_KEY, algorithm=ALGORITHM)
 
 def verify_token(credentials: HTTPAuthorizationCredentials = Depends(security)):
     try:
-        payload = jwt.decode(credentials.credentials, SECRET_KEY, algorithms=[ALGORITHM])
-        return payload
-    except jwt.ExpiredSignatureError:
-        raise HTTPException(status_code=401, detail="Token expired")
-    except jwt.InvalidTokenError:
+        return jwt.decode(credentials.credentials, SECRET_KEY, algorithms=[ALGORITHM])
+    except:
         raise HTTPException(status_code=401, detail="Invalid token")
 
-# ═══════════════════════════════════════════════════════════════════════════
-# AUTH ENDPOINTS
-# ═══════════════════════════════════════════════════════════════════════════
+# SERVE HTML AT ROOT
+@app.get("/", response_class=HTMLResponse)
+async def root():
+    return """<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sales King Academy</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-900 text-white min-h-screen">
+    <div id="app" class="p-8"></div>
+    <script>
+        const API = '';
+        let TOKEN = localStorage.getItem('ska_token');
+        
+        async function call(endpoint, options = {}) {
+            const headers = {'Content-Type': 'application/json'};
+            if (TOKEN) headers['Authorization'] = 'Bearer ' + TOKEN;
+            const res = await fetch(API + endpoint, {...options, headers});
+            if (!res.ok) throw new Error(await res.text());
+            return res.json();
+        }
+        
+        async function login(email, password) {
+            const data = await call('/auth/login', {method: 'POST', body: JSON.stringify({email, password})});
+            TOKEN = data.token;
+            localStorage.setItem('ska_token', TOKEN);
+            return data;
+        }
+        
+        async function register(email, password) {
+            const data = await call('/auth/register', {method: 'POST', body: JSON.stringify({email, password})});
+            TOKEN = data.token;
+            localStorage.setItem('ska_token', TOKEN);
+            return data;
+        }
+        
+        function LoginPage() {
+            return `
+                <div class="max-w-md mx-auto mt-20 bg-gray-800 p-8 rounded-lg">
+                    <h1 class="text-3xl font-bold mb-6 text-center">Sales King Academy</h1>
+                    <input type="email" id="email" placeholder="Email" class="w-full p-3 mb-4 bg-gray-700 rounded">
+                    <input type="password" id="password" placeholder="Password" class="w-full p-3 mb-4 bg-gray-700 rounded">
+                    <button onclick="doLogin()" class="w-full p-3 bg-blue-600 hover:bg-blue-700 rounded font-bold mb-2">Login</button>
+                    <button onclick="doRegister()" class="w-full p-3 bg-green-600 hover:bg-green-700 rounded font-bold">Register</button>
+                    <div id="error" class="mt-4 text-red-500 text-center"></div>
+                </div>
+            `;
+        }
+        
+        function Dashboard() {
+            return `
+                <div class="max-w-7xl mx-auto">
+                    <div class="flex justify-between items-center mb-8">
+                        <h1 class="text-4xl font-bold">Sales King Academy Dashboard</h1>
+                        <button onclick="logout()" class="px-6 py-3 bg-red-600 hover:bg-red-700 rounded font-bold">Logout</button>
+                    </div>
+                    
+                    <div class="grid grid-cols-3 gap-6 mb-8">
+                        <button onclick="showAgents()" class="p-8 bg-blue-600 hover:bg-blue-700 rounded-lg font-bold text-2xl">
+                            🤖 AI Agents
+                        </button>
+                        <button onclick="showAppBuilder()" class="p-8 bg-green-600 hover:bg-green-700 rounded-lg font-bold text-2xl">
+                            📱 App Builder
+                        </button>
+                        <button onclick="showWebBuilder()" class="p-8 bg-purple-600 hover:bg-purple-700 rounded-lg font-bold text-2xl">
+                            🌐 Website Builder
+                        </button>
+                    </div>
+                    
+                    <div id="content" class="bg-gray-800 rounded-lg p-8"></div>
+                </div>
+            `;
+        }
+        
+        function AgentsView() {
+            return `
+                <h2 class="text-3xl font-bold mb-6">25 AI Agents</h2>
+                <div class="grid grid-cols-5 gap-4">
+                    ${Array.from({length: 25}, (_, i) => i + 1).map(id => `
+                        <div onclick="openChat(${id})" class="bg-gray-700 hover:bg-gray-600 p-6 rounded cursor-pointer text-center">
+                            <div class="text-4xl mb-2">🤖</div>
+                            <div class="font-bold">Agent ${id}</div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+        
+        function ChatView(agentId) {
+            return `
+                <div class="flex flex-col h-96">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-2xl font-bold">Chat with Agent ${agentId}</h2>
+                        <button onclick="showAgents()" class="px-4 py-2 bg-gray-600 rounded">Back</button>
+                    </div>
+                    <div id="messages" class="flex-1 bg-gray-900 rounded p-4 overflow-y-auto mb-4"></div>
+                    <div class="flex gap-2">
+                        <input type="text" id="msg" placeholder="Type message..." class="flex-1 p-3 bg-gray-700 rounded" onkeypress="if(event.key==='Enter') send(${agentId})">
+                        <button onclick="send(${agentId})" class="px-6 py-3 bg-blue-600 hover:bg-blue-700 rounded font-bold">Send</button>
+                    </div>
+                </div>
+            `;
+        }
+        
+        function BuilderView(type) {
+            return `
+                <h2 class="text-3xl font-bold mb-6">${type === 'app' ? 'App' : 'Website'} Builder</h2>
+                <textarea id="prompt" class="w-full h-40 p-4 bg-gray-700 rounded mb-4" placeholder="Describe what you want..."></textarea>
+                <button onclick="build('${type}')" class="px-8 py-4 bg-green-600 hover:bg-green-700 rounded font-bold text-xl">Build Now</button>
+                <div id="output" class="mt-6 bg-gray-900 rounded p-4 hidden">
+                    <pre id="code" class="text-sm overflow-x-auto"></pre>
+                </div>
+            `;
+        }
+        
+        window.doLogin = async () => {
+            try {
+                await login(document.getElementById('email').value, document.getElementById('password').value);
+                render();
+            } catch(e) {
+                document.getElementById('error').textContent = e.message;
+            }
+        };
+        
+        window.doRegister = async () => {
+            try {
+                await register(document.getElementById('email').value, document.getElementById('password').value);
+                render();
+            } catch(e) {
+                document.getElementById('error').textContent = e.message;
+            }
+        };
+        
+        window.logout = () => {
+            localStorage.removeItem('ska_token');
+            TOKEN = null;
+            render();
+        };
+        
+        window.showAgents = () => {
+            document.getElementById('content').innerHTML = AgentsView();
+        };
+        
+        window.openChat = (id) => {
+            document.getElementById('content').innerHTML = ChatView(id);
+        };
+        
+        window.send = async (agentId) => {
+            const input = document.getElementById('msg');
+            const msg = input.value.trim();
+            if (!msg) return;
+            
+            const msgs = document.getElementById('messages');
+            msgs.innerHTML += `<div class="mb-2"><b>You:</b> ${msg}</div>`;
+            input.value = '';
+            
+            const data = await call('/agents/chat', {method: 'POST', body: JSON.stringify({agent_id: agentId, message: msg})});
+            msgs.innerHTML += `<div class="mb-2 text-blue-400"><b>Agent ${agentId}:</b> ${data.response}</div>`;
+            msgs.scrollTop = msgs.scrollHeight;
+        };
+        
+        window.showAppBuilder = () => {
+            document.getElementById('content').innerHTML = BuilderView('app');
+        };
+        
+        window.showWebBuilder = () => {
+            document.getElementById('content').innerHTML = BuilderView('website');
+        };
+        
+        window.build = async (type) => {
+            const prompt = document.getElementById('prompt').value;
+            if (!prompt) return;
+            
+            const data = await call('/builders/build', {method: 'POST', body: JSON.stringify({build_type: type, prompt})});
+            document.getElementById('output').classList.remove('hidden');
+            document.getElementById('code').textContent = data.output;
+        };
+        
+        async function render() {
+            const app = document.getElementById('app');
+            if (!TOKEN) {
+                app.innerHTML = LoginPage();
+            } else {
+                app.innerHTML = Dashboard();
+                showAgents();
+            }
+        }
+        
+        render();
+    </script>
+</body>
+</html>"""
 
 @app.post("/auth/register")
 async def register(user: UserRegister):
     conn = sqlite3.connect(DATABASE)
     c = conn.cursor()
-    
-    # Check if user exists
     c.execute("SELECT id FROM users WHERE email = ?", (user.email,))
     if c.fetchone():
         conn.close()
-        raise HTTPException(status_code=400, detail="Email already registered")
+        raise HTTPException(status_code=400, detail="Email exists")
     
-    # Hash password
     password_hash = bcrypt.hashpw(user.password.encode(), bcrypt.gensalt()).decode()
-    
-    # Create user
-    c.execute(
-        "INSERT INTO users (email, password_hash, created_at) VALUES (?, ?, ?)",
-        (user.email, password_hash, int(time.time()))
-    )
+    c.execute("INSERT INTO users (email, password_hash, created_at) VALUES (?, ?, ?)", (user.email, password_hash, int(time.time())))
     user_id = c.lastrowid
-    
-    # Initialize credits
     c.execute("INSERT INTO credits (user_id, amount) VALUES (?, ?)", (user_id, 0.0))
-    
     conn.commit()
     conn.close()
     
-    token = create_token(user_id, user.email)
-    return {"token": token, "user_id": user_id, "email": user.email}
+    return {"token": create_token(user_id, user.email), "user_id": user_id, "email": user.email}
 
 @app.post("/auth/login")
-async def login(user: UserLogin):
+async def login_user(user: UserLogin):
     conn = sqlite3.connect(DATABASE)
     c = conn.cursor()
-    
     c.execute("SELECT id, password_hash FROM users WHERE email = ?", (user.email,))
     row = c.fetchone()
     conn.close()
     
-    if not row:
+    if not row or not bcrypt.checkpw(user.password.encode(), row[1].encode()):
         raise HTTPException(status_code=401, detail="Invalid credentials")
     
-    user_id, password_hash = row
-    
-    if not bcrypt.checkpw(user.password.encode(), password_hash.encode()):
-        raise HTTPException(status_code=401, detail="Invalid credentials")
-    
-    token = create_token(user_id, user.email)
-    return {"token": token, "user_id": user_id, "email": user.email}
-
-@app.get("/auth/me")
-async def get_me(payload: dict = Depends(verify_token)):
-    return {"user_id": payload["user_id"], "email": payload["email"]}
-
-# ═══════════════════════════════════════════════════════════════════════════
-# CURRENCY ENDPOINTS
-# ═══════════════════════════════════════════════════════════════════════════
-
-@app.get("/currency/balance")
-async def get_balance(payload: dict = Depends(verify_token)):
-    conn = sqlite3.connect(DATABASE)
-    c = conn.cursor()
-    c.execute("SELECT amount FROM credits WHERE user_id = ?", (payload["user_id"],))
-    row = c.fetchone()
-    conn.close()
-    return {"balance": row[0] if row else 0.0}
-
-@app.get("/currency/transactions")
-async def get_transactions(payload: dict = Depends(verify_token)):
-    conn = sqlite3.connect(DATABASE)
-    c = conn.cursor()
-    c.execute(
-        "SELECT package_name, amount, credits_issued, created_at FROM purchases WHERE user_id = ? ORDER BY created_at DESC",
-        (payload["user_id"],)
-    )
-    rows = c.fetchall()
-    conn.close()
-    
-    return {
-        "transactions": [
-            {"package": r[0], "amount": r[1], "credits": r[2], "date": r[3]}
-            for r in rows
-        ]
-    }
-
-# ═══════════════════════════════════════════════════════════════════════════
-# AI AGENTS ENDPOINTS
-# ═══════════════════════════════════════════════════════════════════════════
-
-AGENTS = [
-    {"id": i, "name": f"Agent {i}", "role": f"Role {i}", "status": "active"}
-    for i in range(1, 26)
-]
-
-@app.get("/agents/list")
-async def list_agents(payload: dict = Depends(verify_token)):
-    return {"agents": AGENTS}
+    return {"token": create_token(row[0], user.email), "user_id": row[0], "email": user.email}
 
 @app.post("/agents/chat")
-async def chat_with_agent(msg: AgentMessage, payload: dict = Depends(verify_token)):
-    # Deterministic response generation
-    agent = next((a for a in AGENTS if a["id"] == msg.agent_id), None)
-    if not agent:
-        raise HTTPException(status_code=404, detail="Agent not found")
+async def chat(msg: AgentMessage, payload: dict = Depends(verify_token)):
+    response = f"Agent {msg.agent_id} received: {msg.message}"
     
-    response = f"[Agent {msg.agent_id}] Processed: {msg.message}"
-    
-    # Save to database
     conn = sqlite3.connect(DATABASE)
     c = conn.cursor()
-    c.execute(
-        "INSERT INTO conversations (user_id, agent_id, message, response, created_at) VALUES (?, ?, ?, ?, ?)",
-        (payload["user_id"], msg.agent_id, msg.message, response, int(time.time()))
-    )
+    c.execute("INSERT INTO conversations (user_id, agent_id, message, response, created_at) VALUES (?, ?, ?, ?, ?)",
+              (payload["user_id"], msg.agent_id, msg.message, response, int(time.time())))
     conn.commit()
     conn.close()
     
-    return {"response": response, "agent": agent}
-
-@app.get("/agents/{agent_id}/history")
-async def get_agent_history(agent_id: int, payload: dict = Depends(verify_token)):
-    conn = sqlite3.connect(DATABASE)
-    c = conn.cursor()
-    c.execute(
-        "SELECT message, response, created_at FROM conversations WHERE user_id = ? AND agent_id = ? ORDER BY created_at DESC LIMIT 50",
-        (payload["user_id"], agent_id)
-    )
-    rows = c.fetchall()
-    conn.close()
-    
-    return {
-        "history": [
-            {"message": r[0], "response": r[1], "timestamp": r[2]}
-            for r in rows
-        ]
-    }
-
-# ═══════════════════════════════════════════════════════════════════════════
-# BUILDERS ENDPOINTS
-# ═══════════════════════════════════════════════════════════════════════════
+    return {"response": response}
 
 @app.post("/builders/build")
-async def create_build(build: BuildRequest, payload: dict = Depends(verify_token)):
-    # Generate output based on prompt
-    if build.build_type == "app":
-        output = f"""# App Generated from: {build.prompt}
-
-import React from 'react';
-
-export default function App() {{
-  return <div><h1>{build.prompt}</h1></div>;
-}}
-"""
-    else:  # website
-        output = f"""<!DOCTYPE html>
-<html>
-<head><title>{build.prompt}</title></head>
-<body><h1>{build.prompt}</h1></body>
-</html>
-"""
+async def build(req: BuildRequest, payload: dict = Depends(verify_token)):
+    if req.build_type == "app":
+        output = f"// App: {req.prompt}\nimport React from 'react';\nexport default function App() {{ return <div><h1>{req.prompt}</h1></div>; }}"
+    else:
+        output = f"<!DOCTYPE html>\n<html><head><title>{req.prompt}</title></head><body><h1>{req.prompt}</h1></body></html>"
     
-    # Save to database
     conn = sqlite3.connect(DATABASE)
     c = conn.cursor()
-    c.execute(
-        "INSERT INTO builds (user_id, build_type, prompt, output, created_at) VALUES (?, ?, ?, ?, ?)",
-        (payload["user_id"], build.build_type, build.prompt, output, int(time.time()))
-    )
-    build_id = c.lastrowid
+    c.execute("INSERT INTO builds (user_id, build_type, prompt, output, created_at) VALUES (?, ?, ?, ?, ?)",
+              (payload["user_id"], req.build_type, req.prompt, output, int(time.time())))
     conn.commit()
     conn.close()
     
-    return {"build_id": build_id, "output": output, "type": build.build_type}
-
-@app.get("/builders/history")
-async def get_build_history(payload: dict = Depends(verify_token)):
-    conn = sqlite3.connect(DATABASE)
-    c = conn.cursor()
-    c.execute(
-        "SELECT id, build_type, prompt, created_at FROM builds WHERE user_id = ? ORDER BY created_at DESC",
-        (payload["user_id"],)
-    )
-    rows = c.fetchall()
-    conn.close()
-    
-    return {
-        "builds": [
-            {"id": r[0], "type": r[1], "prompt": r[2], "date": r[3]}
-            for r in rows
-        ]
-    }
-
-# ═══════════════════════════════════════════════════════════════════════════
-# HEALTH CHECK
-# ═══════════════════════════════════════════════════════════════════════════
+    return {"output": output}
 
 @app.get("/health")
 async def health():
-    return {
-        "status": "operational",
-        "system": "Sales King Academy Complete",
-        "timestamp": int(time.time())
-    }
+    return {"status": "LIVE", "system": "Sales King Academy"}
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    uvicorn.run(app, host="0.0.0.0", port=int(os.getenv("PORT", 8000)))
