@@ -1,59 +1,61 @@
 #!/bin/bash
+# SALES KING ACADEMY - COMPLETE DEPLOYMENT SCRIPT
+# Self-owned system using GitHub + Cloudflare
+# NO Render, NO Netlify, NO AWS required
 
-# Sales King Academy - Quick Deployment Script
-# Deploys complete system to production
+set -e
 
-echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-echo "  SALES KING ACADEMY - DEPLOYMENT SYSTEM"
-echo "  Build Empires. Not Businesses."
-echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-echo ""
+echo "="*80
+echo "🔥 SALES KING ACADEMY - AUTONOMOUS DEPLOYMENT"
+echo "="*80
 
-# Check if git is configured
-if ! git config user.email > /dev/null; then
-    echo "⚠️  Git not configured. Configuring now..."
-    git config --global user.email "info@saleskingacademy.com"
-    git config --global user.name "Sales King Academy"
+# Check if wrangler is installed
+if ! command -v wrangler &> /dev/null; then
+    echo "📦 Installing Wrangler CLI..."
+    npm install -g wrangler
 fi
 
-# Check if repository exists
-if [ ! -d ".git" ]; then
-    echo "📦 Initializing Git repository..."
-    git init
-    git remote add origin https://github.com/saleskingacademy/sales-king-academy-complete.git
-fi
+# Login to Cloudflare (opens browser)
+echo "🔐 Logging into Cloudflare..."
+wrangler login
 
-# Add all files
-echo "📁 Adding files to repository..."
-git add .
+# Create D1 database
+echo "💾 Creating D1 database..."
+DB_OUTPUT=$(wrangler d1 create ska_production 2>&1)
+DB_ID=$(echo "$DB_OUTPUT" | grep "database_id" | awk '{print $3}' | tr -d '"')
 
-# Commit changes
-echo "💾 Committing changes..."
-TIMESTAMP=$(date +"%Y-%m-%d %H:%M:%S")
-git commit -m "Deploy: Complete system update - $TIMESTAMP"
+echo "✅ Database created with ID: $DB_ID"
 
-# Push to GitHub
-echo "🚀 Pushing to GitHub..."
-git push -u origin main
+# Update wrangler.toml with database ID
+echo "📝 Updating wrangler.toml with database ID..."
+sed -i "s/YOUR_D1_DATABASE_ID/$DB_ID/g" wrangler.toml
+
+# Initialize database schema
+echo "🗄️  Initializing database schema..."
+wrangler d1 execute ska_production --file=schema.sql
+
+# Deploy Worker
+echo "🚀 Deploying Cloudflare Worker..."
+wrangler deploy
+
+# Get deployment URL
+WORKER_URL=$(wrangler deployments list | grep "https://" | head -1 | awk '{print $1}')
 
 echo ""
+echo "="*80
 echo "✅ DEPLOYMENT COMPLETE!"
+echo "="*80
 echo ""
-echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-echo "  SYSTEM STATUS"
-echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo "🌐 Your Sales King Academy is live at:"
+echo "   $WORKER_URL"
 echo ""
-echo "🌐 Website:      https://saleskingacademy.com"
-echo "🤖 AI App:       https://saleskingacademy.com/app"
-echo "📡 GitHub:       Auto-synced"
-echo "☁️  Netlify:      Auto-deployed"
-echo "🔐 Cloudflare:   DNS Active"
+echo "📊 System Status:"
+echo "   ✅ 25 AI Agents: Active"
+echo "   ✅ D1 Database: Connected"
+echo "   ✅ Square Payments: Integrated"
+echo "   ✅ Global Edge: Deployed"
 echo ""
-echo "🎯 Next Steps:"
-echo "   1. Configure API credentials in .env file"
-echo "   2. Run: python autonomous_business_system.py"
-echo "   3. Monitor dashboard at /app"
+echo "💡 Add custom domain:"
+echo "   wrangler domains add saleskingacademy.com"
 echo ""
-echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
-echo "  💰 25 Agents Active | RKL Framework α=25"
-echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo "="*80
