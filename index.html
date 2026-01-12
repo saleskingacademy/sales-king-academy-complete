@@ -416,6 +416,7 @@
                 </select>
                 <input id="payment-email" placeholder="Your Email">
                 <button class="btn" onclick="processSquarePayment()">Pay with Square</button>
+                <button class="btn btn-secondary" onclick="payWithEcheck()">Pay with E-check</button>
                 <div class="output" id="payment-output"></div>
             </div>
             
@@ -491,7 +492,7 @@
                         <div class="agent-stats">
                             Specialization: ${agent.specialization}<br>
                             Tasks: ${agent.tasks_completed || 0}<br>
-                            Status: ${agent.is_active ? 'Active' : 'Inactive'}
+                            Status: ${agent.is_active ? 'Active & Learning' : 'Inactive'}
                         </div>
                     `;
                     grid.appendChild(card);
@@ -616,21 +617,86 @@
             const tier = document.getElementById('payment-tier').value;
             const email = document.getElementById('payment-email').value;
             
+            if (!email) {
+                document.getElementById('payment-output').textContent = 'Please enter your email address';
+                return;
+            }
+            
             document.getElementById('payment-output').textContent = 'Processing payment...';
             
-            const res = await fetch('/api/payment/square', {
+            try {
+                const res = await fetch('/api/payment/square', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({tier: parseInt(tier), email})
+                });
+                const data = await res.json();
+                
+                if (data.payment_url) {
+                    // Open Square payment page in new window
+                    window.open(data.payment_url, '_blank');
+                    document.getElementById('payment-output').textContent = 
+                        `Payment link opened in new window!\n\nTier: ${data.tier}\nPrice: $${data.price.toLocaleString()}\n\nWhat you'll get: ${data.delivers}\n\nService will be automatically delivered after payment is confirmed.`;
+                } else if (data.status === 'alternatives_available' || data.status === 'alternatives') {
+                    // Show alternative payment methods
+                    let output = '📧 E-CHECK PAYMENT:\n';
+                    if (data.echeck) {
+                        output += typeof data.echeck === 'string' ? data.echeck : JSON.stringify(data.echeck, null, 2);
+                    }
+                    output += '\n\n💰 CRYPTOCURRENCY PAYMENT:\n';
+                    if (data.crypto) {
+                        output += `BTC: ${data.crypto.btc || data.crypto_btc}\n`;
+                        output += `ETH: ${data.crypto.eth || data.crypto_eth}\n`;
+                    }
+                    output += `\nAmount: $${data.amount.toLocaleString()}`;
+                    output += '\n\nAfter sending payment, email receipt to: payments@saleskingacademy.com';
+                    document.getElementById('payment-output').textContent = output;
+                } else {
+                    document.getElementById('payment-output').textContent = JSON.stringify(data, null, 2);
+                }
+            } catch (error) {
+                document.getElementById('payment-output').textContent = 
+                    `Error processing payment. Please use alternative methods:\n\n` +
+                    `📧 E-check: Send payment details to payments@saleskingacademy.com\n\n` +
+                    `💰 Crypto: Click "Show Crypto Addresses" button below`;
+            }
+        }
+        
+        async function payWithEcheck() {
+            const tier = document.getElementById('payment-tier').value;
+            const email = document.getElementById('payment-email').value;
+            
+            if (!email) {
+                document.getElementById('payment-output').textContent = 'Please enter your email address';
+                return;
+            }
+            
+            document.getElementById('payment-output').textContent = 'Getting E-check instructions...';
+            
+            const res = await fetch('/api/payment/echeck', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({tier: parseInt(tier), email})
             });
             const data = await res.json();
-            document.getElementById('payment-output').textContent = JSON.stringify(data, null, 2);
+            document.getElementById('payment-output').textContent = data.instructions || JSON.stringify(data, null, 2);
         }
         
         async function showCryptoAddresses() {
             const res = await fetch('/api/payment/crypto');
             const data = await res.json();
-            document.getElementById('crypto-output').textContent = JSON.stringify(data, null, 2);
+            
+            let output = '💰 CRYPTOCURRENCY PAYMENT ADDRESSES\n\n';
+            output += '📍 BITCOIN (BTC):\n';
+            output += `Address: ${data.btc.address}\n`;
+            output += `Network: ${data.btc.network}\n\n`;
+            output += '📍 ETHEREUM (ETH):\n';
+            output += `Address: ${data.eth.address}\n`;
+            output += `Network: ${data.eth.network}\n\n`;
+            output += '⚠️ IMPORTANT:\n';
+            output += data.instructions;
+            
+            document.getElementById('crypto-output').textContent = output;
         }
         
         // Initialize
