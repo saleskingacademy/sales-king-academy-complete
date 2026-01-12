@@ -1,6 +1,6 @@
-fastapi[all]
-uvicorn[standard]
-psycopg2-binary
-pyjwt
-bcrypt
-python-multipart
+flask>=3.0.0
+flask-cors>=4.0.0
+anthropic>=0.39.0
+apscheduler>=3.10.4
+requests>=2.31.0
+python-dotenv>=1.0.0
