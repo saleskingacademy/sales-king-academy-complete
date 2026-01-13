@@ -1,4 +1,4 @@
-name: Bootstrap Full AI System
+name: Bootstrap Hardened AI System with Cloudflare Worker
 
 on:
   push:
@@ -7,127 +7,150 @@ on:
 jobs:
   bootstrap:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout Repository
+        uses: actions/checkout@v4
 
-      - name: Create backend structure
+      - name: Setup Python & Node
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.12"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "lts/*"
+
+      - name: Hardened Backend Structure
         run: |
-          mkdir -p backend
+          mkdir -p backend/logs
           cat > backend/main.py << 'EOF'
-          from fastapi import FastAPI
+          import uvicorn
+          from fastapi import FastAPI, Request, HTTPException
+          from fastapi.middleware.cors import CORSMiddleware
+          import logging
 
-          app = FastAPI()
+          # Logging
+          logging.basicConfig(filename='backend/logs/system.log', level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
+          app = FastAPI(title="Sales King Academy AI System", version="2.0")
+
+          # CORS - update origins for allowed domains
+          origins = ["*"]
+          app.add_middleware(
+              CORSMiddleware,
+              allow_origins=origins,
+              allow_credentials=True,
+              allow_methods=["*"],
+              allow_headers=["*"],
+          )
+
+          # Multi-agent endpoint
           @app.get("/api/agents")
-          def agents():
+          async def agents():
               return [{"id": i, "name": f"Agent {i}"} for i in range(1, 26)]
 
+          # Agent execution
           @app.post("/api/agents/{agent_id}/run")
-          def run_agent(agent_id: int, payload: dict):
-              return {
-                  "agent": agent_id,
-                  "status": "executed",
-                  "input": payload
-              }
+          async def run_agent(agent_id: int, request: Request):
+              payload = await request.json()
+              if not isinstance(payload, dict):
+                  raise HTTPException(status_code=400, detail="Invalid payload format")
+              logging.info(f"Agent {agent_id} executed with payload: {payload}")
+              # Hook into King Infinity / recursive execution here
+              return {"agent": agent_id, "status": "executed", "input": payload}
+
+          if __name__ == "__main__":
+              uvicorn.run("backend.main:app", host="0.0.0.0", port=8000, log_level="info")
           EOF
 
-      - name: Create requirements
+      - name: Create Requirements
         run: |
           cat > requirements.txt << 'EOF'
-          fastapi
-          gunicorn
+          fastapi==0.109.0
+          uvicorn[standard]==0.23.2
+          gunicorn==22.1.0
+          pydantic==2.6.0
           EOF
 
-      - name: Create Render config
+      - name: Remove Legacy Deployment Configs
         run: |
-          cat > render.yaml << 'EOF'
-          services:
-            - type: web
-              name: ska-backend
-              env: python
-              buildCommand: pip install -r requirements.txt
-              startCommand: gunicorn backend.main:app
-          EOF
+          rm -f render.yaml netlify.toml || echo "No legacy configs found"
 
-      - name: Create Netlify config
-        run: |
-          cat > netlify.toml << 'EOF'
-          [build]
-            publish = "public"
-            command = ""
-
-          [[redirects]]
-            from = "/api/*"
-            to = "https://YOUR-RENDER-SERVICE.onrender.com/api/:splat"
-            status = 200
-            force = true
-
-          [[redirects]]
-            from = "/*"
-            to = "/index.html"
-            status = 200
-          EOF
-
-      - name: Create frontend dashboard
+      - name: Hardened Frontend Dashboard with Cloudflare Worker
         run: |
           mkdir -p public/agents
           cat > public/index.html << 'EOF'
           <!DOCTYPE html>
           <html>
+          <head>
+            <meta charset="UTF-8">
+            <title>AI Command Center</title>
+          </head>
           <body>
-          <h1>AI Command Center</h1>
-          <div id="agents"></div>
-
-          <script>
-          fetch('/api/agents')
-            .then(r => r.json())
-            .then(list => {
+            <h1>AI Command Center</h1>
+            <div id="agents"></div>
+            <script>
+            async function loadAgents() {
+              // Point to Cloudflare Worker
+              const apiBase = 'https://YOUR-WORKER-SUBDOMAIN.workers.dev';
+              const list = await fetch(`${apiBase}/api/agents`).then(r => r.json());
               const root = document.getElementById('agents');
               list.forEach(a => {
                 const b = document.createElement('button');
                 b.innerText = a.name;
-                b.onclick = () => location.href = '/agents/agent' + a.id + '.html';
+                b.onclick = () => location.href = `/agents/agent${a.id}.html`;
                 root.appendChild(b);
               });
-            });
-          </script>
+            }
+            loadAgents();
+            </script>
           </body>
           </html>
           EOF
 
-      - name: Create 25 agent interfaces
+      - name: Create 25 Agent Interfaces (Cloudflare Worker API)
         run: |
           for i in $(seq 1 25); do
             cat > public/agents/agent$i.html << EOF
           <!DOCTYPE html>
           <html>
+          <head>
+            <meta charset="UTF-8">
+            <title>Agent $i</title>
+          </head>
           <body>
-          <h2>Agent $i</h2>
-          <textarea id="input"></textarea>
-          <button onclick="run()">Run</button>
-          <pre id="out"></pre>
+            <h2>Agent $i</h2>
+            <textarea id="input" placeholder="Enter commands..."></textarea>
+            <button onclick="run()">Run</button>
+            <pre id="out"></pre>
 
-          <script>
-          function run() {
-            fetch('/api/agents/$i/run', {
-              method: 'POST',
-              headers: {'Content-Type':'application/json'},
-              body: JSON.stringify({input: document.getElementById('input').value})
-            })
-            .then(r => r.json())
-            .then(d => out.innerText = JSON.stringify(d,null,2));
-          }
-          </script>
+            <script>
+            async function run() {
+              const input = document.getElementById('input').value;
+              try {
+                const apiBase = 'https://YOUR-WORKER-SUBDOMAIN.workers.dev';
+                const response = await fetch(`${apiBase}/api/agents/$i/run`, {
+                  method: 'POST',
+                  headers: {'Content-Type':'application/json'},
+                  body: JSON.stringify({input})
+                });
+                const data = await response.json();
+                document.getElementById('out').innerText = JSON.stringify(data, null, 2);
+              } catch(e) {
+                document.getElementById('out').innerText = 'Error: ' + e.message;
+              }
+            }
+            </script>
           </body>
           </html>
           EOF
           done
 
-      - name: Commit generated system
+      - name: Commit Generated System
         run: |
           git config user.name "auto-bootstrap"
           git config user.email "auto@bootstrap"
           git add .
-          git commit -m "Bootstrap full multi-agent AI system" || echo "Already bootstrapped"
+          git commit -m "Bootstrap hardened multi-agent AI system with Cloudflare Worker" || echo "Already bootstrapped"
           git push
