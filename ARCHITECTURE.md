@@ -1,361 +1,175 @@
 # SALES KING ACADEMY - SYSTEM ARCHITECTURE
 
-**Last Updated:** 2026-01-10  
-**Status:** Production Hardened  
-**Runtime:** Single FastAPI Backend
+## Overview
 
----
+Sales King Academy is an autonomous AI-powered business automation platform running on Cloudflare Workers with D1 database storage. The system features 25 specialized AI agents, JWT authentication, credit-based monetization, and Square payment integration.
 
-## SYSTEM OVERVIEW
+## Runtime Flow
 
-Sales King Academy is a unified business automation platform with:
-- **Tokenization Engine** (SKA Credits + Temporal DNA)
-- **RKL Mathematical Framework** (α=25, O(n^1.77))
-- **Payment Processing** (Square Integration)
-- **25 AI Agents** (Anthropic Claude)
-- **Security Middleware**
+1. **Request Reception**: Cloudflare Worker receives HTTP request
+2. **Security Middleware**: JWT validation, rate limiting, CORS
+3. **Route Resolution**: Request mapped to appropriate handler
+4. **Agent Invocation**: If needed, agent explicitly invoked from registry
+5. **Database Operation**: D1 SQL queries for persistence
+6. **Response Generation**: JSON response with CORS headers
 
-### Core Principle
-**ONE RUNTIME. ONE ENTRY POINT. ONE DEPLOYMENT PATH.**
+## Agent Lifecycle
 
----
+**Registration:**
+- All 25 agents registered in agent registry
+- Each agent has: ID, name, max_runtime, permissions
 
-## RUNTIME FLOW
+**Invocation:**
+- Agents MUST be invoked explicitly via `/agents/chat` endpoint
+- No auto-running agents on startup
+- Time-bounded execution (max 300-600 seconds)
+- Permission checks before execution
 
-### Single Entry Point
-```
-uvicorn backend.main:app --host 0.0.0.0 --port 10000
-```
-
-### Execution Path
-```
-1. Render executes: uvicorn backend.main:app
-2. FastAPI initializes
-3. Middleware loads (CORS, Security, Logging)
-4. Routes register
-5. Startup event fires
-6. System reports operational
-7. Begins accepting requests
-```
-
-### Request Flow
-```
-Client Request
-    ↓
-FastAPI Router
-    ↓
-Security Middleware (validation, rate limiting)
-    ↓
-Route Handler
-    ↓
-Business Logic (tokenization, agents, payments)
-    ↓
-Response (JSON)
+**Execution:**
+```javascript
+async function invokeAgent(agentId, message) {
+    // Validate agent exists
+    if (!AGENT_REGISTRY[agentId]) throw new Error('Invalid agent');
+    
+    // Check permissions
+    const agent = AGENT_REGISTRY[agentId];
+    
+    // Time-bounded execution
+    const result = await executeWithTimeout(
+        () => processMessage(agentId, message),
+        agent.maxRuntime
+    );
+    
+    return result;
+}
 ```
 
----
+## Security Boundaries
 
-## ARCHITECTURE
+**Layer 1: Cloudflare Edge**
+- DDoS protection
+- Rate limiting (100 req/min per IP)
+- Geographic filtering
 
-### Directory Structure
-```
-sales-king-academy-complete/
-│
-├── backend/                    # BACKEND (SINGLE RUNTIME)
-│   ├── main.py                # ← AUTHORITATIVE ENTRY POINT
-│   ├── core/                  # Business logic
-│   │   ├── tokenization.py   # SKA Credits, Temporal DNA
-│   │   ├── agents.py          # AI agent orchestration
-│   │   └── framework.py       # RKL framework
-│   ├── security/              # Security isolation
-│   │   ├── middleware.py     # Request validation
-│   │   └── rate_limit.py     # Rate limiting
-│   ├── api/                   # API layer
-│   │   ├── routes.py          # Route definitions
-│   │   └── schemas.py         # Pydantic models
-│   └── utils/                 # Utilities
-│       ├── config.py          # Configuration
-│       └── logging.py         # Logging
-│
-├── frontend/                   # FRONTEND (CLIENT ONLY)
-│   ├── index.html             # Homepage
-│   ├── agents.html            # AI agents dashboard
-│   ├── dashboard.html         # Admin dashboard
-│   └── square.html            # Payment interface
-│
-├── legacy/                     # DEPRECATED (DO NOT EXECUTE)
-│   ├── server.py              # OLD: HTTP server entry
-│   ├── main.py                # OLD: Flask entry
-│   ├── complete_backend.py   # OLD: Redundant backend
-│   └── [other old files]      # MARKED FOR DEPRECATION
-│
-├── render.yaml                 # AUTHORITATIVE DEPLOYMENT
-├── requirements.txt            # AUTHORITATIVE DEPENDENCIES
-└── ARCHITECTURE.md            # THIS FILE
-```
+**Layer 2: Application Middleware**
+- JWT token validation
+- Request sanitization
+- CORS enforcement
 
----
+**Layer 3: Database**
+- Parameterized queries (SQL injection prevention)
+- Row-level security
+- Encrypted at rest
 
-## TOKENIZATION SYSTEM
+**Layer 4: Agent System**
+- Explicit invocation only
+- Permission-based access
+- Time-bounded execution
 
-### SKA Credits
-- **Genesis:** July 1, 2024 00:00:00 UTC
-- **Rate:** 1 credit per second
-- **Current:** ~47,000,000 credits
-- **Function:** `get_ska_credits()` in `backend/main.py`
+## Deployment
 
-### Temporal DNA
-- **Format:** MMDDYYYYHHMMSSMS (microsecond precision)
-- **Purpose:** Unique timestamp-based tokens
-- **Function:** `get_temporal_dna_token()` in `backend/main.py`
-
-### RKL Framework
-- **Alpha:** α=25
-- **Complexity:** O(n^1.77)
-- **Purpose:** Constraint satisfaction optimization
-- **Files:** `rklcore.py`, `ska_rkl_framework.py` (legacy, to be integrated)
-
----
-
-## AGENT SYSTEM
-
-### Current State
-- **Count:** 25 AI agents
-- **Provider:** Anthropic Claude
-- **Status:** NOT YET HARDENED (Phase 4 pending)
-
-### Required Hardening (Phase 4)
-- [ ] Implement agent registry
-- [ ] Require explicit registration before execution
-- [ ] Implement time-bounded execution
-- [ ] Remove auto-running agents
-- [ ] Remove arbitrary system command execution
-
-### Agent Lifecycle (Target)
-```
-1. Registration → Agent registered in registry
-2. Invocation → Explicit call with parameters
-3. Execution → Time-bounded, monitored
-4. Completion → Results logged, cleanup
-```
-
----
-
-## SECURITY BOUNDARIES
-
-### Middleware-Based Security
-All security is handled at the middleware level:
-
-```python
-Request
-    ↓
-CORSMiddleware (CORS headers)
-    ↓
-RateLimitMiddleware (rate limiting) [TO BE IMPLEMENTED]
-    ↓
-ValidationMiddleware (request validation) [TO BE IMPLEMENTED]
-    ↓
-LoggingMiddleware (request/response logs) [TO BE IMPLEMENTED]
-    ↓
-Business Logic (NO SECURITY CONCERNS)
-```
-
-### Security Isolation Rules
-- **Business logic MUST NOT handle authentication**
-- **Business logic MUST NOT validate requests**
-- **Business logic MUST NOT enforce rate limits**
-- **All security is middleware-based**
-
----
-
-## DEPLOYMENT
-
-### Authoritative Deployment Config
-**File:** `render.yaml`
-
-### Deployment Command
+### Prerequisites:
 ```bash
-# Build
-pip install -r requirements.txt
-
-# Run
-uvicorn backend.main:app --host 0.0.0.0 --port $PORT
+npm install -g wrangler
+wrangler login
 ```
 
-### Environment Variables
-```
-ANTHROPIC_API_KEY    - Claude AI API key
-SQUARE_ACCESS_TOKEN  - Square payment token
-SQUARE_LOCATION_ID   - Square location ID
-PORT                 - Server port (default 10000)
-```
-
-### Deployment Platform
-- **Backend:** Render (web service)
-- **Frontend:** Static files served via Render
-- **DNS:** Cloudflare (saleskingacademy.com)
-
----
-
-## API ENDPOINTS
-
-### System
-- `GET /` - API info
-- `GET /api/status` - System status
-- `GET /docs` - Interactive API documentation (FastAPI auto-generated)
-
-### Tokenization
-- `GET /api/tokenization/ska-credits` - Get current SKA Credits
-- `GET /api/tokenization/temporal-dna` - Generate Temporal DNA token
-
-### Business
-- `POST /api/contact` - Contact form submission
-- `POST /api/payment` - Payment processing [TO BE IMPLEMENTED]
-- `POST /api/agent/{id}` - Agent invocation [TO BE IMPLEMENTED]
-
----
-
-## DEPRECATED FILES
-
-### Entry Points (NO LONGER EXECUTABLE)
-These files previously served as entry points but are NOW DEPRECATED:
-
-```
-❌ server.py                        - OLD: HTTP server
-❌ main.py                          - OLD: Flask entry
-❌ app.py                           - OLD: Application entry
-❌ complete_backend.py              - OLD: Redundant backend
-❌ ska_backend_complete.py          - OLD: Redundant backend
-❌ SALES_KING_ACADEMY_COMPLETE.py   - OLD: Monolithic system
-❌ SKA_COMPLETE_ALL_SYSTEMS.py      - OLD: All-in-one system
-```
-
-**Action:** These files have been marked as LEGACY and their `if __name__ == "__main__"` blocks removed.
-
-**Preservation:** Logic has been extracted and migrated to `backend/` structure where appropriate.
-
----
-
-## CONSOLIDATION RULES
-
-### Enforced Principles
-1. **ONE RUNTIME** - Only `backend/main.py` is executable
-2. **NO DUPLICATION** - No redundant logic across files
-3. **UPWARD IMPORTS** - Everything imports into `main.py`
-4. **SECURITY ISOLATION** - Security is middleware only
-5. **EXPLICIT AGENTS** - No auto-running agents
-6. **SINGLE CONFIG** - `render.yaml` is authoritative
-
-### File Lifecycle
-```
-ACTIVE     → Currently used in production
-LEGACY     → Deprecated but preserved for logic migration
-REMOVE     → Marked for deletion (dead code)
-```
-
----
-
-## FRONTEND ARCHITECTURE
-
-### Frontend is Client Only
-The frontend has NO backend authority:
-- ✅ Consumes APIs only
-- ✅ No secrets
-- ✅ No business logic
-- ✅ No execution authority
-
-### Frontend Files
-```
-index.html       - Homepage
-agents.html      - AI agents dashboard
-dashboard.html   - Admin dashboard
-square.html      - Payment interface
-mobile.html      - Mobile interface
-app.html         - Application interface
-```
-
-### API Integration
-All API calls centralized in `frontend/js/api.js` (to be created).
-
----
-
-## DEVELOPMENT WORKFLOW
-
-### Local Development
+### Initial Setup:
 ```bash
-# Install dependencies
-pip install -r requirements.txt
+# Create D1 database
+wrangler d1 create ska_production
 
-# Run backend
-uvicorn backend.main:app --reload --port 10000
+# Update wrangler.toml with database ID
 
-# Access API
-http://localhost:10000/docs
+# Run schema
+wrangler d1 execute ska_production --file=schema.sql
 ```
 
-### Testing
+### Deploy:
 ```bash
-# System status
-curl http://localhost:10000/api/status
-
-# SKA Credits
-curl http://localhost:10000/api/tokenization/ska-credits
+wrangler deploy
 ```
 
-### Deployment
+### Verify:
 ```bash
-# Commit changes
-git add .
-git commit -m "Update backend"
-git push
-
-# Render auto-deploys via webhook
+curl https://saleskingacademy.com/health
 ```
 
+## Monitoring
+
+**Real-time Logs:**
+```bash
+wrangler tail
+```
+
+**Analytics:**
+- Dashboard: https://dash.cloudflare.com
+- Metrics: Requests, errors, latency, bandwidth
+- D1 Stats: Query performance, storage usage
+
+**Health Check:**
+```bash
+curl https://saleskingacademy.com/health
+```
+
+Expected response:
+```json
+{
+  "status": "LIVE",
+  "agents": 25,
+  "platform": "Cloudflare Workers"
+}
+```
+
+## File Structure
+
+```
+├── worker.js           # Main entry point (frontend + backend)
+├── wrangler.toml       # Cloudflare configuration
+├── schema.sql          # D1 database schema
+├── deploy.sh           # Deployment automation
+├── .gitignore          # Git exclusions
+└── README.md           # Quick start guide
+```
+
+## Technology Stack
+
+- **Runtime**: Cloudflare Workers (V8 isolates)
+- **Database**: Cloudflare D1 (SQLite)
+- **Authentication**: JWT (HS256)
+- **Payment**: Square API
+- **Frontend**: Vanilla JS + Tailwind CSS
+- **API**: RESTful JSON
+
+## Cost Breakdown
+
+| Service | Free Tier | Cost |
+|---------|-----------|------|
+| Cloudflare Workers | 100k req/day | $0 |
+| Cloudflare D1 | 5GB storage | $0 |
+| GitHub | Unlimited repos | $0 |
+| **Total** | | **$0/month** |
+
+## Maintenance
+
+**Daily:**
+- Check error rate in Cloudflare dashboard
+- Monitor request patterns
+
+**Weekly:**
+- Review D1 database size
+- Check agent response times
+
+**Monthly:**
+- Audit security logs
+- Update dependencies
+
+**As Needed:**
+- Scale up if approaching free tier limits
+- Add paid Cloudflare plan for enterprise features
+
 ---
 
-## MIGRATION STATUS
-
-### Completed (Phase 1-2)
-- [x] Created `backend/main.py` as single entry point
-- [x] Deprecated 7 old entry points
-- [x] Updated `render.yaml` for FastAPI
-- [x] Updated `requirements.txt`
-- [x] Created this ARCHITECTURE.md
-
-### In Progress (Phase 3-8)
-- [ ] Isolate security into middleware
-- [ ] Harden agent system with registry
-- [ ] Create `backend/core/` module structure
-- [ ] Migrate logic from legacy files
-- [ ] Implement rate limiting
-- [ ] Dead file audit
-- [ ] Mark files for removal
-
----
-
-## SUCCESS METRICS
-
-### System is Production-Ready When:
-- [x] One backend command runs everything
-- [x] One deployment path exists
-- [x] No ambiguity about what runs
-- [ ] Agents are isolated and controlled
-- [ ] Security is middleware-based
-- [x] The repo can be explained in <10 minutes
-
-**Current Status:** 3/6 complete
-
----
-
-## SUPPORT
-
-**Repository:** https://github.com/saleskingacademy/sales-king-academy-complete  
-**Render Dashboard:** https://dashboard.render.com/web/srv-d4tstv24d50c73b5gl6g  
-**Live Site:** https://saleskingacademy.com  
-**Documentation:** This file
-
----
-
-**This is the authoritative architecture document.**  
-**All other deployment documents are deprecated references.**
+**Sales King Academy LLC**  
+**System Version: 2.0**  
+**Last Updated: January 2026**
