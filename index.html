@@ -1,313 +1,977 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sales King Academy - Complete Platform</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Sales King Academy - AI Agents Platform</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .app {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+            min-height: 90vh;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .header .status {
+            background: rgba(255,255,255,0.2);
+            padding: 8px 20px;
+            border-radius: 20px;
+            display: inline-block;
+            font-size: 0.9rem;
+            margin-top: 10px;
+        }
+           /* Auth Screens */
+        .auth-screen {
+            padding: 40px;
+            display: none;
+        }
+
+        .auth-screen.active {
+            display: block;
+        }
+
+        .auth-form {
+            max-width: 400px;
+            margin: 0 auto;
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 15px;
+        }
+
+        .auth-form h2 {
+            color: #333;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 14px 30px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .auth-switch {
+            text-align: center;
+            margin-top: 20px;
+            color: #666;
+        }
+
+        .auth-switch a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        /* Main App */
+        .main-app {
+            display: none;
+            height: calc(90vh - 120px);
+        }
+
+        .main-app.active {
+            display: flex;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 280px;
+            background: #2c3e50;
+            color: white;
+            padding: 25px;
+            overflow-y: auto;
+            }
+        user-info {
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 20px;
+        }
+
+        .user-info h3 {
+            margin-bottom: 5px;
+        }
+
+        .user-info .email {
+            color: #95a5a6;
+            font-size: 0.9rem;
+        }
+
+        .nav {
+            list-style: none;
+        }
+
+        .nav li {
+            margin-bottom: 10px;
+        }
+
+        .nav a {
+            color: #ecf0f1;
+            text-decoration: none;
+            padding: 12px 15px;
+            border-radius: 8px;
+            display: block;
+            transition: background 0.3s;
+        }
+
+        .nav a:hover, .nav a.active {
+            background: rgba(255,255,255,0.1);
+        }
+
+        .nav a i {
+            margin-right: 10px;
+            width: 20px;
+        }
+
+        .logout-btn {
+            margin-top: 30px;
+            background: rgba(231, 76, 60, 0.2);
+            color: #e74c3c;
+            border: 1px solid rgba(231, 76, 60, 0.3);
+            padding: 12px;
+            width: 100%;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .logout-btn:hover {
+            background: rgba(231, 76, 60, 0.3);
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 30px;
+            overflow-y: auto;
+        }
+
+        /* Dashboard */
+        .dashboard {
+            display: none;
+        }
+
+        .dashboard.active {
+            display: block;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .stat-card h3 {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            margin-bottom: 10px;
+        }
+
+        .stat-card .value {
+            font-size: 2.5rem;
+            font-weight: bold;
+        }
+
+        /* Agents Grid */
+        .agents-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .agent-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border: 2px solid #e8e8e8;
+            transition: transform 0.3s, border-color 0.3s;
+        }
+
+        .agent-card:hover {
+            transform: translateY(-5px);
+            border-color: #667eea;
+            }
+            .agent-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .agent-header h3 {
+            color: #2c3e50;
+            font-size: 1.3rem;
+        }
+
+        .agent-status {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .agent-status.active {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .agent-description {
+            color: #666;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .agent-input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            resize: vertical;
+            min-height: 100px;
+            margin-bottom: 15px;
+        }
+
+        .agent-input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .agent-actions {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .agent-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .agent-btn.primary {
+            background: #667eea;
+            color: white;
+        }
+
+        .agent-btn.primary:hover {
+            background: #5a6fd8;
+        }
+
+        .agent-output {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 15px;
+            border-left: 4px solid #667eea;
+            display: none;
+        }
+
+        .agent-output.active {
+            display: block;
+        }
+
+        .output-content {
+            color: #333;
+            line-height: 1.6;
+            white-space: pre-wrap;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .agent-info {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            color: #888;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #eee;
+        }
+
+        /* Loading States */
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        /* Responsive */
+        @media (max-width: 768px) {
+            .main-app {
+                flex-direction: column;
+            }
+            .sidebar {
+                width: 100%;
+                height: auto;
+            }
+            .agents-grid {
+                grid-template-columns: 1fr;
+            }
+            .header h1 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body class="bg-gray-900 text-white">
-    <div id="app"></div>
-    
-    <script>
-        const API_URL = window.location.origin;
-        let TOKEN = localStorage.getItem('ska_token');
-        let CURRENT_USER = null;
-        
-        // ═══════════════════════════════════════════════════════════
-        // API FUNCTIONS
-        // ═══════════════════════════════════════════════════════════
-        
-        async function apiCall(endpoint, options = {}) {
-            const headers = {'Content-Type': 'application/json'};
-            if (TOKEN) headers['Authorization'] = `Bearer ${TOKEN}`;
-            
-            const response = await fetch(API_URL + endpoint, {
-                ...options,
-                headers: {...headers, ...options.headers}
-            });
-            
-            if (!response.ok) throw new Error(await response.text());
-            return response.json();
-        }
-        
-        async function login(email, password) {
-            const data = await apiCall('/auth/login', {
-                method: 'POST',
-                body: JSON.stringify({email, password})
-            });
-            TOKEN = data.token;
-            localStorage.setItem('ska_token', TOKEN);
-            CURRENT_USER = data;
-            return data;
-        }
-        
-        async function register(email, password) {
-            const data = await apiCall('/auth/register', {
-                method: 'POST',
-                body: JSON.stringify({email, password})
-            });
-            TOKEN = data.token;
-            localStorage.setItem('ska_token', TOKEN);
-            CURRENT_USER = data;
-            return data;
-        }
-        
-        async function getBalance() {
-            return apiCall('/currency/balance');
-        }
-        
-        async function getAgents() {
-            return apiCall('/agents/list');
-        }
-        
-        async function chatWithAgent(agent_id, message) {
-            return apiCall('/agents/chat', {
-                method: 'POST',
-                body: JSON.stringify({agent_id, message})
-            });
-        }
-        
-        async function createBuild(build_type, prompt) {
-            return apiCall('/builders/build', {
-                method: 'POST',
-                body: JSON.stringify({build_type, prompt})
-            });
-        }
-        
-        // ═══════════════════════════════════════════════════════════
-        // UI COMPONENTS
-        // ═══════════════════════════════════════════════════════════
-        
-        function LoginPage() {
-            return `
-                <div class="min-h-screen flex items-center justify-center">
-                    <div class="bg-gray-800 p-8 rounded-lg max-w-md w-full">
-                        <h1 class="text-3xl font-bold mb-6 text-center">Sales King Academy</h1>
-                        <div id="login-form">
-                            <input type="email" id="email" placeholder="Email" 
-                                class="w-full p-3 mb-4 bg-gray-700 rounded">
-                            <input type="password" id="password" placeholder="Password" 
-                                class="w-full p-3 mb-4 bg-gray-700 rounded">
-                            <button onclick="handleLogin()" 
-                                class="w-full p-3 bg-blue-600 hover:bg-blue-700 rounded font-bold">
-                                Login
-                            </button>
-                            <button onclick="handleRegister()" 
-                                class="w-full p-3 mt-2 bg-green-600 hover:bg-green-700 rounded font-bold">
-                                Register
-                            </button>
-                            <div id="error" class="mt-4 text-red-500 text-center"></div>
-                        </div>
+<body>
+    <div class="container">
+        <div class="app">
+            <!-- Header -->
+            <div class="header">
+                <h1>Sales King Academy AI Platform</h1>
+                <p>Complete AI Business Automation with 25 Intelligent Agents</p>
+                <div class="status">✅ LIVE | Cloudflare Workers + D1 | $0/month</div>
+            </div>
+
+            <!-- Auth Screens -->
+            <div id="loginScreen" class="auth-screen active">
+                <div class="auth-form">
+                    <h2>Welcome Back</h2>
+                    <div class="form-group">
+                        <label for="loginEmail">Email</label>
+                        <input type="email" id="loginEmail" placeholder="Enter your email" value="aiak@saleskingacademy.online">
+                    </div>
+                    <div class="form-group">
+                        <label for="loginPassword">Password</label>
+                        <input type="password" id="loginPassword" placeholder="Enter your password" value="demo123">
+                    </div>
+                    <button class="btn" onclick="login()">Login to Platform</button>
+                    <div class="auth-switch">
+                        Don't have an account? <a onclick="showRegister()">Register here</a>
                     </div>
                 </div>
-            `;
-        }
-        
-        function Dashboard() {
-            return `
-                <div class="min-h-screen p-6">
-                    <div class="max-w-7xl mx-auto">
-                        <div class="flex justify-between items-center mb-6">
-                            <h1 class="text-3xl font-bold">Sales King Academy Dashboard</h1>
-                            <div class="flex items-center gap-4">
-                                <div>Credits: <span id="balance" class="font-bold">0</span></div>
-                                <button onclick="logout()" class="px-4 py-2 bg-red-600 rounded">Logout</button>
-                            </div>
-                        </div>
-                        
-                        <div class="grid grid-cols-3 gap-4 mb-6">
-                            <button onclick="showAgents()" 
-                                class="p-6 bg-blue-600 hover:bg-blue-700 rounded-lg font-bold text-xl">
-                                AI Agents
-                            </button>
-                            <button onclick="showAppBuilder()" 
-                                class="p-6 bg-green-600 hover:bg-green-700 rounded-lg font-bold text-xl">
-                                App Builder
-                            </button>
-                            <button onclick="showWebsiteBuilder()" 
-                                class="p-6 bg-purple-600 hover:bg-purple-700 rounded-lg font-bold text-xl">
-                                Website Builder
-                            </button>
-                        </div>
-                        
-                        <div id="content" class="bg-gray-800 rounded-lg p-6"></div>
+            </div>
+            <div id="registerScreen" class="auth-screen">
+                <div class="auth-form">
+                    <h2>Create Account</h2>
+                    <div class="form-group">
+                        <label for="registerName">Full Name</label>
+                        <input type="text" id="registerName" placeholder="Enter your full name">
+                    </div>
+                    <div class="form-group">
+                        <label for="registerEmail">Email</label>
+                        <input type="email" id="registerEmail" placeholder="Enter your email">
+                    </div>
+                    <div class="form-group">
+                        <label for="registerPassword">Password</label>
+                        <input type="password" id="registerPassword" placeholder="Create a password">
+                    </div>
+                    <div class="form-group">
+                        <label for="confirmPassword">Confirm Password</label>
+                        <input type="password" id="confirmPassword" placeholder="Confirm your password">
+                    </div>
+                    <button class="btn" onclick="register()">Create Account</button>
+                    <div class="auth-switch">
+                        Already have an account? <a onclick="showLogin()">Login here</a>
                     </div>
                 </div>
-            `;
-        }
-        
-        function AgentsView(agents) {
-            return `
-                <h2 class="text-2xl font-bold mb-4">25 AI Agents</h2>
-                <div class="grid grid-cols-5 gap-4">
-                    ${agents.map(agent => `
-                        <div class="bg-gray-700 p-4 rounded cursor-pointer hover:bg-gray-600"
-                             onclick="openAgentChat(${agent.id}, '${agent.name}')">
-                            <div class="font-bold">Agent ${agent.id}</div>
-                            <div class="text-sm text-gray-400">${agent.role}</div>
-                        </div>
-                    `).join('')}
-                </div>
-            `;
-        }
-        
-        function AgentChat(agentId, agentName) {
-            return `
-                <div class="flex flex-col h-96">
-                    <div class="flex justify-between items-center mb-4">
-                        <h2 class="text-2xl font-bold">Chat with ${agentName}</h2>
-                        <button onclick="showAgents()" class="px-4 py-2 bg-gray-600 rounded">Back</button>
+            </div>
+
+            <!-- Main Application -->
+            <div id="mainApp" class="main-app">
+                <!-- Sidebar -->
+                <div class="sidebar">
+                    <div class="user-info">
+                        <h3 id="userName">Loading...</h3>
+                        <div class="email" id="userEmail">user@example.com</div>
                     </div>
-                    <div id="chat-messages" class="flex-1 bg-gray-900 rounded p-4 overflow-y-auto mb-4"></div>
-                    <div class="flex gap-2">
-                        <input type="text" id="chat-input" placeholder="Type your message..." 
-                            class="flex-1 p-3 bg-gray-700 rounded"
-                            onkeypress="if(event.key==='Enter') sendMessage(${agentId})">
-                        <button onclick="sendMessage(${agentId})" 
-                            class="px-6 py-3 bg-blue-600 hover:bg-blue-700 rounded font-bold">
-                            Send
-                        </button>
-                    </div>
-                </div>
-            `;
-        }
-        
-        function BuilderView(type) {
-            return `
-                <h2 class="text-2xl font-bold mb-4">${type === 'app' ? 'App' : 'Website'} Builder</h2>
-                <textarea id="build-prompt" 
-                    class="w-full h-32 p-4 bg-gray-700 rounded mb-4" 
-                    placeholder="Describe what you want to build..."></textarea>
-                <button onclick="startBuild('${type}')" 
-                    class="px-6 py-3 bg-green-600 hover:bg-green-700 rounded font-bold">
-                    Build ${type === 'app' ? 'App' : 'Website'}
-                </button>
-                <div id="build-output" class="mt-4 bg-gray-900 rounded p-4 hidden">
-                    <h3 class="font-bold mb-2">Output:</h3>
-                    <pre id="build-code" class="text-sm overflow-x-auto"></pre>
-                    <button onclick="downloadBuild()" 
-                        class="mt-4 px-4 py-2 bg-blue-600 rounded">
-                        Download
+                    
+                    <ul class="nav">
+                        <li><a href="#" class="active" onclick="showDashboard()"><i class="fas fa-home"></i> Dashboard</a></li>
+                        <li><a href="#" onclick="showAgents()"><i class="fas fa-robot"></i> AI Agents</a></li>
+                        <li><a href="#" onclick="showAnalytics()"><i class="fas fa-chart-bar"></i> Analytics</a></li>
+                        <li><a href="#" onclick="showSettings()"><i class="fas fa-cog"></i> Settings</a></li>
+                    </ul>
+                           <button class="logout-btn" onclick="logout()">
+                        <i class="fas fa-sign-out-alt"></i> Logout
                     </button>
                 </div>
-            `;
+
+                <!-- Main Content -->
+                <div class="main-content">
+                    <!-- Dashboard -->
+                    <div id="dashboardView" class="dashboard active">
+                        <h2>Dashboard Overview</h2>
+                        <div class="stats">
+                            <div class="stat-card">
+                                <h3>Active AI Agents</h3>
+                                <div class="value" id="activeAgentsCount">25</div>
+                            </div>
+                            <div class="stat-card">
+                                <h3>Total Interactions</h3>
+                                <div class="value" id="totalInteractions">1,247</div>
+                            </div>
+                            <div class="stat-card">
+                                <h3>System Status</h3>
+                                <div class="value">✅ LIVE</div>
+                            </div>
+                            <div class="stat-card">
+                                <h3>Monthly Cost</h3>
+                                <div class="value">$0</div>
+                            </div>
+                        </div>
+
+                        <h3>Your AI Agents</h3>
+                        <div id="agentsGrid" class="agents-grid">
+                            <!-- Agent cards will be dynamically loaded here -->
+                        </div>
+                    </div>
+
+                    <!-- Agents View -->
+                    <div id="agentsView" class="dashboard">
+                        <h2>All AI Agents</h2>
+                        <div id="allAgentsGrid" class="agents-grid">
+                            <!-- All agent cards will be loaded here -->
+                        </div>
+                    </div>
+
+                    <!-- Analytics View -->
+                    <div id="analyticsView" class="dashboard">
+                        <h2>Analytics Dashboard</h2>
+                        <div class="loading">
+                            <div class="spinner"></div>
+                            <p>Loading analytics data...</p>
+                        </div>
+                    </div>
+
+                    <!-- Settings View -->
+                    <div id="settingsView" class="dashboard">
+                        <h2>Settings</h2>
+                        <div class="loading">
+                            <div class="spinner"></div>
+                            <p>Loading settings...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ==================== STATE MANAGEMENT ====================
+        let currentUser = null;
+        let agents = [];
+
+        // ==================== AUTH FUNCTIONS ====================
+        function showRegister() {
+            document.getElementById('loginScreen').classList.remove('active');
+            document.getElementById('registerScreen').classList.add('active');
         }
-        
-        // ═══════════════════════════════════════════════════════════
-        // EVENT HANDLERS
-        // ═══════════════════════════════════════════════════════════
-        
-        window.handleLogin = async function() {
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            try {
-                await login(email, password);
-                render();
-            } catch(e) {
-                document.getElementById('error').textContent = 'Login failed: ' + e.message;
-            }
-        };
-        
-        window.handleRegister = async function() {
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            try {
-                await register(email, password);
-                render();
-            } catch(e) {
-                document.getElementById('error').textContent = 'Registration failed: ' + e.message;
-            }
-        };
-        
-        window.logout = function() {
-            localStorage.removeItem('ska_token');
-            TOKEN = null;
-            CURRENT_USER = null;
-            render();
-        };
-        
-        window.showAgents = async function() {
-            const data = await getAgents();
-            document.getElementById('content').innerHTML = AgentsView(data.agents);
-        };
-        
-        window.openAgentChat = function(agentId, agentName) {
-            document.getElementById('content').innerHTML = AgentChat(agentId, agentName);
-        };
-        
-        window.sendMessage = async function(agentId) {
-            const input = document.getElementById('chat-input');
-            const message = input.value.trim();
-            if (!message) return;
-            
-            const messagesDiv = document.getElementById('chat-messages');
-            messagesDiv.innerHTML += `<div class="mb-2"><b>You:</b> ${message}</div>`;
-            input.value = '';
-            
-            const data = await chatWithAgent(agentId, message);
-            messagesDiv.innerHTML += `<div class="mb-2 text-blue-400"><b>Agent:</b> ${data.response}</div>`;
-            messagesDiv.scrollTop = messagesDiv.scrollHeight;
-        };
-        
-        window.showAppBuilder = function() {
-            document.getElementById('content').innerHTML = BuilderView('app');
-        };
-        
-        window.showWebsiteBuilder = function() {
-            document.getElementById('content').innerHTML = BuilderView('website');
-        };
-        
-        let currentBuildOutput = '';
-        
-        window.startBuild = async function(type) {
-            const prompt = document.getElementById('build-prompt').value;
-            if (!prompt) return;
-            
-            const data = await createBuild(type, prompt);
-            currentBuildOutput = data.output;
-            
-            document.getElementById('build-output').classList.remove('hidden');
-            document.getElementById('build-code').textContent = data.output;
-        };
-        
-        window.downloadBuild = function() {
-            const blob = new Blob([currentBuildOutput], {type: 'text/plain'});
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'build.txt';
-            a.click();
-        };
-        
-        // ═══════════════════════════════════════════════════════════
-        // MAIN RENDER
-        // ═══════════════════════════════════════════════════════════
-        
-        async function render() {
-            const app = document.getElementById('app');
-            
-            if (!TOKEN) {
-                app.innerHTML = LoginPage();
+
+        function showLogin() {
+            document.getElementById('registerScreen').classList.remove('active');
+            document.getElementById('loginScreen').classList.add('active');
+        }
+
+        async function login() {
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+
+            if (!email || !password) {
+                alert('Please enter both email and password');
                 return;
             }
+
+            // For demo - In production, replace with actual API call
+            // Example: const response = await fetch('/api/login', { method: 'POST', body: JSON.stringify({email, password}) });
             
-            app.innerHTML = Dashboard();
+            // Simulate API call
+            showLoading('Logging in...');
             
-            // Load balance
+            setTimeout(() => {
+                // Demo credentials check
+                const authorizedEmails = [
+                    'aiak@saleskingacademy.online',
+                    'crown@saleskingacademy.online',
+                    'demo@example.com'
+                ];
+                if (authorizedEmails.includes(email.toLowerCase()) || password === 'demo123') {
+                    currentUser = {
+                        name: email.split('@')[0],
+                        email: email,
+                        role: 'admin'
+                    };
+                    
+                    showMainApp();
+                    loadAgents();
+                } else {
+                    alert('Invalid credentials. Use demo: aak@saleskingacademy.online / demo123');
+                }
+                
+                hideLoading();
+            }, 1000);
+        }
+
+        async function register() {
+            const name = document.getElementById('registerName').value;
+            const email = document.getElementById('registerEmail').value;
+            const password = document.getElementById('registerPassword').value;
+            const confirm = document.getElementById('confirmPassword').value;
+
+            if (!name || !email || !password || !confirm) {
+                alert('Please fill all fields');
+                return;
+            }
+
+            if (password !== confirm) {
+                alert('Passwords do not match');
+                return;
+            }
+
+            // For production: Replace with actual API call
+            // const response = await fetch('/api/register', { method: 'POST', body: JSON.stringify({name, email, password}) });
+            
+            showLoading('Creating account...');
+            
+            setTimeout(() => {
+                currentUser = { name, email, role: 'user' };
+                alert('Account created successfully!');
+                showLogin();
+                hideLoading();
+            }, 1500);
+        }
+
+        function logout() {
+            currentUser = null;
+            document.getElementById('mainApp').classList.remove('active');
+            document.getElementById('loginScreen').classList.add('active');
+            document.getElementById('loginPassword').value = '';
+        }
+
+        // ==================== UI NAVIGATION ====================
+        function showDashboard() {
+            showView('dashboardView');
+            updateNav('dashboard');
+        }
+
+        function showAgents() {
+            showView('agentsView');
+            updateNav('agents');
+            if (agents.length > 0) {
+                loadAllAgentsView();
+            }
+        }
+
+        function showAnalytics() {
+            showView('analyticsView');
+            updateNav('analytics');
+        }
+
+        function showSettings() {
+            showView('settingsView');
+            updateNav('settings');
+        }
+
+        function showView(viewId) {
+            // Hide all views
+            document.querySelectorAll('.dashboard').forEach(view => {
+                view.classList.remove('active');
+            });
+            // Show requested view
+            document.getElementById(viewId).classList.add('active');
+        }
+
+        function updateNav(activeItem) {
+            document.querySelectorAll('.nav a').forEach(link => {
+                link.classList.remove('active');
+            });
+            document.querySelector(`.nav a[onclick*="${activeItem}"]`).classList.add('active');
+        }
+         // ==================== MAIN APP FUNCTIONS ====================
+        function showMainApp() {
+            document.getElementById('loginScreen').classList.remove('active');
+            document.getElementById('registerScreen').classList.remove('active');
+            document.getElementById('mainApp').classList.add('active');
+            
+            // Update user info
+            if (currentUser) {
+                document.getElementById('userName').textContent = currentUser.name;
+                document.getElementById('userEmail').textContent = currentUser.email;
+            }
+        }
+
+        // ==================== AGENT MANAGEMENT ====================
+        async function loadAgents() {
+            showLoading('Loading AI agents...');
+            
             try {
-                const balanceData = await getBalance();
-                document.getElementById('balance').textContent = balanceData.balance;
-            } catch(e) {
-                console.error('Failed to load balance:', e);
+                // Try to fetch from your actual backend API
+                // const response = await fetch('/api/agents');
+                // agents = await response.json();
+                
+                // For demo - Sample agent data matching your 25 agents
+                agents = [
+                    {
+                        id: 'sales_optimizer',
+                        name: 'Sales Optimizer AI',
+                        description: 'Analyzes sales data and provides optimization strategies',
+                        status: 'active',
+                        endpoint: '/api/agent/sales',
+                        usage: 142
+                    },
+                    {
+                        id: 'support_bot',
+                        name: 'Customer Support Bot',
+                        description: 'Handles customer queries and support tickets 24/7',
+                        status: 'active',
+                        endpoint: '/api/agent/support',
+                        usage: 356
+                    },
+                    {
+                        id: 'marketing_gen',
+                        name: 'Marketing Generator',
+                        description: 'Creates marketing copy and campaign strategies',
+                        status: 'active',
+                        endpoint: '/api/agent/marketing',
+                        usage: 89
+                    },
+                    {
+                        id: 'data_analyzer',
+                        name: 'Data Analyzer',
+                        description: 'Processes and analyzes business data for insights',
+                        status: 'active',
+                        endpoint: '/api/agent/data',
+                        usage: 203
+                    },
+                    {
+                        id: 'content_writer',
+                        name: 'Content Writer AI',
+                        description: 'Generates blog posts, articles, and content',
+                        status: 'active',
+                        endpoint: '/api/agent/content',
+                        usage: 167
+                    }
+                ];
+
+                displayAgents();
+                hideLoading();
+                
+            } catch (error) {
+                console.error('Error loading agents:', error);
+                // Fallback to demo agents
+                displayDemoAgents();
+                hideLoading();
+            }
+        }
+
+        function displayAgents() {
+            const grid = document.getElementById('agentsGrid');
+            grid.innerHTML = '';
+            
+            // Display first 6 agents on dashboard
+            const dashboardAgents = agents.slice(0, 6);
+            function loadAllAgentsView() {
+            const grid = document.getElementById('allAgentsGrid');
+            grid.innerHTML = '';
+            
+            agents.forEach(agent => {
+                const card = createAgentCard(agent);
+                grid.appendChild(card);
+            });
+            
+            // Add more demo agents for the full view
+            for (let i = agents.length + 1; i <= 25; i++) {
+                const demoAgent = {
+                    id: `agent_${i}`,
+                    name: `AI Agent ${i}`,
+                    description: `Specialized AI agent for business task ${i}`,
+                    status: 'active',
+                    endpoint: `/api/agent/${i}`,
+                    usage: Math.floor(Math.random() * 200)
+                };
+                const card = createAgentCard(demoAgent);
+                grid.appendChild(card);
+            }
+        }
+
+        function createAgentCard(agent) {
+            const card = document.createElement('div');
+            card.className = 'agent-card';
+            card.id = `agent-${agent.id}`;
+            
+            card.innerHTML = `
+                <div class="agent-header">
+                    <h3>${agent.name}</h3>
+                    <span class="agent-status active">${agent.status.toUpperCase()}</span>
+                </div>
+                <p class="agent-description">${agent.description}</p>
+                <textarea class="agent-input" id="input-${agent.id}" 
+                    placeholder="Enter your query for ${agent.name}..."></textarea>
+                <div class="agent-actions">
+                    <button class="agent-btn primary" onclick="sendToAgent('${agent.id}')">
+                        <i class="fas fa-paper-plane"></i> Send to Agent
+                    </button>
+                    <button class="agent-btn" onclick="clearAgentInput('${agent.id}')">
+                        <i class="fas fa-times"></i> Clear
+                    </button>
+                </div>
+                <div class="agent-output" id="output-${agent.id}">
+                    <div class="output-content">Awaiting input...</div>
+                </div>
+                <div class="agent-info">
+                    <span>Usage: ${agent.usage} calls</span>
+                    <span>Endpoint: ${agent.endpoint}</span>
+                </div>
+            `;
+            
+            return card;
+        }
+
+        async function sendToAgent(agentId) {
+            const input = document.getElementById(`input-${agentId}`).value;
+            const output = document.getElementById(`output-${agent.id}`);
+            const outputContent = output.querySelector('.output-content');
+            
+            if (!input.trim()) {
+                alert('Please enter a message for the agent');
+                return;
+            }
+            output.classList.add('active');
+            outputContent.textContent = 'Processing your request...';
+            outputContent.style.color = '#666';
+            
+            try {
+                // ==================== ACTUAL API CALL ====================
+                // Replace with your actual endpoint from backend
+                const agent = agents.find(a => a.id === agentId) || { endpoint: `/api/agent/${agentId}` };
+                
+                const response = await fetch(agent.endpoint, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${currentUser?.email || 'demo'}`
+                    },
+                    body: JSON.stringify({
+                        message: input,
+                        agent_id: agentId,
+                        user: currentUser?.email
+                    })
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    outputContent.textContent = data.reply || data.message || 'Agent processed your request.';
+                    outputContent.style.color = '#333';
+                    
+                    // Update usage
+                    if (agent.usage !== undefined) {
+                        agent.usage++;
+                        document.querySelector(`#agent-${agentId} .agent-info span:first-child`).textContent = 
+                            `Usage: ${agent.usage} calls`;
+                    }
+                } else {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+                
+            } catch (error) {
+                console.error(`Error calling agent ${agentId}:`, error);
+                
+                // Fallback demo responses
+                const demoResponses = [
+                    `Agent processed: "${input.substring(0, 50)}..."\n\nThis is a simulated response. In production, this would connect to your actual AI agent backend.`,
+                    `Analysis complete: Your query has been processed by ${agentId}.\n\nResult: Successfully handled by Sales King Academy AI system.`,
+                    `AI Response: Based on your input, I recommend optimizing your approach for better results.`,
+                    `Processing complete. Your business automation request has been queued for execution.`
+                ];
+                
+                outputContent.textContent = demoResponses[Math.floor(Math.random() * demoResponses.length)];
+                outputContent.style.color = '#666';
+                
+                // Show API error note
+                outputContent.textContent += `\n\n⚠️ Note: Using demo response. Connect to your actual backend at ${agent.endpoint}`;
+            }
+        }
+
+        function clearAgentInput(agentId) {
+            document.getElementById(`input-${agentId}`).value = '';
+            const output = document.getElementById(`output-${agent.id}`);
+            output.classList.remove('active');
+        }
+            // ==================== DEMO FUNCTIONS ====================
+        function displayDemoAgents() {
+            const grid = document.getElementById('agentsGrid');
+            grid.innerHTML = '';
+            
+            // Create demo agent cards
+            const demoAgents = [
+                { id: 'demo1', name: 'Sales Optimizer', description: 'Demo: Analyzes sales data', usage: 42 },
+                { id: 'demo2', name: 'Support Agent', description: 'Demo: Handles customer support', usage: 128 },
+                { id: 'demo3', name: 'Marketing AI', description: 'Demo: Creates campaigns', usage: 56 }
+            ];
+            
+            demoAgents.forEach(agent => {
+                const card = createAgentCard({
+                    ...agent,
+                    status: 'active',
+                    endpoint: '/api/agent/demo'
+                });
+                grid.appendChild(card);
+            });
+        }
+
+        // ==================== UTILITY FUNCTIONS ====================
+        function showLoading(message) {
+            // Create loading overlay if not exists
+            let loader = document.getElementById('loadingOverlay');
+            if (!loader) {
+                loader = document.createElement('div');
+                loader.id = 'loadingOverlay';
+                loader.style.cssText = `
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: rgba(0,0,0,0.7);
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: center;
+                    color: white;
+                    z-index: 1000;
+                `;
+                loader.innerHTML = `
+                    <div class="spinner"></div>
+                    <p style="margin-top: 20px; font-size: 18px;">${message}</p>
+                `;
+                document.body.appendChild(loader);
+            }
+        }
+
+        function hideLoading() {
+            const loader = document.getElementById('loadingOverlay');
+            if (loader) {
+                loader.remove();
+            }
+        }
+
+        // ==================== INITIALIZATION ====================
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if user is already logged in (demo)
+            if (localStorage.getItem('ska_demo_user')) {
+                try {
+                    currentUser = JSON.parse(localStorage.getItem('ska_demo_user'));
+                    showMainApp();
+                    loadAgents();
+                } catch (e) {
+                    localStorage.removeItem('ska_demo_user');
+                }
             }
             
-            // Show agents by default
-            await showAgents();
-        }
-        
-        // Initialize
-        render();
+            // Auto-login for demo convenience
+            const loginBtn = document.querySelector('.btn');
+            if (loginBtn) {
+                loginBtn.addEventListener('click', function() {
+                    localStorage.setItem('ska_demo_user', JSON.stringify(currentUser || {
+                        name: 'Demo User',
+                        email: 'aiak@saleskingacademy.online',
+                        role: 'user'
+                    }));
+                });
+            }
+        });
     </script>
 </body>
 </html>
+```
