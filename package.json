@@ -1,1 +1,0 @@
-{"name":"sales-king-academy-complete","version":"1.0.0","description":"Sales King Academy - Complete Autonomous Business Operating System","author":"Robert Kaleb Long","license":"PROPRIETARY","scripts":{"dev":"netlify dev","build":"echo 'Build complete'","deploy":"netlify deploy --prod"},"dependencies":{"@anthropic-ai/sdk":"^0.35.0","express":"^4.21.2","square":"^43.2.1"}}
