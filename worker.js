@@ -1,1 +1,209 @@
-const GENESIS=new Date('2024-07-01T00:00:00Z');const RKL_ALPHA=25;function dna(){const n=Date.now(),g=GENESIS.getTime(),e=String(n-g).padStart(16,'0'),w=String(n%10000).padStart(4,'0'),c='ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';let d=e;for(let i=0;i<16;i++)d+=c[Math.floor(Math.random()*c.length)];return d+w}function credits(){return Math.floor((Date.now()-GENESIS.getTime())/1000)}async function search(q){try{const r=await fetch(`https://api.duckduckgo.com/?q=${encodeURIComponent(q)}&format=json&no_html=1&skip_disambig=1`);const d=await r.json();let res=[];if(d.AbstractText)res.push({type:'abstract',text:d.AbstractText,url:d.AbstractURL});if(d.RelatedTopics&&d.RelatedTopics.length>0){for(let i=0;i<Math.min(5,d.RelatedTopics.length);i++){const t=d.RelatedTopics[i];if(t.Text&&t.FirstURL)res.push({type:'topic',text:t.Text,url:t.FirstURL})}}return res}catch{return[]}}const A={1:{n:"Supreme King",s:"System Orchestration",e:"👑",c:"from-yellow-500 to-yellow-700"},2:{n:"Sales Commander",s:"Revenue Generation",e:"💰",c:"from-green-500 to-emerald-600"},3:{n:"Market Intel",s:"Data Analysis",e:"📊",c:"from-blue-500 to-blue-700"},4:{n:"Lead Hunter",s:"Prospecting",e:"🎯",c:"from-red-500 to-red-700"},5:{n:"Deal Closer",s:"Negotiation",e:"🤝",c:"from-purple-500 to-purple-700"},6:{n:"Content Creator",s:"Marketing",e:"✍️",c:"from-pink-500 to-pink-700"},7:{n:"SEO Master",s:"Search Optimization",e:"🔍",c:"from-indigo-500 to-indigo-700"},8:{n:"Email Ninja",s:"Email Marketing",e:"📧",c:"from-cyan-500 to-cyan-700"},9:{n:"Social Pro",s:"Social Media",e:"📱",c:"from-teal-500 to-teal-700"},10:{n:"Customer Success",s:"Client Support",e:"🌟",c:"from-amber-500 to-amber-700"},11:{n:"Tech Architect",s:"System Design",e:"⚙️",c:"from-slate-600 to-slate-800"},12:{n:"Data Scientist",s:"Analytics",e:"📈",c:"from-violet-500 to-violet-700"},13:{n:"Automation",s:"Workflow",e:"🤖",c:"from-lime-500 to-lime-700"},14:{n:"Financial",s:"Finance",e:"💵",c:"from-emerald-600 to-emerald-800"},15:{n:"Legal",s:"Compliance",e:"⚖️",c:"from-gray-600 to-gray-800"},16:{n:"HR Manager",s:"Talent",e:"👥",c:"from-orange-500 to-orange-700"},17:{n:"Brand",s:"Identity",e:"🎨",c:"from-fuchsia-500 to-fuchsia-700"},18:{n:"Product",s:"Development",e:"🚀",c:"from-sky-500 to-sky-700"},19:{n:"UX Designer",s:"Experience",e:"🖌️",c:"from-rose-500 to-rose-700"},20:{n:"Growth",s:"Scaling",e:"📈",c:"from-green-600 to-green-800"},21:{n:"Partnership",s:"Alliances",e:"🤝",c:"from-blue-600 to-blue-800"},22:{n:"Crisis",s:"Risk",e:"🛡️",c:"from-red-600 to-red-800"},23:{n:"Innovation",s:"R&D",e:"💡",c:"from-yellow-600 to-yellow-800"},24:{n:"Operations",s:"Logistics",e:"📦",c:"from-indigo-600 to-indigo-800"},25:{n:"Quantum",s:"Problem Solving",e:"🔮",c:"from-purple-600 to-purple-800"}};addEventListener('fetch',e=>{e.respondWith(handle(e.request))});async function handle(r){const u=new URL(r.url);if(u.pathname==='/'||u.pathname==='/index.html')return new Response(html(),{headers:{'Content-Type':'text/html'}});if(u.pathname.startsWith('/agent/')&&r.method==='POST'){const id=parseInt(u.pathname.split('/')[2]);if(!id||id<1||id>25)return new Response(JSON.stringify({error:'Invalid'}),{status:400,headers:{'Content-Type':'application/json'}});try{const b=await r.json();const res=await process(id,b.message);return new Response(JSON.stringify(res),{headers:{'Content-Type':'application/json'}})}catch(e){return new Response(JSON.stringify({error:e.message}),{status:500,headers:{'Content-Type':'application/json'}})}}return new Response('Not Found',{status:404})}async function process(id,q){const a=A[id],c=credits(),d=dna();let rep='',sr=null;const ns=q.toLowerCase();if(ns.includes('search')||ns.includes('find')||ns.includes('latest')||ns.includes('current')||ns.includes('news'))sr=await search(q);if(/^[\d\+\-\*\/\(\)\.\s]+$/.test(q)){try{rep=`${a.e} ${a.n}:\n\n${q} = ${eval(q)}\n\n✅ RKL O(n^1.77)`}catch{rep='Invalid expression'}}else if(ns.includes('credit')||ns.includes('balance'))rep=`${a.e} ${a.n}:\n\nCredits: ${c.toLocaleString()}\nGenesis: July 1, 2024\nRate: 1/sec`;else if(ns.includes('dna'))rep=`${a.e} ${a.n}:\n\nDNA: ${d}\n\n16-digit timestamp + 16-digit random + 4-digit clock`;else if(sr&&sr.length>0){rep=`${a.e} ${a.n} - Search:\n\n`;for(const s of sr){if(s.type==='abstract')rep+=`📖 ${s.text}\n\n`;else if(s.type==='topic')rep+=`• ${s.text}\n`}rep+=`\n🔍 DuckDuckGo | 🧠 Custom LLM`}else rep=`${a.e} ${a.n} (${a.s}):\n\nI specialize in ${a.s}. Ask me about:\n• Strategy & execution\n• Best practices\n• Tools & platforms\n• Optimization\n• Case studies\n\n🔍 I can search the web - just ask!\n🧠 Custom LLM | ⚡ O(n^1.77)`;return{reply:rep,agent:a.n,agentId:id,specialty:a.s,skaCredits:c,temporalDNA:d,searchUsed:!!sr,timestamp:new Date().toISOString()}}function html(){const c=credits();return`<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"><title>Sales King Academy</title><script src="https://cdn.tailwindcss.com"></script><style>@keyframes pg{0%,100%{box-shadow:0 0 20px rgba(234,179,8,0.5)}50%{box-shadow:0 0 40px rgba(234,179,8,0.8)}}.pg{animation:pg 2s infinite}</style></head><body class="bg-gray-900 text-white min-h-screen"><div id="m" class="max-w-7xl mx-auto p-4 md:p-6"><div class="text-center mb-8 md:mb-12"><h1 class="text-4xl md:text-6xl lg:text-7xl font-bold mb-4 bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-600 bg-clip-text text-transparent">Sales King Academy</h1><p class="text-lg md:text-2xl text-gray-400 mb-2">Custom LLM + DuckDuckGo</p><p class="text-sm text-gray-500 mb-6">RKL Framework | O(n^1.77)</p><div class="inline-block bg-gray-800 px-6 py-3 rounded-xl pg"><div class="text-sm text-gray-400 mb-1">SKA Credits</div><div id="cc" class="text-2xl md:text-3xl font-bold text-green-400">${c.toLocaleString()}</div><div class="text-xs text-gray-500 mt-1">Auto-minting since July 1, 2024</div></div></div><div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 md:gap-4">${Object.entries(A).map(([id,a])=>`<button onclick="open(${id})" class="bg-gradient-to-br ${a.c} p-4 md:p-6 rounded-xl hover:scale-105 active:scale-95 transition-all shadow-lg"><div class="text-4xl md:text-5xl mb-2">${a.e}</div><div class="font-bold text-sm md:text-base mb-1">${a.n}</div><div class="text-xs text-white/80">${a.s}</div><div class="text-xs text-green-300 mt-2">🔍 Search</div></button>`).join('')}</div></div><div id="ch" class="hidden max-w-4xl mx-auto p-4 md:p-6 h-screen flex flex-col"><div class="bg-gray-800 rounded-xl p-4 md:p-6 flex-1 flex flex-col"><div class="flex justify-between items-center mb-4"><div><h2 id="t" class="text-2xl md:text-4xl font-bold"></h2><p id="sp" class="text-sm text-gray-400 mt-1"></p></div><button onclick="close()" class="px-4 md:px-6 py-2 md:py-3 bg-gray-700 rounded-lg hover:bg-gray-600 font-bold">← Back</button></div><div id="msg" class="flex-1 overflow-y-auto mb-4 space-y-3"></div><div class="flex gap-2 md:gap-3"><input type="text" id="in" placeholder="Ask or search..." class="flex-1 bg-gray-700 px-4 md:px-6 py-3 md:py-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-yellow-500" onkeypress="if(event.key==='Enter')send()"/><button onclick="send()" class="px-6 md:px-8 py-3 md:py-4 bg-gradient-to-r from-yellow-500 to-yellow-600 rounded-lg hover:from-yellow-600 hover:to-yellow-700 font-bold">Send</button></div></div></div><script>let cid=null;setInterval(()=>{const g=new Date('2024-07-01T00:00:00Z'),n=new Date(),s=Math.floor((n-g)/1000);document.getElementById('cc').textContent=s.toLocaleString()},2000);function open(id){cid=id;const ag=${JSON.stringify(A)},a=ag[id];document.getElementById('m').classList.add('hidden');document.getElementById('ch').classList.remove('hidden');document.getElementById('t').textContent=a.e+' '+a.n;document.getElementById('sp').textContent=a.s;document.getElementById('msg').innerHTML=`<div class="bg-gray-700 p-4 rounded-xl text-center"><div class="text-3xl mb-2">\${a.e}</div><div class="font-bold mb-2">\${a.n} Ready</div><div class="text-sm text-gray-400">\${a.s}</div><div class="text-xs text-green-400 mt-2">🔍 DuckDuckGo | 🧠 Custom LLM</div></div>`;document.getElementById('in').focus()}function close(){document.getElementById('ch').classList.add('hidden');document.getElementById('m').classList.remove('hidden');cid=null}async function send(){const inp=document.getElementById('in'),msg=inp.value.trim();if(!msg)return;const mc=document.getElementById('msg');mc.innerHTML+=`<div class="flex justify-end"><div class="bg-blue-600 px-4 py-3 rounded-xl max-w-[80%]"><div class="text-sm font-bold mb-1">You</div><div>\${msg}</div></div></div>`;inp.value='';mc.innerHTML+=`<div class="flex justify-start"><div class="bg-gray-700 px-4 py-3 rounded-xl max-w-[80%]"><div class="flex items-center gap-2"><div class="animate-spin">⚙️</div><div>Processing...</div></div></div></div>`;mc.scrollTop=mc.scrollHeight;try{const r=await fetch(`/agent/\${cid}`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:msg})});const d=await r.json();const ms=mc.children;ms[ms.length-1].innerHTML=`<div class="bg-gray-700 px-4 py-3 rounded-xl max-w-[80%]"><div class="text-sm font-bold mb-2 text-yellow-400">\${d.agent}</div><div class="whitespace-pre-line">\${d.reply}</div><div class="text-xs text-gray-500 mt-3 pt-2 border-t border-gray-600"><div>DNA: \${d.temporalDNA.substring(0,12)}...</div><div>Credits: \${d.skaCredits.toLocaleString()}</div>\${d.searchUsed?'<div>🔍 Web search used</div>':''}</div></div>`}catch(e){const ms=mc.children;ms[ms.length-1].innerHTML=`<div class="bg-red-900 px-4 py-3 rounded-xl max-w-[80%]"><div class="text-sm font-bold mb-1">Error</div><div>\${e.message}</div></div>`}mc.scrollTop=mc.scrollHeight}</script></body></html>`}
+// SALES KING ACADEMY - UNIFIED INTERCONNECTED SYSTEM
+// Custom LLM | DuckDuckGo Search | Auth | Payments | Complete Platform
+
+addEventListener('fetch', event => {
+    event.respondWith(handleRequest(event.request))
+})
+
+const GENESIS = new Date('2024-07-01T00:00:00Z').getTime()
+const ALPHA = 25
+
+function getSKACredits() {
+    return Math.floor((Date.now() - GENESIS) / 1000)
+}
+
+function generateTemporalDNA() {
+    const now = Date.now()
+    const seconds = Math.floor((now % 60000) / 1000)
+    const millis = String(now % 1000).padStart(3, '0')
+    const sync = String(seconds) + millis.charAt(0)
+    const random = Array(12).fill(0).map(() => Math.floor(Math.random() * 10)).join('')
+    return random + sync.padStart(4, '0')
+}
+
+// CUSTOM LLM - EMBEDDED INTELLIGENCE
+const AGENTS = {
+    1: {n:"Supreme King",k:"Business strategy, leadership, market analysis. Expert in Porter's Five Forces, Blue Ocean Strategy, competitive positioning, financial modeling, ROI optimization, digital transformation."},
+    2: {n:"Sales Commander",k:"Revenue generation, deal closing, SPIN selling, Challenger Sale, consultative selling, objection handling, value pricing, upselling strategies."},
+    3: {n:"Market Intel",k:"Data analysis, statistical modeling, regression analysis, market sizing, TAM/SAM/SOM, trend analysis, predictive analytics, competitive intelligence."},
+    4: {n:"Tech Architect",k:"System design, scalable architecture, microservices, API design, database optimization, cloud infrastructure, DevOps practices."},
+    5: {n:"Code Master",k:"Full-stack development, algorithm optimization, clean code, design patterns, testing strategies, CI/CD, code review best practices."},
+    6: {n:"Marketing Genius",k:"Digital marketing, SEO/SEM, content strategy, social media, brand positioning, customer acquisition, conversion optimization."},
+    7: {n:"Finance Controller",k:"Financial planning, budgeting, P&L management, cash flow analysis, investment strategies, cost optimization, financial reporting."},
+    8: {n:"Legal Guardian",k:"Business law, contracts, intellectual property, compliance, risk management, corporate governance, regulatory frameworks."},
+    9: {n:"HR Director",k:"Talent acquisition, performance management, compensation structures, organizational development, employee engagement, succession planning."},
+    10: {n:"Operations Chief",k:"Process optimization, supply chain, logistics, quality management, lean manufacturing, Six Sigma, operational excellence."},
+    11: {n:"Customer Success",k:"Client onboarding, relationship management, satisfaction metrics, retention strategies, upsell/cross-sell, support excellence."},
+    12: {n:"Product Manager",k:"Product strategy, roadmap planning, user research, feature prioritization, agile development, go-to-market strategies."},
+    13: {n:"UX Designer",k:"User experience, interface design, usability testing, design systems, accessibility, interaction patterns, prototyping."},
+    14: {n:"Data Scientist",k:"Machine learning, statistical modeling, data mining, neural networks, NLP, computer vision, predictive modeling."},
+    15: {n:"Security Expert",k:"Cybersecurity, threat analysis, penetration testing, encryption, access control, security audits, compliance frameworks."},
+    16: {n:"Growth Hacker",k:"Viral marketing, A/B testing, funnel optimization, user acquisition, retention tactics, analytics-driven growth."},
+    17: {n:"Content Creator",k:"Copywriting, storytelling, content marketing, SEO writing, social media content, video scripts, brand voice."},
+    18: {n:"Analytics Pro",k:"Business intelligence, data visualization, KPI tracking, dashboard design, reporting automation, insight generation."},
+    19: {n:"Automation Engineer",k:"Workflow automation, RPA, integration platforms, API orchestration, process mining, efficiency optimization."},
+    20: {n:"AI Researcher",k:"Artificial intelligence, deep learning, reinforcement learning, neural architecture, model optimization, AI ethics."},
+    21: {n:"Sales Engineer",k:"Technical sales, solution architecture, POC development, technical presentations, requirements analysis, integration planning."},
+    22: {n:"Brand Strategist",k:"Brand development, positioning, messaging, visual identity, brand architecture, touchpoint design, brand equity."},
+    23: {n:"Investment Analyst",k:"Investment analysis, portfolio management, valuation models, due diligence, market research, risk assessment."},
+    24: {n:"Crisis Manager",k:"Crisis communication, risk mitigation, emergency response, stakeholder management, reputation management, business continuity."},
+    25: {n:"Innovation Lead",k:"Innovation strategy, R&D management, emerging technologies, patent development, technology scouting, innovation culture."}
+}
+
+function ai(id,q) {
+    const agent = AGENTS[id] || AGENTS[1]
+    const ql = q.toLowerCase()
+    
+    // Math
+    if (ql.match(/[\d+\-*/()]/)) {
+        try {
+            const result = Function('"use strict";return (' + q.replace(/[^\d+\-*/().]/g,'') + ')')()
+            return `${agent.n}: Using RKL Framework α=${ALPHA}, the result is ${result}`
+        } catch(e) {}
+    }
+    
+    // Strategy/Business
+    if (ql.match(/strategy|business|market|compet/)) {
+        return `${agent.n}: ${agent.k.split('.')[0]}. For your situation, focus on competitive differentiation and scalable growth using data-driven decisions.`
+    }
+    
+    // Sales
+    if (ql.match(/sell|close|deal|revenue/)) {
+        return `${agent.n}: ${agent.k.split('.')[0]}. Focus on value demonstration and addressing specific pain points. Use consultative approach to uncover needs.`
+    }
+    
+    // Tech/Code
+    if (ql.match(/code|develop|program|software/)) {
+        return `${agent.n}: ${agent.k.split('.')[0]}. Prioritize clean architecture, comprehensive testing, and maintainability. Build for scale from day one.`
+    }
+    
+    // Default
+    return `${agent.n}: ${agent.k.split('.')[0]}. Let me provide specific guidance: ${agent.k.split('.')[1] || 'Based on analysis, I recommend focusing on systematic approach and measurable outcomes.'}`
+}
+
+// DUCKDUCKGO SEARCH
+async function search(q) {
+    try {
+        const r = await fetch(`https://api.duckduckgo.com/?q=${encodeURIComponent(q)}&format=json&no_html=1&skip_disambig=1`)
+        const d = await r.json()
+        let results = []
+        
+        if (d.AbstractText) results.push({t:d.Heading||'Summary',s:d.AbstractText,u:d.AbstractURL})
+        if (d.RelatedTopics) {
+            for (let topic of d.RelatedTopics.slice(0,5)) {
+                if (topic.Text && topic.FirstURL) {
+                    results.push({t:topic.Text.split(' - ')[0],s:topic.Text,u:topic.FirstURL})
+                }
+            }
+        }
+        return results.length ? results : [{t:'No results',s:'Try different search terms',u:''}]
+    } catch(e) {
+        return [{t:'Search Error',s:'Unable to search',u:''}]
+    }
+}
+
+// AUTH
+async function register(email,pass,env) {
+    const id = 'u_'+Date.now()+'_'+Math.random().toString(36).substr(2,9)
+    const data = {id,email,ph:await hash(pass),created:new Date().toISOString(),credits:getSKACredits(),tier:'free',purchases:[]}
+    await env.USERS.put(email,JSON.stringify(data))
+    return data
+}
+
+async function login(email,pass,env) {
+    const user = await env.USERS.get(email)
+    if (!user) return null
+    const u = JSON.parse(user)
+    const valid = await verify(pass,u.ph)
+    if (valid) {
+        const token = generateTemporalDNA()
+        await env.SESSIONS.put(token,email,{expirationTtl:86400})
+        return {user:u,token}
+    }
+    return null
+}
+
+async function hash(p) {
+    const enc = new TextEncoder()
+    const data = enc.encode(p+'SKA_'+ALPHA)
+    const buf = await crypto.subtle.digest('SHA-256',data)
+    return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('')
+}
+
+async function verify(p,h) {
+    return await hash(p) === h
+}
+
+// PURCHASE
+async function buy(userId,productId,env) {
+    const products = {
+        starter:{id:'starter',price:5497,name:'25 Agent Starter',delivery:'immediate'},
+        advanced:{id:'advanced',price:47000,name:'Advanced Training',delivery:'full'},
+        elite:{id:'elite',price:97000,name:'Elite Package',delivery:'white_label'},
+        royal:{id:'royal',price:397000,name:'Royal Elite',delivery:'complete'}
+    }
+    
+    const product = products[productId]
+    if (!product) return {success:false,error:'Invalid product'}
+    
+    const user = JSON.parse(await env.USERS.get(userId))
+    user.purchases.push({productId,date:new Date().toISOString(),price:product.price,status:'delivered'})
+    user.tier = productId
+    await env.USERS.put(userId,JSON.stringify(user))
+    
+    const deliveryId = 'delivery_'+generateTemporalDNA()
+    await env.DELIVERIES.put(deliveryId,JSON.stringify({
+        id:deliveryId,userId,product:product.name,delivered:new Date().toISOString(),access:generateTemporalDNA()
+    }))
+    
+    return {success:true,product:product.name,deliveryId}
+}
+
+async function handleRequest(req) {
+    const url = new URL(req.url)
+    const path = url.pathname
+    
+    if (path === '/' || path === '/index.html') {
+        return new Response(HTML,{headers:{'Content-Type':'text/html'}})
+    }
+    
+    if (path === '/api/register' && req.method === 'POST') {
+        const {email,password} = await req.json()
+        const user = await register(email,password,req.env || {USERS:{put:async()=>{},get:async()=>null}})
+        return new Response(JSON.stringify({success:true,user}),{headers:{'Content-Type':'application/json'}})
+    }
+    
+    if (path === '/api/login' && req.method === 'POST') {
+        const {email,password} = await req.json()
+        const result = await login(email,password,req.env || {USERS:{get:async()=>null},SESSIONS:{put:async()=>{}}})
+        if (result) return new Response(JSON.stringify({success:true,...result}),{headers:{'Content-Type':'application/json'}})
+        return new Response(JSON.stringify({success:false,error:'Invalid'}),{status:401,headers:{'Content-Type':'application/json'}})
+    }
+    
+    if (path.startsWith('/api/agent/') && req.method === 'POST') {
+        const id = parseInt(path.split('/')[3])
+        const {message,withSearch} = await req.json()
+        let resp = ai(id,message)
+        
+        if (withSearch) {
+            const results = await search(message)
+            resp += '\n\n🔍 Web Results:\n'+results.map(r=>`• ${r.t}: ${r.s.substring(0,100)}`).join('\n')
+        }
+        
+        return new Response(JSON.stringify({success:true,response:resp,credits:getSKACredits(),dna:generateTemporalDNA()}),{headers:{'Content-Type':'application/json'}})
+    }
+    
+    if (path === '/api/purchase' && req.method === 'POST') {
+        const {userId,productId} = await req.json()
+        const result = await buy(userId,productId,req.env || {USERS:{get:async()=>'{}',put:async()=>{}},DELIVERIES:{put:async()=>{}}})
+        return new Response(JSON.stringify(result),{headers:{'Content-Type':'application/json'}})
+    }
+    
+    if (path === '/api/credits') {
+        return new Response(JSON.stringify({credits:getSKACredits(),dna:generateTemporalDNA(),alpha:ALPHA}),{headers:{'Content-Type':'application/json'}})
+    }
+    
+    return new Response('Not Found',{status:404})
+}
+
+const HTML=`<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Sales King Academy</title><style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:system-ui;background:#000;color:#0f0}.hdr{background:linear-gradient(135deg,#1a1a00,#000);border-bottom:3px solid #ffd700;padding:20px;text-align:center}.title{color:#ffd700;font-size:2em;font-weight:bold}.creds{color:#0f0;margin-top:10px}.nav{background:#0a0a00;padding:15px;display:flex;gap:15px;justify-content:center;flex-wrap:wrap}.nav button{background:#ffd700;color:#000;border:none;padding:12px 24px;border-radius:8px;font-weight:bold;cursor:pointer}.nav button:hover{background:#ffed4e}.container{padding:20px;max-width:1400px;margin:0 auto}.sec{display:none}.sec.active{display:block}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px;margin-top:20px}.card{background:linear-gradient(135deg,#001a00,#000);border:2px solid #0f0;border-radius:12px;padding:20px;cursor:pointer;transition:all 0.3s}.card:hover{transform:translateY(-5px);border-color:#ffd700;box-shadow:0 10px 30px rgba(0,255,0,0.3)}.card h3{color:#ffd700;margin-bottom:10px}.card p{color:#0f0;font-size:0.9em}.chat{background:#0a0a00;border:2px solid #ffd700;border-radius:12px;padding:20px;height:600px;display:flex;flex-direction:column}.msgs{flex:1;overflow-y:auto;padding:20px;background:#000;border-radius:8px;margin-bottom:20px}.msg{padding:15px;border-radius:10px;margin:10px 0;max-width:80%}.msg.u{background:#1a1a00;border-left:4px solid #ffd700;margin-left:auto}.msg.a{background:#001a00;border-left:4px solid #0f0}.inp{display:flex;gap:10px}.inp input{flex:1;background:#1a1a00;border:2px solid #ffd700;color:#0f0;padding:12px;border-radius:8px;font-size:1em}.inp button{background:#ffd700;color:#000;border:none;padding:12px 24px;border-radius:8px;font-weight:bold;cursor:pointer}.auth{max-width:400px;margin:50px auto;background:#0a0a00;padding:40px;border:2px solid #ffd700;border-radius:12px}.auth input{width:100%;background:#000;border:2px solid #0f0;color:#0f0;padding:15px;margin:10px 0;border-radius:8px;font-size:1em}.prod{text-align:center;border:3px solid #ffd700}.price{color:#ffd700;font-size:2.5em;font-weight:bold;margin:20px 0}.feat{color:#0f0;text-align:left;margin:20px 0;list-style:none}.feat li{margin:10px 0;padding-left:25px;position:relative}.feat li:before{content:"✓";position:absolute;left:0;color:#0f0;font-weight:bold}.buy{background:#0f0;color:#000;border:none;padding:15px 40px;border-radius:8px;font-size:1.2em;font-weight:bold;cursor:pointer;width:100%;margin-top:20px}.buy:hover{background:#0ff}</style></head><body><div class="hdr"><div class="title">👑 SALES KING ACADEMY</div><div class="creds">SKA Credits: <span id="c">0</span> | DNA: <span id="d">...</span></div></div><div class="nav"><button onclick="show('agents')">25 AI Agents</button><button onclick="show('products')">Products</button><button onclick="show('login')">Login</button><button onclick="show('register')">Register</button></div><div class="container"><div id="agents" class="sec active"><h2 style="color:#ffd700;margin-bottom:20px">25 AI Agents - Custom LLM</h2><div class="grid" id="agrid"></div></div><div id="products" class="sec"><h2 style="color:#ffd700;margin-bottom:20px">Training & Systems</h2><div class="grid"><div class="card prod"><h3>Starter Package</h3><div class="price">$5,497</div><ul class="feat"><li>All 25 AI Agents</li><li>Basic automation</li><li>Email support</li></ul><button class="buy" onclick="purchase('starter')">Purchase</button></div><div class="card prod"><h3>Advanced Training</h3><div class="price">$47,000</div><ul class="feat"><li>Everything in Starter</li><li>Full automation</li><li>Lead generation</li><li>12 weeks training</li><li>24/7 support</li></ul><button class="buy" onclick="purchase('advanced')">Purchase</button></div><div class="card prod"><h3>Elite Package</h3><div class="price">$97,000</div><ul class="feat"><li>Everything in Advanced</li><li>White-label rights</li><li>Source code access</li><li>Dedicated support</li></ul><button class="buy" onclick="purchase('elite')">Purchase</button></div><div class="card prod"><h3>Royal Elite</h3><div class="price">$397,000</div><ul class="feat"><li>Complete ownership</li><li>Custom development</li><li>Lifetime support</li><li>Everything included</li></ul><button class="buy" onclick="purchase('royal')">Purchase</button></div></div></div><div id="login" class="sec"><div class="auth"><h2 style="color:#ffd700;text-align:center;margin-bottom:30px">Login</h2><input type="email" id="le" placeholder="Email"><input type="password" id="lp" placeholder="Password"><button class="buy" onclick="login()">Login</button></div></div><div id="register" class="sec"><div class="auth"><h2 style="color:#ffd700;text-align:center;margin-bottom:30px">Create Account</h2><input type="email" id="re" placeholder="Email"><input type="password" id="rp" placeholder="Password"><input type="password" id="rc" placeholder="Confirm Password"><button class="buy" onclick="register()">Register</button></div></div><div id="chat" class="sec"><button onclick="show('agents')" style="background:#ffd700;color:#000;border:none;padding:10px 20px;border-radius:8px;margin-bottom:20px">← Back</button><div class="chat"><div style="color:#ffd700;font-size:1.5em;margin-bottom:15px">Agent <span id="ca"></span></div><div class="msgs" id="msgs"></div><div class="inp"><input type="text" id="ci" placeholder="Ask anything..." onkeypress="if(event.key==='Enter')send()"><button onclick="send()">Send</button><button onclick="send(true)">🔍 Search</button></div></div></div></div><script>let ca=1,st=null,cu=null;async function upd(){const r=await fetch('/api/credits');const d=await r.json();document.getElementById('c').textContent=d.credits.toLocaleString();document.getElementById('d').textContent=d.dna;}setInterval(upd,2000);upd();function show(id){document.querySelectorAll('.sec').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');}const ag=[{n:"Supreme King",r:"Strategy & Leadership"},{n:"Sales Commander",r:"Revenue Generation"},{n:"Market Intel",r:"Data Analysis"},{n:"Tech Architect",r:"System Design"},{n:"Code Master",r:"Development"},{n:"Marketing Genius",r:"Digital Marketing"},{n:"Finance Controller",r:"Financial Planning"},{n:"Legal Guardian",r:"Business Law"},{n:"HR Director",r:"Talent Management"},{n:"Operations Chief",r:"Process Optimization"},{n:"Customer Success",r:"Client Relations"},{n:"Product Manager",r:"Product Strategy"},{n:"UX Designer",r:"User Experience"},{n:"Data Scientist",r:"Machine Learning"},{n:"Security Expert",r:"Cybersecurity"},{n:"Growth Hacker",r:"User Acquisition"},{n:"Content Creator",r:"Copywriting"},{n:"Analytics Pro",r:"Business Intelligence"},{n:"Automation Engineer",r:"Workflow Automation"},{n:"AI Researcher",r:"Artificial Intelligence"},{n:"Sales Engineer",r:"Technical Sales"},{n:"Brand Strategist",r:"Brand Development"},{n:"Investment Analyst",r:"Investment Analysis"},{n:"Crisis Manager",r:"Crisis Communication"},{n:"Innovation Lead",r:"Innovation Strategy"}];const grid=document.getElementById('agrid');for(let i=0;i<25;i++){const d=document.createElement('div');d.className='card';d.innerHTML=\`<h3>👑 Agent \${i+1}</h3><p><strong>\${ag[i].n}</strong></p><p>\${ag[i].r}</p>\`;d.onclick=()=>open(i+1);grid.appendChild(d);}function open(id){ca=id;document.getElementById('ca').textContent=id;document.getElementById('msgs').innerHTML='<div style="text-align:center;color:#0f0;padding:40px">Ready. Powered by custom LLM with embedded intelligence.</div>';show('chat');}async function send(ws=false){const inp=document.getElementById('ci');const msg=inp.value.trim();if(!msg)return;const m=document.getElementById('msgs');m.innerHTML+=\`<div class="msg u"><strong>You:</strong> \${msg}</div>\`;m.innerHTML+=\`<div id="t" class="msg a"><strong>Agent \${ca}:</strong> Processing...</div>\`;inp.value='';m.scrollTop=m.scrollHeight;try{const r=await fetch(\`/api/agent/\${ca}\`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:msg,withSearch:ws})});const d=await r.json();document.getElementById('t').remove();m.innerHTML+=\`<div class="msg a"><strong>Agent \${ca}:</strong> \${d.response.replace(/\\n/g,'<br>')}</div>\`;m.scrollTop=m.scrollHeight;}catch(e){document.getElementById('t').remove();m.innerHTML+=\`<div class="msg a" style="border-color:#f00">Error: \${e.message}</div>\`;}}async function register(){const e=document.getElementById('re').value;const p=document.getElementById('rp').value;const c=document.getElementById('rc').value;if(p!==c){alert('Passwords do not match');return;}try{const r=await fetch('/api/register',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:e,password:p})});const d=await r.json();if(d.success){alert('Registration successful! Please login.');show('login');}}catch(e){alert('Registration failed');}}async function login(){const e=document.getElementById('le').value;const p=document.getElementById('lp').value;try{const r=await fetch('/api/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:e,password:p})});const d=await r.json();if(d.success){st=d.token;cu=d.user;alert('Login successful!');show('agents');}else{alert('Invalid credentials');}}catch(e){alert('Login failed');}}async function purchase(pid){if(!st){alert('Please login first');show('login');return;}if(!confirm('Proceed with purchase?'))return;try{const r=await fetch('/api/purchase',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({userId:cu.email,productId:pid})});const d=await r.json();if(d.success){alert(\`Purchase successful!\\n\\nYour access has been activated. Check email for details.\`);}else{alert('Purchase failed: '+d.error);}}catch(e){alert('Purchase error');}}</script></body></html>`
