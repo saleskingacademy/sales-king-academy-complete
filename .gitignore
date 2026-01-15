@@ -1,44 +1,9 @@
-# Python
-__pycache__/
-*.py[cod]
-*.so
-*.egg
-*.egg-info/
-dist/
-build/
-
-# Logs
-*.log
-*.tmp
-*.bak
-
-# OS
-.DS_Store
-Thumbs.db
-*.swp
-*.swo
-*~
-
-# IDEs
-.vscode/
-.idea/
-*.sublime-*
-
-# Environment
-.env
-.env.local
-venv/
-ENV/
-
-# Build
 node_modules/
 .wrangler/
-
-# Archives
-*.zip
-*.tar.gz
-
-# Test
-.pytest_cache/
-.coverage
-htmlcov/
+.env
+.env.local
+dist/
+.DS_Store
+*.log
+.vscode/
+.idea/
