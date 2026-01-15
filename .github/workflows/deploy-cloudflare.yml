@@ -1,0 +1,32 @@
+name: Deploy to Cloudflare Workers
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Deploy to Cloudflare Workers
+        run: |
+          curl -X PUT \
+            "https://api.cloudflare.com/client/v4/accounts/${{ secrets.CF_ACCOUNT_ID }}/workers/scripts/sales-king-academy" \
+            -H "Authorization: Bearer ${{ secrets.CF_WORKERS_TOKEN }}" \
+            -H "Content-Type: application/javascript" \
+            --data-binary @worker.js
+          
+          echo "✅ Deployed to Cloudflare Workers"
+      
+      - name: Configure Routes
+        run: |
+          curl -X POST \
+            "https://api.cloudflare.com/client/v4/zones/${{ secrets.CF_ZONE_ID }}/workers/routes" \
+            -H "Authorization: Bearer ${{ secrets.CF_DNS_TOKEN }}" \
+            -H "Content-Type: application/json" \
+            -d '{"pattern":"saleskingacademy.com/*","script":"sales-king-academy"}'
+          
+          echo "✅ Routes configured"
