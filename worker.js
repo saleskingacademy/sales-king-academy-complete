@@ -1,22 +1,334 @@
 // SALES KING ACADEMY - COMPLETE WORKING SYSTEM
+
 class TemporalDNA {
-  constructor(){this.genesis=new Date('2024-07-01T00:00:00Z').getTime()}
-  generateToken(){const now=Date.now();const r12=Array(12).fill(0).map(()=>Math.floor(Math.random()*10)).join('');const s4=(Math.floor(now/1000)%10000).toString().padStart(4,'0');return{token:r12+s4,type:'COMPUTATION',timestamp:now}}
-  getTimeAnchor(){const now=Date.now();const e=Math.floor((now-this.genesis)/1000);return{genesis:'2024-07-01T00:00:00Z',current:new Date(now).toISOString(),elapsed_seconds:e,credits_minted:e,framework:'RKL α=25'}}
+  constructor() { this.genesis = new Date('2024-07-01T00:00:00Z').getTime(); }
+  generateToken() {
+    const now = Date.now();
+    const random12 = Array(12).fill(0).map(() => Math.floor(Math.random()*10)).join('');
+    const sync4 = (Math.floor(now/1000)%10000).toString().padStart(4,'0');
+    return {token:random12+sync4,type:'COMPUTATION',timestamp:now};
+  }
+  getTimeAnchor() {
+    const now = Date.now();
+    const elapsed = Math.floor((now-this.genesis)/1000);
+    return {genesis:'2024-07-01T00:00:00Z',elapsed_seconds:elapsed,credits_minted:elapsed,framework:'RKL α=25'};
+  }
 }
-class SKACurrency {
-  constructor(){this.genesis=new Date('2024-07-01T00:00:00Z').getTime()}
-  getTotalCredits(){return Math.floor((Date.now()-this.genesis)/1000)}
+
+const temporalDNA = new TemporalDNA();
+
+const AGENTS = [
+  {id:1,name:"Crown King Agent",emoji:"👑",specialty:"Strategic leadership"},
+  {id:2,name:"Supreme King AI",emoji:"⚡",specialty:"AI systems"},
+  {id:3,name:"Empire Expansion",emoji:"🌍",specialty:"Global expansion"},
+  {id:4,name:"Sales Mastery",emoji:"💰",specialty:"Sales excellence"},
+  {id:5,name:"Marketing Genius",emoji:"📢",specialty:"Digital marketing"},
+  {id:6,name:"Tech Innovation",emoji:"🚀",specialty:"Technology"},
+  {id:7,name:"Finance Architect",emoji:"💎",specialty:"Finance"},
+  {id:8,name:"Research Mastery",emoji:"🔬",specialty:"Research"},
+  {id:9,name:"Conversion Pro",emoji:"📈",specialty:"CRO"},
+  {id:10,name:"Brand Authority",emoji:"⭐",specialty:"Branding"},
+  {id:11,name:"Customer Success",emoji:"🤝",specialty:"CS"},
+  {id:12,name:"Content Creator",emoji:"✍️",specialty:"Content"},
+  {id:13,name:"Data Analytics",emoji:"📊",specialty:"Analytics"},
+  {id:14,name:"System Architect",emoji:"🏗️",specialty:"Systems"},
+  {id:15,name:"Legal Compliance",emoji:"⚖️",specialty:"Legal"},
+  {id:16,name:"HR & Talent",emoji:"👥",specialty:"HR"},
+  {id:17,name:"Product Innovation",emoji:"💡",specialty:"Product"},
+  {id:18,name:"Partnership Dev",emoji:"🤝",specialty:"Partnerships"},
+  {id:19,name:"Risk Management",emoji:"🛡️",specialty:"Risk"},
+  {id:20,name:"Automation",emoji:"⚙️",specialty:"Automation"},
+  {id:21,name:"Training",emoji:"🎓",specialty:"Training"},
+  {id:22,name:"Market Intel",emoji:"🎯",specialty:"Intelligence"},
+  {id:23,name:"Code Optimization",emoji:"💻",specialty:"Code"},
+  {id:24,name:"QA",emoji:"✅",specialty:"Quality"},
+  {id:25,name:"Strategy",emoji:"♟️",specialty:"Strategy"}
+];
+
+async function searchWeb(query) {
+  try {
+    const r = await fetch(`https://api.duckduckgo.com/?q=${encodeURIComponent(query)}&format=json`);
+    const d = await r.json();
+    return d.Abstract || d.AbstractText || null;
+  } catch(e) {
+    return null;
+  }
 }
-const temporalDNA=new TemporalDNA();
-const currency=new SKACurrency();
 
-const AGENTS={1:{name:"Crown King Agent",emoji:"👑",specialty:"Strategic leadership, executive decision-making, market positioning"},2:{name:"Supreme King AI",emoji:"⚡",specialty:"AI systems, neural networks, machine learning, swarm intelligence"},3:{name:"Empire Expansion",emoji:"🌍",specialty:"Global expansion, international markets, franchise development"},4:{name:"Sales Mastery",emoji:"💰",specialty:"Sales optimization, pipeline management, closing techniques"},5:{name:"Marketing Genius",emoji:"📢",specialty:"Growth hacking, viral marketing, brand building"},6:{name:"Tech Innovation",emoji:"🚀",specialty:"Software architecture, cloud computing, innovation"},7:{name:"Finance Architect",emoji:"💎",specialty:"Financial modeling, investment strategy, capital allocation"},8:{name:"Research Master",emoji:"🔬",specialty:"Market research, competitive intelligence, trend analysis"},9:{name:"Conversion Pro",emoji:"📈",specialty:"CRO, A/B testing, funnel optimization"},10:{name:"Brand Authority",emoji:"⭐",specialty:"Brand positioning, reputation management"},11:{name:"Customer Success",emoji:"🤝",specialty:"Customer lifecycle, retention, satisfaction"},12:{name:"Content Creator",emoji:"✍️",specialty:"Copywriting, content strategy, storytelling"},13:{name:"Data Analytics",emoji:"📊",specialty:"Predictive analytics, data visualization, BI"},14:{name:"System Architect",emoji:"🏗️",specialty:"Distributed systems, scalable architecture"},15:{name:"Legal Compliance",emoji:"⚖️",specialty:"Corporate law, data privacy, regulatory compliance"},16:{name:"HR & Talent",emoji:"👥",specialty:"Talent acquisition, performance management"},17:{name:"Product Innovation",emoji:"💡",specialty:"Product strategy, roadmap planning, market fit"},18:{name:"Partnership Dev",emoji:"🤝",specialty:"Strategic partnerships, alliance management"},19:{name:"Risk Management",emoji:"🛡️",specialty:"Enterprise risk, cybersecurity, continuity"},20:{name:"Automation",emoji:"⚙️",specialty:"RPA, workflow automation, process optimization"},21:{name:"Training & Education",emoji:"🎓",specialty:"Instructional design, e-learning, development"},22:{name:"Market Intelligence",emoji:"🎯",specialty:"Market analysis, competitive tracking"},23:{name:"Code Optimization",emoji:"💻",specialty:"Algorithm optimization, performance tuning"},24:{name:"Quality Assurance",emoji:"✅",specialty:"Test automation, quality metrics"},25:{name:"Strategic Planning",emoji:"♟️",specialty:"Strategic frameworks, scenario planning"}};
+async function handleRequest(request) {
+  const url = new URL(request.url);
+  const path = url.pathname;
+  const cors = {'Access-Control-Allow-Origin':'*','Access-Control-Allow-Methods':'*','Access-Control-Allow-Headers':'*'};
+  
+  if (request.method==='OPTIONS') return new Response(null,{headers:cors});
+  
+  if (path==='/api/agents') {
+    return new Response(JSON.stringify({success:true,agents:AGENTS}),{headers:{...cors,'Content-Type':'application/json'}});
+  }
+  
+  if (path==='/api/credits') {
+    const credits = Math.floor((Date.now()-new Date('2024-07-01').getTime())/1000);
+    return new Response(JSON.stringify({success:true,total:credits}),{headers:{...cors,'Content-Type':'application/json'}});
+  }
+  
+  if (path.startsWith('/api/chat/') && request.method==='POST') {
+    const id = parseInt(path.split('/')[3]);
+    const agent = AGENTS.find(a=>a.id===id);
+    if (!agent) return new Response(JSON.stringify({error:'Not found'}),{status:404,headers:{...cors,'Content-Type':'application/json'}});
+    
+    const body = await request.json();
+    const msg = body.message||'';
+    const webData = await searchWeb(msg + ' ' + agent.specialty);
+    
+    let response = `As ${agent.name}, expert in ${agent.specialty}, I can help you. `;
+    if (webData) response += `Research shows: ${webData.substring(0,200)}... `;
+    response += `Here's my analysis: Focus on strategic execution, data-driven decisions, and measurable outcomes. I recommend: 1) Deep market analysis 2) Competitive positioning 3) Implementation excellence. What would you like to explore?`;
+    
+    const token = temporalDNA.generateToken();
+    return new Response(JSON.stringify({
+      success:true,
+      agent:agent.name,
+      response:response,
+      token:token.token,
+      webSearch:webData?'yes':'no'
+    }),{headers:{...cors,'Content-Type':'application/json'}});
+  }
+  
+  const html = `<!DOCTYPE html>
+<html><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+<title>Sales King Academy</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{font-family:-apple-system,system-ui,sans-serif;background:#000;color:#e0e0e0;height:100vh;overflow:hidden}
+.app{display:flex;flex-direction:column;height:100vh}
+.header{background:#1a1a1a;padding:15px;display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid #ffd700}
+.menu-btn{background:#ffd700;color:#000;border:none;padding:12px 20px;border-radius:8px;font-weight:700;font-size:1rem;cursor:pointer;display:flex;align-items:center;gap:8px}
+.menu-btn:active{transform:scale(0.95)}
+.logo{color:#ffd700;font-size:1.2rem;font-weight:900}
+.status{color:#0f0;font-size:0.85rem}
+.menu-panel{position:fixed;top:0;left:-100%;width:80%;max-width:320px;height:100vh;background:#1a1a1a;z-index:1000;transition:left 0.3s;overflow-y:auto;box-shadow:4px 0 20px rgba(0,0,0,0.5)}
+.menu-panel.open{left:0}
+.menu-header{padding:20px;background:#000;border-bottom:2px solid #ffd700}
+.menu-title{color:#ffd700;font-size:1.3rem;font-weight:900;margin-bottom:5px}
+.menu-subtitle{color:#0f0;font-size:0.8rem}
+.menu-section{padding:15px}
+.section-title{color:#888;font-size:0.7rem;text-transform:uppercase;margin:15px 0 10px;font-weight:600}
+.menu-item{padding:12px;margin:6px 0;background:#000;border:1px solid #2a2a2a;border-radius:8px;color:#e0e0e0;cursor:pointer;display:flex;align-items:center;gap:12px;transition:all 0.2s}
+.menu-item:active{background:#ffd700;color:#000;transform:scale(0.98)}
+.menu-icon{font-size:1.4rem}
+.menu-text{flex:1}
+.menu-name{font-weight:600;font-size:0.95rem}
+.menu-desc{font-size:0.75rem;opacity:0.7;margin-top:2px}
+.overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.8);z-index:999;display:none}
+.overlay.show{display:block}
+.main{flex:1;overflow:hidden;display:flex;flex-direction:column}
+.welcome{flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:20px}
+.welcome h1{color:#ffd700;font-size:2rem;margin-bottom:10px;text-shadow:0 0 20px #ffd700}
+.welcome p{color:#888;font-size:1rem;margin:8px 0}
+.chat-container{flex:1;display:flex;flex-direction:column;background:#000}
+.chat-header{padding:15px;background:#1a1a1a;border-bottom:1px solid #2a2a2a;display:flex;justify-content:space-between;align-items:center}
+.chat-title{color:#ffd700;font-size:1.1rem;font-weight:700}
+.close-chat{background:#f44;color:#fff;border:none;padding:8px 16px;border-radius:6px;font-weight:600;cursor:pointer}
+.messages{flex:1;overflow-y:auto;padding:15px}
+.msg{max-width:85%;padding:12px 16px;border-radius:12px;margin:8px 0;line-height:1.5;animation:fadeIn 0.3s}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+.msg.user{background:#ffd700;color:#000;align-self:flex-end;margin-left:auto;border-bottom-right-radius:4px}
+.msg.agent{background:#1a1a1a;color:#e0e0e0;border:1px solid #2a2a2a;border-bottom-left-radius:4px}
+.msg-meta{font-size:0.7rem;opacity:0.6;margin-top:6px}
+.input-area{padding:15px;background:#1a1a1a;border-top:1px solid #2a2a2a;display:flex;gap:10px}
+.voice-btn{background:#0f0;color:#000;border:none;padding:12px;border-radius:50%;font-size:1.2rem;cursor:pointer;flex-shrink:0}
+.voice-btn:active{transform:scale(0.9)}
+.voice-btn.recording{background:#f00;animation:pulse 1s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.5}}
+.chat-input{flex:1;padding:12px;background:#000;border:1px solid #2a2a2a;border-radius:24px;color:#e0e0e0;font-size:1rem}
+.send-btn{background:#ffd700;color:#000;border:none;padding:12px 20px;border-radius:24px;font-weight:700;cursor:pointer}
+.send-btn:active{transform:scale(0.95)}
+</style>
+</head>
+<body>
+<div class="app">
+<div class="header">
+<button class="menu-btn" onclick="toggleMenu()">☰ Menu</button>
+<div class="logo">⚡ SKA</div>
+<div class="status" id="status">Ready</div>
+</div>
+<div class="overlay" id="overlay" onclick="closeMenu()"></div>
+<div class="menu-panel" id="menu">
+<div class="menu-header">
+<div class="menu-title">Sales King Academy</div>
+<div class="menu-subtitle">AI Business Automation</div>
+</div>
+<div class="menu-section">
+<div class="section-title">Platform Components</div>
+<div class="menu-item" onclick="alert('Training - Coming Soon')">
+<div class="menu-icon">🎓</div>
+<div class="menu-text"><div class="menu-name">Training Programs</div><div class="menu-desc">Premium courses</div></div>
+</div>
+<div class="menu-item" onclick="alert('MyIQ - Coming Soon')">
+<div class="menu-icon">🧠</div>
+<div class="menu-text"><div class="menu-name">MyIQ Platform</div><div class="menu-desc">Intelligence tests</div></div>
+</div>
+<div class="menu-item" onclick="alert('Analytics - Coming Soon')">
+<div class="menu-icon">📊</div>
+<div class="menu-text"><div class="menu-name">Analytics</div><div class="menu-desc">Data insights</div></div>
+</div>
+<div class="menu-item" onclick="alert('Marketplace - Coming Soon')">
+<div class="menu-icon">🏪</div>
+<div class="menu-text"><div class="menu-name">Marketplace</div><div class="menu-desc">Products & services</div></div>
+</div>
+<div class="section-title">AI Agents (25)</div>
+<div id="agentsList"></div>
+</div>
+</div>
+<div class="main" id="main">
+<div class="welcome">
+<h1>⚡ Sales King Academy ⚡</h1>
+<p>Complete AI Business Automation</p>
+<p style="color:#ffd700;margin-top:20px">Tap Menu to select an AI agent</p>
+</div>
+</div>
+</div>
+<script>
+let currentAgent=null;
+let conversations={};
+let recognition=null;
+let synthesis=window.speechSynthesis;
 
-async function searchWeb(q){try{const r=await fetch(`https://api.duckduckgo.com/?q=${encodeURIComponent(q)}&format=json&no_html=1&skip_disambig=1`);const d=await r.json();let res=[];if(d.Abstract)res.push(d.Abstract);if(d.AbstractText)res.push(d.AbstractText);if(d.RelatedTopics){for(let i=0;i<Math.min(3,d.RelatedTopics.length);i++){if(d.RelatedTopics[i].Text)res.push(d.RelatedTopics[i].Text)}}return res.length>0?res.join(' | '):null}catch(e){return null}}
+async function loadAgents(){
+  try{
+    const r=await fetch('/api/agents');
+    const d=await r.json();
+    if(!d.success)throw new Error('Load failed');
+    const list=document.getElementById('agentsList');
+    d.agents.forEach(a=>{
+      const div=document.createElement('div');
+      div.className='menu-item';
+      div.innerHTML='<div class="menu-icon">'+a.emoji+'</div><div class="menu-text"><div class="menu-name">'+a.name+'</div><div class="menu-desc">'+a.specialty+'</div></div>';
+      div.onclick=()=>openChat(a);
+      list.appendChild(div);
+      if(!conversations[a.id])conversations[a.id]=[];
+    });
+    document.getElementById('status').textContent='25 Agents Ready';
+  }catch(e){
+    document.getElementById('status').textContent='Error Loading';
+    setTimeout(loadAgents,3000);
+  }
+}
 
-function generateResponse(agent,userMsg,webData){let r=`Based on my expertise in ${agent.specialty}, here's my analysis: `;if(webData&&webData.length>20){r+=`Latest research shows: ${webData.substring(0,200)}... `}r+=`\n\nKey recommendations:\n1. Focus on data-driven decision making\n2. Implement ${agent.specialty.split(',')[0]} best practices\n3. Measure and optimize continuously\n4. Build competitive advantages\n\nI can provide detailed guidance on any of these areas. What specific aspect would you like to explore?`;return r}
+function toggleMenu(){
+  const menu=document.getElementById('menu');
+  const overlay=document.getElementById('overlay');
+  menu.classList.toggle('open');
+  overlay.classList.toggle('show');
+}
 
-async function handleRequest(request){const url=new URL(request.url);const path=url.pathname;const cors={'Access-Control-Allow-Origin':'*','Access-Control-Allow-Methods':'GET,POST,OPTIONS','Access-Control-Allow-Headers':'Content-Type'};if(request.method==='OPTIONS')return new Response(null,{headers:cors});if(path==='/api/time-anchor')return new Response(JSON.stringify(temporalDNA.getTimeAnchor()),{headers:{...cors,'Content-Type':'application/json'}});if(path==='/api/credits')return new Response(JSON.stringify({total:currency.getTotalCredits(),rate:'1/sec'}),{headers:{...cors,'Content-Type':'application/json'}});if(path==='/api/agents'){const list=Object.entries(AGENTS).map(([id,a])=>({id:parseInt(id),...a}));return new Response(JSON.stringify({agents:list,count:list.length}),{headers:{...cors,'Content-Type':'application/json'}})}if(path.startsWith('/api/chat/')&&request.method==='POST'){const agentId=parseInt(path.split('/')[3]);const agent=AGENTS[agentId];if(!agent)return new Response(JSON.stringify({error:'Not found'}),{status:404,headers:{...cors,'Content-Type':'application/json'}});try{const body=await request.json();const msg=body.message||'';const searchQuery=msg+' '+agent.specialty.split(',')[0];const webData=await searchWeb(searchQuery);const response=generateResponse(agent,msg,webData);const token=temporalDNA.generateToken();return new Response(JSON.stringify({agent:agent.name,response:response,token:token.token,webSearch:webData?'yes':'no',timestamp:Date.now()}),{headers:{...cors,'Content-Type':'application/json'}})}catch(e){return new Response(JSON.stringify({error:'Failed: '+e.message}),{status:500,headers:{...cors,'Content-Type':'application/json'}})}}
+function closeMenu(){
+  document.getElementById('menu').classList.remove('open');
+  document.getElementById('overlay').classList.remove('show');
+}
 
-const html=`<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Sales King Academy</title><style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:-apple-system,system-ui,sans-serif;background:#000;color:#e0e0e0;height:100vh;overflow:hidden}#app{display:flex;height:100vh}.sidebar{width:280px;background:#1a1a1a;border-right:1px solid #2a2a2a;display:flex;flex-direction:column;position:fixed;left:0;top:0;height:100vh;z-index:100;transition:transform 0.3s}@media(max-width:768px){.sidebar{transform:translateX(-100%)}.sidebar.open{transform:translateX(0)}}.header{padding:20px;border-bottom:1px solid #2a2a2a;background:#ffd700;color:#000}.logo{font-size:1.3rem;font-weight:900}.nav{flex:1;overflow-y:auto;padding:15px}.nav-item{padding:12px 15px;margin:6px 0;border-radius:8px;cursor:pointer;display:flex;align-items:center;gap:12px;transition:all 0.2s;border:1px solid transparent}.nav-item:hover{background:#2a2a2a;border-color:#ffd700}.nav-item.active{background:#ffd700;color:#000}.nav-icon{font-size:1.3rem}.main{flex:1;margin-left:280px;display:flex;flex-direction:column}@media(max-width:768px){.main{margin-left:0}}.topbar{padding:15px 20px;background:#1a1a1a;border-bottom:1px solid #2a2a2a;display:flex;justify-content:space-between;align-items:center}.menu-btn{background:#ffd700;color:#000;border:none;padding:10px 15px;border-radius:6px;cursor:pointer;font-weight:700;display:none}@media(max-width:768px){.menu-btn{display:block}}.topbar-title{color:#ffd700;font-size:1.1rem;font-weight:700}.content{flex:1;overflow-y:auto;padding:20px}.welcome{text-align:center;padding:60px 20px}.welcome h1{color:#ffd700;font-size:2.5rem;text-shadow:0 0 20px #ffd700;margin-bottom:15px}.welcome p{color:#888;font-size:1.1rem;margin:10px 0}.chat-container{display:flex;flex-direction:column;height:100%}.messages{flex:1;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:15px}.message{max-width:80%;padding:15px;border-radius:12px;line-height:1.6;animation:fadeIn 0.3s}@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}.message.user{background:#ffd700;color:#000;align-self:flex-end;border-bottom-right-radius:4px}.message.agent{background:#1a1a1a;border:1px solid #2a2a2a;color:#e0e0e0;align-self:flex-start;border-bottom-left-radius:4px}.message-meta{font-size:0.75rem;opacity:0.6;margin-top:8px}.input-container{padding:20px;border-top:1px solid #2a2a2a;background:#000}.input-box{display:flex;gap:10px;max-width:1000px;margin:0 auto}.input-field{flex:1;padding:12px 16px;background:#1a1a1a;border:1px solid #2a2a2a;border-radius:24px;color:#e0e0e0;font-size:1rem;resize:none;max-height:120px;font-family:inherit}.input-field:focus{outline:none;border-color:#ffd700}.voice-btn{background:#1a1a1a;border:1px solid #2a2a2a;color:#ffd700;padding:12px 16px;border-radius:24px;cursor:pointer;font-size:1.2rem}.voice-btn.active{background:#ffd700;color:#000}.send-btn{background:#ffd700;color:#000;border:none;padding:12px 24px;border-radius:24px;cursor:pointer;font-weight:700}.send-btn:disabled{opacity:0.5}}</style></head><body><div id="app"><div class="sidebar" id="sidebar"><div class="header"><div class="logo">⚡ Sales King Academy</div></div><div class="nav" id="nav"></div></div><div class="main"><div class="topbar"><button class="menu-btn" onclick="toggleMenu()">☰ Menu</button><div class="topbar-title" id="title">Sales King Academy</div><div style="color:#0f0;font-size:0.9rem" id="credits"></div></div><div class="content" id="content"><div class="welcome"><h1>⚡ Sales King Academy ⚡</h1><p>Complete AI Business Automation Platform</p><p style="margin-top:20px;color:#ffd700">RKL Framework α=25 | 48.7M+ Credits Minted</p></div></div></div></div><script>let currentView='home';let currentAgent=null;let conversations={};let recognition=null;let isListening=false;const VIEWS={home:{title:'Sales King Academy',icon:'🏠'},agents:{title:'AI Agents',icon:'🤖'},training:{title:'Training Programs',icon:'🎓'},myiq:{title:'MyIQ Platform',icon:'🧠'},automation:{title:'Automation Tools',icon:'⚙️'},analytics:{title:'Analytics Dashboard',icon:'📊'},finance:{title:'Finance & Credits',icon:'💎'},marketplace:{title:'Marketplace',icon:'🏪'},whitelabel:{title:'White Label',icon:'🏷️'}};function init(){const nav=document.getElementById('nav');Object.entries(VIEWS).forEach(([key,view])=>{const div=document.createElement('div');div.className='nav-item'+(key==='home'?' active':'');div.innerHTML='<span class="nav-icon">'+view.icon+'</span><span>'+view.title+'</span>';div.onclick=()=>navigate(key);nav.appendChild(div)});loadAgents();updateCredits();setInterval(updateCredits,10000);if('webkitSpeechRecognition'in window||'SpeechRecognition'in window){recognition=new(window.SpeechRecognition||window.webkitSpeechRecognition)();recognition.continuous=false;recognition.interimResults=false;recognition.onresult=(e)=>{const transcript=e.results[0][0].transcript;document.getElementById('chatInput').value=transcript;isListening=false;document.getElementById('voiceBtn').classList.remove('active')};recognition.onerror=()=>{isListening=false;document.getElementById('voiceBtn').classList.remove('active')}}}async function loadAgents(){const r=await fetch('/api/agents');const d=await r.json();d.agents.forEach(a=>{conversations[a.id]=[]})}function toggleMenu(){document.getElementById('sidebar').classList.toggle('open')}function navigate(view){currentView=view;document.querySelectorAll('.nav-item').forEach(i=>i.classList.remove('active'));event.target.closest('.nav-item').classList.add('active');document.getElementById('title').textContent=VIEWS[view].title;if(view==='home'){showHome()}else if(view==='agents'){showAgents()}else{showComingSoon(VIEWS[view].title)}if(window.innerWidth<768)toggleMenu()}function showHome(){document.getElementById('content').innerHTML='<div class="welcome"><h1>⚡ Sales King Academy ⚡</h1><p>Complete AI Business Automation Platform</p><p style="margin-top:20px;color:#ffd700">RKL Framework α=25 | Temporal Superintelligence</p></div>'}async function showAgents(){const r=await fetch('/api/agents');const d=await r.json();let html='<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:15px">';d.agents.forEach(a=>{html+='<div style="background:#1a1a1a;border:2px solid #2a2a2a;border-radius:12px;padding:20px;cursor:pointer;text-align:center;transition:all 0.3s" onclick="openChat('+a.id+')"><div style="font-size:2.5rem;margin-bottom:10px">'+a.emoji+'</div><div style="color:#ffd700;font-weight:700;margin-bottom:8px">'+a.name+'</div><div style="color:#888;font-size:0.85rem">'+a.specialty.split(',')[0]+'</div></div>'});html+='</div>';document.getElementById('content').innerHTML=html}function showComingSoon(title){document.getElementById('content').innerHTML='<div class="welcome"><h1>'+VIEWS[currentView].icon+' '+title+'</h1><p>Coming Soon</p></div>'}async function openChat(agentId){const r=await fetch('/api/agents');const d=await r.json();currentAgent=d.agents.find(a=>a.id===agentId);document.getElementById('title').textContent=currentAgent.emoji+' '+currentAgent.name;let html='<div class="chat-container"><div class="messages" id="msgs">';const history=conversations[agentId]||[];if(history.length===0){html+='<div class="message agent">Hi! I\'m '+currentAgent.name+'. How can I help you today?</div>'}else{history.forEach(m=>{html+='<div class="message '+m.role+'">'+escapeHtml(m.content)+(m.meta?'<div class="message-meta">'+m.meta+'</div>':'')+'</div>'})}html+='</div><div class="input-container"><div class="input-box"><textarea class="input-field" id="chatInput" placeholder="Message '+currentAgent.name+'..." rows="1"></textarea>';if(recognition){html+='<button class="voice-btn" id="voiceBtn" onclick="toggleVoice()">🎤</button>'}html+='<button class="send-btn" id="sendBtn" onclick="sendMessage()">Send</button></div></div></div>';document.getElementById('content').innerHTML=html;document.getElementById('chatInput').addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMessage()}})}function toggleVoice(){if(!recognition)return;if(isListening){recognition.stop();isListening=false;document.getElementById('voiceBtn').classList.remove('active')}else{recognition.start();isListening=true;document.getElementById('voiceBtn').classList.add('active')}}async function sendMessage(){if(!currentAgent)return;const inp=document.getElementById('chatInput');const msg=inp.value.trim();if(!msg)return;document.getElementById('sendBtn').disabled=true;conversations[currentAgent.id].push({role:'user',content:msg});const box=document.getElementById('msgs');box.innerHTML+='<div class="message user">'+escapeHtml(msg)+'</div>';box.innerHTML+='<div class="message agent" style="opacity:0.6">🔍 Thinking...</div>';box.scrollTop=box.scrollHeight;inp.value='';try{const r=await fetch('/api/chat/'+currentAgent.id,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:msg})});const msgs=box.querySelectorAll('.message');msgs[msgs.length-1].remove();if(r.ok){const d=await r.json();conversations[currentAgent.id].push({role:'agent',content:d.response,meta:'Token: '+d.token.slice(0,8)+'... | Web: '+d.webSearch});box.innerHTML+='<div class="message agent">'+escapeHtml(d.response)+'<div class="message-meta">Token: '+d.token.slice(0,8)+'... | Web: '+d.webSearch+'</div></div>';if('speechSynthesis'in window){const utterance=new SpeechSynthesisUtterance(d.response.substring(0,200));speechSynthesis.speak(utterance)}}else{box.innerHTML+='<div class="message agent" style="color:#f44">Error: '+r.status+'</div>'}}catch(e){const msgs=box.querySelectorAll('.message');msgs[msgs.length-1].remove();box.innerHTML+='<div class="message agent" style="color:#f44">Network error</div>'}finally{box.scrollTop=box.scrollHeight;document.getElementById('sendBtn').disabled=false}}function escapeHtml(text){const div=document.createElement('div');div.textContent=text;return div.innerHTML.replace(/\n/g,'<br>')}async function updateCredits(){try{const r=await fetch('/api/credits');const d=await r.json();document.getElementById('credits').textContent=(d.total/1000000).toFixed(1)+'M'}catch(e){}}init()</script></body></html>`;return new Response(html,{headers:{'Content-Type':'text/html'}})}addEventListener('fetch',event=>{event.respondWith(handleRequest(event.request))});
+function openChat(agent){
+  currentAgent=agent;
+  closeMenu();
+  const history=conversations[agent.id]||[];
+  let html='<div class="chat-container"><div class="chat-header"><div class="chat-title">'+agent.emoji+' '+agent.name+'</div><button class="close-chat" onclick="closeChat()">Close</button></div><div class="messages" id="messages">';
+  if(history.length===0){
+    html+='<div class="msg agent">Hi! I\'m '+agent.name+', your '+agent.specialty+' expert. How can I help?</div>';
+  }else{
+    history.forEach(m=>html+='<div class="msg '+m.role+'">'+m.content+(m.meta?'<div class="msg-meta">'+m.meta+'</div>':'')+'</div>');
+  }
+  html+='</div><div class="input-area"><button class="voice-btn" id="voiceBtn" onclick="toggleVoice()">🎤</button><input type="text" class="chat-input" id="input" placeholder="Type or use voice..."><button class="send-btn" onclick="send()">Send</button></div></div>';
+  document.getElementById('main').innerHTML=html;
+  document.getElementById('input').focus();
+  document.getElementById('input').addEventListener('keypress',e=>{if(e.key==='Enter')send()});
+  setupVoice();
+}
+
+function closeChat(){
+  currentAgent=null;
+  document.getElementById('main').innerHTML='<div class="welcome"><h1>⚡ Sales King Academy ⚡</h1><p>Complete AI Business Automation</p><p style="color:#ffd700;margin-top:20px">Tap Menu to select an AI agent</p></div>';
+}
+
+async function send(){
+  if(!currentAgent)return;
+  const inp=document.getElementById('input');
+  const msg=inp.value.trim();
+  if(!msg)return;
+  conversations[currentAgent.id].push({role:'user',content:msg});
+  const box=document.getElementById('messages');
+  box.innerHTML+='<div class="msg user">'+escapeHtml(msg)+'</div>';
+  box.innerHTML+='<div class="msg agent" style="opacity:0.5">🔍 Thinking...</div>';
+  box.scrollTop=box.scrollHeight;
+  inp.value='';
+  try{
+    const r=await fetch('/api/chat/'+currentAgent.id,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:msg})});
+    const msgs=box.querySelectorAll('.msg');
+    msgs[msgs.length-1].remove();
+    if(r.ok){
+      const d=await r.json();
+      conversations[currentAgent.id].push({role:'agent',content:d.response,meta:'Token: '+d.token.slice(0,8)+'... | Web: '+d.webSearch});
+      box.innerHTML+='<div class="msg agent">'+escapeHtml(d.response)+'<div class="msg-meta">Token: '+d.token.slice(0,8)+'... | Web: '+d.webSearch+'</div></div>';
+      if(synthesis)synthesis.speak(new SpeechSynthesisUtterance(d.response.substring(0,200)));
+    }else{
+      box.innerHTML+='<div class="msg agent" style="color:#f44">Error. Try again.</div>';
+    }
+  }catch(e){
+    const msgs=box.querySelectorAll('.msg');
+    msgs[msgs.length-1].remove();
+    box.innerHTML+='<div class="msg agent" style="color:#f44">Network error</div>';
+  }
+  box.scrollTop=box.scrollHeight;
+}
+
+function setupVoice(){
+  if('webkitSpeechRecognition' in window){
+    recognition=new webkitSpeechRecognition();
+    recognition.continuous=false;
+    recognition.interimResults=false;
+    recognition.onresult=e=>{
+      const text=e.results[0][0].transcript;
+      document.getElementById('input').value=text;
+      send();
+    };
+    recognition.onend=()=>{
+      document.getElementById('voiceBtn').classList.remove('recording');
+    };
+  }
+}
+
+function toggleVoice(){
+  if(!recognition)return alert('Voice not supported');
+  const btn=document.getElementById('voiceBtn');
+  if(btn.classList.contains('recording')){
+    recognition.stop();
+    btn.classList.remove('recording');
+  }else{
+    recognition.start();
+    btn.classList.add('recording');
+  }
+}
+
+function escapeHtml(t){
+  const d=document.createElement('div');
+  d.textContent=t;
+  return d.innerHTML.replace(/\n/g,'<br>');
+}
+
+loadAgents();
+setInterval(async()=>{
+  try{
+    const r=await fetch('/api/credits');
+    const d=await r.json();
+    document.getElementById('status').textContent=(d.total/1000000).toFixed(1)+'M';
+  }catch(e){}
+},10000);
+</script>
+</body>
+</html>`;
+  
+  return new Response(html,{headers:{'Content-Type':'text/html'}});
+}
+
+addEventListener('fetch',e=>{e.respondWith(handleRequest(e.request))});
