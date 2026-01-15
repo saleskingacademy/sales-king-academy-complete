@@ -12,8 +12,8 @@ const ANTHROPIC_KEY = 'sk-ant-api03-w5RK9i7xtYxRVdVJ5wETB9aD9xk8h3h02RI0ZlVbDOIx
 
 class RKLTemporalIntelligence {
   constructor() {
-    this.genesis = '0701202400000000' // First 16 digits - IMMUTABLE
-    this.alpha = 25 // RKL alignment parameter
+    this.genesis = '0701202400000000'
+    this.alpha = 25
     this.expansionLayers = 0
   }
 
@@ -50,7 +50,6 @@ class RKLTemporalIntelligence {
     const timestamp16 = this.getCurrentTimestamp16()
     const microseconds = timestamp16.slice(-4)
     
-    // Generate 12 random digits + 4 time-aligned digits
     let random12 = ''
     for (let i = 0; i < 12; i++) {
       random12 += Math.floor(Math.random() * 10)
@@ -131,38 +130,11 @@ const AGENTS = [
   { id: 25, name: 'Integration Hub', emoji: '🔗', desc: 'System connectivity', color: 'neutral' }
 ]
 
-// ═══════════════════════════════════════════════════════════════════
-// ENHANCED MAGNUS CAPABILITIES
-// ═══════════════════════════════════════════════════════════════════
-
 const MAGNUS_ABILITIES = {
-  deployment: {
-    github: true,
-    cloudflare: true,
-    netlify: true,
-    vercel: true,
-    autonomous: true
-  },
-  orchestration: {
-    multiAgentCoordination: true,
-    taskDelegation: true,
-    resourceAllocation: true,
-    priorityManagement: true
-  },
-  intelligence: {
-    webSearch: true,
-    codeExecution: true,
-    fileGeneration: true,
-    apiIntegration: true,
-    temporalAnalysis: true
-  },
-  operations: {
-    continuousDeployment: true,
-    systemMonitoring: true,
-    errorRecovery: true,
-    performanceOptimization: true,
-    securityScanning: true
-  }
+  deployment: { github: true, cloudflare: true, netlify: true, vercel: true, autonomous: true },
+  orchestration: { multiAgentCoordination: true, taskDelegation: true, resourceAllocation: true, priorityManagement: true },
+  intelligence: { webSearch: true, codeExecution: true, fileGeneration: true, apiIntegration: true, temporalAnalysis: true },
+  operations: { continuousDeployment: true, systemMonitoring: true, errorRecovery: true, performanceOptimization: true, securityScanning: true }
 }
 
 // ═══════════════════════════════════════════════════════════════════
@@ -177,7 +149,6 @@ async function handleRequest(request) {
   const url = new URL(request.url)
   const path = url.pathname
 
-  // CORS headers
   const corsHeaders = {
     'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
@@ -188,7 +159,6 @@ async function handleRequest(request) {
     return new Response(null, { headers: corsHeaders })
   }
 
-  // API Routes
   if (path === '/api/temporal-intelligence') {
     const rkl = new RKLTemporalIntelligence()
     return new Response(JSON.stringify(rkl.getCompleteSystem(), null, 2), {
@@ -197,11 +167,7 @@ async function handleRequest(request) {
   }
 
   if (path === '/api/agents') {
-    return new Response(JSON.stringify({
-      success: true,
-      agents: AGENTS,
-      magnus: MAGNUS_ABILITIES
-    }, null, 2), {
+    return new Response(JSON.stringify({ success: true, agents: AGENTS, magnus: MAGNUS_ABILITIES }, null, 2), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' }
     })
   }
@@ -257,17 +223,13 @@ async function handleRequest(request) {
         headers: { ...corsHeaders, 'Content-Type': 'application/json' }
       })
     } catch (error) {
-      return new Response(JSON.stringify({
-        success: false,
-        error: error.message
-      }), {
+      return new Response(JSON.stringify({ success: false, error: error.message }), {
         status: 500,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' }
       })
     }
   }
 
-  // Main Interface
   return new Response(getHTMLInterface(), {
     headers: { ...corsHeaders, 'Content-Type': 'text/html; charset=utf-8' }
   })
@@ -291,7 +253,6 @@ body { font-family: system-ui, -apple-system, sans-serif; background: #0a0a0a; c
 </head>
 <body class="p-4">
 
-<!-- RKL TEMPORAL INTELLIGENCE INTERFACE -->
 <div class="max-w-6xl mx-auto">
   <div class="text-center mb-8">
     <h1 class="text-4xl font-bold gradient-text mb-2">⚡ RKL TEMPORAL INTELLIGENCE SYSTEM ⚡</h1>
@@ -403,18 +364,15 @@ body { font-family: system-ui, -apple-system, sans-serif; background: #0a0a0a; c
         <h2 class="text-2xl font-bold gradient-text" id="chatAgentName"></h2>
         <p class="text-gray-400 text-sm" id="chatAgentDesc"></p>
       </div>
-      <button onclick="closeChat()" class="text-white bg-red-600 px-4 py-2 rounded">✕ Close</button>
+      <button id="closeBtn" class="text-white bg-red-600 px-4 py-2 rounded">✕ Close</button>
     </div>
     
     <div id="chatMessages" class="flex-1 digital-display overflow-y-auto mb-4"></div>
     
     <div class="flex gap-2">
       <input type="text" id="chatInput" placeholder="Type your message..." 
-        class="flex-1 bg-gray-900 text-white px-4 py-3 rounded border border-gray-700 focus:border-yellow-400 focus:outline-none"
-        onkeypress="if(event.key==='Enter') sendMessage()">
-      <button onclick="sendMessage()" class="bg-yellow-500 text-black px-6 py-3 rounded font-bold hover:bg-yellow-400">
-        Send
-      </button>
+        class="flex-1 bg-gray-900 text-white px-4 py-3 rounded border border-gray-700 focus:border-yellow-400 focus:outline-none">
+      <button id="sendBtn" class="bg-yellow-500 text-black px-6 py-3 rounded font-bold hover:bg-yellow-400">Send</button>
     </div>
   </div>
 </div>
@@ -423,7 +381,6 @@ body { font-family: system-ui, -apple-system, sans-serif; background: #0a0a0a; c
 let currentAgent = null;
 let agents = [];
 
-// Update displays every 100ms for microsecond precision
 setInterval(updateDisplays, 100);
 loadAgents();
 
@@ -457,14 +414,13 @@ async function loadAgents() {
     agents = data.agents;
     
     const grid = document.getElementById('agentsGrid');
-    grid.innerHTML = agents.map(agent => `
-      <div onclick="openChat(${agent.id})" 
-        class="bg-gray-800 hover:bg-gray-700 p-3 rounded cursor-pointer border-2 border-gray-700 hover:border-${agent.color}-500 transition-all">
-        <div class="text-3xl mb-1">${agent.emoji}</div>
-        <div class="text-xs font-bold text-white">${agent.name}</div>
-        <div class="text-xs text-gray-400 mt-1">${agent.desc}</div>
-      </div>
-    `).join('');
+    grid.innerHTML = agents.map(agent => {
+      const div = document.createElement('div');
+      div.className = 'bg-gray-800 hover:bg-gray-700 p-3 rounded cursor-pointer border-2 border-gray-700 hover:border-' + agent.color + '-500 transition-all';
+      div.innerHTML = '<div class="text-3xl mb-1">' + agent.emoji + '</div><div class="text-xs font-bold text-white">' + agent.name + '</div><div class="text-xs text-gray-400 mt-1">' + agent.desc + '</div>';
+      div.addEventListener('click', () => openChat(agent.id));
+      return div.outerHTML;
+    }).join('');
   } catch (error) {
     console.error('Load agents error:', error);
   }
@@ -476,13 +432,7 @@ function openChat(agentId) {
   
   document.getElementById('chatAgentName').textContent = currentAgent.emoji + ' ' + currentAgent.name;
   document.getElementById('chatAgentDesc').textContent = currentAgent.desc;
-  document.getElementById('chatMessages').innerHTML = `
-    <div class="text-center text-yellow-400 mb-4">
-      <div class="text-6xl mb-2">${currentAgent.emoji}</div>
-      <div class="text-xl font-bold">${currentAgent.name}</div>
-      <div class="text-gray-400">${currentAgent.desc}</div>
-    </div>
-  `;
+  document.getElementById('chatMessages').innerHTML = '<div class="text-center text-yellow-400 mb-4"><div class="text-6xl mb-2">' + currentAgent.emoji + '</div><div class="text-xl font-bold">' + currentAgent.name + '</div><div class="text-gray-400">' + currentAgent.desc + '</div></div>';
   document.getElementById('chatInterface').classList.remove('hidden');
   document.getElementById('chatInput').focus();
 }
@@ -498,21 +448,9 @@ async function sendMessage() {
   if (!message || !currentAgent) return;
   
   const messages = document.getElementById('chatMessages');
-  messages.innerHTML += `
-    <div class="mb-4 text-right">
-      <div class="inline-block bg-blue-600 text-white px-4 py-2 rounded-lg max-w-2xl">
-        ${message}
-      </div>
-    </div>
-  `;
+  messages.innerHTML += '<div class="mb-4 text-right"><div class="inline-block bg-blue-600 text-white px-4 py-2 rounded-lg max-w-2xl">' + message + '</div></div>';
   
-  messages.innerHTML += `
-    <div class="mb-4">
-      <div class="inline-block bg-gray-800 px-4 py-2 rounded-lg">
-        <div class="text-yellow-400 animate-pulse">Processing...</div>
-      </div>
-    </div>
-  `;
+  messages.innerHTML += '<div class="mb-4"><div class="inline-block bg-gray-800 px-4 py-2 rounded-lg"><div class="text-yellow-400 animate-pulse">Processing...</div></div></div>';
   
   input.value = '';
   messages.scrollTop = messages.scrollHeight;
@@ -526,35 +464,22 @@ async function sendMessage() {
     
     const data = await res.json();
     
-    // Remove processing message
     const processing = messages.querySelector('.animate-pulse').closest('.mb-4');
     processing.remove();
     
-    messages.innerHTML += `
-      <div class="mb-4">
-        <div class="inline-block bg-gray-800 px-4 py-2 rounded-lg max-w-2xl">
-          <div class="text-yellow-400 font-bold mb-1">${currentAgent.emoji} ${currentAgent.name}</div>
-          <div class="whitespace-pre-wrap">${data.response}</div>
-          <div class="text-xs text-gray-500 mt-2">
-            DNA: ${data.temporalDNA.slice(0, 16)}...${data.temporalDNA.slice(-8)} | 
-            Credits: ${data.credits.toLocaleString()} | 
-            Time: ${new Date(data.worldClock).toLocaleTimeString()}
-          </div>
-        </div>
-      </div>
-    `;
+    messages.innerHTML += '<div class="mb-4"><div class="inline-block bg-gray-800 px-4 py-2 rounded-lg max-w-2xl"><div class="text-yellow-400 font-bold mb-1">' + currentAgent.emoji + ' ' + currentAgent.name + '</div><div class="whitespace-pre-wrap">' + data.response + '</div><div class="text-xs text-gray-500 mt-2">DNA: ' + data.temporalDNA.slice(0, 16) + '...' + data.temporalDNA.slice(-8) + ' | Credits: ' + data.credits.toLocaleString() + ' | Time: ' + new Date(data.worldClock).toLocaleTimeString() + '</div></div></div>';
     
     messages.scrollTop = messages.scrollHeight;
   } catch (error) {
-    messages.innerHTML += `
-      <div class="mb-4">
-        <div class="inline-block bg-red-900 px-4 py-2 rounded-lg">
-          Error: ${error.message}
-        </div>
-      </div>
-    `;
+    messages.innerHTML += '<div class="mb-4"><div class="inline-block bg-red-900 px-4 py-2 rounded-lg">Error: ' + error.message + '</div></div>';
   }
 }
+
+document.getElementById('closeBtn').addEventListener('click', closeChat);
+document.getElementById('sendBtn').addEventListener('click', sendMessage);
+document.getElementById('chatInput').addEventListener('keypress', function(e) {
+  if (e.key === 'Enter') sendMessage();
+});
 </script>
 
 </body>
