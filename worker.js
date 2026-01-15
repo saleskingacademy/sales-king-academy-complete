@@ -210,7 +210,16 @@ async function handleRequest(request) {
       })
 
       const data = await response.json()
-      const aiResponse = data.content[0].text
+      
+      // Better error handling for Anthropic response
+      let aiResponse = ''
+      if (data.content && Array.isArray(data.content) && data.content.length > 0) {
+        aiResponse = data.content[0].text || 'No response generated'
+      } else if (data.error) {
+        aiResponse = `Error: ${data.error.message || 'Unknown error'}`
+      } else {
+        aiResponse = 'Unable to generate response'
+      }
 
       return new Response(JSON.stringify({
         success: true,
@@ -223,7 +232,7 @@ async function handleRequest(request) {
         headers: { ...corsHeaders, 'Content-Type': 'application/json' }
       })
     } catch (error) {
-      return new Response(JSON.stringify({ success: false, error: error.message }), {
+      return new Response(JSON.stringify({ success: false, error: error.message || 'Unknown error' }), {
         status: 500,
         headers: { ...corsHeaders, 'Content-Type': 'application/json' }
       })
