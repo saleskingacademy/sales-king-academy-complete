@@ -1,13 +1,17 @@
 name = "sales-king-academy"
 main = "worker.js"
-compatibility_date = "2025-01-12"
+compatibility_date = "2024-01-01"
+account_id = "4805739a8727b990e254f754d1b795b7"
 
-# Cloudflare D1 Database
-[[d1_databases]]
-binding = "DB"
-database_name = "ska_production"
-database_id = "YOUR_D1_DATABASE_ID"
+[env.production]
+name = "sales-king-academy"
+route = "{pattern = "saleskingacademy.com/*", zone_id = "bb56d6ffba21ccc0f582e2a0d502c5c3"}"
 
-# Environment variables
-[vars]
-ENVIRONMENT = "production"
+[[kv_namespaces]]
+binding = "SESSIONS"
+id = "47744b6b88fb4793aea4bf0cf221771a"
+
+[[kv_namespaces]]
+binding = "USERS"
+id = "ceea4f166dae455fa0cefae7fa84e0a8"
+
