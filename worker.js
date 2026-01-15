@@ -158,69 +158,136 @@ const MYIQ_TESTS = [
 ];
 
 // ═══════════════════════════════════════════════════════════════════
-// AI CHAT HANDLER - Real Anthropic API integration
+// AI ORCHESTRATOR - Advanced Reasoning & Delegation
 // ═══════════════════════════════════════════════════════════════════
-async function handleAIChat(agentId, message, conversationHistory = []) {
-  const agent = AGENTS.find(a => a.id === agentId);
-  if (!agent) return { error: "Agent not found" };
-  
-  // Enhanced System Prompt with Delegation Logic
-  let systemPrompt = `You are ${agent.name}, the ${agent.specialty} expert at Sales King Academy. 
-  Your intelligence is powered by the RKL Framework (α=25, O(n^1.77) complexity).
-  
-  CORE MISSION: Provide expert, actionable guidance. 
-  DELEGATION: If a task requires expertise outside of ${agent.specialty}, you can suggest involving another specific agent from the SKA registry.
-  
-  Current SKA Agent Registry:
-  ${AGENTS.map(a => `- ${a.name}: ${a.specialty}`).join('\n')}
-  
-  Always maintain a professional, results-oriented "King" persona.`;
+class AIOrchestrator {
+  constructor(apiKey) {
+    this.apiKey = apiKey;
+    this.model = 'claude-3-5-sonnet-20240620';
+  }
 
-  try {
+  async process(agentId, message, history, context = {}) {
+    const agent = AGENTS.find(a => a.id === agentId);
+    if (!agent) throw new Error("Agent not found");
+
+    // Phase 1: Intent Analysis & Reasoning
+    const reasoning = await this.reason(agent, message, history, context);
+    
+    // Phase 2: Execution with Delegation if needed
+    let finalResponse = '';
+    if (reasoning.requires_delegation && reasoning.target_agent_id) {
+      const targetAgent = AGENTS.find(a => a.id === reasoning.target_agent_id);
+      finalResponse = await this.executeWithDelegation(agent, targetAgent, message, history, reasoning.delegation_reason);
+    } else {
+      finalResponse = await this.execute(agent, message, history, context);
+    }
+
+    return {
+      success: true,
+      agent: agent.name,
+      response: finalResponse,
+      reasoning: reasoning,
+      model: this.model,
+      framework: 'RKL α=25',
+      temporal_dna: new TemporalDNA().generateToken().token
+    };
+  }
+
+  async reason(agent, message, history, context) {
+    // Fast-path reasoning for intent and delegation
+    const systemPrompt = `Analyze the user request for Sales King Academy.
+    Current Agent: ${agent.name} (${agent.specialty})
+    Available Agents: ${AGENTS.map(a => `${a.id}:${a.name}`).join(', ')}
+    
+    Task: Determine if the current agent can handle this or if it should be delegated.
+    Output JSON only: { "requires_delegation": boolean, "target_agent_id": number|null, "delegation_reason": string|null, "intent": string }`;
+
+    try {
+      const response = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-api-key': this.apiKey,
+          'anthropic-version': '2023-06-01'
+        },
+        body: JSON.stringify({
+          model: this.model,
+          max_tokens: 200,
+          system: systemPrompt,
+          messages: [{ role: 'user', content: `Request: ${message}` }]
+        })
+      });
+      const data = await response.json();
+      return JSON.parse(data.content[0].text);
+    } catch (e) {
+      return { requires_delegation: false, intent: 'general_query' };
+    }
+  }
+
+  async execute(agent, message, history, context) {
+    const systemPrompt = `You are ${agent.name}, the ${agent.specialty} expert at Sales King Academy.
+    Intelligence: RKL Framework (α=25, O(n^1.77)).
+    Context: ${JSON.stringify(context)}
+    Mission: Provide expert, actionable guidance. Maintain a professional "King" persona.`;
+
     const response = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'x-api-key': ANTHROPIC_API_KEY,
+        'x-api-key': this.apiKey,
         'anthropic-version': '2023-06-01'
       },
       body: JSON.stringify({
-        model: 'claude-3-5-sonnet-20240620', // Updated to a more stable model identifier
+        model: this.model,
         max_tokens: 4096,
         system: systemPrompt,
         messages: [
-          ...conversationHistory.slice(-10).map(msg => ({
-            role: msg.role,
-            content: msg.content
-          })),
-          {
-            role: 'user',
-            content: message
-          }
+          ...history.slice(-10).map(msg => ({ role: msg.role, content: msg.content })),
+          { role: 'user', content: message }
         ]
       })
     });
-    
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(`API Error: ${response.status} - ${JSON.stringify(errorData)}`);
-    }
-    
     const data = await response.json();
-    return {
-      success: true,
-      agent: agent.name,
-      response: data.content[0].text,
-      model: 'claude-3-5-sonnet-20240620',
-      framework: 'RKL α=25',
-      temporal_dna: new TemporalDNA().generateToken().token
-    };
+    return data.content[0].text;
+  }
+
+  async executeWithDelegation(sourceAgent, targetAgent, message, history, reason) {
+    const systemPrompt = `You are ${sourceAgent.name}, collaborating with ${targetAgent.name} (${targetAgent.specialty}).
+    Reason for delegation: ${reason}
+    Provide a unified response that leverages ${targetAgent.name}'s expertise while maintaining your leadership position.`;
+
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': this.apiKey,
+        'anthropic-version': '2023-06-01'
+      },
+      body: JSON.stringify({
+        model: this.model,
+        max_tokens: 4096,
+        system: systemPrompt,
+        messages: [
+          ...history.slice(-10).map(msg => ({ role: msg.role, content: msg.content })),
+          { role: 'user', content: `[Delegated Task] ${message}` }
+        ]
+      })
+    });
+    const data = await response.json();
+    return `[Delegated to ${targetAgent.name}] ${data.content[0].text}`;
+  }
+}
+
+async function handleAIChat(agentId, message, conversationHistory = [], context = {}) {
+  const orchestrator = new AIOrchestrator(ANTHROPIC_API_KEY);
+  try {
+    return await orchestrator.process(agentId, message, conversationHistory, context);
   } catch (error) {
-    console.error('AI Chat Error:', error);
+    const agent = AGENTS.find(a => a.id === agentId);
     return {
       success: false,
       error: error.message,
-      fallback: `I'm ${agent.name}, your ${agent.specialty} expert. I'm currently experiencing connectivity issues, but I'm here to help you with ${agent.specialty.toLowerCase()}. Please try your question again in a moment.`
+      fallback: `I'm ${agent?.name || 'an agent'}, currently experiencing connectivity issues. Please try again.`
     };
   }
 }
@@ -366,13 +433,15 @@ export default {
       // Get long-term context
       const context = await memoryManager.getContext(userId);
       
-      const result = await handleAIChat(agentId, body.message, body.history || []);
+      // Pass context to the AI handler
+      const result = await handleAIChat(agentId, body.message, body.history || [], context);
       
       // Save interaction to memory
       if (result.success) {
         await memoryManager.saveContext(userId, {
           last_agent: result.agent,
-          last_topic: body.message.substring(0, 50)
+          last_topic: body.message.substring(0, 50),
+          last_intent: result.reasoning?.intent
         });
       }
       
@@ -781,10 +850,15 @@ async function sendMessage() {
     
     let metaInfo = '';
     if (data.success) {
-      metaInfo = `<div class="text-[10px] text-gray-500 mt-2 flex gap-2">
-        <span>Model: ${data.model}</span>
-        <span>DNA: ${data.temporal_dna.substring(0, 8)}...</span>
-        ${data.context_active ? '<span class="text-green-500">● Memory Active</span>' : ''}
+      const reasoning = data.reasoning ? `<div class="text-[10px] text-yellow-500/70 italic mb-1">Intent: ${data.reasoning.intent}</div>` : '';
+      metaInfo = `<div class="mt-2 pt-2 border-t border-gray-700/50">
+        ${reasoning}
+        <div class="text-[10px] text-gray-500 flex flex-wrap gap-2">
+          <span>Model: ${data.model}</span>
+          <span>DNA: ${data.temporal_dna.substring(0, 8)}...</span>
+          ${data.context_active ? '<span class="text-green-500">● Memory Active</span>' : ''}
+          ${data.reasoning?.requires_delegation ? '<span class="text-blue-400">● Delegated</span>' : ''}
+        </div>
       </div>`;
     }
 
