@@ -1,18 +1,17 @@
-// SALES KING ACADEMY - PRODUCTION SYSTEM
-// Complete integration: Backend + Frontend + Intelligence + Web Search
 
+// COMPLETE CHAT INTERFACE - CLAUDE.AI STYLE
 class TemporalDNA {
   constructor() { this.genesis = new Date('2024-07-01T00:00:00Z').getTime(); }
   generateToken() {
     const now = Date.now();
     const random12 = Array(12).fill(0).map(() => Math.floor(Math.random()*10)).join('');
     const sync4 = (Math.floor(now/1000)%10000).toString().padStart(4,'0');
-    return {token:random12+sync4,type:'COMPUTATION',timestamp:now,purpose:'Infinite computational expansion'};
+    return {token:random12+sync4,type:'COMPUTATION',timestamp:now};
   }
   getTimeAnchor() {
     const now = Date.now();
     const elapsed = Math.floor((now-this.genesis)/1000);
-    return {genesis:'2024-07-01T00:00:00Z',current:new Date(now).toISOString(),elapsed_seconds:elapsed,credits_minted:elapsed,framework:'RKL α=25',system:'Temporal Superintelligence'};
+    return {genesis:'2024-07-01T00:00:00Z',current:new Date(now).toISOString(),elapsed_seconds:elapsed,credits_minted:elapsed,framework:'RKL α=25'};
   }
 }
 
@@ -28,72 +27,64 @@ const temporalDNA = new TemporalDNA();
 const currency = new SKACurrencySystem();
 
 const AGENTS = {
-  1:{name:"Crown King Agent",emoji:"👑",color:"#ffd700",domain:"Strategic Leadership & Executive Decision-Making",skills:["Strategic planning","Executive leadership","Market positioning","Competitive analysis","Corporate governance","M&A strategy","Crisis management","Stakeholder relations","Vision articulation","Organizational transformation"]},
-  2:{name:"Supreme King AI",emoji:"⚡",color:"#00ffff",domain:"AI Systems & Machine Learning",skills:["Neural networks","Deep learning","Transformer architectures","Reinforcement learning","NLP","Computer vision","MLOps","Model optimization","AI ethics","Swarm intelligence"]},
-  3:{name:"Empire Expansion Agent",emoji:"🌍",color:"#ff6b35",domain:"Global Market Expansion",skills:["International market entry","Localization strategies","Cross-border regulations","Cultural adaptation","Supply chain internationalization","Emerging markets","Geopolitical risk","Franchise development"]},
-  4:{name:"Sales Mastery Agent",emoji:"💰",color:"#4caf50",domain:"Sales Excellence & Revenue Growth",skills:["SPIN selling","Consultative sales","Solution selling","Account-based selling","Pipeline optimization","CRM systems","Objection handling","Negotiation tactics","Closing techniques"]},
-  5:{name:"Marketing Genius Agent",emoji:"📢",color:"#ff4081",domain:"Digital Marketing & Growth",skills:["Growth hacking","Viral marketing","Content marketing","SEO/SEM","Social media","Influencer partnerships","Marketing automation","Conversion optimization","Brand storytelling"]},
-  6:{name:"Tech Innovation Agent",emoji:"🚀",color:"#2196f3",domain:"Technology & Innovation",skills:["Software architecture","Cloud computing","DevOps","Microservices","API design","Blockchain","Quantum computing","IoT","Edge computing","Cybersecurity"]},
-  7:{name:"Finance Architect Agent",emoji:"💎",color:"#ffd700",domain:"Finance & Investment Strategy",skills:["Financial modeling","Valuation methods","Capital structure","Investment analysis","Portfolio management","Risk-adjusted returns","Private equity","Venture capital","IPO processes"]},
-  8:{name:"Research Mastery Agent",emoji:"🔬",color:"#9c27b0",domain:"Research & Market Intelligence",skills:["Market research","Competitive intelligence","Data mining","Statistical analysis","Qualitative research","Survey design","Focus groups","Ethnographic research","Trend analysis"]},
-  9:{name:"Conversion Optimization Agent",emoji:"📈",color:"#ff9800",domain:"CRO & Analytics",skills:["A/B testing","Multivariate testing","UX optimization","Landing page optimization","Funnel analysis","Heat mapping","Session recording","Behavior analysis","Persuasion psychology"]},
-  10:{name:"Brand Authority Agent",emoji:"⭐",color:"#ffeb3b",domain:"Brand Management & Authority",skills:["Brand positioning","Brand architecture","Brand equity","Reputation management","Thought leadership","Public relations","Media relations","Crisis communications","Corporate identity"]},
-  11:{name:"Customer Success Agent",emoji:"🤝",color:"#4caf50",domain:"Customer Experience & Success",skills:["Lifecycle management","Onboarding optimization","Churn reduction","NPS optimization","Health scoring","Success planning","Escalation management","Retention strategies","Expansion revenue"]},
-  12:{name:"Content Creation Agent",emoji:"✍️",color:"#e91e63",domain:"Content Strategy & Creation",skills:["Copywriting","Content strategy","Editorial calendars","Multimedia content","Video production","Podcasting","Content distribution","Content ROI","Storytelling frameworks"]},
-  13:{name:"Data Analytics Agent",emoji:"📊",color:"#3f51b5",domain:"Data Science & Analytics",skills:["Predictive analytics","Machine learning models","Data visualization","Business intelligence","Big data technologies","SQL","Python","R","Tableau","Data warehousing"]},
-  14:{name:"System Architect Agent",emoji:"🏗️",color:"#607d8b",domain:"System Design & Architecture",skills:["Distributed systems","Scalable architectures","Load balancing","Caching strategies","Database design","Microservices patterns","API gateways","Service mesh","Infrastructure as code"]},
-  15:{name:"Legal Compliance Agent",emoji:"⚖️",color:"#795548",domain:"Legal & Regulatory Compliance",skills:["Corporate law","Contract law","Intellectual property","Data privacy (GDPR/CCPA)","Employment law","Regulatory compliance","Litigation management","Risk mitigation","Corporate governance"]},
-  16:{name:"HR & Talent Agent",emoji:"👥",color:"#00bcd4",domain:"Human Resources & Talent",skills:["Talent acquisition","Employer branding","Competency frameworks","Performance management","Succession planning","Compensation strategy","Employee engagement","Learning & development"]},
-  17:{name:"Product Innovation Agent",emoji:"💡",color:"#ffeb3b",domain:"Product Management & Innovation",skills:["Product strategy","Roadmap planning","User research","Product-market fit","Agile methodologies","Scrum","Feature prioritization","Product analytics","Go-to-market strategy"]},
-  18:{name:"Partnership Development Agent",emoji:"🤝",color:"#8bc34a",domain:"Strategic Partnerships",skills:["Alliance management","Channel partnerships","Co-marketing agreements","Joint ventures","Partnership negotiation","Ecosystem development","Partner enablement","Revenue sharing models"]},
-  19:{name:"Risk Management Agent",emoji:"🛡️",color:"#f44336",domain:"Risk & Security Management",skills:["Enterprise risk management","Cybersecurity","Business continuity","Disaster recovery","Threat modeling","Vulnerability assessment","Compliance audits","Insurance","Fraud detection"]},
-  20:{name:"Automation Specialist Agent",emoji:"⚙️",color:"#9e9e9e",domain:"Process Automation",skills:["RPA","Workflow automation","Business process management","Integration platforms","API orchestration","Low-code/no-code","Automation ROI","Change management","Process mining"]},
-  21:{name:"Training & Education Agent",emoji:"🎓",color:"#03a9f4",domain:"Learning & Development",skills:["Instructional design","E-learning","LMS platforms","Competency development","Training ROI","Knowledge management","Certification programs","Coaching","Mentoring"]},
-  22:{name:"Market Intelligence Agent",emoji:"🎯",color:"#ff5722",domain:"Market Analysis & Intelligence",skills:["Market sizing","Competitive analysis","Industry trends","SWOT analysis","Porter's five forces","Market segmentation","Opportunity assessment","Pricing analysis"]},
-  23:{name:"Code Optimization Agent",emoji:"💻",color:"#4caf50",domain:"Software Engineering & Optimization",skills:["Algorithm optimization","Code refactoring","Performance profiling","Memory management","Concurrency","Asynchronous programming","Design patterns","Clean code","Technical debt management"]},
-  24:{name:"Quality Assurance Agent",emoji:"✅",color:"#00bcd4",domain:"QA & Testing Excellence",skills:["Test automation","Continuous testing","TDD","BDD","Performance testing","Security testing","Exploratory testing","Defect management","Quality metrics"]},
-  25:{name:"Strategic Planning Agent",emoji:"♟️",color:"#9c27b0",domain:"Strategy & Long-term Planning",skills:["Strategic frameworks","Scenario planning","Blue ocean strategy","Balanced scorecard","OKRs","Strategic initiatives","Change management","Organizational alignment"]}
+  1:{name:"Crown King Agent",emoji:"👑",specialty:"Strategic leadership, executive decisions, market positioning, corporate governance, M&A strategy"},
+  2:{name:"Supreme King AI",emoji:"⚡",specialty:"AI systems, machine learning, neural networks, deep learning, model optimization"},
+  3:{name:"Empire Expansion Agent",emoji:"🌍",specialty:"Global expansion, international markets, cross-border operations, emerging markets"},
+  4:{name:"Sales Mastery Agent",emoji:"💰",specialty:"Sales excellence, pipeline optimization, closing techniques, revenue growth"},
+  5:{name:"Marketing Genius Agent",emoji:"📢",specialty:"Digital marketing, viral campaigns, growth hacking, brand building"},
+  6:{name:"Tech Innovation Agent",emoji:"🚀",specialty:"Technology strategy, software architecture, cloud computing, innovation"},
+  7:{name:"Finance Architect Agent",emoji:"💎",specialty:"Financial modeling, investment strategy, capital allocation, valuation"},
+  8:{name:"Research Mastery Agent",emoji:"🔬",specialty:"Market research, competitive intelligence, data analysis, insights"},
+  9:{name:"Conversion Optimization Agent",emoji:"📈",specialty:"CRO, A/B testing, funnel optimization, UX design"},
+  10:{name:"Brand Authority Agent",emoji:"⭐",specialty:"Brand positioning, reputation management, thought leadership"},
+  11:{name:"Customer Success Agent",emoji:"🤝",specialty:"Customer retention, support excellence, satisfaction optimization"},
+  12:{name:"Content Creation Agent",emoji:"✍️",specialty:"Copywriting, content strategy, storytelling, engagement"},
+  13:{name:"Data Analytics Agent",emoji:"📊",specialty:"Data science, predictive analytics, visualization, business intelligence"},
+  14:{name:"System Architect Agent",emoji:"🏗️",specialty:"System design, scalability, infrastructure, DevOps"},
+  15:{name:"Legal Compliance Agent",emoji:"⚖️",specialty:"Corporate law, contracts, regulatory compliance, risk management"},
+  16:{name:"HR & Talent Agent",emoji:"👥",specialty:"Talent acquisition, performance management, organizational development"},
+  17:{name:"Product Innovation Agent",emoji:"💡",specialty:"Product strategy, roadmap planning, market fit, innovation"},
+  18:{name:"Partnership Development Agent",emoji:"🤝",specialty:"Strategic partnerships, alliances, ecosystem development"},
+  19:{name:"Risk Management Agent",emoji:"🛡️",specialty:"Risk assessment, security, business continuity, mitigation"},
+  20:{name:"Automation Specialist Agent",emoji:"⚙️",specialty:"Process automation, RPA, workflow optimization, efficiency"},
+  21:{name:"Training & Education Agent",emoji:"🎓",specialty:"Learning programs, skill development, knowledge transfer"},
+  22:{name:"Market Intelligence Agent",emoji:"🎯",specialty:"Market monitoring, opportunity detection, competitive tracking"},
+  23:{name:"Code Optimization Agent",emoji:"💻",specialty:"Software optimization, algorithm efficiency, performance tuning"},
+  24:{name:"Quality Assurance Agent",emoji:"✅",specialty:"Testing, quality control, defect management, standards"},
+  25:{name:"Strategic Planning Agent",emoji:"♟️",specialty:"Long-term strategy, scenario planning, strategic initiatives"}
 };
 
-async function searchDuckDuckGo(query) {
+async function searchWeb(query) {
   try {
-    const url = `https://api.duckduckgo.com/?q=${encodeURIComponent(query)}&format=json&no_html=1&skip_disambig=1`;
-    const response = await fetch(url, {headers:{'User-Agent':'Mozilla/5.0'}});
-    const data = await response.json();
+    const r = await fetch(`https://api.duckduckgo.com/?q=${encodeURIComponent(query)}&format=json&no_html=1&skip_disambig=1`);
+    const d = await r.json();
     let results = [];
-    if (data.Abstract) results.push(data.Abstract);
-    if (data.AbstractText) results.push(data.AbstractText);
-    if (data.RelatedTopics) {
-      for (let i=0; i<Math.min(5,data.RelatedTopics.length); i++) {
-        const topic = data.RelatedTopics[i];
-        if (topic.Text) results.push(topic.Text);
-        if (topic.FirstURL) results.push(topic.FirstURL);
+    if (d.Abstract) results.push(d.Abstract);
+    if (d.AbstractText) results.push(d.AbstractText);
+    if (d.RelatedTopics) {
+      for (let i=0; i<Math.min(3,d.RelatedTopics.length); i++) {
+        if (d.RelatedTopics[i].Text) results.push(d.RelatedTopics[i].Text);
       }
     }
-    return results.length>0 ? results.join(' | ') : null;
+    return results.length>0 ? results.join(' ') : null;
   } catch(e) {
     return null;
   }
 }
 
-function generateIntelligentResponse(agent, userMessage, webData) {
-  const intros = [
-    `Analyzing ${agent.domain} for your query...`,
-    `From my ${agent.skills.length}+ specialized skills in ${agent.domain}...`,
-    `Drawing on expertise in ${agent.skills.slice(0,3).join(', ')}...`,
-    `Based on ${agent.domain} intelligence...`
-  ];
-  
-  let response = intros[Math.floor(Math.random()*intros.length)] + ' ';
+function generateResponse(agent, userMessage, webData) {
+  let response = `As ${agent.name}, specializing in ${agent.specialty}, let me address your question: "${userMessage}"\n\n`;
   
   if (webData) {
-    response += `Latest research shows: ${webData.substring(0,300)}... `;
+    response += `Based on current research and analysis: ${webData.substring(0,400)}\n\n`;
   }
   
-  response += `Key insights for your situation: `;
-  const relevantSkills = agent.skills.slice(0,3);
-  response += relevantSkills.map((s,i) => `(${i+1}) ${s} strategies`).join(', ');
-  response += `. I can provide detailed implementation guidance on any of these areas. What aspect would you like to explore deeper?`;
+  response += `From my expertise perspective:\n`;
+  response += `• This requires strategic consideration of multiple factors\n`;
+  response += `• Best practices in ${agent.specialty.split(',')[0]} suggest a systematic approach\n`;
+  response += `• I recommend analyzing the specific context and constraints\n`;
+  response += `• Implementation should prioritize measurable outcomes\n\n`;
+  response += `Would you like me to dive deeper into any specific aspect? I can provide detailed analysis, case studies, or implementation strategies.`;
   
   return response;
 }
@@ -101,7 +92,7 @@ function generateIntelligentResponse(agent, userMessage, webData) {
 async function handleRequest(request) {
   const url = new URL(request.url);
   const path = url.pathname;
-  const cors = {'Access-Control-Allow-Origin':'*','Access-Control-Allow-Methods':'GET,POST,PUT,DELETE,OPTIONS','Access-Control-Allow-Headers':'Content-Type,Authorization'};
+  const cors = {'Access-Control-Allow-Origin':'*','Access-Control-Allow-Methods':'GET,POST,OPTIONS','Access-Control-Allow-Headers':'Content-Type'};
   
   if (request.method==='OPTIONS') return new Response(null,{headers:cors});
   
@@ -109,275 +100,257 @@ async function handleRequest(request) {
     return new Response(JSON.stringify(temporalDNA.getTimeAnchor()),{headers:{...cors,'Content-Type':'application/json'}});
   }
   
-  if (path==='/api/computation/token') {
-    return new Response(JSON.stringify(temporalDNA.generateToken()),{headers:{...cors,'Content-Type':'application/json'}});
-  }
-  
   if (path==='/api/credits/platform-total') {
-    return new Response(JSON.stringify({totalPlatformCredits:currency.getTotalPlatformCredits(),mintRate:'1/sec',genesis:'2024-07-01T00:00:00Z'}),{headers:{...cors,'Content-Type':'application/json'}});
+    return new Response(JSON.stringify({totalPlatformCredits:currency.getTotalPlatformCredits()}),{headers:{...cors,'Content-Type':'application/json'}});
   }
   
   if (path==='/api/agents') {
     const agentList = Object.entries(AGENTS).map(([id,a])=>({id:parseInt(id),...a}));
-    return new Response(JSON.stringify({agents:agentList,count:agentList.length,framework:'RKL α=25'}),{headers:{...cors,'Content-Type':'application/json'}});
+    return new Response(JSON.stringify({agents:agentList,count:25}),{headers:{...cors,'Content-Type':'application/json'}});
   }
   
   if (path.startsWith('/api/agent/') && path.endsWith('/chat') && request.method==='POST') {
     const agentId = parseInt(path.split('/')[3]);
     const agent = AGENTS[agentId];
-    if (!agent) return new Response(JSON.stringify({error:'Agent not found'}),{status:404,headers:{...cors,'Content-Type':'application/json'}});
+    if (!agent) return new Response(JSON.stringify({error:'Not found'}),{status:404,headers:{...cors,'Content-Type':'application/json'}});
     
     const body = await request.json();
     const userMessage = body.message||'';
     
-    const searchQuery = `${userMessage} ${agent.domain} ${agent.skills.slice(0,2).join(' ')}`;
-    const webData = await searchDuckDuckGo(searchQuery);
-    
-    const response = generateIntelligentResponse(agent, userMessage, webData);
+    const webData = await searchWeb(`${userMessage} ${agent.specialty}`);
+    const response = generateResponse(agent, userMessage, webData);
     const token = temporalDNA.generateToken();
-    const interlock = currency.verifyInterlock(token.token);
     
     return new Response(JSON.stringify({
       agent:agent.name,
       response:response,
       token:token.token,
-      interlock:interlock?'VERIFIED':'FAILED',
-      webSearch:webData?'Live web data integrated':'Embedded intelligence used',
-      skills:agent.skills.slice(0,5),
+      interlock:currency.verifyInterlock(token.token)?'VERIFIED':'FAILED',
       timestamp:Date.now()
     }),{headers:{...cors,'Content-Type':'application/json'}});
   }
   
-  // FRONTEND HTML
-  const html = `<!DOCTYPE html>
+  // COMPLETE CHAT UI
+  return new Response(`<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=5,user-scalable=yes">
-<meta name="description" content="Sales King Academy - Complete AI Business Automation Platform">
-<meta name="theme-color" content="#ffd700">
-<title>Sales King Academy | AI Business Automation</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=5">
+<title>Sales King Academy | AI Agent Platform</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
-:root{--gold:#ffd700;--green:#0f0;--black:#000;--dark:#0a0a00;--darker:#1a1a00}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;background:linear-gradient(135deg,var(--black) 0%,var(--dark) 50%,var(--darker) 100%);color:var(--green);min-height:100vh;overflow-x:hidden;touch-action:pan-y;-webkit-tap-highlight-color:transparent}
-.header{background:linear-gradient(90deg,var(--black),var(--dark));border-bottom:3px solid var(--gold);padding:clamp(12px,3vw,20px);text-align:center;position:sticky;top:0;z-index:1000;backdrop-filter:blur(10px);box-shadow:0 4px 20px rgba(255,215,0,0.3)}
-.header h1{color:var(--gold);font-size:clamp(1.3rem,5vw,2.5rem);text-shadow:0 0 30px var(--gold);margin-bottom:5px;font-weight:900;letter-spacing:2px}
-.header p{color:var(--green);font-size:clamp(0.75rem,2.5vw,1rem);text-shadow:0 0 10px var(--green)}
-.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,150px),1fr));gap:clamp(8px,2vw,15px);padding:clamp(12px,3vw,20px);max-width:1200px;margin:0 auto}
-.stat-card{background:linear-gradient(135deg,var(--dark),var(--black));border:2px solid var(--gold);border-radius:12px;padding:clamp(12px,3vw,18px);text-align:center;transition:all 0.3s;cursor:pointer;min-height:70px;display:flex;flex-direction:column;justify-content:center}
-.stat-card:active{transform:scale(0.95)}
-.stat-label{color:var(--gold);font-size:clamp(0.7rem,2vw,0.85rem);margin-bottom:5px;text-transform:uppercase;letter-spacing:0.5px;font-weight:600}
-.stat-value{color:var(--green);font-size:clamp(1.2rem,4vw,1.8rem);font-weight:900;text-shadow:0 0 10px var(--green);font-family:monospace}
-.section-title{color:var(--gold);font-size:clamp(1.1rem,3.5vw,1.8rem);text-align:center;margin:clamp(20px,4vw,30px) 0 clamp(12px,3vw,20px);text-shadow:0 0 20px var(--gold);font-weight:800;letter-spacing:1px}
-.agents-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,135px),1fr));gap:clamp(8px,2vw,12px);padding:clamp(12px,3vw,20px);max-width:1200px;margin:0 auto}
-@media(min-width:480px){.agents-grid{grid-template-columns:repeat(auto-fill,minmax(155px,1fr))}}
-@media(min-width:769px){.agents-grid{grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:15px}}
-.agent{background:linear-gradient(135deg,var(--dark),var(--black));border:2px solid var(--gold);border-radius:10px;padding:clamp(10px,2.5vw,16px);cursor:pointer;text-align:center;transition:all 0.3s;min-height:90px;display:flex;flex-direction:column;justify-content:center;touch-action:manipulation;position:relative;overflow:hidden}
-.agent::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,215,0,0.2),transparent);transition:left 0.5s}
-.agent:hover::before{left:100%}
-.agent:active{transform:scale(0.92);border-color:#ffed4e}
-.agent:hover{border-color:#ffed4e;box-shadow:0 0 25px rgba(255,215,0,0.6);transform:translateY(-3px)}
-.agent-emoji{font-size:clamp(1.8rem,5vw,2.5rem);margin-bottom:6px;display:block;filter:drop-shadow(0 0 8px currentColor)}
-.agent-name{color:var(--gold);font-size:clamp(0.75rem,2.2vw,0.9rem);font-weight:700;line-height:1.2}
-.modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.95);z-index:2000;touch-action:none;backdrop-filter:blur(5px)}
-.modal.active{display:flex;align-items:center;justify-content:center;padding:clamp(10px,3vw,20px)}
-.modal-content{background:linear-gradient(135deg,var(--dark),var(--black));border:3px solid var(--gold);border-radius:15px;padding:clamp(15px,4vw,30px);width:100%;max-width:700px;max-height:90vh;overflow-y:auto;-webkit-overflow-scrolling:touch;box-shadow:0 0 50px rgba(255,215,0,0.8)}
-.modal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:15px;padding-bottom:12px;border-bottom:2px solid var(--gold)}
-.modal-title{color:var(--gold);font-size:clamp(1.1rem,3.5vw,1.6rem);font-weight:800}
-.close-btn{background:var(--gold);color:var(--black);border:none;width:40px;height:40px;border-radius:50%;font-size:1.5rem;cursor:pointer;font-weight:bold;flex-shrink:0;touch-action:manipulation;transition:all 0.3s}
-.close-btn:hover{background:#ffed4e;transform:rotate(90deg)}
-.close-btn:active{transform:scale(0.9)}
-.agent-details{color:var(--green);margin-bottom:15px;font-size:clamp(0.8rem,2.2vw,0.9rem);line-height:1.6}
-.agent-details strong{color:var(--gold)}
-.skills-list{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0}
-.skill-badge{background:var(--darker);border:1px solid var(--gold);color:var(--green);padding:4px 8px;border-radius:6px;font-size:clamp(0.7rem,1.8vw,0.8rem)}
-.chat-messages{max-height:40vh;overflow-y:auto;margin-bottom:12px;padding:10px;background:var(--black);border-radius:8px;-webkit-overflow-scrolling:touch}
-.message{margin:8px 0;padding:10px;border-radius:8px;line-height:1.5;font-size:clamp(0.8rem,2.2vw,0.9rem);animation:fadeIn 0.3s}
-@keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-.user-msg{background:var(--darker);border-left:3px solid var(--gold);color:var(--green)}
-.agent-msg{background:rgba(0,26,0,0.5);border-left:3px solid var(--green);color:var(--green)}
-.msg-meta{font-size:clamp(0.65rem,1.8vw,0.75rem);opacity:0.7;margin-top:5px;font-family:monospace}
-.chat-input-box{display:flex;gap:8px;margin-top:12px}
-.chat-input{flex:1;padding:12px;background:var(--black);border:2px solid var(--gold);border-radius:8px;color:var(--green);font-size:16px;min-height:44px;font-family:inherit}
-.chat-input::placeholder{color:rgba(0,255,0,0.5)}
-.chat-input:focus{outline:none;border-color:#ffed4e;box-shadow:0 0 10px rgba(255,215,0,0.3)}
-.send-btn{padding:12px 20px;background:var(--gold);color:var(--black);border:none;border-radius:8px;font-weight:bold;cursor:pointer;font-size:16px;min-width:60px;min-height:44px;touch-action:manipulation;transition:all 0.2s}
-.send-btn:active{background:#ffed4e;transform:scale(0.95)}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;background:#1a1a1a;color:#e8e8e8;height:100vh;overflow:hidden}
+.container{display:flex;height:100vh}
+.sidebar{width:280px;background:#2d2d2d;border-right:1px solid #3d3d3d;display:flex;flex-direction:column;flex-shrink:0}
+@media(max-width:768px){.sidebar{width:100%;position:fixed;left:0;top:0;z-index:1000;transform:translateX(-100%);transition:transform 0.3s}.sidebar.open{transform:translateX(0)}}
+.sidebar-header{padding:16px;border-bottom:1px solid #3d3d3d;display:flex;justify-content:space-between;align-items:center}
+.logo{color:#ffd700;font-weight:900;font-size:18px;display:flex;align-items:center;gap:8px}
+.new-chat-btn{background:#ffd700;color:#000;border:none;padding:10px 16px;border-radius:8px;font-weight:700;cursor:pointer;font-size:14px}
+.agents-list{flex:1;overflow-y:auto;padding:8px}
+.agent-item{padding:12px;margin:4px 0;border-radius:8px;cursor:pointer;transition:background 0.2s;display:flex;align-items:center;gap:10px;background:#1a1a1a}
+.agent-item:hover{background:#3d3d3d}
+.agent-item.active{background:#ffd700;color:#000}
+.agent-item .emoji{font-size:20px}
+.agent-item .name{font-size:14px;font-weight:600;flex:1}
+.main-content{flex:1;display:flex;flex-direction:column;min-width:0}
+.chat-header{background:#2d2d2d;border-bottom:1px solid #3d3d3d;padding:16px 20px;display:flex;justify-content:space-between;align-items:center}
+.chat-header .agent-info{display:flex;align-items:center;gap:12px}
+.chat-header .emoji{font-size:24px}
+.chat-header .details .name{font-weight:700;font-size:16px;color:#ffd700}
+.chat-header .details .specialty{font-size:12px;color:#999;margin-top:2px}
+.menu-btn{display:none;background:#ffd700;color:#000;border:none;padding:8px 12px;border-radius:6px;font-weight:700;cursor:pointer}
+@media(max-width:768px){.menu-btn{display:block}}
+.chat-messages{flex:1;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:16px}
+.message{max-width:700px;padding:16px;border-radius:12px;line-height:1.6;font-size:15px;white-space:pre-wrap}
+.message.user{background:#3d3d3d;align-self:flex-end;margin-left:auto}
+.message.agent{background:#2d2d2d;align-self:flex-start;border-left:3px solid #ffd700}
+.message.agent strong{color:#ffd700;display:block;margin-bottom:8px}
+.message-meta{font-size:11px;color:#666;margin-top:8px;font-family:monospace}
+.chat-input-area{border-top:1px solid #3d3d3d;padding:16px 20px;background:#2d2d2d}
+.input-wrapper{display:flex;gap:12px;align-items:flex-end;max-width:900px;margin:0 auto}
+.chat-input{flex:1;background:#1a1a1a;border:2px solid #3d3d3d;border-radius:12px;padding:14px 16px;color:#e8e8e8;font-size:15px;font-family:inherit;resize:none;min-height:50px;max-height:200px}
+.chat-input:focus{outline:none;border-color:#ffd700}
+.send-btn{background:#ffd700;color:#000;border:none;padding:14px 24px;border-radius:12px;font-weight:700;cursor:pointer;font-size:15px;white-space:nowrap}
 .send-btn:disabled{opacity:0.5;cursor:not-allowed}
-.loading{color:var(--gold);text-align:center;padding:20px;font-size:clamp(0.9rem,2.5vw,1.1rem);animation:pulse 1.5s infinite}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.5}}
+.send-btn:not(:disabled):active{transform:scale(0.95)}
+.welcome{text-align:center;padding:60px 20px;color:#666}
+.welcome h2{color:#ffd700;font-size:28px;margin-bottom:16px}
+.welcome p{font-size:16px;max-width:600px;margin:0 auto}
+.loading{padding:16px;text-align:center;color:#ffd700;animation:pulse 1.5s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+::-webkit-scrollbar{width:8px;height:8px}
+::-webkit-scrollbar-track{background:#1a1a1a}
+::-webkit-scrollbar-thumb{background:#3d3d3d;border-radius:4px}
+::-webkit-scrollbar-thumb:hover{background:#4d4d4d}
 </style>
 </head>
 <body>
-<div class="header">
-<h1>⚡ SALES KING ACADEMY ⚡</h1>
-<p>Complete AI Business Automation | RKL Framework α=25 | Temporal Superintelligence</p>
+<div class="container">
+<div class="sidebar" id="sidebar">
+<div class="sidebar-header">
+<div class="logo">⚡ SKA AI</div>
+<button class="new-chat-btn" onclick="newChat()">New Chat</button>
 </div>
-<div class="stats">
-<div class="stat-card">
-<div class="stat-label">SKA Credits Minted</div>
-<div class="stat-value" id="credits">Loading...</div>
+<div class="agents-list" id="agentsList"></div>
 </div>
-<div class="stat-card">
-<div class="stat-label">Temporal DNA Tokens</div>
-<div class="stat-value">∞ Infinite</div>
-</div>
-<div class="stat-card">
-<div class="stat-label">Active AI Agents</div>
-<div class="stat-value">25</div>
+<div class="main-content">
+<div class="chat-header">
+<div class="agent-info">
+<button class="menu-btn" onclick="toggleSidebar()">☰ Menu</button>
+<span class="emoji" id="headerEmoji">🤖</span>
+<div class="details">
+<div class="name" id="headerName">Select an Agent</div>
+<div class="specialty" id="headerSpecialty">Choose from 25 specialized AI agents</div>
 </div>
 </div>
-<h2 class="section-title">🤖 INTELLIGENT AI AGENT SWARM 🤖</h2>
-<div id="agents" class="agents-grid"><div class="loading">Loading agent swarm...</div></div>
-<div id="modal" class="modal">
-<div class="modal-content">
-<div class="modal-header">
-<h3 class="modal-title" id="modalTitle">Agent</h3>
-<button class="close-btn" onclick="closeModal()" aria-label="Close">×</button>
 </div>
-<div id="modalBody">
-<div id="agentInfo" class="agent-details"></div>
-<div class="chat-messages" id="chatBox"></div>
-<div class="chat-input-box">
-<input type="text" class="chat-input" id="chatInput" placeholder="Ask me anything..." autocomplete="off">
-<button class="send-btn" id="sendBtn" onclick="sendMsg()">Send</button>
+<div class="chat-messages" id="chatMessages">
+<div class="welcome">
+<h2>Welcome to Sales King Academy</h2>
+<p>Select an AI agent from the sidebar to begin your conversation. Each agent specializes in different areas of business automation and intelligence.</p>
+</div>
+</div>
+<div class="chat-input-area">
+<div class="input-wrapper">
+<textarea class="chat-input" id="chatInput" placeholder="Type your message..." rows="1"></textarea>
+<button class="send-btn" id="sendBtn" onclick="sendMessage()">Send</button>
 </div>
 </div>
 </div>
 </div>
 <script>
-let currentAgent=null;
-let creditsValue=0;
-let isSending=false;
+let currentAgent = null;
+let chatHistory = new Map();
+let isSending = false;
 
-async function updateCredits(){
-  try{
-    const r=await fetch('/api/credits/platform-total');
-    const d=await r.json();
-    creditsValue=d.totalPlatformCredits;
-    document.getElementById('credits').textContent=(creditsValue/1000000).toFixed(1)+'M';
-  }catch(e){console.error('Credits update failed:',e)}
-}
-
-async function loadAgents(){
-  try{
-    const r=await fetch('/api/agents');
-    const d=await r.json();
-    const g=document.getElementById('agents');
-    g.innerHTML='';
-    d.agents.forEach(a=>{
-      const div=document.createElement('div');
-      div.className='agent';
-      div.style.borderColor=a.color||'#ffd700';
-      div.innerHTML='<div class="agent-emoji">'+a.emoji+'</div><div class="agent-name">'+a.name+'</div>';
-      div.onclick=()=>openAgent(a);
-      g.appendChild(div);
+async function loadAgents() {
+  try {
+    const r = await fetch('/api/agents');
+    const d = await r.json();
+    const list = document.getElementById('agentsList');
+    list.innerHTML = '';
+    d.agents.forEach(a => {
+      const div = document.createElement('div');
+      div.className = 'agent-item';
+      div.innerHTML = '<span class="emoji">' + a.emoji + '</span><span class="name">' + a.name + '</span>';
+      div.onclick = () => selectAgent(a);
+      list.appendChild(div);
     });
-  }catch(e){
-    console.error('Agents load failed:',e);
-    document.getElementById('agents').innerHTML='<div class="loading">Error loading agents. Retrying...</div>';
-    setTimeout(loadAgents,3000);
+  } catch (e) {
+    console.error('Failed to load agents:', e);
   }
 }
 
-function openAgent(a){
-  currentAgent=a;
-  document.getElementById('modalTitle').textContent=a.emoji+' '+a.name;
-  let html='<p><strong>Domain:</strong> '+a.domain+'</p>';
-  if(a.skills&&a.skills.length>0){
-    html+='<p style="margin-top:10px"><strong>Expertise Areas:</strong></p><div class="skills-list">';
-    a.skills.slice(0,8).forEach(s=>html+='<span class="skill-badge">'+s+'</span>');
-    html+='</div>';
+function selectAgent(agent) {
+  currentAgent = agent;
+  
+  document.querySelectorAll('.agent-item').forEach(el => el.classList.remove('active'));
+  event.target.closest('.agent-item').classList.add('active');
+  
+  document.getElementById('headerEmoji').textContent = agent.emoji;
+  document.getElementById('headerName').textContent = agent.name;
+  document.getElementById('headerSpecialty').textContent = agent.specialty;
+  
+  if (chatHistory.has(agent.id)) {
+    document.getElementById('chatMessages').innerHTML = chatHistory.get(agent.id);
+  } else {
+    document.getElementById('chatMessages').innerHTML = '<div class="message agent"><strong>' + agent.emoji + ' ' + agent.name + '</strong>Hello! I\'m ' + agent.name + '. I specialize in ' + agent.specialty + '. How can I help you today?</div>';
+    chatHistory.set(agent.id, document.getElementById('chatMessages').innerHTML);
   }
-  document.getElementById('agentInfo').innerHTML=html;
-  document.getElementById('chatBox').innerHTML='<div class="message agent-msg">Hi! I\'m '+a.name+'. I specialize in '+a.domain+'. Ask me anything!</div>';
-  document.getElementById('chatInput').value='';
-  document.getElementById('modal').classList.add('active');
+  
   document.getElementById('chatInput').focus();
+  
+  if (window.innerWidth <= 768) {
+    document.getElementById('sidebar').classList.remove('open');
+  }
 }
 
-function closeModal(){
-  document.getElementById('modal').classList.remove('active');
-  currentAgent=null;
-  isSending=false;
-}
-
-async function sendMsg(){
-  if(!currentAgent||isSending)return;
-  const inp=document.getElementById('chatInput');
-  const msg=inp.value.trim();
-  if(!msg)return;
+async function sendMessage() {
+  if (!currentAgent || isSending) return;
   
-  isSending=true;
-  document.getElementById('sendBtn').disabled=true;
-  const box=document.getElementById('chatBox');
-  box.innerHTML+='<div class="message user-msg">'+escapeHtml(msg)+'</div>';
-  inp.value='';
-  box.scrollTop=box.scrollHeight;
+  const input = document.getElementById('chatInput');
+  const msg = input.value.trim();
+  if (!msg) return;
   
-  box.innerHTML+='<div class="message agent-msg loading">🔍 Searching web and analyzing...</div>';
-  box.scrollTop=box.scrollHeight;
+  isSending = true;
+  document.getElementById('sendBtn').disabled = true;
   
-  try{
-    const r=await fetch('/api/agent/'+currentAgent.id+'/chat',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({message:msg})
+  const messagesDiv = document.getElementById('chatMessages');
+  messagesDiv.innerHTML += '<div class="message user">' + escapeHtml(msg) + '</div>';
+  input.value = '';
+  messagesDiv.scrollTop = messagesDiv.scrollHeight;
+  
+  messagesDiv.innerHTML += '<div class="message agent loading">Thinking...</div>';
+  messagesDiv.scrollTop = messagesDiv.scrollHeight;
+  
+  try {
+    const r = await fetch('/api/agent/' + currentAgent.id + '/chat', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({message: msg})
     });
     
-    const msgs=box.querySelectorAll('.message');
-    msgs[msgs.length-1].remove();
+    const loadingMsgs = messagesDiv.querySelectorAll('.loading');
+    loadingMsgs[loadingMsgs.length - 1].remove();
     
-    if(r.ok){
-      const d=await r.json();
-      let response='<strong>'+d.agent+':</strong><br>'+escapeHtml(d.response);
-      if(d.skills&&d.skills.length>0){
-        response+='<br><br><small style="opacity:0.8">Related skills: '+d.skills.join(', ')+'</small>';
-      }
-      response+='<div class="msg-meta">'+d.webSearch+' | Token: '+d.token.slice(0,8)+'... | Interlock: '+d.interlock+'</div>';
-      box.innerHTML+='<div class="message agent-msg">'+response+'</div>';
-    }else{
-      box.innerHTML+='<div class="message agent-msg" style="color:#f44">⚠️ Connection error. Please try again.</div>';
+    if (r.ok) {
+      const d = await r.json();
+      let responseHTML = '<div class="message agent"><strong>' + d.agent + ' ' + currentAgent.emoji + '</strong>';
+      responseHTML += escapeHtml(d.response);
+      responseHTML += '<div class="message-meta">Token: ' + d.token.substring(0, 8) + '... | Interlock: ' + d.interlock + '</div>';
+      responseHTML += '</div>';
+      messagesDiv.innerHTML += responseHTML;
+    } else {
+      messagesDiv.innerHTML += '<div class="message agent" style="color:#ff6b6b">⚠️ Error: Unable to get response. Please try again.</div>';
     }
-  }catch(e){
-    const msgs=box.querySelectorAll('.message');
-    msgs[msgs.length-1].remove();
-    box.innerHTML+='<div class="message agent-msg" style="color:#f44">⚠️ Network error: '+e.message+'</div>';
-  }finally{
-    box.scrollTop=box.scrollHeight;
-    isSending=false;
-    document.getElementById('sendBtn').disabled=false;
+  } catch (e) {
+    const loadingMsgs = messagesDiv.querySelectorAll('.loading');
+    if (loadingMsgs.length > 0) loadingMsgs[loadingMsgs.length - 1].remove();
+    messagesDiv.innerHTML += '<div class="message agent" style="color:#ff6b6b">⚠️ Network error. Please check your connection.</div>';
+  } finally {
+    messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    chatHistory.set(currentAgent.id, messagesDiv.innerHTML);
+    isSending = false;
+    document.getElementById('sendBtn').disabled = false;
     document.getElementById('chatInput').focus();
   }
 }
 
-function escapeHtml(text){
-  const div=document.createElement('div');
-  div.textContent=text;
+function newChat() {
+  if (currentAgent) {
+    chatHistory.delete(currentAgent.id);
+    document.getElementById('chatMessages').innerHTML = '<div class="message agent"><strong>' + currentAgent.emoji + ' ' + currentAgent.name + '</strong>Hello! I\'m ' + currentAgent.name + '. How can I help you today?</div>';
+    chatHistory.set(currentAgent.id, document.getElementById('chatMessages').innerHTML);
+    document.getElementById('chatInput').focus();
+  }
+}
+
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+}
+
+function escapeHtml(text) {
+  const div = document.createElement('div');
+  div.textContent = text;
   return div.innerHTML;
 }
 
-document.getElementById('chatInput').addEventListener('keypress',e=>{
-  if(e.key==='Enter'&&!isSending)sendMsg();
+document.getElementById('chatInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    sendMessage();
+  }
 });
 
-document.getElementById('modal').onclick=e=>{
-  if(e.target.id==='modal')closeModal();
-};
+document.getElementById('chatInput').addEventListener('input', function() {
+  this.style.height = 'auto';
+  this.style.height = Math.min(this.scrollHeight, 200) + 'px';
+});
 
-updateCredits();
 loadAgents();
-setInterval(updateCredits,5000);
-setInterval(()=>{
-  creditsValue+=5;
-  document.getElementById('credits').textContent=(creditsValue/1000000).toFixed(1)+'M';
-},5000);
 </script>
 </body>
-</html>`;
-  
-  return new Response(html,{headers:{'Content-Type':'text/html;charset=utf-8'}});
+</html>`, {headers: {'Content-Type': 'text/html'}});
 }
 
-addEventListener('fetch',event=>{event.respondWith(handleRequest(event.request))});
+addEventListener('fetch', event => { event.respondWith(handleRequest(event.request)); });
